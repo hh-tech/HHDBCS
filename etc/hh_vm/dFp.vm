@@ -1,0 +1,16 @@
+## \dFp[+] [模式]     
+## 列出文本搜索解析器   
+#set($common1 = "SELECT 
+	  n.nspname as " +'"架构模式"' +",
+	  p.prsname as " +'"名称"' +",
+	  hh_catalog.obj_description(p.oid, 'hh_ts_parser') as " +'"描述"' +"
+	FROM hh_catalog.hh_ts_parser p 
+	LEFT JOIN hh_catalog.hh_namespace n ON n.oid = p.prsnamespace
+	WHERE hh_catalog.hh_ts_parser_is_visible(p.oid)")
+#set($common2 = "ORDER BY 1, 2;")
+#set($patt= "AND p.prsname ~ '^($arg)$'")
+$common1
+#if($arg)
+$patt
+#end
+$common2

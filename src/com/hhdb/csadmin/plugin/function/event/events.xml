@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<events>
+	<event from="com.hhdb.csadmin.plugin.test" to="com.hhdb.csadmin.plugin.function" type="CMD"> 	
+		<!--创建函数-->
+		<property name="CMD">
+			FunctionCreateMainEvent
+		</property>
+		<property name="schemaName">
+			public
+		</property>
+	</event>
+	
+	<event from="com.hhdb.csadmin.plugin.test" to="com.hhdb.csadmin.plugin.function" type="CMD"> 	
+		<!--打开函数-->
+		<property name="CMD">
+			FunctionEditMainEvent
+		</property>
+		<property name="schemaName">
+			public
+		</property>
+		<property name="functionName">
+			al
+		</property>
+		<property name="treeNode"> <!--函数在树中id-->
+			122889
+		</property>
+	</event>
+	
+	<event from="com.hhdb.csadmin.plugin.test" to="com.hhdb.csadmin.plugin.function" type="CMD"> 	
+		<!--检查函数-->
+		<property name="CMD">
+			FunctionCheckEvent
+		</property>
+		<property name="schemaName">
+			public
+		</property>
+		<property name="functionName">
+			al
+		</property>
+		<property name="treeNode"> <!--函数在树中id-->
+			122889
+		</property>
+	</event>
+	
+	<event from="com.hhdb.csadmin.plugin.test" to="com.hhdb.csadmin.plugin.function" type="CMD"> 	
+		<!--运行函数-->
+		<property name="CMD">
+			FunctionRunEvent
+		</property>
+		<property name="schemaName">
+			public
+		</property>
+		<property name="functionName">
+			al
+		</property>
+		<property name="treeNode"> <!--函数在树中id-->
+			122889
+		</property>
+	</event>
+</events>

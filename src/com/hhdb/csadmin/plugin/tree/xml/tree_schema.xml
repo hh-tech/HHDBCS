@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<treenode name="模式实例" open-icon="schema.png" isUnique="true" type="1111">
+	<node name="表" type="11111" open-icon="poptables.png" isUnique="true">
+	</node>
+	<node name="视图" type="11112" open-icon="view.png" isUnique="true">
+	</node>				
+	<node name="函数" type="11113" open-icon="function.png" isUnique="true">
+	</node>
+	<node name="序列" type="11114" open-icon="sequenceindex.png" isUnique="true">
+	</node>
+	<node name="类型" type="11115" open-icon="dbtype.png" isUnique="true">
+	</node>
+	<!-- <node name="查询" type="11116" open-icon="querys.png" isUnique="true">
+	</node> -->
+</treenode>

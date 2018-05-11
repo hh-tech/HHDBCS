@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<tree id="mainTree" name="服务器列表" open-icon="localhost.png" close-icon="">
+	
+	<node name="数据库集合" open-icon="Database16.png"  isUnique="true" type="01">
+		<!-- <node name="数据库实例" open-icon="database.png" close-icon="database_off.png" isUnique="false" type="11">
+			<node name="扩展"  type="112" open-icon="extend.png" isUnique="true">
+				<node type="1121" name="扩展插件" open-icon="extend.png" isUnique="false"/>
+			</node>
+			<node name="性能监控"  type="113" open-icon="mon.png" isUnique="false"></node>
+		</node>
+		 -->
+	</node>
+
+	<node name="表空间集合" type="12" open-icon="tablespace.png" isUnique="true">
+		<!-- <node name="表空间实例" type="121" open-icon="tablespace.png" isUnique="false"/>-->
+	</node>
+
+	<node name="登录用户集合"  type="14" open-icon="quser.png" isUnique="true">
+		<!-- <node type="141" name="登录用户实例" open-icon="quser.png" isUnique="false"/>-->
+	</node>
+	
+	<!-- <node name="服务器监控"  type="13" open-icon="mon.png" isUnique="true">
+		<node name="cpu监控" type="131" open-icon="cpu.png" isUnique="true"/>
+		<node name="硬盘监控" type="132" open-icon="disk.png" isUnique="true"/>
+		<node name="内存监控" type="133" open-icon="mem.png" isUnique="true"/>
+		<node name="进程监控" type="134" open-icon="ps.png" isUnique="true"/>
+		<node name="网络监控" type="135" open-icon="network.png" isUnique="true"/>
+	</node>
+	-->
+</tree>

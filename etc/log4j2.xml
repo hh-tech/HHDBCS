@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+<!--Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，你会看到log4j2内部各种详细输出 -->
+<!--monitorInterval：Log4j能够自动检测修改配置 文件和重新配置本身，设置间隔秒数 -->
+<configuration status="WARN" monitorInterval="30">
+	<!--先定义所有的appender -->
+	<appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+           <!--输出日志的格式 -->
+			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%-5level] - %m%n" />          
+        </Console>
+		<File  name="csadmin_file" fileName="csadmin.log">
+			<!--输出日志的格式 -->
+			<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%-5level] - %m%n" />
+		</File >
+		<!--<File  name="dbobj_file" fileName="dbobj.log">-->
+			<!--输出日志的格式 -->
+			<!--<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%-5level] - %m%n" />
+		</File >
+		<File  name="sqlutil_file" fileName="sqlutil.log">-->
+			<!--输出日志的格式 -->
+			<!--<PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%-5level] - %m%n" />
+		</File >-->
+	</appenders>
+	<!--然后定义logger，只有定义了logger并引入的appender，appender才会生效 -->
+	<loggers>
+		<Root level="all">
+             <appender-ref ref="Console"/>
+          	 <appender-ref ref="csadmin_file"/>
+        </Root>
+        <Logger name="csadmin" level="all">  
+          	 <appender-ref ref="Console"/>
+          	 <appender-ref ref="csadmin_file"/>
+        </Logger>
+        <Logger name="dbobj" level="all">  
+          	 <appender-ref ref="Console"/>
+          	 <appender-ref ref="csadmin_file"/>
+        </Logger>
+        <Logger name="sqlutil" level="all">  
+          	 <appender-ref ref="Console"/>
+          	 <appender-ref ref="csadmin_file"/>
+        </Logger>
+	</loggers>
+</configuration>

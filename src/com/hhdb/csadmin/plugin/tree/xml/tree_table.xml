@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<treenode name="表格实例" type="111111" open-icon="poptables.png"
+	isUnique="false">
+	<node name="列集合" type="1111111" open-icon="columns.png" isUnique="false">
+		<!-- <node name="列实例" type="111111111" open-icon="column.png" isUnique="false"/> -->
+	</node>
+	<node name="约束集合" type="1111112" open-icon="constraints.png"
+		isUnique="false">
+		<!-- <node name="约束实例" type="111111121" open-icon="constraint.png" isUnique="false"/> -->
+	</node>
+	<node name="索引集合" type="1111113" open-icon="indexs.png" isUnique="false">
+		<!-- <node name="索引实例" type="111111131" open-icon="index.png" isUnique="false"/> -->
+	</node>
+	<node name="规则集合" type="1111114" open-icon="rules.png" isUnique="false">
+		<!-- <node name="规则实例" type="111111141" open-icon="rule.png" isUnique="false"/> -->
+	</node>
+	<node name="触发器集合" type="1111115" open-icon="triggers.png"
+		isUnique="false">
+		<!-- node name="触发器实例" type="111111151" open-icon="trigger.png" isUnique="false"/> -->
+	</node>
+</treenode>
+

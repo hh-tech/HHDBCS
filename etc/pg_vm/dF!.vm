@@ -1,0 +1,16 @@
+## \dF[+]  [模式]   
+## 列出文本搜索配置       
+#set($common1 = "SELECT 
+	   n.nspname as " + '"架构模式"' +",
+	   c.cfgname as " + '"名称"' +",
+	   pg_catalog.obj_description(c.oid, 'pg_ts_config') as " + '"描述"' +"
+	FROM pg_catalog.pg_ts_config c
+	LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.cfgnamespace 
+	WHERE pg_catalog.pg_ts_config_is_visible(c.oid)")
+#set($common2 = "ORDER BY 1, 2;")
+#set($patt= "AND c.cfgname ~ '^($arg)$'")
+$common1
+#if($arg)
+$patt
+#end
+$common2

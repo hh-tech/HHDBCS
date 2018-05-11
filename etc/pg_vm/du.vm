@@ -1,0 +1,23 @@
+## \du[+]  [PATTERN]      
+## 列出角色
+#set($common1 = "SELECT r.rolname as 角色名称, r.rolsuper as 超级用户, r.rolinherit as 继承,
+	  r.rolcreaterole as 建立角色, r.rolcreatedb as 建立DB, r.rolcanlogin as 可以登录,
+	  r.rolconnlimit as 连接限制, r.rolvaliduntil as 有效期,
+	  ARRAY(SELECT b.rolname
+	        FROM pg_catalog.pg_auth_members m
+	        JOIN pg_catalog.pg_roles b ON (m.roleid = b.oid)
+	        WHERE m.member = r.oid) as 属于")
+#set($common2 = ", r.rolreplication as 复制
+	FROM pg_catalog.pg_roles r")
+#set($common3 = "ORDER BY 1;")
+#set($plus = ",pg_catalog.shobj_description(r.oid, 'pg_authid') AS description")
+#set($patt= "WHERE r.rolname ~ '^($arg)$'")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus
+#end
+$common2
+#if($arg)
+$patt
+#end
+$common3

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<event from="com.hhdb.csadmin.plugin.test" to="com.hhdb.csadmin.plugin.output" type="CMD"> 	
+	<!--一个事件中可以包含一个或者多个属性-->
+	<property name="CMD">
+		Show
+	</property>
+	<property name="createStr">
+		SELECT
+					*,hh_size_pretty(hh_database_size(hh_database.datname))
+					AS size
+					FROM
+					hh_database,hh_user u,hh_tablespace t
+					WHERE
+					datdba=u.usesysid
+					AND
+					dattablespace=t.oid
+					AND datname='hhdb'
+	</property>
+</event>
+

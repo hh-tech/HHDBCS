@@ -1,0 +1,25 @@
+## \dFd[+] [模式]     
+## 列出文本搜寻字典     
+#set($common1 = "SELECT 
+	  n.nspname as " + '"架构模式"' +",
+	  d.dictname as " + '"名称"')
+#set($common2 = ",pg_catalog.obj_description(d.oid, 'pg_ts_dict') as " + '"描述"' +"
+	FROM pg_catalog.pg_ts_dict d
+	LEFT JOIN pg_catalog.pg_namespace n ON n.oid = d.dictnamespace
+	WHERE pg_catalog.pg_ts_dict_is_visible(d.oid)")
+#set($common3 = "ORDER BY 1, 2;")
+#set($plus = ",( SELECT COALESCE(nt.nspname, '(null)')::pg_catalog.text || '.' || t.tmplname FROM 
+	    pg_catalog.pg_ts_template t 
+				 LEFT JOIN pg_catalog.pg_namespace nt ON nt.oid = t.tmplnamespace 
+				 WHERE d.dicttemplate = t.oid ) AS " + '"模板"' +", 
+	  d.dictinitoption as " + '"初始选项"')
+#set($patt = "AND d.dictname ~ '^($arg)$'")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus
+#end
+$common2
+#if($arg)
+$patt
+#end
+$common3

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<plugin class="Hmenu" version="1.0" author="guodong"> 	
+	<!--一个事件中可以包含一个或者多个属性-->
+	<property name="table_icon">
+table.png
+	</property>
+	<property name="view_icon">
+view.png
+	</property>
+</plugin>

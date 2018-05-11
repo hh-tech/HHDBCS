@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<events>
+	<!-- 数据库备份 -->
+	<event from="com.hhdb.csadmin.plugin.test" to="com.hhdb.csadmin.plugin.backup_recovery"
+		type="CMD">
+		<property name="CMD">
+			DatabaseEackup
+		</property>
+		<property name="database"> <!-- 数据库 -->
+			test
+		</property>
+	</event>
+	<!-- 数据库恢复 -->
+	<event from="com.hhdb.csadmin.plugin.test" to="com.hhdb.csadmin.plugin.backup_recovery"
+		type="CMD">
+		<property name="CMD">
+			DatabaseRecovery
+		</property>
+		<property name="database">	<!-- 数据库 -->
+			test
+		</property>
+	</event>
+	<!-- 模式备份 -->
+	<event from="com.hhdb.csadmin.plugin.test" to="com.hhdb.csadmin.plugin.backup_recovery"
+		type="CMD">
+		<property name="CMD">
+			BackupMode
+		</property>
+		<property name="model"> <!-- 模式 -->
+			public
+		</property>
+	</event>
+	<!-- 模式恢复 -->
+	<event from="com.hhdb.csadmin.plugin.test" to="com.hhdb.csadmin.plugin.backup_recovery"
+		type="CMD">
+		<property name="CMD">
+			ModelRestore
+		</property>
+		<property name="model"> <!-- 模式 -->
+			public
+		</property>
+	</event>
+</events>

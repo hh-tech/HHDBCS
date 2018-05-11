@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<hmenus id="file" name="文件">
+		<jmenuItem id="exit" name="退出" off="0" icon=""
+			to="com.hhdb.csadmin.plugin.menu" key="ctrl+q">
+		</jmenuItem>
+	</hmenus>
+
+	 <hmenus id="tool" name="工具">
+		<jmenuItem id="dbmonitoring" name="数据库监控" off="0" icon=""
+			to="com.hhdb.csadmin.plugin.menu" key="ctrl+\."></jmenuItem>
+		
+		<jmenuItem id="dbLock" name="数据库锁信息" off="0" icon=""
+			to="com.hhdb.csadmin.plugin.menu" key="ctrl+e"></jmenuItem>
+		
+		<jmenuItem id="options" name="选项" off="0" icon=""
+			to="com.hhdb.csadmin.plugin.menu" key="ctrl+r"></jmenuItem>
+	</hmenus>
+	<hmenus id="help" name="帮助">
+		<jmenuItem id="about" name="关于" off="0" icon=""
+			to="com.hhdb.csadmin.plugin.menu" key="ctrl+t"></jmenuItem>
+	</hmenus>
+
+</config>

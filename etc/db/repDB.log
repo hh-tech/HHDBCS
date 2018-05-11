@@ -1,0 +1,585 @@
+/*C13*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C14*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C15*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C16*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C17*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C18*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=61
+INSERT INTO SQLBIBLE VALUES(61,1,0,'\u5220\u9664\u8868\u7a7a\u95f4','DROP TABLESPACE"?1?"\u000a        ')
+COMMIT
+DISCONNECT
+/*C19*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C20*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C21*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C22*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C23*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=48
+INSERT INTO SQLBIBLE VALUES(48,1,0,'\u5217\u51fa\u8868\u7a7a\u95f4','SELECT spcname AS "\u540d\u79f0",\u000a\u0009  hh_catalog.hh_get_userbyid(spcowner) AS "\u62e5\u6709\u8005",\u000a\u0009  hh_catalog.hh_tablespace_location(oid) AS "\u6240\u5728\u5730"\u000aFROM hh_catalog.hh_tablespace\u000aORDER BY 1;\u000a        ')
+COMMIT
+DISCONNECT
+/*C24*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C25*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C26*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=60
+INSERT INTO SQLBIBLE VALUES(60,1,0,'\u521b\u5efa\u8868\u7a7a\u95f4',' CREATE TABLESPACE ''?1?'' LOCATION ''/mnt/sda1/hhdb/data'';\u000a        ')
+COMMIT
+DISCONNECT
+/*C27*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C28*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C29*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=59
+INSERT INTO SQLBIBLE VALUES(59,1,0,'\u5220\u9664\u89c6\u56fe','drop view v$''?1?''\u000a        ')
+COMMIT
+DISCONNECT
+/*C30*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C31*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C32*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=58
+INSERT INTO SQLBIBLE VALUES(58,1,0,'\u521b\u5efa\u89c6\u56fe','create  view v$''?1?'' as select * from ''?1?'';\u000a        ')
+COMMIT
+DISCONNECT
+/*C33*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C34*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C35*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=57
+INSERT INTO SQLBIBLE VALUES(57,1,0,'\u5220\u9664\u7d22\u5f15','DROP INDEX ''?1?''_id_index;\u000a        ')
+COMMIT
+DISCONNECT
+/*C36*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C37*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C38*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=56
+INSERT INTO SQLBIBLE VALUES(56,1,0,'\u521b\u5efa\u7d22\u5f15','CREATE INDEX ''?1?''_id_index ON ''?1?'' (id);\u000a        ')
+COMMIT
+DISCONNECT
+/*C39*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C40*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C41*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=55
+INSERT INTO SQLBIBLE VALUES(55,1,0,'\u7d22\u5f15\u5927\u5c0f','SELECT hh_size_pretty(hh_relation_size(''?1?'')) AS \u5927\u5c0f;\u000a        ')
+COMMIT
+DISCONNECT
+/*C42*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C43*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C44*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=54
+INSERT INTO SQLBIBLE VALUES(54,1,0,'\u8868\u5927\u5c0f',' SELECT hh_size_pretty(hh_relation_size(''?1?'')) AS \u5927\u5c0f;\u000a        ')
+COMMIT
+DISCONNECT
+/*C45*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C46*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C47*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=53
+INSERT INTO SQLBIBLE VALUES(53,1,0,'\u67e5\u8be2\u6570\u636e\u5e93\u5927\u5c0f','SELECT hh_size_pretty(hh_database_size(''?1?'')) AS \u5927\u5c0f;\u000a        ')
+COMMIT
+DISCONNECT
+/*C48*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C49*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C50*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=52
+INSERT INTO SQLBIBLE VALUES(52,1,0,'\u67e5\u8be2\u6240\u6709\u6570\u636e\u5e93',' SELECT d.datname as "\u540d\u79f0",\u000a\u0009       hh_catalog.hh_get_userbyid(d.datdba) as "\u62e5\u6709\u8005",\u000a\u0009       hh_catalog.hh_encoding_to_char(d.encoding) as "\u5b57\u5143\u7f16\u7801",\u000a\u0009       d.datcollate as "\u6821\u5bf9\u89c4\u5219",\u000a\u0009       d.datctype as "Ctype",\u000a\u0009       hh_catalog.array_to_string(d.datacl, E''\n'') AS "\u5b58\u53d6\u6743\u9650"\u000aFROM hh_catalog.hh_database d\u000aORDER BY 1;\u000a        ')
+COMMIT
+DISCONNECT
+/*C51*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C52*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C53*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=51
+INSERT INTO SQLBIBLE VALUES(51,1,0,'\u5217\u51fa\u6a21\u5f0f\u8be6\u60c5','SELECT n.nspname AS "\u540d\u79f0",\u000a\u0009  hh_catalog.hh_get_userbyid(n.nspowner) AS "\u62e5\u6709\u8005"\u000a,hh_catalog.array_to_string(n.nspacl, E''\n'') AS "\u5b58\u53d6\u6743\u9650",\u000a\u0009  hh_catalog.obj_description(n.oid, ''hh_namespace'') AS "\u63cf\u8ff0"\u000aFROM hh_catalog.hh_namespace n\u000aWHERE n.nspname !~ ''^hh_'' AND n.nspname <> ''information_schema''\u000aORDER BY 1;\u000a        ')
+COMMIT
+DISCONNECT
+/*C54*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C55*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C56*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=50
+INSERT INTO SQLBIBLE VALUES(50,1,0,'\u5217\u51fa\u6a21\u5f0f','SELECT n.nspname AS "\u540d\u79f0",\u000a\u0009  hh_catalog.hh_get_userbyid(n.nspowner) AS "\u62e5\u6709\u8005"\u000aFROM hh_catalog.hh_namespace n\u000aWHERE n.nspname !~ ''^hh_'' AND n.nspname <> ''information_schema''\u000aORDER BY 1;\u000a        ')
+COMMIT
+DISCONNECT
+/*C57*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C58*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C59*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=49
+INSERT INTO SQLBIBLE VALUES(49,1,0,'\u5217\u51fa\u7528\u6237\u7ec4','SELECT r.rolname as \u89d2\u8272\u540d\u79f0, r.rolsuper as \u8d85\u7ea7\u7528\u6237, r.rolinherit as \u7ee7\u627f,\u000a\u0009  r.rolcreaterole as \u5efa\u7acb\u89d2\u8272, r.rolcreatedb as \u5efa\u7acbDB, r.rolcanlogin as \u53ef\u4ee5\u767b\u5f55,\u000a\u0009  r.rolconnlimit as \u8fde\u63a5\u9650\u5236, r.rolvaliduntil as \u6709\u6548\u671f,\u000a\u0009  ARRAY(SELECT b.rolname\u000a\u0009        FROM hh_catalog.hh_auth_members m\u000a\u0009        JOIN hh_catalog.hh_roles b ON (m.roleid = b.oid)\u000a\u0009        WHERE m.member = r.oid) as \u5c5e\u4e8e\u000a, r.rolreplication as \u590d\u5236\u000a\u0009FROM hh_catalog.hh_roles r\u000aORDER BY 1;\u000a        ')
+COMMIT
+DISCONNECT
+/*C60*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C61*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C62*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=47
+INSERT INTO SQLBIBLE VALUES(47,1,0,'\u5217\u51fa\u6570\u636e\u7c7b\u578b\u8be6\u60c5','SELECT n.nspname as "\u67b6\u6784\u6a21\u5f0f",\u000a\u0009  hh_catalog.format_type(t.oid, NULL) AS "\u540d\u79f0",\u000at.typname AS "\u5185\u90e8\u540d\u79f0",\u000a\u0009  CASE WHEN t.typrelid != 0\u000a\u0009      THEN CAST(''tuple'' AS hh_catalog.text)\u000a\u0009    WHEN t.typlen < 0\u000a\u0009      THEN CAST(''var'' AS hh_catalog.text)\u000a\u0009    ELSE CAST(t.typlen AS hh_catalog.text)\u000a\u0009  END AS "\u5927\u5c0f",\u000a\u0009  hh_catalog.array_to_string(\u000a\u0009      ARRAY(\u000a\u0009\u0009\u0009     SELECT e.enumlabel\u000a\u0009          FROM hh_catalog.hh_enum e\u000a\u0009          WHERE e.enumtypid = t.oid\u000a\u0009          ORDER BY e.enumsortorder\u000a\u0009      ),\u000a\u0009      E''\n''\u000a\u0009  ) AS "\u6210\u5458",\u000a\u0009hh_catalog.array_to_string(t.typacl, E''\n'') AS "\u5b58\u53d6\u9009\u9879",\u000ahh_catalog.obj_description(t.oid, ''hh_type'') as "\u63cf\u8ff0"\u000a\u0009FROM hh_catalog.hh_type t\u000a\u0009     LEFT JOIN hh_catalog.hh_namespace n ON n.oid = t.typnamespace\u000a\u0009WHERE (t.typrelid = 0 OR (SELECT c.relkind = ''c'' FROM hh_catalog.hh_class c WHERE c.oid = t.typrelid))\u000a\u0009  AND NOT EXISTS(SELECT 1 FROM hh_catalog.hh_type el WHERE el.oid = t.typelem AND el.typarray = t.oid)\u000aAND n.nspname <> ''hh_catalog''\u000a\u0009      AND n.nspname <> ''information_schema''\u000aAND hh_catalog.hh_type_is_visible(t.oid)\u000a\u0009ORDER BY 1, 2;\u000a        ')
+COMMIT
+DISCONNECT
+/*C63*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C64*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C65*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=46
+INSERT INTO SQLBIBLE VALUES(46,1,0,'\u5217\u51fa\u6570\u636e\u7c7b\u578b','SELECT n.nspname as "\u67b6\u6784\u6a21\u5f0f",\u000a\u0009  hh_catalog.format_type(t.oid, NULL) AS "\u540d\u79f0",\u000ahh_catalog.obj_description(t.oid, ''hh_type'') as "\u63cf\u8ff0"\u000a\u0009FROM hh_catalog.hh_type t\u000a\u0009     LEFT JOIN hh_catalog.hh_namespace n ON n.oid = t.typnamespace\u000a\u0009WHERE (t.typrelid = 0 OR (SELECT c.relkind = ''c'' FROM hh_catalog.hh_class c WHERE c.oid = t.typrelid))\u000a\u0009  AND NOT EXISTS(SELECT 1 FROM hh_catalog.hh_type el WHERE el.oid = t.typelem AND el.typarray = t.oid)\u000aAND n.nspname <> ''hh_catalog''\u000a\u0009      AND n.nspname <> ''information_schema''\u000aAND hh_catalog.hh_type_is_visible(t.oid)\u000a\u0009ORDER BY 1, 2;\u000a        ')
+COMMIT
+DISCONNECT
+/*C66*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C67*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C68*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=45
+INSERT INTO SQLBIBLE VALUES(45,1,0,'\u53ea\u5217\u51fa\u975e\u7cfb\u7edf\u8868',' SELECT n.nspname as "\u67b6\u6784\u6a21\u5f0f",\u000a\u0009c.relname as "\u540d\u79f0",\u000a\u0009CASE c.relkind WHEN ''r'' THEN ''table'' WHEN ''v'' THEN ''view'' WHEN ''m'' THEN ''materialized view'' WHEN ''i'' THEN ''index'' WHEN ''S'' THEN ''sequence'' WHEN ''s'' THEN ''special'' WHEN ''f'' THEN ''foreign table'' END as "\u578b\u522b",\u000a\u0009hh_catalog.hh_get_userbyid(c.relowner) as "\u62e5\u6709\u8005"\u000aFROM hh_catalog.hh_class c\u000a\u0009     LEFT JOIN hh_catalog.hh_namespace n ON n.oid = c.relnamespace\u000a\u0009WHERE c.relkind IN (''r'',''''\u000a) AND n.nspname <> ''hh_catalog''\u000a\u0009      AND n.nspname <> ''information_schema''\u000aAND n.nspname !~ ''^hh_toast''\u000a\u0009  AND hh_catalog.hh_table_is_visible(c.oid)\u000a\u0009ORDER BY 1,2;\u000a        ')
+COMMIT
+DISCONNECT
+/*C69*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C70*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C71*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=44
+INSERT INTO SQLBIBLE VALUES(44,1,0,'\u5217\u51fa\u7cfb\u7edf\u8868\u548c\u7d22\u5f15','SELECT n.nspname as "\u67b6\u6784\u6a21\u5f0f",\u000a\u0009c.relname as "\u540d\u79f0",\u000a\u0009CASE c.relkind WHEN ''r'' THEN ''table'' WHEN ''v'' THEN ''view'' WHEN ''m'' THEN ''materialized view'' WHEN ''i'' THEN ''index'' WHEN ''S'' THEN ''sequence'' WHEN ''s'' THEN ''special'' WHEN ''f'' THEN ''foreign table'' END as "\u578b\u522b",\u000a\u0009hh_catalog.hh_get_userbyid(c.relowner) as "\u62e5\u6709\u8005"\u000aFROM hh_catalog.hh_class c\u000a\u0009     LEFT JOIN hh_catalog.hh_namespace n ON n.oid = c.relnamespace\u000a\u0009WHERE c.relkind IN (''r'',''v'',''m'',''S'',''f'',''''\u000a,''s'') \u000aAND n.nspname !~ ''^hh_toast''\u000a\u0009  AND hh_catalog.hh_table_is_visible(c.oid)\u000a\u0009ORDER BY 1,2;\u000a        ')
+COMMIT
+DISCONNECT
+/*C72*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C73*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C74*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=43
+INSERT INTO SQLBIBLE VALUES(43,1,0,'\u5217\u51fa\u5e8f\u5217','SELECT n.nspname as "\u67b6\u6784\u6a21\u5f0f",\u000a\u0009  c.relname as "\u540d\u79f0",\u000a\u0009  CASE c.relkind WHEN ''r'' THEN ''table'' WHEN ''v'' THEN ''view'' WHEN ''m'' THEN ''materialized view'' WHEN ''i'' THEN ''index'' WHEN ''S'' THEN ''sequence'' WHEN ''s'' THEN ''special'' WHEN ''f'' THEN ''foreign table'' END as "\u578b\u522b",\u000a\u0009  hh_catalog.hh_get_userbyid(c.relowner) as "\u62e5\u6709\u8005"\u000aFROM hh_catalog.hh_class c\u000a\u0009     LEFT JOIN hh_catalog.hh_namespace n ON n.oid = c.relnamespace\u000a\u0009WHERE c.relkind IN (''S'',''''\u000a) AND n.nspname <> ''hh_catalog''\u000a\u0009      AND n.nspname <> ''information_schema''\u000aAND n.nspname !~ ''^hh_toast''\u000a\u0009AND hh_catalog.hh_table_is_visible(c.oid)\u000a\u0009ORDER BY 1,2;\u000a        ')
+COMMIT
+DISCONNECT
+/*C75*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C76*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C77*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=42
+INSERT INTO SQLBIBLE VALUES(42,1,0,'\u5217\u51fa\u64cd\u4f5c\u7b26','SELECT n.nspname as "\u67b6\u6784\u6a21\u5f0f",\u000a\u0009  o.oprname AS "\u540d\u79f0",\u000a\u0009  CASE WHEN o.oprkind=''l'' THEN NULL ELSE hh_catalog.format_type(o.oprleft, NULL) END AS "\u5de6\u53c2\u6570\u578b\u522b",\u000a\u0009  CASE WHEN o.oprkind=''r'' THEN NULL ELSE hh_catalog.format_type(o.oprright, NULL) END AS "\u53f3\u53c2\u6570\u578b\u522b",\u000a\u0009  hh_catalog.format_type(o.oprresult, NULL) AS "\u7ed3\u6784\u578b\u522b",\u000a\u0009  coalesce(hh_catalog.obj_description(o.oid, ''hh_operator''),\u000a\u0009           hh_catalog.obj_description(o.oprcode, ''hh_proc'')) AS "\u63cf\u8ff0"\u000a\u0009FROM hh_catalog.hh_operator o\u000a\u0009     LEFT JOIN hh_catalog.hh_namespace n ON n.oid = o.oprnamespace\u000a\u0009WHERE \u000an.nspname <> ''hh_catalog''\u000a\u0009      AND n.nspname <> ''information_schema'' AND \u000ahh_catalog.hh_operator_is_visible(o.oid)\u000a\u0009ORDER BY 1, 2, 3, 4;\u000a        ')
+COMMIT
+DISCONNECT
+/*C78*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C79*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C80*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=41
+INSERT INTO SQLBIBLE VALUES(41,1,0,'\u7d22\u5f15\u5217\u8868',' SELECT n.nspname as "\u67b6\u6784\u6a21\u5f0f",\u000a\u0009  c.relname as "\u540d\u79f0",\u000a\u0009  CASE c.relkind WHEN ''r'' THEN ''table'' WHEN ''v'' THEN ''view'' WHEN ''m'' THEN ''materialized view'' WHEN ''i'' THEN ''index'' WHEN ''S'' THEN ''sequence'' WHEN ''s'' THEN ''special'' WHEN ''f'' THEN ''foreign table'' END as "\u7c7b\u522b",\u000a\u0009  hh_catalog.hh_get_userbyid(c.relowner) as "\u62e5\u6709\u8005",\u000a\u0009 c2.relname as "\u8d44\u6599\u8868"\u000a\u0009FROM hh_catalog.hh_class c\u000a\u0009     LEFT JOIN hh_catalog.hh_namespace n ON n.oid = c.relnamespace\u000a\u0009     LEFT JOIN hh_catalog.hh_index i ON i.indexrelid = c.oid\u000a\u0009     LEFT JOIN hh_catalog.hh_class c2 ON i.indrelid = c2.oid\u000a\u0009WHERE c.relkind IN (''i'',''''\u000a) AND n.nspname <> ''hh_catalog''\u000a\u0009      AND n.nspname <> ''information_schema''\u000aAND n.nspname !~ ''^hh_toast''\u000a\u0009  AND hh_catalog.hh_table_is_visible(c.oid)\u000a\u0009ORDER BY 1,2;\u000a        ')
+COMMIT
+DISCONNECT
+/*C81*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C82*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C83*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=40
+INSERT INTO SQLBIBLE VALUES(40,1,0,'\u51fd\u6570\u5217\u8868',' SELECT n.nspname as "\u67b6\u6784\u6a21\u5f0f",\u000a\u0009  p.proname as "\u540d\u79f0",\u000a\u0009  hh_catalog.hh_get_function_result(p.oid) as "\u7ed3\u679c\u8d44\u6599\u7c7b\u578b",\u000a\u0009  hh_catalog.hh_get_function_arguments(p.oid) as "\u53c2\u6570\u8d44\u6599\u7c7b\u578b",\u000a\u0009 CASE\u000a\u0009  WHEN p.proisagg THEN ''agg''\u000a\u0009  WHEN p.proiswindow THEN ''window''\u000a\u0009  WHEN p.prorettype = ''hh_catalog.trigger''::hh_catalog.regtype THEN ''trigger''\u000a\u0009  ELSE ''normal''\u000a\u0009 END as "\u7c7b\u578b"\u000aFROM hh_catalog.hh_proc p\u000a\u0009     LEFT JOIN hh_catalog.hh_namespace n ON n.oid = p.pronamespace\u000aWHERE hh_catalog.hh_function_is_visible(p.oid)\u000aAND n.nspname <> ''hh_catalog''\u000a\u0009      AND n.nspname <> ''information_schema''\u000aORDER BY 1, 2, 4;\u000a        ')
+COMMIT
+DISCONNECT
+/*C84*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C85*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C86*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=39
+INSERT INTO SQLBIBLE VALUES(39,1,0,'\u6240\u6709\u6a21\u5f0f','SELECT CASE WHEN nspname LIKE E''hh\\_temp\\_%'' THEN 1\u000a\u0009            WHEN (nspname LIKE E''hh\\_%'') THEN 0\u000a\u0009            ELSE 3 END AS \u6a21\u5f0f\u7c7b\u578b,\u000a\u0009       nsp.nspname AS \u67b6\u6784\u6a21\u5f0f, nsp.oid AS \u6a21\u5f0fOID, hh_get_userbyid(nspowner) AS \u62e5\u6709\u8005, nspacl AS \u8bbf\u95ee\u6743\u9650, description AS \u63cf\u8ff0,       has_schema_privilege(nsp.oid, ''CREATE'') as \u521b\u5efa\u6743\u9650,\u000a\u0009(SELECT array_agg(label) FROM hh_seclabels sl1 WHERE sl1.objoid=nsp.oid) AS \u6807\u7b7e,\u000a\u0009(SELECT array_agg(provider) FROM hh_seclabels sl2 WHERE sl2.objoid=nsp.oid) AS \u63d0\u4f9b\u8005\u000a\u0009  FROM hh_namespace nsp\u000a\u0009  LEFT OUTER JOIN hh_description des ON (des.objoid=nsp.oid AND des.classoid=''hh_namespace''::regclass)\u000a\u0009 WHERE  NOT ((nspname = ''hh_catalog'' AND EXISTS (SELECT 1 FROM hh_class WHERE relname = ''hh_class'' AND relnamespace = nsp.oid LIMIT 1)) OR\u000a\u0009(nspname = ''hhagent'' AND EXISTS (SELECT 1 FROM hh_class WHERE relname = ''hha_job'' AND relnamespace = nsp.oid LIMIT 1))  OR\u000a\u0009(nspname LIKE ''_%'' AND EXISTS (SELECT 1 FROM hh_proc WHERE proname=''slonyversion'' AND pronamespace = nsp.oid LIMIT 1))\u000a\u0009)  AND nspname NOT LIKE E''hh\\_temp\\_%''AND nspname NOT LIKE E''hh\\_toast_temp\\_%'' ORDER BY 1, nspname\u000a        ')
+COMMIT
+DISCONNECT
+/*C87*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C88*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C89*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=38
+INSERT INTO SQLBIBLE VALUES(38,1,0,'\u521b\u5efa\u89e6\u53d1\u5668','CREATE OR REPLACE FUNCTION process_emp_audit() RETURNS TRIGGER AS $emp_audit$\u000a    BEGIN\u000a        --\u000a        -- \u5728 emp_audit \u91cc\u521b\u5efa\u4e00\u884c\uff0c\u53cd\u6620\u5bf9 emp \u7684\u64cd\u4f5c\uff0c\u000a        -- \u4f7f\u7528\u7279\u6b8a\u53d8\u91cf TG_OP \u83b7\u53d6\u64cd\u4f5c\u7c7b\u578b\u3002\u000a        --\u000a        IF (TG_OP = ''DELETE'') THEN\u000a            INSERT INTO emp_audit SELECT ''D'', now(), user, OLD.*;\u000a            RETURN OLD;\u000a        ELSIF (TG_OP = ''UPDATE'') THEN\u000a            INSERT INTO emp_audit SELECT ''U'', now(), user, NEW.*;\u000a            RETURN NEW;\u000a        END IF;\u000a        RETURN NULL; -- \u5ffd\u7565\u7ed3\u679c\uff0c\u56e0\u4e3a\u5b83\u662f\u4e2a AFTER \u89e6\u53d1\u5668\u000a    END;\u000a$emp_audit$ LANGUAGE plpgsql;\u000a\u000aCREATE TRIGGER emp_audit\u000aAFTER INSERT OR UPDATE OR DELETE ON emp\u000a    FOR EACH ROW EXECUTE PROCEDURE process_emp_audit()\u000a;\u000a        ')
+COMMIT
+DISCONNECT
+/*C90*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C91*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C92*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=37
+INSERT INTO SQLBIBLE VALUES(37,1,0,'\u521b\u5efa\u5e8f\u5217','create sequence sequence_name increment by 1 minvalue 1 no maxvalue start with 1;\u000a        ')
+COMMIT
+DISCONNECT
+/*C93*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C94*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C95*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=1
+INSERT INTO SQLBIBLE VALUES(1,2,0,'\u7edf\u8ba1schema\u4e0b\u8868\u683c\u4e2a\u6570','select count(*) AS \u8868\u683c\u4e2a\u6570 from hh_tables where schemaname=''?1?'';\u000a\u0009\u0009\u0009     \u000a        ')
+COMMIT
+DISCONNECT
+/*C96*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C97*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C98*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=2
+INSERT INTO SQLBIBLE VALUES(2,2,0,'\u6309\u7167\u8868\u683c\u5927\u5c0f\u7edf\u8ba1\u5f53\u524d\u6a21\u5f0f\u8868\u683c','SELECT n.nspname as "\u67b6\u6784\u6a21\u5f0f",\u000a  c.relname as "\u540d\u79f0",\u000a  CASE c.relkind WHEN ''r'' THEN ''table'' WHEN ''v'' THEN ''view'' WHEN ''m'' THEN ''materialized view'' WHEN ''i'' THEN ''index'' WHEN ''S'' THEN ''sequence'' WHEN ''s'' THEN ''special'' WHEN ''f'' THEN ''foreign table'' END as "\u7c7b\u578b",\u000a  hh_catalog.hh_get_userbyid(c.relowner) as "\u62e5\u6709\u8005",\u000a  hh_catalog.hh_size_pretty(hh_catalog.hh_table_size(c.oid)) as "\u5927\u5c0f",\u000a  hh_catalog.obj_description(c.oid, ''hh_class'') as "\u63cf\u8ff0"\u000aFROM hh_catalog.hh_class c\u000a     LEFT JOIN hh_catalog.hh_namespace n ON n.oid = c.relnamespace\u000aWHERE c.relkind IN (''r'','''')\u000a      AND n.nspname <> ''hh_catalog''\u000a      AND n.nspname <> ''information_schema''\u000a      AND n.nspname !~ ''^hh_toast''\u000a  AND hh_catalog.hh_table_is_visible(c.oid)\u000aORDER BY 5;\u000a        ')
+COMMIT
+DISCONNECT
+/*C99*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C100*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C101*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=3
+INSERT INTO SQLBIBLE VALUES(3,2,0,'\u5217\u51fa\u8868\u7a7a\u95f4\u8be6\u60c5','SELECT spcname AS "\u540d\u79f0",\u000a\u0009  hh_catalog.hh_get_userbyid(spcowner) AS "\u62e5\u6709\u8005",\u000a\u0009  hh_catalog.hh_tablespace_location(oid) AS "\u6240\u5728\u5730"\u000a,hh_catalog.array_to_string(spcacl, E''\n'') AS "\u5b58\u53d6\u6743\u9650",\u000a\u0009  spcoptions AS "\u9009\u9879",\u000a\u0009  hh_catalog.shobj_description(oid, ''hh_tablespace'') AS "\u63cf\u8ff0"\u000aFROM hh_catalog.hh_tablespace\u000aORDER BY 1;\u000a        ')
+COMMIT
+DISCONNECT
+/*C102*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C103*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C104*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=4
+INSERT INTO SQLBIBLE VALUES(4,2,0,'\u521b\u5efa\u8868','create table ''?1?''(name char(20),id int8);\u000a        ')
+COMMIT
+DISCONNECT
+/*C105*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C106*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C107*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=5
+INSERT INTO SQLBIBLE VALUES(5,2,0,'\u8868\u7ed3\u6784\u67e5\u8be2','SELECT\u000aattname,typname,adsrc\u000a     FROM\u000a           hh_attribute\u000a           INNER JOIN hh_class  ON hh_attribute.attrelid = hh_class.oid\u000a           INNER JOIN hh_type   ON hh_attribute.atttypid = hh_type.oid\u000a           LEFT OUTER JOIN hh_attrdef ON hh_attrdef.adrelid = hh_class.oid AND hh_attrdef.adnum = hh_attribute.attnum\u000a           LEFT OUTER JOIN hh_description ON hh_description.objoid = hh_class.oid AND hh_description.objsubid = hh_attribute.attnum\u000a     WHERE\u000a           hh_attribute.attnum > 0\u000a          AND attisdropped <> ''t''\u000a           AND hh_class.relname= ''?1?''  \u000a     ORDER BY hh_attribute.attnum ;\u000a        ')
+COMMIT
+DISCONNECT
+/*C108*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C109*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C110*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=6
+INSERT INTO SQLBIBLE VALUES(6,2,0,'\u8868\u7d22\u5f15\u67e5\u8be2',' select t.relname as \u8868\u540d,c.relname as \u7d22\u5f15\u540d \u000afrom (select relname,indexrelid from hh_index i,hh_class c \u000awhere c.relname=''?1?'' and indrelid=c.oid) t,hh_index i,hh_class c\u000awhere t.indexrelid=i.indexrelid and i.indexrelid=c.oid;\u000a    ')
+COMMIT
+DISCONNECT
+/*C111*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C112*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C113*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=7
+INSERT INTO SQLBIBLE VALUES(7,2,0,'\u8868\u5b57\u6bb5\u67e5\u8be2','select relname ,attname from hh_class c,hh_attribute attr \u000awhere relname = ''?1?'' and c.oid=attr.attrelid;\u000a        ')
+COMMIT
+DISCONNECT
+/*C114*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C115*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C116*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=8
+INSERT INTO SQLBIBLE VALUES(8,2,0,'\u8868\u6240\u5728\u6a21\u5f0f\u67e5\u8be2','select relname ,nspname \u000afrom hh_class c,hh_namespace n \u000awhere relname=''?1?'' and c.relnamespace=n.oid;\u000a        ')
+COMMIT
+DISCONNECT
+/*C117*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C118*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C119*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=9
+INSERT INTO SQLBIBLE VALUES(9,2,0,'\u8868\u4e3b\u952e\u67e5\u8be2','select hh_constraint.conname as pk_name,hh_attribute.attname as colname,hh_type.typname as typename from hh_constraint  inner join hh_class on hh_constraint.conrelid = \u000ahh_class.oid inner join hh_attribute on hh_attribute.attrelid = hh_class.oid and  hh_attribute.attnum = hh_constraint.conkey[1]inner join hh_type on hh_type.oid = \u000ahh_attribute.atttypid where hh_class.relname = ''?1?'' and hh_constraint.contype=''p'';\u000a        ')
+COMMIT
+DISCONNECT
+/*C120*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C121*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C122*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=10
+INSERT INTO SQLBIBLE VALUES(10,2,0,'\u8868\u63d2\u5165\u6570\u636e','insert into  ''?1?''(name,id)values(''\u5f20\u4e09'',1);\u000a        ')
+COMMIT
+DISCONNECT
+/*C123*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C124*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C125*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=11
+INSERT INTO SQLBIBLE VALUES(11,2,0,'\u6279\u91cf\u63d2\u5165\u6570\u636e','create table ''?1?''(create_time timestamp)\u000ainsert into ''?2?'' select now() from generate_series(1,1000);\u000a        ')
+COMMIT
+DISCONNECT
+/*C126*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C127*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C128*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=12
+INSERT INTO SQLBIBLE VALUES(12,2,0,'\u8868\u66f4\u65b0\u6570\u636e','update ''?1?'' t set t.name=''\u5218\u5907'' where t.id=3;\u000a        ')
+COMMIT
+DISCONNECT
+/*C129*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C130*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C131*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=13
+INSERT INTO SQLBIBLE VALUES(13,2,0,'\u8868\u91cd\u547d\u540d','alter table ''?1?'' rename to renamed_table\u000a        ')
+COMMIT
+DISCONNECT
+/*C132*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C133*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C134*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=14
+INSERT INTO SQLBIBLE VALUES(14,2,0,'\u8868\u5e93\u5185\u590d\u5236\u4e0e\u5907\u4efd','create table ''?1?'' as select * from ''?2?''\u000a        ')
+COMMIT
+DISCONNECT
+/*C135*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C136*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C137*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=15
+INSERT INTO SQLBIBLE VALUES(15,2,0,'\u8868\u5220\u9664\u8bb0\u5f55','delete from ''?1?'' t where t.id=''2'';\u000a        ')
+COMMIT
+DISCONNECT
+/*C138*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C139*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C140*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=36
+INSERT INTO SQLBIBLE VALUES(36,1,0,'\u5e8f\u5217\u67e5\u8be2','select * from information_schema.sequences where sequence_schema = ''public'';\u000a        ')
+COMMIT
+DISCONNECT
+/*C141*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C142*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C143*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=35
+INSERT INTO SQLBIBLE VALUES(35,1,0,'\u89e6\u53d1\u5668\u67e5\u8be2','select * from hh_trigger;\u000a        ')
+COMMIT
+DISCONNECT
+/*C144*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C145*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C146*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=34
+INSERT INTO SQLBIBLE VALUES(34,1,0,'\u89c6\u56fe\u67e5\u8be2','select * from hh_views;\u000a        ')
+COMMIT
+DISCONNECT
+/*C147*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C148*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C149*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=33
+INSERT INTO SQLBIBLE VALUES(33,1,0,'\u5f53\u524d\u65f6\u95f4\u67e5\u8be2','select current_date;NOW()\u000a        ')
+COMMIT
+DISCONNECT
+/*C150*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C151*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C152*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=32
+INSERT INTO SQLBIBLE VALUES(32,1,0,'\u7528\u6237\u4fe1\u606f\u67e5\u8be2','select * from hh_views;\u000a        ')
+COMMIT
+DISCONNECT
+/*C153*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C154*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C155*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=31
+INSERT INTO SQLBIBLE VALUES(31,1,0,'\u6d3b\u52a8\u4f1a\u8bdd\u67e5\u8be2','select * from hh_stat_activity;\u000a        ')
+COMMIT
+DISCONNECT
+/*C156*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C157*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C158*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=30
+INSERT INTO SQLBIBLE VALUES(30,1,0,'\u521b\u5efa\u6570\u636e\u5e93','CREATE DATABASE hhdb WITH OWNER = dba ENCODING = ''UTF8'';\u000a        ')
+COMMIT
+DISCONNECT
+/*C159*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C160*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C161*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=29
+INSERT INTO SQLBIBLE VALUES(29,1,0,'\u6570\u636e\u5e93\u6240\u6709\u8868','select * from hh_stat_all_tables\u000a        ')
+COMMIT
+DISCONNECT
+/*C162*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C163*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C164*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=28
+INSERT INTO SQLBIBLE VALUES(28,1,0,'\u7528\u6237\u8868\u7d22\u5f15','select * from hh_stat_user_indexes\u000a        ')
+COMMIT
+DISCONNECT
+/*C165*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C166*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C167*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=27
+INSERT INTO SQLBIBLE VALUES(27,1,0,'\u7528\u6237\u8868','select * from hh_stat_sys_tables\u000a        ')
+COMMIT
+DISCONNECT
+/*C168*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C169*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C170*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=26
+INSERT INTO SQLBIBLE VALUES(26,1,0,'\u7cfb\u7edf\u5b57\u5178\u8868','select * from hh_stat_sys_tables\u000a        ')
+COMMIT
+DISCONNECT
+/*C171*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C172*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C173*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=25
+INSERT INTO SQLBIBLE VALUES(25,1,0,'\u7cfb\u7edf\u7edf\u8ba1\u6570\u636e\u5e93\u5b57\u5178\u67e5\u8be2','select * from hh_stat_database\u000a        ')
+COMMIT
+DISCONNECT
+/*C174*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C175*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C176*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=24
+INSERT INTO SQLBIBLE VALUES(24,1,0,'\u7cfb\u7edf\u6570\u636e\u5e93\u5b57\u5178\u67e5\u8be2','select * from hh_database\u000a        ')
+COMMIT
+DISCONNECT
+/*C177*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C178*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C179*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=23
+INSERT INTO SQLBIBLE VALUES(23,1,0,'\u6570\u636e\u5e93\u7248\u672c\u67e5\u8be2','select version();\u000a        ')
+COMMIT
+DISCONNECT
+/*C180*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C181*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C182*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C183*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C184*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C185*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=16
+INSERT INTO SQLBIBLE VALUES(16,2,0,'\u8868\u5220\u9664','drop table ''?1?'';\u000a        ')
+COMMIT
+DISCONNECT
+/*C186*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C187*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C188*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=17
+INSERT INTO SQLBIBLE VALUES(17,2,0,'\u8868\u6e05\u9664\u6570\u636e',' truncate table ''?1?'';\u000a        ')
+COMMIT
+DISCONNECT
+/*C189*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C190*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C191*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=18
+INSERT INTO SQLBIBLE VALUES(18,2,0,'\u8868\u589e\u52a0\u5b57\u6bb5','ALTER TABLE ''?1?'' ADD COLUMN description text;\u000a        ')
+COMMIT
+DISCONNECT
+/*C192*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C193*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C194*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=19
+INSERT INTO SQLBIBLE VALUES(19,2,0,'\u8868\u5220\u9664\u5b57\u6bb5','ALTER TABLE ''?1?'' DROP COLUMN description;\u000a        ')
+COMMIT
+DISCONNECT
+/*C195*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C196*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C197*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=20
+INSERT INTO SQLBIBLE VALUES(20,2,0,'\u8868\u589e\u52a0\u4e3b\u5916\u952e\u7ea6\u675f','ALTER TABLE ''?1?'' ADD CONSTRAINT uniq_''?1?'' UNIQUE (''?1?''_id);ALTER TABLE ''?2?''_bak ADD FOREIGN KEY (''?2?''_bak_id) REFERENCES ''?2?'';\u000a        ')
+COMMIT
+DISCONNECT
+/*C198*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C199*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C200*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=21
+INSERT INTO SQLBIBLE VALUES(21,2,0,'\u8868\u4fee\u6539\u5b57\u6bb5\u6570\u636e\u7c7b\u578b','ALTER TABLE ''?1?'' ALTER COLUMN price TYPE numeric(10,2);\u000a        ')
+COMMIT
+DISCONNECT
+/*C201*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C202*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C203*/SET SCHEMA PUBLIC
+DELETE FROM SQLBIBLE WHERE SQLID=22
+INSERT INTO SQLBIBLE VALUES(22,1,0,'\u6570\u636e\u5e93\u96c6\u5408','SELECT\u000a\u0009datname AS \u6570\u636e\u5e93\u540d,usename AS \u62e5\u6709\u8005,hh_size_pretty(hh_database_size(hh_database.datname))\u000a\u0009AS \u5927\u5c0f,spcname AS \u8868\u7a7a\u95f4,descr.description AS \u63cf\u8ff0\u000a\u0009FROM\u000a\u0009hh_database  LEFT OUTER JOIN hh_shdescription descr ON(hh_database.oid=descr.objoid AND descr.classoid=''hh_database''::regclass),hh_user u,hh_tablespace t \u000a\u0009WHERE\u000a\u0009datdba=u.usesysid\u000a\u0009AND\u000a\u0009dattablespace=t.oid\u000a\u0009and datname not in(''template0'',''template1'')\u000a        ')
+COMMIT
+DISCONNECT
+/*C204*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C205*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C206*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C207*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C208*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C209*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C210*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C211*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C212*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C213*/SET SCHEMA PUBLIC
+DISCONNECT

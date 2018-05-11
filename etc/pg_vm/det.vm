@@ -1,0 +1,27 @@
+## \det[+] [PATTERN]      
+## 列出引用表
+#set($common1 = "SELECT n.nspname AS " + '"架构模式"' +",
+	  c.relname AS " + '"资料表"' +",
+	  s.srvname AS " + '"服务器"')
+#set($common2 = "FROM pg_catalog.pg_foreign_table ft
+	  INNER JOIN pg_catalog.pg_class c ON c.oid = ft.ftrelid
+	  INNER JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+	  INNER JOIN pg_catalog.pg_foreign_server s ON s.oid = ft.ftserver")
+#set($common3 = "ORDER BY 1, 2;")
+#set($plus1 = ",CASE WHEN ftoptions IS NULL THEN '' ELSE   '(' || array_to_string(ARRAY(SELECT   quote_ident(option_name) ||  ' ' ||   quote_literal(option_value)  FROM   pg_options_to_table(ftoptions)),  ', ') || ')'   END AS "+'"FDW选项"'+",
+	  d.description AS " + '"描述"')
+#set($plus2 = "LEFT JOIN pg_catalog.pg_description d
+	          ON d.classoid = c.tableoid AND d.objoid = c.oid AND d.objsubid = 0")
+#set($patt= "WHERE (n.nspname ~ '^($arg)$' OR c.relname ~ '^($arg)$')")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus1
+#end
+$common2
+#if($cmdSql.indexOf('+') > 0)
+$plus2
+#end
+#if($arg)
+$patt
+#end
+$common3

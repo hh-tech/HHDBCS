@@ -1,0 +1,24 @@
+## \dx[+]  [PATTERN]      
+## 列出扩展
+#set($common1 = "SELECT e.extname AS "+'"名称"'+", e.extversion AS "+'"版本"'+", n.nspname AS "+'"架构模式"'+", c.description AS "+'"描述"'+"
+	FROM pg_catalog.pg_extension e LEFT JOIN pg_catalog.pg_namespace n ON n.oid = e.extnamespace LEFT JOIN pg_catalog.pg_description c ON c.objoid = e.oid AND c.classoid = 'pg_catalog.pg_extension'::pg_catalog.regclass")
+#set($common2 = "ORDER BY 1;")
+#set($patt = "WHERE e.extname ~ '^($arg)$'")
+#set($plus1 = "SELECT pg_catalog.pg_describe_object(classid, objid, 0) AS "+'"对象描述"'+"
+	FROM pg_catalog.pg_depend
+	WHERE refclassid = 'pg_catalog.pg_extension'::pg_catalog.regclass AND refobjid = (SELECT e.oid FROM pg_catalog.pg_extension e")
+#set($plus2 = ") AND deptype = 'e'")
+#if($cmdSql.indexOf('+') > 0)
+$plus1
+#if($arg)
+$patt
+#end
+$plus2
+$common2
+#else
+$common1
+#if($arg)
+$patt
+#end
+$common2
+#end

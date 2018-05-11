@@ -1,0 +1,14 @@
+## \drds [模式1 [模式2]] 
+## 列出每个数据库的角色设置
+#set($common1 = "SELECT rolname AS " + '"角色"' +", datname AS " + '"数据库"' +",
+	pg_catalog.array_to_string(setconfig, E'\n') AS " + '"设置"' +"
+	FROM pg_db_role_setting AS s
+	LEFT JOIN pg_database ON pg_database.oid = setdatabase
+	LEFT JOIN pg_roles ON pg_roles.oid = setrole")
+#set($common2 = "ORDER BY 1, 2;");
+#set($patt = "WHERE pg_roles.rolname ~ '^($arg)$'")
+$common1
+#if($arg)
+$patt
+#end
+$common2

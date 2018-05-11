@@ -1,0 +1,20 @@
+## \db[+]  [模式]
+##列出表空间
+#set($common1 = "SELECT spcname AS " + '"名称"' +",
+	  pg_catalog.pg_get_userbyid(spcowner) AS " + '"拥有者"' +",
+	  pg_catalog.pg_tablespace_location(oid) AS " + '"所在地"')
+#set($common2 = "FROM pg_catalog.pg_tablespace")
+#set($common3 = "ORDER BY 1;")
+#set($plus = ",pg_catalog.array_to_string(spcacl, E'\n') AS " + '"存取权限"' +",
+	  spcoptions AS " + '"选项"' +",
+	  pg_catalog.shobj_description(oid, 'pg_tablespace') AS " + '"描述"')
+#set($patt= "WHERE spcname ~ '^($arg)$'")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus
+#end
+$common2
+#if($arg)
+$patt
+#end
+$common3

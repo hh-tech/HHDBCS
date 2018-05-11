@@ -1,0 +1,17 @@
+## \deu[+] [模式]     
+## 列出用户映射
+#set($common1 = "SELECT um.srvname AS " + '"服务器"' +",
+	  um.usename AS " + '"用户名"')
+#set($common2 = "FROM hh_catalog.hh_user_mappings um")
+#set($common3 = "ORDER BY 1, 2;")	
+#set($plus = ",CASE WHEN umoptions IS NULL THEN '' ELSE   '(' || array_to_string(ARRAY(SELECT   quote_ident(option_name) ||  ' ' ||   quote_literal(option_value)  FROM   hh_options_to_table(umoptions)),  ', ') || ')'   END AS " + '"FDW选项"')
+#set($patt= "WHERE (um.srvname ~ '^($arg)$' OR um.usename ~ '^($arg)$')")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus
+#end
+$common2
+#if($arg)
+$patt
+#end
+$common3

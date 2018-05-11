@@ -1,0 +1,16 @@
+## \ddp     q[模式]    
+## 列出缺省权限
+#set($common1 = "SELECT hh_catalog.hh_get_userbyid(d.defaclrole) AS " + '"拥有者"' +",
+	  n.nspname AS " + '"架构模式"' +",
+	  CASE d.defaclobjtype WHEN 'r' THEN 'table' WHEN 'S' THEN 'sequence' WHEN 'f' THEN 'function' WHEN 'T' THEN 'type' END AS " + '"型别"' +",
+	  hh_catalog.array_to_string(d.defaclacl, E'\n') AS " + '"存取权限"' +"
+	FROM hh_catalog.hh_default_acl d
+	     LEFT JOIN hh_catalog.hh_namespace n ON n.oid = d.defaclnamespace")
+#set($common2 = "ORDER BY 1, 2, 3;")
+#set($patt = "WHERE (n.nspname ~ '^($arg)$'
+	        OR hh_catalog.hh_get_userbyid(d.defaclrole) ~ '^($arg)$')")
+$common1
+#if($arg)
+$patt
+#end
+$common2

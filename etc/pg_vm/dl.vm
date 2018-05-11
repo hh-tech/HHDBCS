@@ -1,0 +1,7 @@
+## \dl                   
+## 列出大对象， 功能与\lo_list相同  
+#set($common1 = "SELECT oid as " + '"ID"' +",
+	  pg_catalog.pg_get_userbyid(lomowner) as " + '"拥有性"' +",
+	  pg_catalog.obj_description(oid, 'pg_largeobject') as " + '"描述"' +"
+	  FROM pg_catalog.pg_largeobject_metadata   ORDER BY oid");
+$common1

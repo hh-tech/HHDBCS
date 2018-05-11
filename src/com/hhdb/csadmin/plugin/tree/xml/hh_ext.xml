@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<all>
+	<ext id="1" name="hh_stat_statements"  icon="extend.png" comment="一种跟踪执行的所有SQL语句的统计信息的方法" >
+		<check rule="show shared_preload_libraries" res="hh_stat_statements" key="shared_preload_libraries" />
+	</ext>
+	<ext id="2" name="sys_util" icon="extend.png" comment="提供监控服务器状态的方法"/>
+	<ext id="3" name="dblink" icon="extend.png" comment="在一个数据库中操作另外一个远程数据库"/>
+	<ext id="4" name="hhdb_fdw" icon="extend.png" comment="在本地数据库操作远程数据库，提供更多透明和标准的语法，性能比dblink好"/>
+	<ext id="5" name="plhhsql" icon="extend.png" comment=""/>
+	<ext id="6" name="plhhsql_check" icon="extend.png" comment="提供函数及存储过程验证方法"/>
+</all>

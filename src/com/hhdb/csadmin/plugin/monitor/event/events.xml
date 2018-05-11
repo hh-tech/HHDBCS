@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<event from="com.hhdb.csadmin.plugin.test" to="com.hhdb.csadmin.plugin.monitor" type="CPUMinitor"> 	
+	<!--一个事件中可以包含一个或者多个属性-->
+	<property name="CMD">
+			CPUMinitor
+		</property>
+	<property name="TAB_TITLE">
+		ceshi
+	</property>
+	<property name="COMPONENT_ID">
+		123
+	</property>
+</event>
+<event from="com.hhdb.csadmin.plugin.test" to="com.hhdb.csadmin.plugin.monitor" type="MemMinitor"> 	
+	<!--一个事件中可以包含一个或者多个属性-->
+	<property name="CMD">
+			MemMinitor
+		</property>
+	<property name="COMPONENT_ID">
+		123
+	</property>
+</event>
+
+<event from="com.hhdb.csadmin.plugin.test" to="com.hhdb.csadmin.plugin.monitor" type="DBMonitor"> 	
+	<!--一个事件中可以包含一个或者多个属性-->
+	<property name="CMD">
+			DBMonitor
+		</property>
+	<property name="COMPONENT_ID">
+		123
+	</property>
+</event>
+
+
+<event from="com.hhdb.csadmin.plugin.test" to="com.hhdb.csadmin.plugin.monitor" type="DiskMinitor"> 	
+	<!--一个事件中可以包含一个或者多个属性-->
+	<property name="CMD">
+			DiskMinitor
+		</property>
+	<property name="COMPONENT_ID">
+		123
+	</property>
+</event>
+
+<event from="com.hhdb.csadmin.plugin.test" to="com.hhdb.csadmin.plugin.monitor" type="NetMonitor"> 	
+	<!--一个事件中可以包含一个或者多个属性-->
+	<property name="CMD">
+			NetMonitor
+		</property>
+	<property name="COMPONENT_ID">
+		123
+	</property>
+</event>

@@ -1,0 +1,27 @@
+## \dn[S+] [PATTERN] 
+##列出所有模式
+#set($common1 = "SELECT n.nspname AS " + '"名称"' +",
+	  pg_catalog.pg_get_userbyid(n.nspowner) AS " + '"拥有者"')
+#set($common2 = "FROM pg_catalog.pg_namespace n")
+#set($common3 = "ORDER BY 1;")
+#set($plus = ",pg_catalog.array_to_string(n.nspacl, E'\n') AS " + '"存取权限"' +",
+	  pg_catalog.obj_description(n.oid, 'pg_namespace') AS " + '"描述"')
+#set($noS = "WHERE n.nspname !~ '^pg_' AND n.nspname <> 'information_schema'")
+#set($patt = "WHERE n.nspname ~ '^($arg)$'")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus
+#end
+$common2
+#if($cmdSql.indexOf('S') < 0)
+#if($arg)
+$patt
+#else
+$noS
+#end
+#else
+#if($arg)
+$patt
+#end
+#end
+$common3

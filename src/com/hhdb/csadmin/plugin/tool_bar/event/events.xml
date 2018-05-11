@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<events>
+     <event from="com.hhdb.csadmin.plugin.test" to="com.hhdb.csadmin.plugin.tool_bar"
+		type="GET_OBJ">
+	</event>
+	<event from="com.hhdb.csadmin.plugin.test" to="com.hhdb.csadmin.plugin.tool_bar"
+		type="CMD">
+		<property name="CMD">
+			ToolbarEnableEvent
+		</property>
+		<property name="toolbarName">
+			网络监控
+		</property>
+		<property name="enableBar">
+			true/false
+		</property>
+	</event>
+	<event from="com.hhdb.csadmin.plugin.test" to="com.hhdb.csadmin.plugin.tool_bar"
+		<property name="CMD">
+			ToolbarShowEvent
+		</property>
+		<property name="toolbarName">
+			网络监控
+		</property>
+		<property name="showBar">
+			true/false
+		</property>
+	</event>
+</events>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<event from="com.hhdb.csadmin.plugin.menu" to="com.hhdb.csadmin.plugin.cmd" type="CMD"> 	
+	<!--一个事件中可以包含一个或者多个属性-->
+	<property name="CMD">SetBackGroudEvent</property>
+	<property name="backgroud_color"></property>
+	<property name="font_color"></property>
+</event>
+<!-- 显示打开字符SQL -->
+<event from="com.hhdb.csadmin.plugin.tool_bar" to="com.hhdb.csadmin.plugin.cmd" type="COMMON"> 	
+	<!--一个事件中可以包含一个或者多个属性-->
+</event>

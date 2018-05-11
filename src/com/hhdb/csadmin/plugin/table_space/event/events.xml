@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<events>
+	<!-- 添加表空间 -->
+	<event from="begin" to="com.hhdb.csadmin.plugin.table_space"
+		type="CMD">
+		<property name="CMD">
+			add
+		</property>
+	</event>
+	
+	<!-- 删除表空间 -->
+	<event from="begin" to="com.hhdb.csadmin.plugin.table_space"
+		type="CMD">
+		<property name="CMD">
+			del
+		</property>
+		<property name="tablespace"> 
+		<![CDATA[
+		asd
+		]]>
+		</property>
+	</event>
+	
+	
+</events>

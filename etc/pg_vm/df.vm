@@ -1,0 +1,51 @@
+## \df[S+] [模式] 
+## 列出[只包括 聚合/常规/触发器/窗口]函数
+#set($common1 = "SELECT n.nspname as " + '"架构模式"' +",
+	  p.proname as " + '"名称"' +",
+	  pg_catalog.pg_get_function_result(p.oid) as " + '"结果资料类型"' +",
+	  pg_catalog.pg_get_function_arguments(p.oid) as " + '"参数资料类型"' +",
+	 CASE
+	  WHEN p.proisagg THEN 'agg'
+	  WHEN p.proiswindow THEN 'window'
+	  WHEN p.prorettype = 'pg_catalog.trigger'::pg_catalog.regtype THEN 'trigger'
+	  ELSE 'normal'
+	 END as " + '"类型"')
+#set($common2 = "FROM pg_catalog.pg_proc p
+	     LEFT JOIN pg_catalog.pg_namespace n ON n.oid = p.pronamespace")
+#set($common3 = "WHERE pg_catalog.pg_function_is_visible(p.oid)")
+#set($common4 = "ORDER BY 1, 2, 4;")
+#set($plus1 = ",CASE WHEN prosecdef THEN 'definer' ELSE 'invoker' END AS " + '"安全"' +",
+	 CASE
+	  WHEN p.provolatile = 'i' THEN 'immutable'
+	  WHEN p.provolatile = 's' THEN 'stable'
+	  WHEN p.provolatile = 'v' THEN 'volatile'
+	 END as " + '"挥发性"' +",
+	  pg_catalog.pg_get_userbyid(p.proowner) as " + '"拥有者"' +",
+	  l.lanname as " + '"程序语言"' +",
+	  p.prosrc as " + '"原始程式"' +",
+	  pg_catalog.obj_description(p.oid, 'pg_proc') as " + '"描述"')
+#set($plus2 = "LEFT JOIN pg_catalog.pg_language l ON l.oid = p.prolang")
+#set($noS = "AND n.nspname <> 'pg_catalog'
+	      AND n.nspname <> 'information_schema'")
+#set($patt = "AND p.proname ~ '^($arg)$'")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus1
+#end
+$common2
+#if($cmdSql.indexOf('+') > 0)
+$plus2
+#end
+$common3
+#if($cmdSql.indexOf('S') < 0)
+#if($arg)
+$patt
+#else
+$noS
+#end
+#else
+#if($arg)
+$patt
+#end
+#end
+$common4
