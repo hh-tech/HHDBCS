@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<project name="dbadmin" default="dist">
+	<!-- load property file -->
+	<property name="debug"    value="on"/>
+	<property name="optimize"    value="on"/>
+	<property name="deprecation"    value="off"/>
+	<property name="src.dir"    value="src"/>
+	<property name="build.src.dir"    value="build"/>
+	<property name="dist.src.dir"    value="hhdb_csadmin"/>
+	<property name="lib.dir"    value="lib"/>
+	<property name="mainclass"    value="com.hhdb.csadmin.HHAdmin"/>
+	<property name="etc.dir"    value="etc"/>
+	<property name="build.encoding"    value="utf-8"/>
+	<property name="final.name"    value="csadmin"/>
+	
+	<!-- the normal classpath -->
+	<path id="classpath">
+		<pathelement location="${build.src.dir}"/>
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+			<exclude name="*-sources.jar"/>
+		</fileset>  
+	</path>
+
+	<path id="source_package">
+		<pathelement location="${src.dir}" />
+		<pathelement location="${etc.dir}"/>
+	</path>
+
+	<!-- ====================================================== -->
+	<!-- show when we start this build                          -->
+	<!-- ====================================================== -->
+	<target name="show-build-date">
+		<tstamp>
+			<format property="build.time" pattern="MM/dd/yyyy hh:mm:ss aa" />
+		</tstamp>
+		<echo message="build project ${ant.project.name} at time : ${build.time}" />
+	</target>
+
+	<!-- ====================================================== -->
+	<!-- Stuff needed by all targets                            -->
+	<!-- ====================================================== -->
+	<target name="init" depends="show-build-date">
+		<mkdir dir="${build.src.dir}" />
+		<mkdir dir="${dist.src.dir}" />
+	</target>
+
+	<!-- ====================================================== -->
+	<!-- Compile the Java files                                 -->
+	<!-- ====================================================== -->
+	<target name="compile" depends="init">
+		<javac encoding="${build.encoding}" srcdir="${src.dir}" includes="**/*.java" destdir="${build.src.dir}" debug="${debug}" optimize="${optimize}" deprecation="${deprecation}" sourcepathref="source_package">
+			<classpath refid="classpath" />
+		</javac> 
+	</target>
+
+	<!-- ================================================================== -->
+	<!-- Make .jar                                                     -->
+	<!-- ================================================================== -->
+	<target name="jar" depends="compile">
+		<copy todir="${build.src.dir}">
+			<fileset dir="${src.dir}">
+				<include name="**/*.xml" />
+			</fileset>
+		</copy>
+		<!-- 生成依赖包相对路径 空格隔开 -->
+		<pathconvert property="libs.path" pathsep=" ">
+			<mapper>
+				<chainedmapper>
+					<!-- 移除绝对路径 -->
+					<flattenmapper />
+					<!-- 加上lib前缀 -->
+					<globmapper from="*" to="lib/*" />
+				</chainedmapper>
+			</mapper>
+			<path>
+				<!--  lib.home contains all jar files, in several subdirectories  -->
+				<fileset dir="${lib.dir}">
+					<include name="**/*.jar" />
+					<exclude name="*-sources.jar"/>
+				</fileset >
+			</path >
+		</pathconvert >
+		<jar jarfile="${build.src.dir}/${final.name}.jar" basedir="${build.src.dir}">
+			<manifest>
+				<attribute name="Main-Class" value="${mainclass}" />
+				<attribute name="Class-Path" value="${libs.path} etc/" />
+			</manifest>
+		</jar>
+		
+		<copy file="${build.src.dir}/${final.name}.jar" tofile="${dist.src.dir}/${final.name}.jar" />
+		<echo message="========== finish building core jar file for ${ant.project.name} ==========" />
+	</target>
+
+
+	<!-- ================================================================== -->
+	<!-- Clean.  Delete the build files, and their directories              -->
+	<!-- ================================================================== -->
+	<target name="clean">		
+		<delete dir="${dist.src.dir}" />
+		<delete dir="${build.src.dir}" />	
+	</target>
+
+
+	<!-- ================================================================== -->
+	<!-- Clean.  Delete the build files, and their directories              -->
+	<!-- ================================================================== -->
+	<target name="dist" depends="clean, jar">
+		
+		<!--打包应用程序包-->
+		<mkdir dir="${dist.src.dir}" />
+		<mkdir dir="${dist.src.dir}/lib" />
+		<!--<unzip src="jdk1.7-db.zip" dest="${dist.src.dir}" />-->
+		<copy todir="${dist.src.dir}">
+			<fileset dir="${build.src.dir}">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${dist.src.dir}">
+			<fileset dir="./">
+				<include name="start_csadmin.*" />
+			</fileset>
+		</copy>
+		<copy todir="${dist.src.dir}/etc/">
+			<fileset dir="${etc.dir}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		<copy todir="${dist.src.dir}/lib/">
+			<fileset dir="${lib.dir}">
+				<include name="*.jar" />
+				<exclude name="*-sources.jar"/>
+			</fileset>
+		</copy>
+		<!--<tar destfile="${tar.target}" compression="gzip">
+			<tarfileset dir="${dist.src.dir}" prefix="${tar.prefix}" mode="${tar.mode}" />
+		</tar> -->
+		
+		<delete dir="${build.src.dir}" />
+		<echo message="========== finish building distribution==========" />
+	</target>
+	
+</project>
