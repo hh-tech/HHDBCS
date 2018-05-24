@@ -1,3 +1,4 @@
 #pg_admin
-1、运行build文件进行打包，会生成hhdb_csadmin文件夹。
+如何启动使用管理工具：
+1、运行build文件进行打包，会生成hhdb_csadmin文件夹。或者直接下载hhdb_csadmin.zip解压。
 2、在hhdb_csadmin目录下，windows系统双击start_csadmin.bat运行软件。Unix系统双击start_csadmin.sh运行软件。（运行软件需要配置jdk1.7以上。可以在系统中配置环境变量，也可以将jdk直接拷贝到hhdb_csadmin目录下。拷贝过来的jdk文件夹名字必须修改成jdk。）
