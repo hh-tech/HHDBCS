@@ -1,0 +1,25 @@
+{
+	"mgrs": [
+		{
+			"class": "com.hh.hhdb_admin.mgr.login.LoginMgr",
+			"type": "LOGIN",
+			"config":{
+				"default_db": "hhdb"
+			}
+
+		},{
+			"class": "com.hh.hhdb_admin.mgr.constraint.ConstraintMgr",
+			"type": "CONSTRAINT",
+			"config":{
+			}
+		},
+		{
+			"class": "com.hh.hhdb_admin.test.MainTestMgr",
+			"type": "MAIN_FRAME",
+			"config":{
+				"default_db": "hhdb",
+				"comp_class": "com.hh.hhdb_admin.test.constraint.ConstraintTestComp"
+			}
+		}
+	]
+}

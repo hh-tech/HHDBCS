@@ -1,0 +1,136 @@
+## \dd[S]  [PATTERN]      
+## Object descriptions
+#set($common1="SELECT DISTINCT tt.nspname AS "+'"架构模式"'+", tt.name AS "+'"名称"'+", tt.object AS "+'"对象"'+", d.description AS "+'"描述"'+"
+	FROM (
+	  SELECT pgc.oid as oid, pgc.tableoid AS tableoid,
+	  n.nspname as nspname,
+	  CAST(pgc.conname AS hh_catalog.text) as name,  CAST('table constraint' AS hh_catalog.text) as object
+	  FROM hh_catalog.hh_constraint pgc
+	    JOIN hh_catalog.hh_class c ON c.oid = pgc.conrelid
+	    LEFT JOIN hh_catalog.hh_namespace n     ON n.oid = c.relnamespace
+	WHERE n.nspname <> 'hh_catalog'
+	      AND n.nspname <> 'information_schema'
+	  AND hh_catalog.hh_table_is_visible(c.oid)
+	UNION ALL
+	  SELECT pgc.oid as oid, pgc.tableoid AS tableoid,
+	  n.nspname as nspname,
+	  CAST(pgc.conname AS hh_catalog.text) as name,  CAST('domain constraint' AS hh_catalog.text) as object
+	  FROM hh_catalog.hh_constraint pgc
+	    JOIN hh_catalog.hh_type t ON t.oid = pgc.contypid
+	    LEFT JOIN hh_catalog.hh_namespace n     ON n.oid = t.typnamespace
+	WHERE n.nspname <> 'hh_catalog'
+	      AND n.nspname <> 'information_schema'
+	  AND hh_catalog.hh_type_is_visible(t.oid)
+	UNION ALL
+	  SELECT o.oid as oid, o.tableoid as tableoid,
+	  n.nspname as nspname,
+	  CAST(o.opcname AS hh_catalog.text) as name,
+	  CAST('operator class' AS hh_catalog.text) as object
+	  FROM hh_catalog.hh_opclass o
+	    JOIN hh_catalog.hh_am am ON o.opcmethod = am.oid
+	    JOIN hh_catalog.hh_namespace n ON n.oid = o.opcnamespace
+	      AND n.nspname <> 'hh_catalog'
+	      AND n.nspname <> 'information_schema'
+	  AND hh_catalog.hh_opclass_is_visible(o.oid)
+	UNION ALL
+	  SELECT opf.oid as oid, opf.tableoid as tableoid,
+	  n.nspname as nspname,
+	  CAST(opf.opfname AS hh_catalog.text) AS name,
+	  CAST('operator family' AS hh_catalog.text) as object
+	  FROM hh_catalog.hh_opfamily opf
+	    JOIN hh_catalog.hh_am am ON opf.opfmethod = am.oid
+	    JOIN hh_catalog.hh_namespace n ON opf.opfnamespace = n.oid
+	      AND n.nspname <> 'hh_catalog'
+	      AND n.nspname <> 'information_schema'
+	  AND hh_catalog.hh_opfamily_is_visible(opf.oid)
+	UNION ALL
+	  SELECT r.oid as oid, r.tableoid as tableoid,
+	  n.nspname as nspname,
+	  CAST(r.rulename AS hh_catalog.text) as name,  CAST('rule' AS hh_catalog.text) as object
+	  FROM hh_catalog.hh_rewrite r
+	       JOIN hh_catalog.hh_class c ON c.oid = r.ev_class
+	       LEFT JOIN hh_catalog.hh_namespace n ON n.oid = c.relnamespace
+	  WHERE r.rulename != '_RETURN'
+	      AND n.nspname <> 'hh_catalog'
+	      AND n.nspname <> 'information_schema'
+	  AND hh_catalog.hh_table_is_visible(c.oid)
+	UNION ALL
+	  SELECT t.oid as oid, t.tableoid as tableoid,
+	  n.nspname as nspname,
+	  CAST(t.tgname AS hh_catalog.text) as name,  CAST('trigger' AS hh_catalog.text) as object
+	  FROM hh_catalog.hh_trigger t
+	       JOIN hh_catalog.hh_class c ON c.oid = t.tgrelid
+	       LEFT JOIN hh_catalog.hh_namespace n ON n.oid = c.relnamespace
+	WHERE n.nspname <> 'hh_catalog'
+	      AND n.nspname <> 'information_schema'
+	  AND hh_catalog.hh_table_is_visible(c.oid)
+	) AS tt
+	  JOIN hh_catalog.hh_description d ON (tt.oid = d.objoid AND tt.tableoid = d.classoid AND d.objsubid = 0)
+	ORDER BY 1, 2, 3;
+")
+#set($common2="SELECT DISTINCT tt.nspname AS "+'"Schema"'+", tt.name AS "+'"Name"'+", tt.object AS "+'"Object"'+", d.description AS "+'"Description"'+"
+	FROM (
+	  SELECT pgc.oid as oid, pgc.tableoid AS tableoid,
+	  n.nspname as nspname,
+	  CAST(pgc.conname AS hh_catalog.text) as name,  CAST('table constraint' AS hh_catalog.text) as object
+	  FROM hh_catalog.hh_constraint pgc
+	    JOIN hh_catalog.hh_class c ON c.oid = pgc.conrelid
+	    LEFT JOIN hh_catalog.hh_namespace n     ON n.oid = c.relnamespace
+	WHERE pgc.conname OPERATOR(hh_catalog.~) '^($arg)$'
+	  AND hh_catalog.hh_table_is_visible(c.oid)
+	UNION ALL
+	  SELECT pgc.oid as oid, pgc.tableoid AS tableoid,
+	  n.nspname as nspname,
+	  CAST(pgc.conname AS hh_catalog.text) as name,  CAST('domain constraint' AS hh_catalog.text) as object
+	  FROM hh_catalog.hh_constraint pgc
+	    JOIN hh_catalog.hh_type t ON t.oid = pgc.contypid
+	    LEFT JOIN hh_catalog.hh_namespace n     ON n.oid = t.typnamespace
+	WHERE pgc.conname OPERATOR(hh_catalog.~) '^($arg)$'
+	  AND hh_catalog.hh_type_is_visible(t.oid)
+	UNION ALL
+	  SELECT o.oid as oid, o.tableoid as tableoid,
+	  n.nspname as nspname,
+	  CAST(o.opcname AS hh_catalog.text) as name,
+	  CAST('operator class' AS hh_catalog.text) as object
+	  FROM hh_catalog.hh_opclass o
+	    JOIN hh_catalog.hh_am am ON o.opcmethod = am.oid
+	    JOIN hh_catalog.hh_namespace n ON n.oid = o.opcnamespace
+	  AND o.opcname OPERATOR(hh_catalog.~) '^($arg)$'
+	  AND hh_catalog.hh_opclass_is_visible(o.oid)
+	UNION ALL
+	  SELECT opf.oid as oid, opf.tableoid as tableoid,
+	  n.nspname as nspname,
+	  CAST(opf.opfname AS hh_catalog.text) AS name,
+	  CAST('operator family' AS hh_catalog.text) as object
+	  FROM hh_catalog.hh_opfamily opf
+	    JOIN hh_catalog.hh_am am ON opf.opfmethod = am.oid
+	    JOIN hh_catalog.hh_namespace n ON opf.opfnamespace = n.oid
+	  AND opf.opfname OPERATOR(hh_catalog.~) '^($arg)$'
+	  AND hh_catalog.hh_opfamily_is_visible(opf.oid)
+	UNION ALL
+	  SELECT r.oid as oid, r.tableoid as tableoid,
+	  n.nspname as nspname,
+	  CAST(r.rulename AS hh_catalog.text) as name,  CAST('rule' AS hh_catalog.text) as object
+	  FROM hh_catalog.hh_rewrite r
+	       JOIN hh_catalog.hh_class c ON c.oid = r.ev_class
+	       LEFT JOIN hh_catalog.hh_namespace n ON n.oid = c.relnamespace
+	  WHERE r.rulename != '_RETURN'
+	  AND r.rulename OPERATOR(hh_catalog.~) '^($arg)$'
+	  AND hh_catalog.hh_table_is_visible(c.oid)
+	UNION ALL
+	  SELECT t.oid as oid, t.tableoid as tableoid,
+	  n.nspname as nspname,
+	  CAST(t.tgname AS hh_catalog.text) as name,  CAST('trigger' AS hh_catalog.text) as object
+	  FROM hh_catalog.hh_trigger t
+	       JOIN hh_catalog.hh_class c ON c.oid = t.tgrelid
+	       LEFT JOIN hh_catalog.hh_namespace n ON n.oid = c.relnamespace
+	WHERE t.tgname OPERATOR(hh_catalog.~) '^($arg)$'
+	  AND hh_catalog.hh_table_is_visible(c.oid)
+	) AS tt
+	  JOIN hh_catalog.hh_description d ON (tt.oid = d.objoid AND tt.tableoid = d.classoid AND d.objsubid = 0)
+	ORDER BY 1, 2, 3;")
+#if($arg)
+$common2
+#else
+$common1
+#end

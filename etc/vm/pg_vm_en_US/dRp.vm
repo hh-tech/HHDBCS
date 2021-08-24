@@ -1,0 +1,45 @@
+## \dRp[+] [PATTERN] 
+## list replication publications
+
+#set($common1="SELECT pubname AS Name,
+	  pg_catalog.pg_get_userbyid(pubowner) AS Owner,
+	  puballtables AS "+'"All tables"'+",
+	  pubinsert AS Inserts,
+	  pubupdate AS Updates,
+	  pubdelete AS Deletes
+	  FROM pg_catalog.pg_publication ")
+#set($common2="SELECT oid,
+	  pubname AS Name,
+	  pg_catalog.pg_get_userbyid(pubowner) AS Owner,
+	  puballtables AS "+'"All tables"'+",
+	  pubinsert AS Inserts,
+	  pubupdate AS Updates,
+	  pubdelete AS Deletes
+	  FROM pg_catalog.pg_publication ")
+#set($patt=" WHERE pubname OPERATOR(pg_catalog.~) '^($arg)$'")
+#set($patt1=" ORDER BY 1;")
+#set($patt2=" ORDER BY 2;")
+#if($cmdSql.indexOf('+') > 0)
+$common2
+#else
+$common1
+#end
+#if($arg)
+$patt
+#end
+#if($cmdSql.indexOf('+') > 0)
+$patt2
+#else
+$patt1
+#end
+
+
+
+
+
+
+
+
+
+
+

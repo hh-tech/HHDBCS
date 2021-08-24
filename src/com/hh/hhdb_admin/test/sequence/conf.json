@@ -1,0 +1,21 @@
+{
+	"mgrs": [
+	
+		{
+			"class": "com.hh.hhdb_admin.mgr.sequence.SequenceMgr",
+			"type": "SEQUENCE",
+			"config":{
+				
+			}
+		},
+		{
+			"class": "com.hh.hhdb_admin.test.MainTestMgr",
+			"type": "MAIN_FRAME",
+			"config":{
+			
+				"comp_class": "com.hh.hhdb_admin.test.sequence.SeqTestComp"
+			}	
+		}
+
+	]
+}

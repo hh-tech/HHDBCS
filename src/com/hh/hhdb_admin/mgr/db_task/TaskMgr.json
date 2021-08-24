@@ -1,0 +1,480 @@
+{
+  "keys": [
+    {
+      "key": "taskNameNotNull",
+      "value": {
+        "zh": "任务名字不能为空",
+        "en": "Task name not null"
+      }
+    },
+    {
+      "key": "existed",
+      "value": {
+        "zh": "已经存在",
+        "en": "Existed"
+      }
+    },
+    {
+      "key": "add",
+      "value": {
+        "zh": "添加",
+        "en": "Add"
+      }
+    },
+    {
+      "key": "remove",
+      "value": {
+        "zh": "移除",
+        "en": "Remove"
+      }
+    },
+    {
+      "key": "refresh",
+      "value": {
+        "zh": "刷新",
+        "en": "Refresh"
+      }
+    },
+    {
+      "key": "chooseTaskType",
+      "value": {
+        "zh": "选择任务类型",
+        "en": "Choose Task Type"
+      }
+    },
+    {
+      "key": "name",
+      "value": {
+        "zh": "名称",
+        "en": "Name"
+      }
+    },
+    {
+      "key": "desc",
+      "value": {
+        "zh": "描述",
+        "en": "Description"
+      }
+    },
+    {
+      "key": "status",
+      "value": {
+        "zh": "状态",
+        "en": "Status"
+      }
+    },
+    {
+      "key": "done",
+      "value": {
+        "zh": "已经结束",
+        "en": "Done"
+      }
+    },
+    {
+      "key": "restart",
+      "value": {
+        "zh": "重新开始",
+        "en": "Restart"
+      }
+    },
+    {
+      "key": "prepare",
+      "value": {
+        "zh": "准备运行",
+        "en": "Prepare"
+      }
+    },
+    {
+      "key": "running",
+      "value": {
+        "zh": "运行中",
+        "en": "Running"
+      }
+    },
+    {
+      "key": "error",
+      "value": {
+        "zh": "错误",
+        "en": "Error"
+      }
+    },
+    {
+      "key": "noError",
+      "value": {
+        "zh": "无错误",
+        "en": "No Error"
+      }
+    },
+    {
+      "key": "hasError",
+      "value": {
+        "zh": "有错误",
+        "en": "Has Error"
+      }
+    },
+    {
+      "key": "taskType",
+      "value": {
+        "zh": "库类别",
+        "en": "Task Type"
+      }
+    },
+    {
+      "key": "startTime",
+      "value": {
+        "zh": "开始时间",
+        "en": "Start Time"
+      }
+    },
+    {
+      "key": "duration",
+      "value": {
+        "zh": "持续时间",
+        "en": "Duration"
+      }
+    },
+    {
+      "key": "endTime",
+      "value": {
+        "zh": "结束时间",
+        "en": "End Time"
+      }
+    },
+    {
+      "key": "start",
+      "value": {
+        "zh": "开始",
+        "en": "Start"
+      }
+    },
+    {
+      "key": "stop",
+      "value": {
+        "zh": "停止",
+        "en": "Stop"
+      }
+    },
+    {
+      "key": "log",
+      "value": {
+        "zh": "日志",
+        "en": "Log"
+      }
+    },
+    {
+      "key": "toolbar",
+      "value": {
+        "zh": "工具栏",
+        "en": "Toolbar"
+      }
+    },
+    {
+      "key": "stillRunning",
+      "value": {
+        "zh": "还在运行",
+        "en": "Still Running"
+      }
+    },
+    {
+      "key": "taskMana",
+      "value": {
+        "zh": "任务管理",
+        "en": "Task Manage"
+      }
+    },
+    {
+      "key": "confirmRemove",
+      "value": {
+        "zh": "是否移除任务",
+        "en": "Whether Remove Task"
+      }
+    },
+    {
+      "key": "choose",
+      "value": {
+        "zh": "选择",
+        "en": "Choose"
+      }
+    },
+    {
+      "key": "regular",
+      "value": {
+        "zh": "常规",
+        "en": "Regular"
+      }
+    },
+    {
+      "key": "custom",
+      "value": {
+        "zh": "自定义",
+        "en": "Custom"
+      }
+    },
+    {
+      "key": "split_str",
+      "value": {
+        "zh": "拆分字段：",
+        "en": "Split Word:"
+      }
+    },
+    {
+      "key": "sql_file_import",
+      "value": {
+        "zh": "SQL文件导入任务",
+        "en": "SQL File Import Task"
+      }
+    },
+    {
+      "key": "clean_schema",
+      "value": {
+        "zh": "清空模式",
+        "en": "Clean Schema"
+      }
+    },
+    {
+      "key": "clean_db",
+      "value": {
+        "zh": "清空数据库",
+        "en": "Clean Database"
+      }
+    },
+    {
+      "key": "dir_path",
+      "value": {
+        "zh": "文件夹路径*：",
+        "en": "Directory Path"
+      }
+    },
+    {
+      "key": "work_thread",
+      "value": {
+        "zh": "工作线程数：",
+        "en": "Work Thread Num:"
+      }
+    },
+    {
+      "key": "config",
+      "value": {
+        "zh": "配置",
+        "en": "Config"
+      }
+    },
+    {
+      "key": "db_backup",
+      "value": {
+        "zh": "数据库备份",
+        "en": "Database Backup"
+      }
+    },
+    {
+      "key": "schema_backup",
+      "value": {
+        "zh": "模式备份",
+        "en": "Schema Backup"
+      }
+    },
+    {
+      "key": "db_restore",
+      "value": {
+        "zh": "数据库恢复",
+        "en": "Database Restore"
+      }
+    },
+    {
+      "key": "schema_restore",
+      "value": {
+        "zh": "模式恢复",
+        "en": "Schema Restore"
+      }
+    },
+    {
+      "key": "is_continue",
+      "value": {
+        "zh": "是否续导",
+        "en": "Continue"
+      }
+    },
+    {
+      "key": "data_template",
+      "value": {
+        "zh": "数据模板*：",
+        "en": "Data Template*:"
+      }
+    },
+    {
+      "key": "template",
+      "value": {
+        "zh": "模板",
+        "en": "Template"
+      }
+    },
+    {
+      "key": "schema_name",
+      "value": {
+        "zh": "模式名*：",
+        "en": "Schema Name*:"
+      }
+    },
+    {
+      "key": "table_name",
+      "value": {
+        "zh": "表名*：",
+        "en": "Table Name*:"
+      }
+    },
+    {
+      "key": "warehouses",
+      "value": {
+        "zh": "仓库数*：",
+        "en": "Number of warehouses*:"
+      }
+    },
+    {
+      "key": "data_row",
+      "value": {
+        "zh": "生成行数*：",
+        "en": "Data Name*:"
+      }
+    },
+    {
+      "key": "maxLinePerFile",
+      "value": {
+        "zh": "文件最大行数*：",
+        "en": "Max Lines Per File*:"
+      }
+    },
+    {
+      "key": "derived_type",
+      "value": {
+        "zh": "导出类型：",
+        "en": "Derived Type*:"
+      }
+    },
+    {
+      "key": "query_export",
+      "value": {
+        "zh": "导出配置",
+        "en": "Query data export"
+      }
+    },
+    {
+      "key": "query_config",
+      "value": {
+        "zh": "查询数据导出",
+        "en": "Export the configuration"
+      }
+    },
+    {
+      "key": "gen_table_data",
+      "value": {
+        "zh": "表格数据生成",
+        "en": "Table Data Generate"
+      }
+    },
+    {
+      "key": "gen_test_data",
+      "value": {
+        "zh": "测试数据生成",
+        "en": "Test Data Generate"
+      }
+    },
+    {
+      "key": "schema_not_null",
+      "value": {
+        "zh": "模式名不能为空",
+        "en": "Schema Name Can`t Be Null"
+      }
+    },
+    {
+      "key": "table_not_null",
+      "value": {
+        "zh": "表名不能为空",
+        "en": "Table Name Can`t Be Null"
+      }
+    },
+    {
+      "key": "row_not_null",
+      "value": {
+        "zh": "行数不能为空",
+        "en": "Data row Can`t Be Null"
+      }
+    },
+    {
+      "key": "template_not_null",
+      "value": {
+        "zh": "模板不能为空",
+        "en": "Template Can`t Be Null"
+      }
+    },
+    {
+      "key": "url_not_null",
+      "value": {
+        "zh": "路径不能为空",
+        "en": "URL Can`t Be Null"
+      }
+    },
+    {
+      "key": "notNull",
+      "value": {
+        "zh": "请将数据填写完整！",
+        "en": "Please fill in the data completely!"
+      }
+    },
+    {
+      "key": "sql_not_null",
+      "value": {
+        "zh": "sql不能为空",
+        "en": "SQL Can`t Be Null"
+      }
+    },
+    {
+      "key": "schema_and_sql",
+      "value": {
+        "zh": "请先填写模式名和sql!",
+        "en": "ease fill in the schema name and SQL first!"
+      }
+    },
+    {
+      "key": "enter_table_name",
+      "value": {
+        "zh": "输入表名称：",
+        "en": "Enter table name:"
+      }
+    },
+    {
+      "key": "option_table",
+      "value": {
+        "zh": "选择表",
+        "en": "option table"
+      }
+    },
+    {
+      "key": "file_row",
+      "value": {
+        "zh": "单文件行数*：",
+        "en": "Number of lines per file"
+      }
+    },
+    {
+      "key": "confirm",
+      "value": {
+        "zh": "确定",
+        "en": "confirm"
+      }
+    },
+    {
+      "key": "edit",
+      "value": {
+        "zh": "修改",
+        "en": "edit"
+      }
+    },
+    {
+      "key": "is_auto_start",
+      "value": {
+        "zh": "自动执行:",
+        "en": "Auto Start:"
+      }
+    }
+  ]
+}

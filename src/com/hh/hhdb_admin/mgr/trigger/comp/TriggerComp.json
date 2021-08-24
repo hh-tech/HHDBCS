@@ -1,0 +1,319 @@
+{
+  "keys": [
+    {
+      "key": "addtri",
+      "value": {
+        "zh": "添加触发器",
+        "en": "Add trigger"
+      }
+    },
+    {
+      "key": "save",
+      "value": {
+        "zh": "保存",
+        "en": "Save"
+      }
+    },
+    {
+      "key": "cancel",
+      "value": {
+        "zh": "取消",
+        "en": "cancel"
+      }
+    },
+    {
+      "key": "enable",
+      "value": {
+        "zh": "启用",
+        "en": "Enable"
+      }
+    },
+    {
+      "key": "name",
+      "value": {
+        "zh": "名称",
+        "en": "name"
+      }
+    },
+    {
+      "key": "define",
+      "value": {
+        "zh": "定义",
+        "en": "Define"
+      }
+    },
+    {
+      "key": "trigger",
+      "value": {
+        "zh": "触发器",
+        "en": "trigger"
+      }
+    },
+    {
+      "key": "type",
+      "value": {
+        "zh": "类型",
+        "en": "type"
+      }
+    },
+    {
+      "key": "action",
+      "value": {
+        "zh": "事件",
+        "en": "action"
+      }
+    },
+    {
+      "key": "schema",
+      "value": {
+        "zh": "模式",
+        "en": "schema"
+      }
+    },
+    {
+      "key": "line",
+      "value": {
+        "zh": "行触发器",
+        "en": "Line of the trigger"
+      }
+    },
+    {
+      "key": "insert",
+      "value": {
+        "zh": "插入",
+        "en": "insert"
+      }
+    },
+    {
+      "key": "update",
+      "value": {
+        "zh": "更新",
+        "en": "update"
+      }
+    },
+    {
+      "key": "delete",
+      "value": {
+        "zh": "删除",
+        "en": "delete"
+      }
+    },
+    {
+      "key": "comment",
+      "value": {
+        "zh": "注释",
+        "en": "comment"
+      }
+    },
+    {
+      "key": "empty",
+      "value": {
+        "zh": "名称不能为空",
+        "en": "The name cannot be empty"
+      }
+    },
+    {
+      "key": "noTriggerFun",
+      "value": {
+        "zh": "请选择一个触发器函数",
+        "en": "Please choose a trigger function!"
+      }
+    },
+    {
+      "key": "empty1",
+      "value": {
+        "zh": "操作类型不能为空",
+        "en": "The operation type cannot be null"
+      }
+    },
+    {
+      "key": "foreach",
+      "value": {
+        "zh": "给每个",
+        "en": "For each"
+      }
+    },
+    {
+      "key": "trigger",
+      "value": {
+        "zh": "触发",
+        "en": "Trigger"
+      }
+    },
+    {
+      "key": "fun",
+      "value": {
+        "zh": "函数",
+        "en": "fun"
+      }
+    },
+    {
+      "key": "when",
+      "value": {
+        "zh": "当",
+        "en": "When"
+      }
+    },
+    {
+      "key": "param",
+      "value": {
+        "zh": "参数",
+        "en": "Param"
+      }
+    },
+    {
+      "key": "PREVIEW_SQL",
+      "value": {
+        "zh": "SQL预览",
+        "en": "Preview Sql"
+      }
+    },
+    {
+      "key": "EDIT_SQL",
+      "value": {
+        "zh": "下一步,编辑SQL",
+        "en": "Next,Edit Sql"
+      }
+    },
+    {
+      "key": "COLUMN_NAME",
+      "value": {
+        "zh": "列名",
+        "en": "Column Name"
+      }
+    },
+    {
+      "key": "SELECTED",
+      "value": {
+        "zh": "选择",
+        "en": "Selected"
+      }
+    },
+    {
+      "key": "column",
+      "value": {
+        "zh": "列",
+        "en": "Column"
+      }
+    },
+    {
+      "key": "table",
+      "value": {
+        "zh": "表",
+        "en": "Table"
+      }
+    },
+    {
+      "key": "nameNullTip",
+      "value": {
+        "zh": "请填写触发器名称",
+        "en": "Please input the trigger name!"
+      }
+    },
+    {
+      "key": "eventNullTip",
+      "value": {
+        "zh": "请选择事件",
+        "en": "Please select the trigger action!"
+      }
+    },
+    {
+      "key": "CreateSuccess",
+      "value": {
+        "zh": "执行成功!",
+        "en": "Run success!"
+      }
+    },
+    {
+      "key": "CreateTitle",
+      "value": {
+        "zh": "创建触发器",
+        "en": "Create Trigger"
+      }
+    },
+    {
+      "key": "UpdateTitle",
+      "value": {
+        "zh": "修改触发器",
+        "en": "Update Trigger"
+      }
+    },
+    {
+      "key": "triggerInfo",
+      "value": {
+        "zh": "触发器设置",
+        "en": "Trigger Information"
+      }
+    },
+    {
+      "key": "CREATE",
+      "value": {
+        "zh": "运行/创建/修改",
+        "en": "Run/Create/Update"
+      }
+    },
+    {
+      "key": "PRE",
+      "value": {
+        "zh": "上一步",
+        "en": "Previous Step"
+      }
+    },
+    {
+      "key": "search",
+      "value": {
+        "zh": "查询",
+        "en": "Search"
+      }
+    },
+    {
+      "key": "fillCompletely",
+      "value": {
+        "zh": "请将数据填写完整！",
+        "en": "Please fill in the data completely!"
+      }
+    },
+    {
+      "key": "notSupport",
+      "value": {
+        "zh": "暂不支持数据库类型！",
+        "en": "Database type is not supported at the moment!"
+      }
+    },
+    {
+      "key": "schemaIsNull",
+      "value": {
+        "zh": "传入架构/模式名 为空！",
+        "en": "The incoming schema / schema name is empty!"
+      }
+    },
+    {
+      "key": "triggerNameIsNull",
+      "value": {
+        "zh": "传入触发器名称 为空！",
+        "en": "The incoming trigger name is empty!"
+      }
+    },
+    {
+      "key": "notSupportEdit",
+      "value": {
+        "zh": "该触发器不支持修改，请删除后重新创建！",
+        "en": "The trigger does not support modification. Please delete and re create it!"
+      }
+    },
+    {
+      "key": "select",
+      "value": {
+        "zh": "选择",
+        "en": "Select"
+      }
+    },
+    {
+      "key": "nextEditSql",
+      "value": {
+        "zh": "下一步，编辑SQL",
+        "en": "Next,Edit Sql"
+      }
+    }
+  ]
+}

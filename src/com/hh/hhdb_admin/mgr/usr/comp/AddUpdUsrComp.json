@@ -1,0 +1,65 @@
+{
+	"keys": [
+		{
+			"key": "ADD_TITLE",
+			"value": {
+				"zh": "创建用户",
+				"en": "Create User"
+			}
+		},{
+			"key": "UPDATE_TITLE",
+			"value": {
+				"zh": "设计用户",
+				"en": "Design User"
+			}
+		},{
+			"key": "ADD_ROLE_TITLE",
+			"value": {
+				"zh": "创建角色",
+				"en": "Create User"
+			}
+		},{
+			"key": "ADD_LOGIN_TITLE",
+			"value": {
+				"zh": "创建登录名",
+				"en": "Create Login Name"
+			}
+		},{
+			"key": "UPDATE_ROLE_TITLE",
+			"value": {
+				"zh": "修改角色",
+				"en": "Design User"
+			}
+		},{
+			"key": "SAVE",
+			"value": {
+				"zh": "保存",
+				"en": "Save"
+			}
+		},{
+			"key": "PREVIEW_SQL",
+			"value": {
+				"zh": "SQL预览",
+				"en": "Preview Sql"
+			}
+		},{
+			"key": "ERROR",
+			"value": {
+				"zh": "错误",
+				"en": "Error"
+			}
+		},{
+			"key": "CONN_ERROR",
+			"value": {
+				"zh": "未连接到数据库或连接出错",
+				"en": "Connection Error"
+			}
+		},{
+			"key": "SAVE_SUCCESS",
+			"value": {
+				"zh": "保存成功",
+				"en": "Save Success"
+			}
+		}
+	]
+}

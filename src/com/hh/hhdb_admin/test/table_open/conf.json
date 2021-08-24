@@ -1,0 +1,21 @@
+{
+	"mgrs": [
+		{
+			"class": "com.hh.hhdb_admin.mgr.table_open.TableOpenMgr",
+			"type": "TABLE_OPEN",
+			"config":{
+				"default_db": "hhdb"
+			}
+				
+		},	
+		{
+			"class": "com.hh.hhdb_admin.test.MainTestMgr",
+			"type": "MAIN_FRAME",
+			"config":{
+				"default_db": "hhdb",
+				"comp_class": "com.hh.hhdb_admin.test.table_open.TableOpenTestComp"
+			}
+				
+		}
+	]
+}

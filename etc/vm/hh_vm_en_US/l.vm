@@ -1,0 +1,30 @@
+## \l[+]	[PATTERN] 
+## List of databases
+#set($common1 = "SELECT d.datname as " + '"Name"' +",
+	       hh_catalog.hh_get_userbyid(d.datdba) as " + '"Owner"' +",
+	       hh_catalog.hh_encoding_to_char(d.encoding) as " + '"Encoding"' +",
+	       d.datcollate as " + '"Collate"' +",
+	       d.datctype as " + '"Ctype"' +",
+	       hh_catalog.array_to_string(d.datacl, E'\n') AS " + '"Access privileges"')
+#set($common2 = "FROM hh_catalog.hh_database d")
+#set($common3 = "ORDER BY 1;")
+#set($plus1 = ",CASE WHEN hh_catalog.has_database_privilege(d.datname, 'CONNECT')
+	            THEN hh_catalog.hh_size_pretty(hh_catalog.hh_database_size(d.datname))
+	            ELSE 'No Access'
+	       END as " + '"Size"' +",
+	       t.spcname as " + '"Tablespace"' +",
+	       hh_catalog.shobj_description(d.oid, 'hh_database') as " + '"Description"')
+#set($plus2 = "JOIN hh_catalog.hh_tablespace t on d.dattablespace = t.oid")
+#set($patt= "WHERE d.datname ~ '^($arg)$'")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus1
+#end
+$common2
+#if($cmdSql.indexOf('+') > 0)
+$plus2
+#end
+#if($arg)
+$patt
+#end
+$common3

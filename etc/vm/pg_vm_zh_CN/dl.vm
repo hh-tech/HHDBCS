@@ -1,0 +1,7 @@
+## \dl                   
+## List Large objects
+#set($common1 = "SELECT oid as " + '"ID"' +",
+	  pg_catalog.pg_get_userbyid(lomowner) as " + '"拥有者"' +",
+	  pg_catalog.obj_description(oid, 'pg_largeobject') as " + '"描述"' +"
+	  FROM pg_catalog.pg_largeobject_metadata   ORDER BY oid")
+$common1

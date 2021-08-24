@@ -1,5 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<config> 	
-	<param threadNum="10" name="最大线程个数" />
-	<param dataNum="100" name="每个线程处理的数据量" />	 
-</config>

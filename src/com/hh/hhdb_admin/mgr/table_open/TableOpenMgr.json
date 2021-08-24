@@ -1,0 +1,130 @@
+{
+	"keys": [
+		{
+			"key": "addRow",
+			"value": {
+				"zh": "添加一行",
+				"en": "Add a line"
+			}
+		},
+		{
+			"key": "delRow",
+			"value": {
+				"zh": "删除",
+				"en": "delete"
+			}
+		},
+		{
+			"key": "save",
+			"value": {
+				"zh": "保存",
+				"en": "save"
+			}
+		},
+		{
+			"key": "refresh",
+			"value": {
+				"zh": "刷新",
+				"en": "refresh"
+			}
+		},
+		{
+			"key": "previousPage",
+			"value": {
+				"zh": "上一页",
+				"en": "previous page"
+			}
+		},
+		{
+			"key": "nextPage",
+			"value": {
+				"zh": "下一页",
+				"en": "next page"
+			}
+		},
+		{
+			"key": "first",
+			"value": {
+				"zh": "第",
+				"en": "The first"
+			}
+		},
+		{
+			"key": "page",
+			"value": {
+				"zh": "页",
+				"en": "page"
+			}
+		},
+		{
+			"key": "total",
+			"value": {
+				"zh": "共",
+				"en": "total"
+			}
+		},
+		{
+			"key": "lookfor",
+			"value": {
+				"zh": "正在查询页面",
+				"en": "Querying page"
+			}
+		},
+		{
+			"key": "errorMessage",
+			"value": {
+				"zh": "错误信息",
+				"en": "Error message"
+			}
+		},
+		{
+			"key": "error",
+			"value": {
+				"zh": "错误",
+				"en": "error"
+			}
+		},
+		{
+			"key": "isDelete",
+			"value": {
+				"zh": "是否删除已选择行",
+				"en": "Delete selected rows"
+			}
+		},
+		{
+			"key": "isDelete",
+			"value": {
+				"zh": "是否删除已选择行",
+				"en": "Delete selected rows"
+			}
+		},
+		{
+			"key": "hint",
+			"value": {
+				"zh": "提示",
+				"en": "hint"
+			}
+		},
+		{
+			"key": "success",
+			"value": {
+				"zh": "添加成功",
+				"en": "success"
+			}
+		},
+		{
+			"key": "addData",
+			"value": {
+				"zh": "添加数据",
+				"en": "add Data"
+			}
+		},
+		{
+			"key": "determine",
+			"value": {
+				"zh": "确定",
+				"en": "determine"
+			}
+		}
+	]
+}

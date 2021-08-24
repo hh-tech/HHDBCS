@@ -1,0 +1,32 @@
+## \dA[+]  [PATTERN]      
+## list access methods
+#set($common1 = "SELECT amname AS "+'"Name"'+",
+	  CASE amtype WHEN 'i' THEN 'Index' END AS "+'"Type"')	
+#set($plus1 = "FROM hh_catalog.hh_am")
+#set($common2 = "ORDER BY 1;")
+#set($plus=",amhandler AS " + '"Handler"' +",
+	  hh_catalog.obj_description(oid, 'hh_am') AS " + '"Description"')
+#set($patt="WHERE amname ~ '^($arg)$'")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus
+#if($arg)
+$plus1
+$patt
+#else
+$plus1
+#end
+#else
+#if($arg)
+$plus1
+$patt
+#else
+$plus1
+#end
+#end
+$common2
+
+
+
+
+

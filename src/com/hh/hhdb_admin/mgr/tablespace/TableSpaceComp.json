@@ -1,0 +1,487 @@
+{
+  "keys": [
+    {
+      "key": "save",
+      "value": {
+        "zh": "保存",
+        "en": "save"
+      }
+    },
+    {
+      "key": "mistake",
+      "value": {
+        "zh": "错误",
+        "en": "Mistake"
+      }
+    },
+    {
+      "key": "addSuccess",
+      "value": {
+        "zh": "添加成功！",
+        "en": "Add Success!"
+      }
+    },
+    {
+      "key": "hint",
+      "value": {
+        "zh": "提示",
+        "en": "hint"
+      }
+    },
+    {
+      "key": "previewSql",
+      "value": {
+        "zh": "SQL预览",
+        "en": "SQL preview"
+      }
+    },
+    {
+      "key": "tableSpaceName",
+      "value": {
+        "zh": "名称 * ：",
+        "en": "Name * :"
+      }
+    },
+    {
+      "key": "tableSpaceLocation",
+      "value": {
+        "zh": "存储位置 * ：",
+        "en": "Location * :"
+      }
+    },
+    {
+      "key": "size",
+      "value": {
+        "zh": "Size * ：",
+        "en": "Size * :"
+      }
+    },
+    {
+      "key": "tableSpaceOwner",
+      "value": {
+        "zh": "用户 * ：",
+        "en": "User * :"
+      }
+    },
+    {
+      "key": "tableSpaceOwnerO",
+      "value": {
+        "zh": "用户 ：",
+        "en": "User :"
+      }
+    },
+    {
+      "key": "pleEnterTsName",
+      "value": {
+        "zh": "请输入名称！",
+        "en": "Please Enter Space Name!"
+      }
+    },
+    {
+      "key": "pleEnterTsLocation",
+      "value": {
+        "zh": "请输入存储位置！",
+        "en": "Please Enter Location!"
+      }
+    },
+    {
+      "key": "pleSelectUser",
+      "value": {
+        "zh": "请选择用户！",
+        "en": "Please Select User!"
+      }
+    },
+    {
+      "key": "pleEnterSize",
+      "value": {
+        "zh": "请输入Size！",
+        "en": "Please Enter Size!"
+      }
+    },
+    {
+      "key": "addTableSpace",
+      "value": {
+        "zh": "添加表空间",
+        "en": "Add TableSpace"
+      }
+    },
+    {
+      "key": "notSupport",
+      "value": {
+        "zh": "暂不支持！",
+        "en": "Not Support!"
+      }
+    },
+    {
+      "key": "deleteSuccess",
+      "value": {
+        "zh": "删除成功",
+        "en": "Delete Success"
+      }
+    },
+    {
+      "key": "pageSize",
+      "value": {
+        "zh": "分页大小 ：",
+        "en": "PageSize : "
+      }
+    },
+    {
+      "key": "manageBy",
+      "value": {
+        "zh": "管理 ：",
+        "en": "Manage By : "
+      }
+    },
+    {
+      "key": "type",
+      "value": {
+        "zh": "类型 ：",
+        "en": "Type : "
+      }
+    },
+    {
+      "key": "filePath",
+      "value": {
+        "zh": "文件路径 ：",
+        "en": "File Path : "
+      }
+    },
+    {
+      "key": "fileSize",
+      "value": {
+        "zh": "文件大小 ：",
+        "en": "File Size : "
+      }
+    },
+    {
+      "key": "extentSize",
+      "value": {
+        "zh": "Extent Size：",
+        "en": "Extent Size : "
+      }
+    },
+    {
+      "key": "prefetchSize",
+      "value": {
+        "zh": "Prefetch Size：",
+        "en": "Prefetch Size : "
+      }
+    },
+    {
+      "key": "bufferPool",
+      "value": {
+        "zh": "Buffer Pool：",
+        "en": "Buffer Pool : "
+      }
+    },
+    {
+      "key": "overhead",
+      "value": {
+        "zh": "Overhead：",
+        "en": "Overhead : "
+      }
+    },
+    {
+      "key": "transferRate",
+      "value": {
+        "zh": "Transfer Rate：",
+        "en": "Transfer Rate : "
+      }
+    },
+    {
+      "key": "fileSystem",
+      "value": {
+        "zh": "File System：",
+        "en": "File System : "
+      }
+    },
+    {
+      "key": "recovery",
+      "value": {
+        "zh": "Recovery：",
+        "en": "Recovery : "
+      }
+    },
+    {
+      "key": "general",
+      "value": {
+        "zh": "常规",
+        "en": "General"
+      }
+    },
+    {
+      "key": "storage",
+      "value": {
+        "zh": "存储",
+        "en": "Storage"
+      }
+    },
+    {
+      "key": "senior",
+      "value": {
+        "zh": "高级",
+        "en": "Senior"
+      }
+    },
+    {
+      "key": "preview",
+      "value": {
+        "zh": "SQL预览",
+        "en": "SQL Preview"
+      }
+    },
+    {
+      "key": "unit",
+      "value": {
+        "zh": "单位",
+        "en": "Unit"
+      }
+    },
+    {
+      "key": "attribute",
+      "value": {
+        "zh": "属性",
+        "en": "Attribute "
+      }
+    },
+    {
+      "key": "online",
+      "value": {
+        "zh": "在线",
+        "en": "Online"
+      }
+    },
+    {
+      "key": "name",
+      "value": {
+        "zh": "名称",
+        "en": "Name"
+      }
+    },
+    {
+      "key": "size",
+      "value": {
+        "zh": "大小",
+        "en": "Size"
+      }
+    },
+    {
+      "key": "reuse",
+      "value": {
+        "zh": "重用",
+        "en": "Reuse"
+      }
+    },
+    {
+      "key": "add",
+      "value": {
+        "zh": "添加数据文件",
+        "en": "Add"
+      }
+    },
+    {
+      "key": "delete",
+      "value": {
+        "zh": "添加数据文件",
+        "en": "Delete"
+      }
+    },
+    {
+      "key": "delete",
+      "value": {
+        "zh": "添加数据文件",
+        "en": "Delete"
+      }
+    },
+    {
+      "key": "sureDelete",
+      "value": {
+        "zh": "确定删除所选行?",
+        "en": "Are you sure to delete the selected row?"
+      }
+    },
+    {
+      "key": "path",
+      "value": {
+        "zh": "路径：",
+        "en": "Path : "
+      }
+    },
+    {
+      "key": "autoExtend",
+      "value": {
+        "zh": "自动拓展：",
+        "en": "AutoExtend : "
+      }
+    },
+    {
+      "key": "nextSize",
+      "value": {
+        "zh": "下一个大小：",
+        "en": "Next Size : "
+      }
+    },
+    {
+      "key": "unlimited",
+      "value": {
+        "zh": "无限制：",
+        "en": "Unlimited : "
+      }
+    },
+    {
+      "key": "unLimit",
+      "value": {
+        "zh": "无限制",
+        "en": "Unlimited"
+      }
+    },
+    {
+      "key": "maxSize",
+      "value": {
+        "zh": "最大大小：",
+        "en": "Max Size : "
+      }
+    },
+    {
+      "key": "fileType",
+      "value": {
+        "zh": "文件类型：",
+        "en": "File Type : "
+      }
+    },
+    {
+      "key": "blockSize",
+      "value": {
+        "zh": "块大小：",
+        "en": "Block Size : "
+      }
+    },
+    {
+      "key": "compress",
+      "value": {
+        "zh": "表压缩：",
+        "en": "Compress : "
+      }
+    },
+    {
+      "key": "district",
+      "value": {
+        "zh": "区管理：",
+        "en": "District : "
+      }
+    },
+    {
+      "key": "uniformSize",
+      "value": {
+        "zh": "统一大小：",
+        "en": "Uniform Size : "
+      }
+    },
+    {
+      "key": "manual",
+      "value": {
+        "zh": "手动片段管理：",
+        "en": "Manual : "
+      }
+    },
+    {
+      "key": "localArea",
+      "value": {
+        "zh": "本地区：",
+        "en": "Local Area : "
+      }
+    },
+    {
+      "key": "initial",
+      "value": {
+        "zh": "初始：",
+        "en": "Initial : "
+      }
+    },
+    {
+      "key": "nextStep",
+      "value": {
+        "zh": "下一步：",
+        "en": "Next Step : "
+      }
+    },
+    {
+      "key": "minExtents",
+      "value": {
+        "zh": "最小区：",
+        "en": "Min Extents : "
+      }
+    },
+    {
+      "key": "maxExtents",
+      "value": {
+        "zh": "最大区：",
+        "en": "Max Extents : "
+      }
+    },
+    {
+      "key": "increase",
+      "value": {
+        "zh": "增加（%）：",
+        "en": "Increase(%) : "
+      }
+    },
+    {
+      "key": "encrypt",
+      "value": {
+        "zh": "加密：",
+        "en": "Encrypt : "
+      }
+    },
+    {
+      "key": "algorithm",
+      "value": {
+        "zh": "算法：",
+        "en": "Algorithm : "
+      }
+    },
+    {
+      "key": "record",
+      "value": {
+        "zh": "记录：",
+        "en": "Record : "
+      }
+    },
+    {
+      "key": "forceLogging",
+      "value": {
+        "zh": "强制记录：",
+        "en": "Force Logging : "
+      }
+    },
+    {
+      "key": "offline",
+      "value": {
+        "zh": "离线：",
+        "en": "Offline : "
+      }
+    },
+    {
+      "key": "flashBack",
+      "value": {
+        "zh": "闪回：",
+        "en": "Flash Back : "
+      }
+    },
+    {
+      "key": "encryption",
+      "value": {
+        "zh": "使用加密：",
+        "en": "Encryption : "
+      }
+    },
+    {
+      "key": "guarantee",
+      "value": {
+        "zh": "保证保留：",
+        "en": "Guarantee : "
+      }
+    }
+  ]
+}

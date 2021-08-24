@@ -1,0 +1,25 @@
+{
+  "keys": [
+    {
+      "key": "SQL_BOOK",
+      "value": {
+        "zh": "SQL宝典",
+        "en": "SQL BOOK"
+      }
+    },
+    {
+      "key": "OPEN_TASK",
+      "value": {
+        "zh": "作为导入文件打开任务窗口",
+        "en": "New Sql File Import Task"
+      }
+    },
+    {
+      "key": "SIZE_TIP",
+      "value": {
+        "zh": "文件过大，请选择不超过%sM的文件",
+        "en": "The file size is too large. Please select a file no more than %s M"
+      }
+    }
+  ]
+}

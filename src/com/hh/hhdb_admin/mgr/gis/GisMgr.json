@@ -1,0 +1,249 @@
+{
+	"keys": [
+		{
+			"key": "impshp",
+			"value": {
+				"zh": "导入shp文件",
+				"en": "Import the SHP file"
+			}
+		},
+		{
+			"key": "expshp",
+			"value": {
+				"zh": "导出shp文件",
+				"en": "Export the SHP file"
+			}
+		},
+		{
+			"key": "hint",
+			"value": {
+				"zh": "提示",
+				"en": "hint"
+			}
+		},
+		{
+			"key": "error",
+			"value": {
+				"zh": "错误",
+				"en": "error"
+			}
+		},
+		{
+			"key": "confirm",
+			"value": {
+				"zh": "确定",
+				"en": "confirm"
+			}
+		},
+		{
+			"key": "noGIS",
+			"value": {
+				"zh": "此数据库没有安装GIS扩展",
+				"en": "GIS extensions are not installed for this database"
+			}
+		},
+		{
+			"key": "AddLayer",
+			"value": {
+				"zh": "添加图层",
+				"en": "Add layer"
+			}
+		},
+		{
+			"key": "AddDabs",
+			"value": {
+				"zh": "从数据库添加",
+				"en": "Add from database"
+			}
+		},
+		{
+			"key": "Addlocal",
+			"value": {
+				"zh": "从本地添加",
+				"en": "Add from local"
+			}
+		},
+		{
+			"key": "Selectpath",
+			"value": {
+				"zh": "请选择添加路径",
+				"en": "Select the add path"
+			}
+		},
+		{
+			"key": "GridShows",
+			"value": {
+				"zh": "栅格显示",
+				"en": "Grid shows"
+			}
+		},
+		{
+			"key": "resterDisplay",
+			"value": {
+				"zh": "光栅显示",
+				"en": "rester display"
+			}
+		},
+		{
+			"key": "Reload",
+			"value": {
+				"zh": "重新载入",
+				"en": "Reload"
+			}
+		},
+		{
+			"key": "ReloadLayer",
+			"value": {
+				"zh": "重新载入图层",
+				"en": "Reload Layer"
+			}
+		},
+		{
+			"key": "query",
+			"value": {
+				"zh": "SQL查询",
+				"en": "SQL query"
+			}
+		},
+		{
+			"key": "CompileSQL",
+			"value": {
+				"zh": "编译SQL以查看特定区域",
+				"en": "Compile the SQL to view a specific region"
+			}
+		},
+		{
+			"key": "ReloadHint",
+			"value": {
+				"zh": "* 图层加载不出来时可使用图层上方'重新载入'按钮重新加载",
+				"en": "* If the layer does not load, you can use the 'Reload' button above the layer to reload it"
+			}
+		},
+		{
+			"key": "notFound",
+			"value": {
+				"zh": "没有找到此图层",
+				"en": "This layer was not found"
+			}
+		},
+		{
+			"key": "noActionable",
+			"value": {
+				"zh": "数据库没有可操作的对象",
+				"en": "The database has no actionable objects"
+			}
+		},
+		{
+			"key": "noTable",
+			"value": {
+				"zh": "没有选择表格！",
+				"en": "No selected form!"
+			}
+		},
+		{
+			"key": "continue",
+			"value": {
+				"zh": "选择文件过多，继续执行吗？",
+				"en": "Too many selected files, continue?"
+			}
+		},
+		{
+			"key": "selectTable",
+			"value": {
+				"zh": "请选择表",
+				"en": "Please select a table"
+			}
+		},
+		{
+			"key": "noRaster",
+			"value": {
+				"zh": "图层内没有栅格文件",
+				"en": "There are no raster files in the layer"
+			}
+		},
+		{
+			"key": "RGB显示",
+			"value": {
+				"zh": "RGB显示",
+				"en": "RGB"
+			}
+		},
+		{
+			"key": "Grayscale",
+			"value": {
+				"zh": "灰度显示波段",
+				"en": "Grayscale display band"
+			}
+		},
+		{
+			"key": "setColors",
+			"value": {
+				"zh": "设置颜色",
+				"en": "set colors"
+			}
+		},
+		{
+			"key": "markerColor",
+			"value": {
+				"zh": "标记颜色:",
+				"en": "marker color:"
+			}
+		},
+		{
+			"key": "execSQL",
+			"value": {
+				"zh": "执行SQL语句",
+				"en": "execSQL"
+			}
+		},
+		{
+			"key": "execute",
+			"value": {
+				"zh": "执行",
+				"en": "execute"
+			}
+		},
+		{
+			"key": "ExportSuccess",
+			"value": {
+				"zh": "导出成功",
+				"en": "Export success"
+			}
+		},
+		{
+			"key": "CancelSuccess",
+			"value": {
+				"zh": "成功取消操作",
+				"en": "Successful cancellation of operation"
+			}
+		},
+		{
+			"key": "schema",
+			"value": {
+				"zh": "模式：",
+				"en": "schema："
+			}
+		},
+		{
+			"key": "storageLocation",
+			"value": {
+				"zh": "储存位置",
+				"en": "storage location"
+			}
+		},
+		{
+			"key": "PathError",
+			"value": {
+				"zh": "路径错误，请重试！",
+				"en": "Path error, please try again!"
+			}
+		},
+		{
+			"key": "ImportSuccess",
+			"value": {
+				"zh": "导入成功",
+				"en": "Import success"
+			}
+		}
+	]
+}

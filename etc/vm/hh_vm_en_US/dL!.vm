@@ -1,0 +1,35 @@
+## \dL[S+] [PATTERN]      
+## List of languages
+#set($common1 = "SELECT l.lanname AS " + '"Name"' +",
+	       hh_catalog.hh_get_userbyid(l.lanowner) as " + '"Owner"' +",
+	       l.lanpltrusted AS " + '"Trusted"')
+#set($common2 = ",d.description AS " + '"Description"' +"
+	FROM hh_catalog.hh_language l
+	LEFT JOIN hh_catalog.hh_description d
+	  ON d.classoid = l.tableoid AND d.objoid = l.oid
+	  AND d.objsubid = 0")
+#set($common3 = "ORDER BY 1;")
+#set($plus = ",NOT l.lanispl AS " + '"Internal Language"' +",
+	       l.lanplcallfoid::regprocedure AS " + '"Call Handler"' +",
+	       l.lanvalidator::regprocedure AS " + '"Validator"' +",
+	       l.laninline::regprocedure AS " + '"Inline Handler"' +",
+	       hh_catalog.array_to_string(l.lanacl, E'\n') AS " + '"Access privileges"')
+#set($noS = "WHERE l.lanplcallfoid != 0")
+#set($patt= "WHERE l.lanname OPERATOR(hh_catalog.~) '^($arg)$'")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus
+#end
+$common2
+#if($cmdSql.indexOf('S') < 0)
+#if($arg)
+$patt
+#else
+$noS
+#end
+#else
+#if($arg)
+$patt
+#end
+#end
+$common3

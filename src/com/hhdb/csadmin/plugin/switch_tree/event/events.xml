@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<events>
-	<!-- 打开切换数据库页面 -->
-	<event from="com.hhdb.csadmin.plugin.test" to="com.hhdb.csadmin.plugin.switch_tree" type="COMMON">
-	</event>
-	
-</events>

@@ -1,0 +1,88 @@
+{
+  "keys": [
+    {
+      "key": "result",
+      "value": {
+        "zh": "结果",
+        "en": "result"
+      }
+    },
+    {
+      "key": "vm_editor",
+      "value": {
+        "zh": "模板编辑器",
+        "en": "VM Editor"
+      }
+    },
+    {
+      "key": "execute",
+      "value": {
+        "zh": "执行",
+        "en": "Run"
+      }
+    },
+    {
+      "key": "error",
+      "value": {
+        "zh": "错误",
+        "en": "error"
+      }
+    },
+    {
+      "key": "to_query",
+      "value": {
+        "zh": "执行到查询器",
+        "en": "Execute to querier"
+      }
+    },
+    {
+      "key": "to_file",
+      "value": {
+        "zh": "执行到文件",
+        "en": "Execute to file"
+      }
+    },
+    {
+      "key": "to_window",
+      "value": {
+        "zh": "执行到本窗口",
+        "en": "Execute to window"
+      }
+    },
+    {
+      "key": "saveSqlBook",
+      "value": {
+        "zh": "保存到宝典",
+        "en": "save sql book"
+      }
+    },
+    {
+      "key": "hint",
+      "value": {
+        "zh": "提示",
+        "en": "hint"
+      }
+    },
+    {
+      "key": "success",
+      "value": {
+        "zh": "成功",
+        "en": "success"
+      }
+    },
+    {
+      "key": "keyWord",
+      "value": {
+        "zh": "关键字",
+        "en": "keyword"
+      }
+    },
+    {
+      "key": "nimiety",
+      "value": {
+        "zh": "内容过多！",
+        "en": "Too much content!"
+      }
+    }
+  ]
+}

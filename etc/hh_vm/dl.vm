@@ -1,7 +1,0 @@
-## \dl                   
-## 列出大对象， 功能与\lo_list相同  
-#set($common1 = "SELECT oid as " + '"ID"' +",
-	  hh_catalog.hh_get_userbyid(lomowner) as " + '"拥有性"' +",
-	  hh_catalog.obj_description(oid, 'hh_largeobject') as " + '"描述"' +"
-	  FROM hh_catalog.hh_largeobject_metadata   ORDER BY oid");
-$common1

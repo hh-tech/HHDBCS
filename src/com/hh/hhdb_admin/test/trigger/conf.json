@@ -1,0 +1,19 @@
+{
+	"mgrs": [
+		{
+			"class": "com.hh.hhdb_admin.mgr.trigger.TriggerMgr",
+			"type": "TRIGGER",
+			"config": {
+
+			}
+		},
+		{
+			"class": "com.hh.hhdb_admin.test.MainTestMgr",
+			"type": "MAIN_FRAME",
+			"config":{
+				"comp_class": "com.hh.hhdb_admin.test.trigger.TriggerTestComp"
+			}
+
+		}
+	]
+}

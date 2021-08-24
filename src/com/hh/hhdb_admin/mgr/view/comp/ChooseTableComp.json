@@ -1,0 +1,29 @@
+{
+	"keys": [
+		{
+			"key": "SELECT_TABLE_COLUMN",
+			"value": {
+				"zh": "选择表列",
+				"en": "Select Table Column"
+			}
+		},{
+			"key": "SAVE",
+			"value": {
+				"zh": "保存",
+				"en": "Save"
+			}
+		},{
+			"key": "COLUMN_NAME",
+			"value": {
+				"zh": "列名",
+				"en": "Column Name"
+			}
+		},{
+			"key": "SELECTED",
+			"value": {
+				"zh": "选择",
+				"en": "Selected"
+			}
+		}
+	]
+}

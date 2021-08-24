@@ -1,0 +1,158 @@
+{
+	"keys": [
+		{
+			"key": "save",
+			"value": {
+				"zh": "保存",
+				"en": "save"
+			}
+		},
+		{
+			"key": "previewSql",
+			"value": {
+				"zh": "SQL预览",
+				"en": "SQL preview"
+			}
+		},
+		{
+			"key": "uniqueKey",
+			"value": {
+				"zh": "唯一键",
+				"en": "Unique Key"
+			}
+		},
+		{
+			"key": "foreignKey",
+			"value": {
+				"zh": "外键",
+				"en": "Foreign Key"
+			}
+		},
+		{
+			"key": "saveSuccess",
+			"value": {
+				"zh": "保存成功！",
+				"en": "Save Success!"
+			}
+		},
+		{
+			"key": "add",
+			"value": {
+				"zh": "新增行",
+				"en": "Add Row"
+			}
+		},
+		{
+			"key": "delete",
+			"value": {
+				"zh": "删除行",
+				"en": "Delete Row"
+			}
+		},
+		{
+			"key": "sureDelete",
+			"value": {
+				"zh": "确定删除所选行?",
+				"en": "Are you sure to delete the selected row?"
+			}
+		},
+		{
+			"key": "hint",
+			"value": {
+				"zh": "提示",
+				"en": "hint"
+			}
+		},
+		{
+			"key": "ukName",
+			"value": {
+				"zh": "唯一键名称",
+				"en": "UniqueKeyName"
+			}
+		},
+		{
+			"key": "fkName",
+			"value": {
+				"zh": "外键名称",
+				"en": "ForeignKeyName"
+			}
+		},
+		{
+			"key": "ckName",
+			"value": {
+				"zh": "检查约束名称",
+				"en": "CheckName"
+			}
+		},
+		{
+			"key": "ckText",
+			"value": {
+				"zh": "检查约束内容",
+				"en": "CheckText"
+			}
+		},
+		{
+			"key": "pkName",
+			"value": {
+				"zh": "主键名称",
+				"en": "PrimaryKeyName"
+			}
+		},
+		{
+			"key": "column",
+			"value": {
+				"zh": "列",
+				"en": "Column"
+			}
+		},
+		{
+			"key": "selectColumn",
+			"value": {
+				"zh": "请选择列",
+				"en": "Select Column"
+			}
+		},
+		{
+			"key": "foreignKeyTableName",
+			"value": {
+				"zh": "外键表名称",
+				"en": "ForeignKeyTableName"
+			}
+		},
+		{
+			"key": "foreignKeyTableColumn",
+			"value": {
+				"zh": "外键表列",
+				"en": "ForeignKeyTableColumn"
+			}
+		},
+		{
+			"key": "onUpdating",
+			"value": {
+				"zh": "更新时",
+				"en": "On Updating"
+			}
+		},
+		{
+			"key": "onDeletion",
+			"value": {
+				"zh": "删除时",
+				"en": "On Deletion"
+			}
+		},
+		{
+			"key": "addConstraint",
+			"value": {
+				"zh": "新增约束",
+				"en": "Add Constraint"
+			}
+		},
+		{
+			"key": "deleteSuccess",
+			"value": {
+				"zh": "删除成功",
+				"en": "Delete Success"
+			}
+		}
+	]
+}

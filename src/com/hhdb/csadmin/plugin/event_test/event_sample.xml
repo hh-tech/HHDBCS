@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<event from="com.hhdb.csadmin.plugin.event_test" to="com.hhdb.csadmin.plugin.status_bar"> 	
-	<!--一个事件中可以包含一个或者多个属性-->
-	<property name="STATUS">
-	表格名称,test
-	</property>
-</event>

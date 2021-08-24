@@ -1,0 +1,301 @@
+{
+	"keys": [
+		{
+			"key": "USER_INFO",
+			"value": {
+				"zh": "用户信息",
+				"en": "User Information"
+			}
+		},{
+			"key": "LOGIN_INFO",
+			"value": {
+				"zh": "登录名信息",
+				"en": "Login Name Information"
+			}
+		},{
+			"key": "ROLE_INFO",
+			"value": {
+				"zh": "角色信息",
+				"en": "Role Information"
+			}
+		},{
+			"key": "DB_ROLE",
+			"value": {
+				"zh": "建库角色",
+				"en": "Db Role"
+			}
+		},{
+			"key": "LOGIN_ROLE",
+			"value": {
+				"zh": "登入角色",
+				"en": "Login Role"
+			}
+		},{
+			"key": "SUPER_ROLE",
+			"value": {
+				"zh": "超级用户",
+				"en": "Super Role"
+			}
+		},{
+			"key": "AUTH_ROLE",
+			"value": {
+				"zh": "授权角色",
+				"en": "Authorised Role"
+			}
+		},{
+			"key": "AUTH_SERVER_ROLE",
+			"value": {
+				"zh": "授权系统角色",
+				"en": "Authorised System Role"
+			}
+		},{
+			"key": "CONN_NUM",
+			"value": {
+				"zh": "最大连接数 ：",
+				"en": "Max Connections :"
+			}
+		},{
+			"key": "PWD_EXPIRED_TIME",
+			"value": {
+				"zh": "密码失效时间 :",
+				"en": "Password Expired Time ："
+			}
+		},{
+			"key": "USER_NAME",
+			"value": {
+				"zh": "用户名 ：",
+				"en": "User Name ："
+			}
+		},{
+			"key": "LOGIN_NAME",
+			"value": {
+				"zh": "登录名 ：",
+				"en": "Login Name ："
+			}
+		},{
+			"key": "ROLE_NAME",
+			"value": {
+				"zh": "角色名 ：",
+				"en": "Role Name ："
+			}
+		},{
+			"key": "PASSWORD_AUTH",
+			"value": {
+				"zh": "口令识别",
+				"en": "Password Authentication"
+			}
+		},{
+			"key": "AUTHENTICATION",
+			"value": {
+				"zh": "认证 ：",
+				"en": "Authentication ："
+			}
+		},{
+			"key": "PWD",
+			"value": {
+				"zh": "密码 ：",
+				"en": "Password ："
+			}
+		},{
+			"key": "RE_PWD",
+			"value": {
+				"zh": "确认密码 ：",
+				"en": "Confirm Password ："
+			}
+		},{
+			"key": "SELECT",
+			"value": {
+				"zh": "选择",
+				"en": "select"
+			}
+		},{
+			"key": "ROLES",
+			"value": {
+				"zh": "拥有的角色",
+				"en": "Roles"
+			}
+		},{
+			"key": "NOT_ALLOW_LOGIN",
+			"value": {
+				"zh": "禁用登录",
+				"en": "Login Forbidden"
+			}
+		},{
+			"key": "SQLSERVER_AUTH",
+			"value": {
+				"zh": "SQL SERVER身份认证",
+				"en": "SQLServer Authentication"
+			}
+		},{
+			"key": "WINDOWS_AUTH",
+			"value": {
+				"zh": "Windows 身份认证",
+				"en": "Windows Authentication"
+			}
+		},{
+			"key": "DB_CLICK_SELECT",
+			"value": {
+				"zh": "请双击选择...",
+				"en": "Please double click here to select..."
+			}
+		},{
+			"key": "CONN_ERROR",
+			"value": {
+				"zh": "未连接到数据库或连接出错",
+				"en": "Connection Error"
+			}
+		},{
+			"key": "LOGIN_NAME_NOT_EXIST",
+			"value": {
+				"zh": "登录名不存在",
+				"en": "Login name not exist!"
+			}
+		},{
+			"key": "PLEASE_ENTER_USER_NAME",
+			"value": {
+				"zh": "请填写用户名！",
+				"en": "Please enter user name!"
+			}
+		},{
+			"key": "PLEASE_ENTER_ROLE_NAME",
+			"value": {
+				"zh": "请填写角色名！",
+				"en": "Please enter role name!"
+			}
+		},{
+			"key": "PLEASE_ENTER_PASSWORD",
+			"value": {
+				"zh": "请填写密码！",
+				"en": "Please enter password!"
+			}
+		},{
+			"key": "PLEASE_ENTER_RE_PASSWORD",
+			"value": {
+				"zh": "请填写确认密码！",
+				"en": "Please enter confirm password!"
+			}
+		},{
+			"key": "PASSWORD_NOT_EQUAL",
+			"value": {
+				"zh": "密码与确认密码不一致!",
+				"en": "The password does not match the confirmation password!"
+			}
+		},{
+			"key": "MAX_CONN_NOT_CORRECT",
+			"value": {
+				"zh": "最大连接数请填写正整数！",
+				"en": "Maximum connections input must be positive integer!"
+			}
+		},{
+			"key": "VALIDATE_OK",
+			"value": {
+				"zh": "验证成功！",
+				"en": "Validate ok!"
+			}
+		},{
+			"key": "HOST_LIMIT",
+			"value": {
+				"zh": "主机 ：",
+				"en": "Limit to Hosts Matching ："
+			}
+		},{
+			"key": "MAX_QUERY",
+			"value": {
+				"zh": "每小时最大查询数 ：",
+				"en": "Max. Queries ："
+			}
+		},{
+			"key": "CON_CONS",
+			"value": {
+				"zh": "最多用户连接数 ：",
+				"en": "Concurrent Connections ："
+			}
+		},{
+			"key": "MAX_CONN",
+			"value": {
+				"zh": "每小时最大连接数 ：",
+				"en": "Max. Connections ："
+			}
+		},{
+			"key": "MAX_UPD",
+			"value": {
+				"zh": "每小时最多更新数 ：",
+				"en": "Max. Updates ："
+			}
+		},{
+			"key": "ACCOUNT_LIMIT",
+			"value": {
+				"zh": "帐户限制",
+				"en": "Account Limit"
+			}
+		},{
+			"key": "ROLE_AUTH",
+			"value": {
+				"zh": "角色授权",
+				"en": "Role authorization"
+			}
+		},{
+			"key": "DEFAULT_TS",
+			"value": {
+				"zh": "默认表空间 ：",
+				"en": "Default Table Space ："
+			}
+		},{
+			"key": "DEFAULT_DB",
+			"value": {
+				"zh": "默认数据库 ：",
+				"en": "Default Database ："
+			}
+		},{
+			"key": "DEFAULT_LANG",
+			"value": {
+				"zh": "默认语言 ：",
+				"en": "Default Language ："
+			}
+		},{
+			"key": "TMP_TS",
+			"value": {
+				"zh": "临时表空间 ：",
+				"en": "Tmp Table Space ："
+			}
+		},{
+			"key": "PROFILE",
+			"value": {
+				"zh": "概要文件 ：",
+				"en": "Profile ："
+			}
+		},{
+			"key": "USER_MAP",
+			"value": {
+				"zh": "用户映射",
+				"en": "User Map"
+			}
+		},{
+			"key": "STATUS",
+			"value": {
+				"zh": "状态",
+				"en": "Status"
+			}
+		},{
+			"key": "ALLOW_LINK",
+			"value": {
+				"zh": "是否允许连接到数据库引擎：",
+				"en": "Is allow connect to the db："
+			}
+		},{
+			"key": "LOGIN",
+			"value": {
+				"zh": "登录：",
+				"en": "Login："
+			}
+		},{
+			"key": "STATUS",
+			"value": {
+				"zh": "状态",
+				"en": "Status"
+			}
+		}
+
+
+	]
+}

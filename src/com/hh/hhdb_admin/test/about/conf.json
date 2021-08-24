@@ -1,0 +1,10 @@
+{
+	"mgrs": [
+		{
+			"class": "com.hh.hhdb_admin.mgr.about.AboutMgr",
+			"type": "ABOUT",
+			"config":{
+			}
+		}
+	]
+}

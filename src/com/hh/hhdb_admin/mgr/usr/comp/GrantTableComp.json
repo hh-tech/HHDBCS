@@ -1,0 +1,51 @@
+{
+	"keys": [
+		{
+			"key": "DATABASE",
+			"value": {
+				"zh": "数据库",
+				"en": "Database"
+			}
+		},
+		{
+			"key": "PRIVILEGE",
+			"value": {
+				"zh": "权限",
+				"en": "Privileges"
+			}
+		},{
+			"key": "GRANT",
+			"value": {
+				"zh": "授予",
+				"en": "Grant"
+			}
+		},{
+			"key": "GLOBAL",
+			"value": {
+				"zh": "全局权限",
+				"en": "GLOBAL"
+			}
+		},
+		{
+			"key": "SCHEMA_PRIVILEGE",
+			"value": {
+				"zh": "Schema权限设置",
+				"en": "Schema Privileges Setting"
+			}
+		},
+		{
+			"key": "ELSE_PRIVILEGE",
+			"value": {
+				"zh": "更多权限设置",
+				"en": "More Privileges Setting"
+			}
+		},
+		{
+			"key": "ROLE",
+			"value": {
+				"zh": "角色",
+				"en": "ROLE"
+			}
+		}
+	]
+}

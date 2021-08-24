@@ -1,0 +1,228 @@
+{
+ "keys":[
+ 	 {
+      "key": "increase",
+      "value": {
+        "zh": "递增",
+        "en": "Increase"
+      }
+    },
+    {
+      "key": "currentVal",
+      "value": {
+        "zh": "现值",
+        "en": "Current value"
+      }
+    },
+     {
+      "key": "startValue",
+      "value": {
+        "zh": "初值",
+        "en": "Start value"
+      }
+    },
+     {
+      "key": "aonotation",
+      "value": {
+        "zh": "注释",
+        "en": "Aonotation"
+      }
+    },
+    {
+      "key": "minVal",
+      "value": {
+        "zh": "最小值",
+        "en": "Min value"
+      }
+    },
+    {
+      "key": "maxVal",
+      "value": {
+        "zh": "最大值",
+        "en": "Max value"
+      }
+    },
+    {
+      "key": "cache",
+      "value": {
+        "zh": "缓存",
+        "en": "Cache"
+      }
+    },
+    {
+      "key": "loop",
+      "value": {
+        "zh": "循环",
+        "en": "Loop"
+      }
+    },
+    {
+      "key": "listOwner",
+      "value": {
+        "zh": "表列拥有着",
+        "en": "List owner"
+      }
+    },
+    {
+      "key": "tabOwner",
+      "value": {
+        "zh": "选择表",
+        "en": "Table owner"
+      }
+    },
+    {
+      "key": "colOwner",
+      "value": {
+        "zh": "选择列",
+        "en": "Column owner"
+      }
+    },
+      {
+      "key": "notNull",
+      "value": {
+        "zh": "序列名不能为空",
+        "en": "The sequence name cannot be empty"
+      }
+    },
+      {
+      "key": "isDelete",
+      "value": {
+        "zh": "确定删除序列吗？",
+        "en": "Are you sure about the deletion sequence?"
+      }
+    },
+      {
+      "key": "delete",
+      "value": {
+        "zh": "删除",
+        "en": "Delete"
+      }
+    },
+    {
+      "key": "norm",
+      "value": {
+        "zh": "标准",
+        "en": "Norm"
+      }
+    },
+    {
+      "key": "preview",
+      "value": {
+        "zh": "SQL预览",
+        "en": "SQL preview"
+      }
+    },
+    {
+      "key": "new",
+      "value": {
+        "zh": "新建序列",
+        "en": "New Sequence"
+      }
+    },
+    {
+      "key": "design",
+      "value": {
+        "zh": "设计序列",
+        "en": "Design Sequence"
+      }
+    },
+      {
+      "key": "save",
+      "value": {
+        "zh": "保存",
+        "en": "Save"
+      }
+    },
+    {
+      "key": "inputSeq",
+      "value": {
+        "zh": "输入序列名",
+        "en": "Please enter a sequence name"
+      }
+    },
+    {
+      "key": "order",
+      "value": {
+        "zh": "排序",
+        "en": "order"
+      }
+    },
+    {
+      "key": "type",
+      "value": {
+        "zh": "数据类型",
+        "en": "dataType"
+      }
+    },
+    {
+      "key": "addSuccess",
+      "value": {
+        "zh": "添加成功",
+        "en": "Successfully added"
+      }
+    },
+    {
+      "key": "addFail",
+      "value": {
+        "zh": "添加失败",
+        "en": " Fail to add"
+      }
+    },
+    {
+      "key": "modifySuccess",
+      "value": {
+        "zh": "修改成功",
+        "en": "modify successfully"
+      }
+    },
+    {
+      "key": "modifyFail",
+      "value": {
+        "zh": "修改失败",
+        "en": "fail to modify"
+      }
+    },
+    {
+      "key": "error",
+      "value": {
+        "zh": "错误",
+        "en": "error"
+      }
+    },
+    {
+      "key": "delSuccess",
+      "value": {
+        "zh": "删除成功",
+        "en": "delete successfully"
+      }
+    },
+    {
+      "key": "nocache",
+      "value": {
+        "zh": "无缓存",
+        "en": "no cache"
+      }
+    },
+    {
+      "key": "add",
+      "value": {
+        "zh": "新增",
+        "en": "Add"
+      }
+    },
+    {
+      "key": "rename",
+      "value": {
+        "zh": "重命名",
+        "en": "Rename"
+      }
+    },
+    {
+      "key": "newSeqName",
+      "value": {
+        "zh": "请输入新的序列名",
+        "en": "Please enter a new sequence name"
+      }
+    }
+ ]
+}

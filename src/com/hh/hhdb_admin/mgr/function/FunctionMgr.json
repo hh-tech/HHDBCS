@@ -1,0 +1,326 @@
+{
+  "keys": [
+    {
+      "key": "name",
+      "value": {
+        "zh": "名称",
+        "en": "name"
+      }
+    },
+    {
+      "key": "schema",
+      "value": {
+        "zh": "模式",
+        "en": "Schema"
+      }
+    },
+    {
+      "key": "type",
+      "value": {
+        "zh": "类型",
+        "en": "type"
+      }
+    },
+    {
+      "key": "design",
+      "value": {
+        "zh": "设计",
+        "en": "design"
+      }
+    },
+    {
+      "key": "debugHint",
+      "value": {
+        "zh": "该函数不可调试",
+        "en": "This function is not debuggable"
+      }
+    },
+    {
+      "key": "parameter",
+      "value": {
+        "zh": "参数",
+        "en": "parameter"
+      }
+    },
+    {
+      "key": "dbType",
+      "value": {
+        "zh": "类型：",
+        "en": "Driver :"
+      }
+    },
+    {
+      "key": "value",
+      "value": {
+        "zh": "值",
+        "en": "value"
+      }
+    },
+    {
+      "key": "errorMessage",
+      "value": {
+        "zh": "错误信息",
+        "en": "Error message"
+      }
+    },
+    {
+      "key": "error",
+      "value": {
+        "zh": "错误",
+        "en": "error"
+      }
+    },
+    {
+      "key": "next",
+      "value": {
+        "zh": "下一步",
+        "en": "next"
+      }
+    },
+    {
+      "key": "up",
+      "value": {
+        "zh": "上一步",
+        "en": "up"
+      }
+    },
+    {
+      "key": "returned",
+      "value": {
+        "zh": "返回",
+        "en": "Return"
+      }
+    },
+    {
+      "key": "addparameter",
+      "value": {
+        "zh": "添加参数",
+        "en": "Add parameters"
+      }
+    },
+    {
+      "key": "deleteparameter",
+      "value": {
+        "zh": "删除参数",
+        "en": "Delete parameter"
+      }
+    },
+    {
+      "key": "save",
+      "value": {
+        "zh": "保存",
+        "en": "save"
+      }
+    },
+    {
+      "key": "savesuccess",
+      "value": {
+        "zh": "保存成功",
+        "en": "Saved successfully"
+      }
+    },
+    {
+      "key": "delete",
+      "value": {
+        "zh": "删除成功",
+        "en": "Delete successfully"
+      }
+    },
+    {
+      "key": "hint",
+      "value": {
+        "zh": "提示",
+        "en": "hint"
+      }
+    },
+    {
+      "key": "examine",
+      "value": {
+        "zh": "检查",
+        "en": "examine"
+      }
+    },
+    {
+      "key": "run",
+      "value": {
+        "zh": "运行",
+        "en": "run"
+      }
+    },
+    {
+      "key": "inputParameter",
+      "value": {
+        "zh": "输入运行参数用逗号隔开",
+        "en": "Input run parameters are separated by commas"
+      }
+    },
+    {
+      "key": "inerrancy",
+      "value": {
+        "zh": "验证成功,无错误发现!",
+        "en": "Verification successful, no error found!"
+      }
+    },
+    {
+      "key": "inerrancy2",
+      "value": {
+        "zh": "执行成功！",
+        "en": "Successful execution!\nAffected Banks:"
+      }
+    },
+    {
+      "key": "debug",
+      "value": {
+        "zh": "调试",
+        "en": "debugging"
+      }
+    },
+    {
+      "key": "close",
+      "value": {
+        "zh": "关闭",
+        "en": "close"
+      }
+    },
+    {
+      "key": "function",
+      "value": {
+        "zh": "函数",
+        "en": "function"
+      }
+    },
+    {
+      "key": "process",
+      "value": {
+        "zh": "过程",
+        "en": "process"
+      }
+    },
+    {
+      "key": "xydd",
+      "value": {
+        "zh": "下一断点",
+        "en": "contine Go"
+      }
+    },
+    {
+      "key": "xyh",
+      "value": {
+        "zh": "下一行",
+        "en": "stepOver"
+      }
+    },
+    {
+      "key": "enter",
+      "value": {
+        "zh": "进入",
+        "en": "enter"
+      }
+    },
+    {
+      "key": "stop",
+      "value": {
+        "zh": "停止",
+        "en": "stop"
+      }
+    },
+    {
+      "key": "row",
+      "value": {
+        "zh": "行",
+        "en": "row"
+      }
+    },
+    {
+      "key": "localVariable",
+      "value": {
+        "zh": "局部变量",
+        "en": "local variable"
+      }
+    },
+    {
+      "key": "information",
+      "value": {
+        "zh": "消息",
+        "en": "information"
+      }
+    },
+    {
+      "key": "result",
+      "value": {
+        "zh": "结果",
+        "en": "result"
+      }
+    },
+    {
+      "key": "stack",
+      "value": {
+        "zh": "栈堆",
+        "en": "stack"
+      }
+    },
+    {
+      "key": "determine",
+      "value": {
+        "zh": "确定",
+        "en": "determine"
+      }
+    },
+	  {
+		  "key": "invalid",
+		  "value": {
+			  "zh": "对象无效！",
+			  "en": "The object is invalid"
+		  }
+	  },
+	  {
+		  "key": "Errorbreakpoint",
+		  "value": {
+			  "zh": "设置断点错误！",
+			  "en": "Error setting breakpoint"
+		  }
+	  },
+    {
+      "key": "add",
+      "value": {
+        "zh": "新增",
+        "en": "ADD"
+      }
+    },
+    {
+      "key": "format",
+      "value": {
+        "zh": "格式化",
+        "en": "format"
+      }
+    },
+    {
+      "key": "compile",
+      "value": {
+        "zh": "编译",
+        "en": "compile"
+      }
+    },
+    {
+      "key": "compileResult",
+      "value": {
+        "zh": "编译结果:",
+        "en": "Compile Result"
+      }
+    },
+    {
+      "key": "compileSuccess",
+      "value": {
+        "zh": "编译成功!",
+        "en": "Compile Success"
+      }
+    },
+    {
+      "key": "run-succeed",
+      "value": {
+        "zh": "运行成功",
+        "en": "The successful running"
+      }
+    }
+  ]
+}

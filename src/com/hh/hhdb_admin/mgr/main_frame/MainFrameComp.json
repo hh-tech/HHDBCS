@@ -1,0 +1,25 @@
+{
+  "keys": [
+    {
+      "key": "windowTitle",
+      "value": {
+        "zh": "恒辉数据库通用桌面管理工具",
+        "en": "HHDBCS"
+      }
+    },
+    {
+      "key": "switchSchemaSuccess",
+      "value": {
+        "zh": "模式切换成功",
+        "en": "Switch Schema Success"
+      }
+    },
+    {
+      "key": "exit",
+      "value": {
+        "zh": "是否退出程序?",
+        "en": "Exit The Program?"
+      }
+    }
+  ]
+}

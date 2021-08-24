@@ -1,0 +1,77 @@
+{
+	"keys": [
+		{
+			"key": "ADD_VIEW_TITLE",
+			"value": {
+				"zh": "创建视图",
+				"en": "Create View"
+			}
+		},{
+			"key": "UPDATE_VIEW_TITLE",
+			"value": {
+				"zh": "设计视图",
+				"en": "Design View"
+			}
+		},{
+			"key": "ADD_MVIEW_TITLE",
+			"value": {
+				"zh": "创建物化视图",
+				"en": "Create Materialized View"
+			}
+		},{
+			"key": "UPDATE_MVIEW_TITLE",
+			"value": {
+				"zh": "设计物化视图",
+				"en": "Design Materialized View"
+			}
+		},{
+			"key": "SAVE",
+			"value": {
+				"zh": "保存",
+				"en": "Save"
+			}
+		},{
+			"key": "SAVE_AS",
+			"value": {
+				"zh": "另存为",
+				"en": "Save As"
+			}
+		},{
+			"key": "PREVIEW",
+			"value": {
+				"zh": "预览",
+				"en": "Preview"
+			}
+		},{
+			"key": "SELECT_TABLE_COLUMN",
+			"value": {
+				"zh": "选择表",
+				"en": "Select Table Column"
+			}
+		},{
+			"key": "SAVE_SUCCESS",
+			"value": {
+				"zh": "保存成功",
+				"en": "Save Success"
+			}
+		},{
+			"key": "PLEASE_ENTER_VIEW_NAME",
+			"value": {
+				"zh": "请输入视图名称",
+				"en": "Please enter view name"
+			}
+		},{
+			"key": "PLEASE_ENTER_SELECT_SQL",
+			"value": {
+				"zh": "请输入查询语句",
+				"en": "Please enter select sql"
+			}
+		},{
+			"key": "PLEASE_ENTER_DEFINE",
+			"value": {
+				"zh": "--请输入视图定义，列如:",
+				"en": "--Please enter view define,for example："
+			}
+		}
+	]
+}

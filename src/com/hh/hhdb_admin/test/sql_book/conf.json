@@ -1,0 +1,18 @@
+{
+	"mgrs": [
+		{
+			"class": "com.hh.hhdb_admin.mgr.sql_book.SqlBookMgr",
+			"type": "SQL_BOOK",
+			"config":{
+			}
+		},
+		{
+			"class": "com.hh.hhdb_admin.test.MainTestMgr",
+			"type": "MAIN_FRAME",
+			"config":{
+				"comp_class": "com.hh.hhdb_admin.test.sql_book.SqlBookTestComp"
+			}
+
+		}
+	]
+}

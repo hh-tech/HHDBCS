@@ -1,0 +1,709 @@
+{
+	"keys": [
+		{
+			"key": "dbMonitor",
+			"value": {
+				"zh": "访问监控",
+				"en": "DB Monitor"
+			}
+		},
+		{
+			"key": "dbLockMonitor",
+			"value": {
+				"zh": "数据库锁监控",
+				"en": "DB Lock Monitor"
+			}
+		},
+		{
+			"key": "connMonitor",
+			"value": {
+				"zh": "连接监控",
+				"en": "DB Monitor"
+			}
+		},
+		{
+			"key": "transMonitor",
+			"value": {
+				"zh": "交易监控",
+				"en": "Trans Monitor"
+			}
+		},
+		{
+			"key": "lockMonitor",
+			"value": {
+				"zh": "锁监控",
+				"en": "Lock Monitor"
+			}
+		},
+		{
+			"key": "chartMonitor",
+			"value": {
+				"zh": "图表监控",
+				"en": "Chart Monitor"
+			}
+		},
+		{
+			"key": "refresh",
+			"value": {
+				"zh": "刷新",
+				"en": "refresh"
+			}
+		},
+		{
+			"key": "endProcess",
+			"value": {
+				"zh": "结束进程",
+				"en": "End Process"
+			}
+		},
+		{
+			"key": "pleaseSelectData",
+			"value": {
+				"zh": "请选择数据！",
+				"en": "Please select data！"
+			}
+		},
+		{
+			"key": "isKill",
+			"value": {
+				"zh": "确定要kill掉此连接？",
+				"en": "Make sure to kill this connection?"
+			}
+		},
+		{
+			"key": "executeSuccess",
+			"value": {
+				"zh": "执行成功！",
+				"en": "execute Success!"
+			}
+		},
+		{
+			"key": "hint",
+			"value": {
+				"zh": "提示",
+				"en": "hint"
+			}
+		},
+		{
+			"key": "mistake",
+			"value": {
+				"zh": "错误",
+				"en": "Mistake"
+			}
+		},
+		{
+			"key": "dbSession",
+			"value": {
+				"zh": "数据库会话",
+				"en": "DB Session"
+			}
+		},
+		{
+			"key": "active",
+			"value": {
+				"zh": "活跃",
+				"en": "Active"
+			}
+		},
+		{
+			"key": "idle",
+			"value": {
+				"zh": "空闲",
+				"en": "Free"
+			}
+		},
+		{
+			"key": "total",
+			"value": {
+				"zh": "总共",
+				"en": "Total"
+			}
+		},
+		{
+			"key": "transPerSec",
+			"value": {
+				"zh": "每秒事务数",
+				"en": "Transactions Per Second"
+			}
+		},
+		{
+			"key": "commits",
+			"value": {
+				"zh": "提交数",
+				"en": "Commits"
+			}
+		},
+		{
+			"key": "rollbacks",
+			"value": {
+				"zh": "回滚数",
+				"en": "Rollbacks"
+			}
+		},
+		{
+			"key": "transactions",
+			"value": {
+				"zh": "事务数",
+				"en": "Transactions"
+			}
+		},{
+			"key": "writeTuple",
+			"value": {
+				"zh": "写入元组",
+				"en": "Write a Tuple"
+			}
+		},
+		{
+			"key": "inserts",
+			"value": {
+				"zh": "插入",
+				"en": "Insert"
+			}
+		},
+		{
+			"key": "updates",
+			"value": {
+				"zh": "修改",
+				"en": "Modify"
+			}
+		},
+		{
+			"key": "deletes",
+			"value": {
+				"zh": "删除",
+				"en": "Delete"
+			}
+		},
+		{
+			"key": "readTuple",
+			"value": {
+				"zh": "读取元组",
+				"en": "Write a Tuple"
+			}
+		},
+		{
+			"key": "fetched",
+			"value": {
+				"zh": "获取",
+				"en": "Get"
+			}
+		},
+		{
+			"key": "returned",
+			"value": {
+				"zh": "返回",
+				"en": "Return"
+			}
+		},
+		{
+			"key": "modularIo",
+			"value": {
+				"zh": "块 IO",
+				"en": "modular IO"
+			}
+		},
+		{
+			"key": "reads",
+			"value": {
+				"zh": "读取",
+				"en": "Read"
+			}
+		},
+		{
+			"key": "hits",
+			"value": {
+				"zh": "匹配",
+				"en": "Matches"
+			}
+		},
+		{
+			"key": "connectType",
+			"value": {
+				"zh": "连接方式 ：",
+				"en": "Connect Type : "
+			}
+		},
+		{
+			"key": "hostIp",
+			"value": {
+				"zh": "主机IP * ：",
+				"en": "Host IP * :"
+			}
+		},
+		{
+			"key": "username",
+			"value": {
+				"zh": "用户名 * ：",
+				"en": "Username * :"
+			}
+		},
+		{
+			"key": "password",
+			"value": {
+				"zh": "密码 * ：",
+				"en": "Password * :"
+			}
+		},
+		{
+			"key": "pleaseEnterHostIp",
+			"value": {
+				"zh": "请输入主机Ip！",
+				"en": "Please enter hostIp!"
+			}
+		},
+		{
+			"key": "pleaseEnterUsername",
+			"value": {
+				"zh": "请输入用户名！",
+				"en": "Please enter username!"
+			}
+		},
+		{
+			"key": "pleaseEnterPassword",
+			"value": {
+				"zh": "请输入密码！",
+				"en": "Please enter password!"
+			}
+		},
+		{
+			"key": "refreshRate",
+			"value": {
+				"zh": "刷新频率（秒）：",
+				"en": "Refresh Rate(s):"
+			}
+		},
+		{
+			"key": "cpuMonitor",
+			"value": {
+				"zh": "CPU监控",
+				"en": "CPU Monitor"
+			}
+		},
+		{
+			"key": "userUsage",
+			"value": {
+				"zh": "用户使用率",
+				"en": "Audience reach"
+			}
+		},
+		{
+			"key": "systemUsage",
+			"value": {
+				"zh": "系统使用率",
+				"en": "System Utilization"
+			}
+		},
+		{
+			"key": "idleRate",
+			"value": {
+				"zh": "空闲率",
+				"en": "Idleness"
+			}
+		},
+		{
+			"key": "cpuTrend",
+			"value": {
+				"zh": "CPU实时监控走势图",
+				"en": "CPU real-time monitoring trend map"
+			}
+		},
+		{
+			"key": "systemTime",
+			"value": {
+				"zh": "系统时间",
+				"en": "System Time"
+			}
+		},
+		{
+			"key": "cpuPercentage",
+			"value": {
+				"zh": "CPU百分比",
+				"en": "CPU percentage"
+			}
+		},
+		{
+			"key": "cpuInfo",
+			"value": {
+				"zh": "CPU信息",
+				"en": "CPU information"
+			}
+		},
+		{
+			"key": "cpuConcise",
+			"value": {
+				"zh": "CPU简要信息",
+				"en": "CPU summary information"
+			}
+		},
+		{
+			"key": "cpu_info",
+			"value": {
+				"zh": "while IFS=: read NAME VALUE; do\n\n\t\t\tNAME=${NAME//[[:blank:]]/}\n\t\t\t\n\t\t\tif [ \"$NAME\" == \"modelname\" ]; then\n\t\t\t\tCPU_NAME_ARRAY[${#CPU_NAME_ARRAY[*]}]=\"$VALUE\"\n\t\t\tfi\n\t\t\tif [ \"$NAME\" == \"cpuMHz\" ]; then\n\t\t\t\tCPU_MHZ_ARRAY[${#CPU_MHZ_ARRAY[*]}]=\"$VALUE\"\n\t\t\tfi\n\t\t\tif [ \"$NAME\" == \"cachesize\" ]; then\n\t\t\t\tCPU_CACHE_SIZE_ARRAY[${#CPU_CACHE_SIZE_ARRAY[*]}]=\"$VALUE\"\n\t\t\tfi\n\t\tdone  < \"/proc/cpuinfo\"\n\t\techo \"CPU名称|CPU主频|CPU缓存\";\n\t\techo \"-------------------------\"\n\t\tfor (( c=0; c <${#CPU_NAME_ARRAY[*]}; c++ ))\n\t\t\tdo\n\t\t\t\techo \"${CPU_NAME_ARRAY[$c]}|${CPU_MHZ_ARRAY[$c]}|${CPU_CACHE_SIZE_ARRAY[$c]}\"\n\t\tdone",
+				"en": "while IFS=: read NAME VALUE; do\n\n\t\t\tNAME=${NAME//[[:blank:]]/}\n\t\t\t\n\t\t\tif [ \"$NAME\" == \"modelname\" ]; then\n\t\t\t\tCPU_NAME_ARRAY[${#CPU_NAME_ARRAY[*]}]=\"$VALUE\"\n\t\t\tfi\n\t\t\tif [ \"$NAME\" == \"cpuMHz\" ]; then\n\t\t\t\tCPU_MHZ_ARRAY[${#CPU_MHZ_ARRAY[*]}]=\"$VALUE\"\n\t\t\tfi\n\t\t\tif [ \"$NAME\" == \"cachesize\" ]; then\n\t\t\t\tCPU_CACHE_SIZE_ARRAY[${#CPU_CACHE_SIZE_ARRAY[*]}]=\"$VALUE\"\n\t\t\tfi\n\t\tdone  < \"/proc/cpuinfo\"\n\t\techo \"CPU_NAME|CPU_FREQUENCY|CPU_CACHE\"\n\t\techo \"-------------------------\"\n\t\tfor (( c=0; c <${#CPU_NAME_ARRAY[*]}; c++ ))\n\t\t\tdo\n\t\t\t\techo \"${CPU_NAME_ARRAY[$c]}|${CPU_MHZ_ARRAY[$c]}|${CPU_CACHE_SIZE_ARRAY[$c]}\"\n\t\tdone"
+			}
+		},
+		{
+			"key": "cpu_util",
+			"value": {
+				"zh": "CPU_NUMBER=`cat /proc/cpuinfo | grep processor | wc -l`\n\t\tCPU_PERF=`mpstat -P ALL 1 1 | tail -n $(($CPU_NUMBER+1)) |  awk 'NR>0{print $2 \"|\" $3 \"|\" $5 \"|\" $11 }'`\n\t\techo \"CPU标示|用户使用率|系统使用率|空闲率\"\n\t\techo \"-------------------------\"\n\t\techo \"${CPU_PERF}\"",
+				"en": "CPU_NUMBER=`cat /proc/cpuinfo | grep processor | wc -l`\n\t\tCPU_PERF=`mpstat -P ALL 1 1 | tail -n $(($CPU_NUMBER+1)) |  awk 'NR>0{print $2 \"|\" $3 \"|\" $5 \"|\" $11 }'`\n\t\techo \"CPU_FLAG|USER_USAGE_RATE|SYS_USAGE_RATE|IDLE_RATE\"\n\t\techo \"-------------------------\"\n\t\techo \"${CPU_PERF}\""
+			}
+		},
+		{
+			"key": "memMonitor",
+			"value": {
+				"zh": "内存监控",
+				"en": "Memery Monitor"
+			}
+		},
+		{
+			"key": "memory",
+			"value": {
+				"zh": "内存",
+				"en": "Memory"
+			}
+		},
+		{
+			"key": "memoryTrend",
+			"value": {
+				"zh": "实时内存监控走势图",
+				"en": "Real-time memory monitoring trend map"
+			}
+		},
+		{
+			"key": "systemTime",
+			"value": {
+				"zh": "系统时间",
+				"en": "System Time"
+			}
+		},
+		{
+			"key": "memorySize",
+			"value": {
+				"zh": "内存大小(单位M)",
+				"en": "Memory Size(unit M)"
+			}
+		},
+		{
+			"key": "systemInfo",
+			"value": {
+				"zh": "获取操作系统信息",
+				"en": "Gets the operating system information"
+			}
+		},
+		{
+			"key": "memoryInfo",
+			"value": {
+				"zh": "获取实时内存信息",
+				"en": "Get real-time memory information"
+			}
+		},
+		{
+			"key": "sys_util",
+			"value": {
+				"zh": "OS_INFO=`uname -a`\n\t\techo \"操作系统信息\"\n\t\techo \"-------------------------\"\n\t\techo \"$OS_INFO\"",
+				"en": "OS_INFO=`uname -a`\n\t\techo \"Operating system information\"\n\t\techo \"-------------------------\"\n\t\techo \"$OS_INFO\""
+			}
+		},
+		{
+			"key": "mem_util",
+			"value": {
+				"zh": "MEM_INFO=`free -m | awk 'NR==2 {print $2 \"M|\" $3 \"M|\" $4 \"M\"}'`\n\t\techo \"总内存|使用内存|空闲内存\"\n\t\techo \"-------------------------\"\n\t\techo \"$MEM_INFO\"",
+				"en": "MEM_INFO=`free -m | awk 'NR==2 {print $2 \"M|\" $3 \"M|\" $4 \"M\"}'`\n\t\techo \"TOTAL_MEM|USE_MEM|IDLE_MEM\"\n\t\techo \"-------------------------\"\n\t\techo \"$MEM_INFO\""
+			}
+		},
+		{
+			"key": "diskMonitor",
+			"value": {
+				"zh": "硬盘监控",
+				"en": "Hard disk Monitor"
+			}
+		},
+		{
+			"key": "disk_util_usage",
+			"value": {
+				"zh": "DISK_INFO=`df -h| awk 'NR>1{print $1 \"|\" $2 \"|\" $3 \"|\" $4 \"|\" $5 \"|\" $6}'`\n\t\techo \"设备名称|总量|使用量|可用量|使用百分比|加载点\"\n\t\techo \"-------------------------\"\n\t\techo \"$DISK_INFO\"",
+				"en": "DISK_INFO=`df -h| awk 'NR>1{print $1 \"|\" $2 \"|\" $3 \"|\" $4 \"|\" $5 \"|\" $6}'`\n\t\techo \"DEVICE_NAME|TOTAL_NUM|USE_NUM|ENABLE_NUM|USE_PERCENT|LOAD_POINT\"\n\t\techo \"-------------------------\"\n\t\techo \"$DISK_INFO\""
+			}
+		},
+		{
+			"key": "disk_util_perf",
+			"value": {
+				"zh": "DISK_PERF=`iostat -dm| awk 'length($1)>0 && NR>3{print $1 \"|\" $2 \"|\" $3 \"M|\" $4 \"M|\" $5 \"M|\" $6 \"M\"}'`\n\t\techo \"设备名称|每秒读写数(TPS)|每秒读取量|每秒写入量|总计读取量|总计写入量\"\n\t\techo \"-------------------------\"\n\t\techo \"$DISK_PERF\"",
+				"en": "DISK_PERF=`iostat -dm| awk 'length($1)>0 && NR>3{print $1 \"|\" $2 \"|\" $3 \"M|\" $4 \"M|\" $5 \"M|\" $6 \"M\"}'`\n\t\techo \"DEVICE_NAME|READ_WRITE_PER_SEC(TPS)|READ_NUM_PER_SEC|WRITE_NUM_PER_SEC|TOTAL_READ_NUM|TOTAL_WRITE_NUM\"\n\t\techo \"-------------------------\"\n\t\techo \"$DISK_PERF\""
+			}
+		},
+		{
+			"key": "networkMonitor",
+			"value": {
+				"zh": "网络监控",
+				"en": "Network Monitor"
+			}
+		},
+		{
+			"key": "eth_util",
+			"value": {
+				"zh": "cd /sys/class/net;\n\t\techo \"设备名称|IP地址|每秒接受字节|每秒发送字节\"\n\t\techo \"-------------------------\"\n\t\tfor FILE in *; do\n\t\t\tif [ -f \"/sys/class/net/$FILE/statistics/rx_bytes\" ];then\t\t\t\n\t\t\t\tIP_ADDRESS=`ifconfig $FILE | awk 'sub(/inet addr:/,\"\"){print $1}'`\n\t\t\t\tdeclare -i B_RX=`cat /sys/class/net/$FILE/statistics/rx_bytes`\n\t\t\t\tdeclare -i B_TX=`cat /sys/class/net/$FILE/statistics/tx_bytes`\n\t\t\t\tsleep 0.1\n\t\t\t\tdeclare -i E_RX=`cat /sys/class/net/$FILE/statistics/rx_bytes`\n\t\t\t\tdeclare -i E_TX=`cat /sys/class/net/$FILE/statistics/tx_bytes`\n\t\t\t\t\t\n\t\t\t\tdeclare -i RX=$E_RX*10-$B_RX*10\n\t\t\t\tdeclare -i TX=$E_TX*10-$B_TX*10\n\n\t\t\t\techo \"$FILE|$IP_ADDRESS|$RX|$TX\"\n\t\t\tfi\t\t\t\t\n\t\tdone",
+				"en": "cd /sys/class/net;\n\t\techo \"DEVICE_NAME|IP_ADDRESS|REC_BYTE_PER_SEC|SEND_BYTE_PER_SEC\"\n\t\techo \"-------------------------\"\n\t\tfor FILE in *; do\n\t\t\tif [ -f \"/sys/class/net/$FILE/statistics/rx_bytes\" ];then\t\t\t\n\t\t\t\tIP_ADDRESS=`ifconfig $FILE | awk 'sub(/inet addr:/,\"\"){print $1}'`\n\t\t\t\tdeclare -i B_RX=`cat /sys/class/net/$FILE/statistics/rx_bytes`\n\t\t\t\tdeclare -i B_TX=`cat /sys/class/net/$FILE/statistics/tx_bytes`\n\t\t\t\tsleep 0.1\n\t\t\t\tdeclare -i E_RX=`cat /sys/class/net/$FILE/statistics/rx_bytes`\n\t\t\t\tdeclare -i E_TX=`cat /sys/class/net/$FILE/statistics/tx_bytes`\n\t\t\t\t\t\n\t\t\t\tdeclare -i RX=$E_RX*10-$B_RX*10\n\t\t\t\tdeclare -i TX=$E_TX*10-$B_TX*10\n\n\t\t\t\techo \"$FILE|$IP_ADDRESS|$RX|$TX\"\n\t\t\tfi\t\t\t\t\n\t\tdone"
+			}
+		},
+		{
+			"key": "systemMonitor",
+			"value": {
+				"zh": "系统监控",
+				"en": "System Monitor"
+			}
+		},{
+			"key": "pid",
+			"value": {
+				"zh": "Pid",
+				"en": "Pid"
+			}
+		},
+		{
+			"key": "client",
+			"value": {
+				"zh": "客户端",
+				"en": "Client"
+			}
+		},
+		{
+			"key": "destdatabase",
+			"value": {
+				"zh": "目标数据库",
+				"en": "Dest_database"
+			}
+		},
+		{
+			"key": "status",
+			"value": {
+				"zh": "状态",
+				"en": "Status"
+			}
+		},
+		{
+			"key": "querytime",
+			"value": {
+				"zh": "已执行时间",
+				"en": "Query_time"
+			}
+		},
+		{
+			"key": "querystarttime",
+			"value": {
+				"zh": "查询开始时间",
+				"en": "Query_start_time"
+			}
+		},
+		{
+			"key": "runsql",
+			"value": {
+				"zh": "执行sql",
+				"en": "Run_sql"
+			}
+		},
+		{
+			"key": "database",
+			"value": {
+				"zh": "数据库",
+				"en": "Database"
+			}
+		},
+		{
+			"key": "user",
+			"value": {
+				"zh": "用户",
+				"en": "User"
+			}
+		},
+		{
+			"key": "locktype",
+			"value": {
+				"zh": "锁类型",
+				"en": "Lock_type"
+			}
+		},
+		{
+			"key": "schema",
+			"value": {
+				"zh": "模式",
+				"en": "Schema"
+			}
+		},
+		{
+			"key": "schema",
+			"value": {
+				"zh": "模式",
+				"en": "Schema"
+			}
+		},
+		{
+			"key": "sid",
+			"value": {
+				"zh": "Sid",
+				"en": "Sid"
+			}
+		},
+		{
+			"key": "serial",
+			"value": {
+				"zh": "Serial",
+				"en": "Serial"
+			}
+		},
+		{
+			"key": "command",
+			"value": {
+				"zh": "命令",
+				"en": "Command"
+			}
+		},
+		{
+			"key": "tuser",
+			"value": {
+				"zh": "用户",
+				"en": "User"
+			}
+		},
+		{
+			"key": "logontime",
+			"value": {
+				"zh": "登陆时间",
+				"en": "Logon_time"
+			}
+		},
+		{
+			"key": "event",
+			"value": {
+				"zh": "事件",
+				"en": "event"
+			}
+		},
+		{
+			"key": "osuser",
+			"value": {
+				"zh": "系统用户",
+				"en": "Os_User"
+			}
+		},
+		{
+			"key": "terminal",
+			"value": {
+				"zh": "终端",
+				"en": "Terminal"
+			}
+		},
+		{
+			"key": "id",
+			"value": {
+				"zh": "Id",
+				"en": "Id"
+			}
+		},
+		{
+			"key": "host",
+			"value": {
+				"zh": "主机",
+				"en": "Host"
+			}
+		},
+		{
+			"key": "time",
+			"value": {
+				"zh": "时间",
+				"en": "Time"
+			}
+		},
+		{
+			"key": "state",
+			"value": {
+				"zh": "状态",
+				"en": "State"
+			}
+		},
+		{
+			"key": "info",
+			"value": {
+				"zh": "信息",
+				"en": "Info"
+			}
+		},
+		{
+			"key": "lock_id",
+			"value": {
+				"zh": "信息",
+				"en": "Info"
+			}
+		},
+		{
+			"key": "ttable",
+			"value": {
+				"zh": "表",
+				"en": "Table"
+			}
+		},
+		{
+			"key": "tindex",
+			"value": {
+				"zh": "索引",
+				"en": "Index"
+			}
+		},
+		{
+			"key": "tspace",
+			"value": {
+				"zh": "表空间",
+				"en": "Space"
+			}
+		},
+		{
+			"key": "requestType",
+			"value": {
+				"zh": "请求类型",
+				"en": "Request Type"
+			}
+		},
+		{
+			"key": "requestStatus",
+			"value": {
+				"zh": "请求状态",
+				"en": "Request Status"
+			}
+		},
+		{
+			"key": "resourceType",
+			"value": {
+				"zh": "资源类型",
+				"en": "Resource Status"
+			}
+		},
+		{
+			"key": "agent_id",
+			"value": {
+				"zh": "Agent_id",
+				"en": "Agent_id"
+			}
+		},
+		{
+			"key": "lock_name",
+			"value": {
+				"zh": "锁名称",
+				"en": "Lock_name"
+			}
+		},
+		{
+			"key": "submit",
+			"value": {
+				"zh": "确定",
+				"en": "Submit"
+			}
+		},
+		{
+			"key": "cancel",
+			"value": {
+				"zh": "取消",
+				"en": "Cancel"
+			}
+		}
+	]
+}

@@ -1,0 +1,85 @@
+package com.hh.hhdb_admin.mgr.query.ui;
+
+import com.hh.frame.swingui.view.HeightComp;
+import com.hh.frame.swingui.view.abs.AbsInput;
+import com.hh.frame.swingui.view.container.HDialog;
+import com.hh.frame.swingui.view.container.HPanel;
+import com.hh.frame.swingui.view.ctrl.HButton;
+import com.hh.frame.swingui.view.input.TextInput;
+import com.hh.frame.swingui.view.input.WithLabelInput;
+import com.hh.frame.swingui.view.layout.GridSplitEnum;
+import com.hh.frame.swingui.view.layout.HDivLayout;
+import com.hh.frame.swingui.view.util.PopPaneUtil;
+import com.hh.frame.swingui.view.util.VerifyUtil;
+import com.hh.hhdb_admin.common.util.StartUtil;
+import com.hh.hhdb_admin.mgr.query.QueryMgr;
+
+import javax.swing.*;
+
+/**
+ * 查询器设置面板
+ *
+ * @author hexu
+ */
+public class SettingsPanel {
+    private HDialog dialog;
+    private TextInput rowInput;
+    private TextInput nullInput;
+    private final HPanel generalPanel = new HPanel(new HDivLayout(15, 10, GridSplitEnum.C12));
+
+
+    public SettingsPanel(int row,String nullSign) {
+        try {
+            rowInput = new TextInput("varPageSize", row + "");
+            rowInput.setInputVerifier(VerifyUtil.getTextIntVerifier(QueryMgr.getLang("rowsnumber"), 1, 2147483647));
+            nullInput = new TextInput("null",nullSign);
+            dialog = new HDialog(500, 200);
+            dialog.setRootPanel(init());
+            dialog.setIconImage(QueryMgr.getIcon("key"));
+            dialog.setWindowTitle(QueryMgr.getLang("current-settings"));
+            dialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            PopPaneUtil.error(StartUtil.parentFrame.getWindow(), e);
+        }
+    }
+
+    private HPanel init() throws Exception {
+        generalPanel.add(null,null);
+        generalPanel.add(getWithLabelInput("varPageSize", QueryMgr.getLang("rowsnumber") + ":", rowInput));
+        generalPanel.add(getWithLabelInput("null", "空值显示为:", nullInput));
+
+        HPanel hPanel = new HPanel(new HDivLayout(15, 10, GridSplitEnum.C12));
+        hPanel.add(generalPanel);
+        hPanel.add(initHButton());
+        return hPanel;
+    }
+
+
+    private HPanel initHButton() throws Exception {
+        HButton savebtn = new HButton(QueryMgr.getLang("determine")) {
+            @Override
+            public void onClick() {
+                //临时保存到当前查询器
+                save(Integer.parseInt(rowInput.getValue()), nullInput.getValue());
+                JOptionPane.showMessageDialog(null, QueryMgr.getLang("success"), QueryMgr.getLang("message"), JOptionPane.INFORMATION_MESSAGE);
+                dialog.dispose();
+            }
+        };
+
+        HPanel hPanel = new HPanel(new HDivLayout(GridSplitEnum.C4, GridSplitEnum.C4));
+        hPanel.add(new HeightComp(10), savebtn, new HeightComp(10));
+        return hPanel;
+    }
+
+    private static WithLabelInput getWithLabelInput(String id, String label, AbsInput intput) {
+        HPanel hPanel = new HPanel(new HDivLayout(GridSplitEnum.C3));
+        WithLabelInput wli = new WithLabelInput(hPanel, label, intput);
+        wli.setId(id);
+        return wli;
+    }
+
+    protected void save(int row, String nullSigns) {
+
+    }
+}

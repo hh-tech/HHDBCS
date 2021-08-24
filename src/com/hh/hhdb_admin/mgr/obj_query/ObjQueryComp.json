@@ -1,0 +1,123 @@
+{
+  "keys": [
+    {
+      "key": "objQuery",
+      "value": {
+        "zh": "数据库对象查询",
+        "en": "Database object query"
+      }
+    },
+    {
+      "key": "search",
+      "value": {
+        "zh": "查询",
+        "en": "Search"
+      }
+    },
+    {
+      "key": "stop",
+      "value": {
+        "zh": "停止",
+        "en": "Stop"
+      }
+    },
+    {
+      "key": "name",
+      "value": {
+        "zh": "名称",
+        "en": "Name"
+      }
+    },
+    {
+      "key": "type",
+      "value": {
+        "zh": "类型",
+        "en": "Type"
+      }
+    },
+    {
+      "key": "queryResults",
+      "value": {
+        "zh": "查询结果",
+        "en": "Query results"
+      }
+    },
+    {
+      "key": "screen",
+      "value": {
+        "zh": "筛选",
+        "en": "Screen"
+      }
+    },
+    {
+      "key": "schemaName",
+      "value": {
+        "zh": "模式名 : ",
+        "en": "Schema name : "
+      }
+    },
+    {
+      "key": "selectAll",
+      "value": {
+        "zh": "全选",
+        "en": "Select all"
+      }
+    },
+    {
+      "key": "cancel",
+      "value": {
+        "zh": "取消",
+        "en": "Cancel"
+      }
+    },
+    {
+      "key": "objType",
+      "value": {
+        "zh": "查询对象类型",
+        "en": "Query object type"
+      }
+    },
+    {
+      "key": "enterKeyword",
+      "value": {
+        "zh": "请输入关键字进行查询！",
+        "en": "Please enter keywords to query!"
+      }
+    },
+    {
+      "key": "selectSchema",
+      "value": {
+        "zh": "请输入要查询的模式！",
+        "en": "Please select the schema to query!"
+      }
+    },
+    {
+      "key": "selectType",
+      "value": {
+        "zh": "请选择要查询的对象类型！",
+        "en": "Please select the object type to query!"
+      }
+    },
+    {
+      "key": "querying",
+      "value": {
+        "zh": "查询中",
+        "en": "Querying"
+      }
+    },
+    {
+      "key": "queryComplete",
+      "value": {
+        "zh": "查询完成！",
+        "en": "Query complete!"
+      }
+    },
+    {
+      "key": "ignoreCase",
+      "value": {
+        "zh": "忽略大小写",
+        "en": "Ignore case"
+      }
+    }
+  ]
+}

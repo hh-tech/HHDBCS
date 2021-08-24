@@ -2,14 +2,11 @@
 
 <project name="dbadmin" default="dist">
 	<!-- load property file -->
-	<property name="debug"    value="on"/>
-	<property name="optimize"    value="on"/>
-	<property name="deprecation"    value="off"/>
 	<property name="src.dir"    value="src"/>
 	<property name="build.src.dir"    value="build"/>
 	<property name="dist.src.dir"    value="hhdb_csadmin"/>
 	<property name="lib.dir"    value="lib"/>
-	<property name="mainclass"    value="com.hhdb.csadmin.HHAdmin"/>
+	<property name="mainclass"    value="com.hh.hhdb_admin.HHdbAdmin"/>
 	<property name="etc.dir"    value="etc"/>
 	<property name="build.encoding"    value="utf-8"/>
 	<property name="final.name"    value="csadmin"/>
@@ -18,30 +15,15 @@
 	<path id="classpath">
 		<pathelement location="${build.src.dir}"/>
 		<fileset dir="${lib.dir}">
-			<include name="*.jar" />
-			<exclude name="*-sources.jar"/>
-		</fileset>  
+			<include name="**/*.jar" />
+			<exclude name="**/*-sources.jar"/>
+		</fileset>
 	</path>
-
-	<path id="source_package">
-		<pathelement location="${src.dir}" />
-		<pathelement location="${etc.dir}"/>
-	</path>
-
-	<!-- ====================================================== -->
-	<!-- show when we start this build                          -->
-	<!-- ====================================================== -->
-	<target name="show-build-date">
-		<tstamp>
-			<format property="build.time" pattern="MM/dd/yyyy hh:mm:ss aa" />
-		</tstamp>
-		<echo message="build project ${ant.project.name} at time : ${build.time}" />
-	</target>
 
 	<!-- ====================================================== -->
 	<!-- Stuff needed by all targets                            -->
 	<!-- ====================================================== -->
-	<target name="init" depends="show-build-date">
+	<target name="init" >
 		<mkdir dir="${build.src.dir}" />
 		<mkdir dir="${dist.src.dir}" />
 	</target>
@@ -50,9 +32,10 @@
 	<!-- Compile the Java files                                 -->
 	<!-- ====================================================== -->
 	<target name="compile" depends="init">
-		<javac encoding="${build.encoding}" srcdir="${src.dir}" includes="**/*.java" destdir="${build.src.dir}" debug="${debug}" optimize="${optimize}" deprecation="${deprecation}" sourcepathref="source_package">
+	<!--excludes="/**/test/**/*.java"-->
+		<javac encoding="${build.encoding}" srcdir="${src.dir}" includes="**/*.java" destdir="${build.src.dir}" debug="off" optimize="${optimize}" includeantruntime="${includeantruntime}" deprecation="${deprecation}" >
 			<classpath refid="classpath" />
-		</javac> 
+		</javac>
 	</target>
 
 	<!-- ================================================================== -->
@@ -61,84 +44,85 @@
 	<target name="jar" depends="compile">
 		<copy todir="${build.src.dir}">
 			<fileset dir="${src.dir}">
-				<include name="**/*.xml" />
+				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
-		<!-- 生成依赖包相对路径 空格隔开 -->
+		<!--pathconvert用于对目录进行组合 property即这个组合的名字，pathsep作用是各个文件之间的分隔符，
+				如果不写，在windows平台默认是分号。但时在MANIFEST.MF这个文件中，各个jar包之间要用空格区分，
+				因此。这里就写成空格了
+		-->
 		<pathconvert property="libs.path" pathsep=" ">
-			<mapper>
-				<chainedmapper>
-					<!-- 移除绝对路径 -->
-					<flattenmapper />
-					<!-- 加上lib前缀 -->
-					<globmapper from="*" to="lib/*" />
-				</chainedmapper>
-			</mapper>
-			<path>
+			<!--mapper,对路径组合方式进行控制-->
+					<mapper>
+						<!--chainedmapper 作用是联合多个mapper-->
+						<chainedmapper>
+							<!--过滤文件，将路径去掉，只保留文件名-->
+							<flattenmapper />
+							<!--过滤+转换器，将所有的文件名前面都加上一个lib，我们知道lib目录下面有jar包，
+								lib/*的作用其实是将jar包名与路径进行组合形成如：lib/google.jar这样的相对路径
+							 -->
+							<globmapper from="*" to="lib/*" />
+						</chainedmapper>
+					</mapper>
 				<!--  lib.home contains all jar files, in several subdirectories  -->
 				<fileset dir="${lib.dir}">
 					<include name="**/*.jar" />
-					<exclude name="*-sources.jar"/>
+					<exclude name="**/*-sources.jar"/>
 				</fileset >
-			</path >
 		</pathconvert >
 		<jar jarfile="${build.src.dir}/${final.name}.jar" basedir="${build.src.dir}">
 			<manifest>
 				<attribute name="Main-Class" value="${mainclass}" />
 				<attribute name="Class-Path" value="${libs.path} etc/" />
+				<attribute name="Commit-Version" value="${git_lasted_commit_version}"/>
+				<attribute name="Commit-Date" value="${git_lasted_commit_date}"/>
 			</manifest>
 		</jar>
-		
-		<copy file="${build.src.dir}/${final.name}.jar" tofile="${dist.src.dir}/${final.name}.jar" />
+
+		<copy file="${build.src.dir}/${final.name}.jar" tofile="./${final.name}.jar" />
 		<echo message="========== finish building core jar file for ${ant.project.name} ==========" />
 	</target>
 
-
 	<!-- ================================================================== -->
 	<!-- Clean.  Delete the build files, and their directories              -->
 	<!-- ================================================================== -->
-	<target name="clean">		
+	<target name="clean">
+		<delete file="./csadmin.jar" />
 		<delete dir="${dist.src.dir}" />
-		<delete dir="${build.src.dir}" />	
+		<delete dir="${build.src.dir}" />
 	</target>
 
-
 	<!-- ================================================================== -->
 	<!-- Clean.  Delete the build files, and their directories              -->
 	<!-- ================================================================== -->
-	<target name="dist" depends="clean, jar">
-		
+	<target name="dist" depends="clean,jar">
+
 		<!--打包应用程序包-->
-		<mkdir dir="${dist.src.dir}" />
+		<mkdir dir="${dist.src.dir}" />		
 		<mkdir dir="${dist.src.dir}/lib" />
-		<!--<unzip src="jdk1.7-db.zip" dest="${dist.src.dir}" />-->
 		<copy todir="${dist.src.dir}">
 			<fileset dir="${build.src.dir}">
 				<include name="*.jar" />
 			</fileset>
 		</copy>
-		<copy todir="${dist.src.dir}">
-			<fileset dir="./">
-				<include name="start_csadmin.*" />
+		
+		<copy todir="${dist.src.dir}/lib">
+			<fileset dir="${lib.dir}">
+				<include name="*.jar" />
 			</fileset>
 		</copy>
+
 		<copy todir="${dist.src.dir}/etc/">
 			<fileset dir="${etc.dir}">
 				<include name="**/*" />
+				<exclude name="/**/csWorkspase/**/**"/>
+				<exclude name="work_space.json"/>
+				<exclude name="lic/*.dat"/>
 			</fileset>
 		</copy>
-		<copy todir="${dist.src.dir}/lib/">
-			<fileset dir="${lib.dir}">
-				<include name="*.jar" />
-				<exclude name="*-sources.jar"/>
-			</fileset>
-		</copy>
-		<!--<tar destfile="${tar.target}" compression="gzip">
-			<tarfileset dir="${dist.src.dir}" prefix="${tar.prefix}" mode="${tar.mode}" />
-		</tar> -->
-		
 		<delete dir="${build.src.dir}" />
+		<delete file="./csadmin.jar" />
 		<echo message="========== finish building distribution==========" />
 	</target>
-	
+
 </project>

@@ -1,0 +1,41 @@
+{
+	"keys": [
+		{
+			"key": "RENAME_TITLE",
+			"value": {
+				"zh": "重命名",
+				"en": "Rename Title"
+			}
+		},{
+			"key": "RENAME_INPUT",
+			"value": {
+				"zh": "用户重命名为：",
+				"en": "Renamed to:"
+			}
+		},{
+			"key": "INPUT_NEW_NAME",
+			"value": {
+				"zh": "请输入新的用户名!",
+				"en": "Please input a new username!"
+			}
+		},{
+			"key": "NAME_EQUAL_ERROR",
+			"value": {
+				"zh": "与原用户名相同！",
+				"en": "The new user name is the same as the original user name!"
+			}
+		},{
+			"key": "UPD_SUCCESS",
+			"value": {
+				"zh": "修改成功！",
+				"en": "Update success!"
+			}
+		},{
+			"key": "UPD_FAILD",
+			"value": {
+				"zh": "修改失败！",
+				"en": "Update faild!"
+			}
+		}
+	]
+}

@@ -1,0 +1,13 @@
+## \sv VIEWNAME
+## show create view
+#set($common = "SELECT pg_catalog.pg_get_viewdef (
+                    c.oid,
+                    TRUE
+                ) as 视图定义
+            FROM
+                pg_catalog.pg_class c LEFT JOIN pg_catalog.pg_namespace n
+                    ON c.relnamespace = n.oid
+            WHERE
+                c.oid = (SELECT
+        '$arg' :: pg_catalog.regclass :: pg_catalog.oid)")
+$common

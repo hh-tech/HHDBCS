@@ -1,0 +1,21 @@
+## \db[+]  [模式]
+##List of tablespaces
+#set($common1 = "SELECT spcname AS " + '"Name"' +",
+	  pg_catalog.pg_get_userbyid(spcowner) AS " + '"Owner"' +",
+	  pg_catalog.pg_tablespace_location(oid) AS " + '"Location"')
+#set($common2 = "FROM pg_catalog.pg_tablespace")
+#set($common3 = "ORDER BY 1;")
+#set($plus = ",pg_catalog.array_to_string(spcacl, E'\n') AS " + '"Access privileges"' +",
+	  spcoptions AS " + '"Options"' +",
+	  pg_catalog.pg_size_pretty(pg_catalog.pg_tablespace_size(oid)) AS Size,
+	  pg_catalog.shobj_description(oid, 'pg_tablespace') AS " + '"Description"')
+#set($patt= "WHERE spcname OPERATOR(pg_catalog.~) '^($arg)$'")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus
+#end
+$common2
+#if($arg)
+$patt
+#end
+$common3

@@ -1,0 +1,93 @@
+{
+  "keys": [
+    {
+      "key": "switch_conn",
+      "value": {
+        "zh": "切换连接",
+        "en": "Switch Connection"
+      }
+    },
+    {
+      "key": "query",
+      "value": {
+        "zh": "查询窗口",
+        "en": "Query Window"
+      }
+    },
+    {
+      "key": "sql_book",
+      "value": {
+        "zh": "SQL宝典",
+        "en": "SQL book"
+      }
+    },
+    {
+      "key": "db_monitor",
+      "value": {
+        "zh": "访问监控",
+        "en": "Access Monitor"
+      }
+    },
+    {
+      "key": "sys_monitor",
+      "value": {
+        "zh": "系统监控",
+        "en": "System Monitor"
+      }
+    }, {
+      "key": "sys_config",
+      "value": {
+        "zh": "系统配置",
+        "en": "System Config"
+      }
+    },{
+      "key": "gis",
+      "value": {
+        "zh": "GIS",
+        "en": "GIS"
+      }
+    },
+    {
+      "key": "db_task",
+      "value": {
+        "zh": "任务管理",
+        "en": "Task Manage"
+      }
+    },
+    {
+      "key": "quick_cmd",
+      "value": {
+        "zh": "快捷命令",
+        "en": "Quick CMD"
+      }
+    },
+    {
+      "key": "sftp",
+      "value": {
+        "zh": "SFTP",
+        "en": "SFTP"
+      }
+    },
+    {
+      "key": "vm",
+      "value": {
+        "zh": "模板编辑器",
+        "en": "VM Editor"
+      }
+    },
+    {
+      "key": "debug",
+      "value": {
+        "zh": "调试",
+        "en": "DEBUG"
+      }
+    },
+    {
+      "key": "sql_conversion",
+      "value": {
+        "zh": "SQL转换",
+        "en": "SQL Conversion"
+      }
+    }
+  ]
+}

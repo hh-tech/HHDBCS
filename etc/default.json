@@ -1,0 +1,32 @@
+{
+  "language": "ZH",
+  "null": "<NULL>",
+  "varPageSize": 30,
+  "textpane": {
+    "background": "255,255,255",
+    "fonttype": "微软雅黑",
+    "fontsort": "常规(PLAIN)",
+    "defaultsize": 16,
+    "linenumber": "true"
+  },
+  "qkeys": {
+    "automatic": "true",
+    "keyword": "Alt+k",
+    "table_keyword": "Alt+b",
+    "view_keyword": "Alt+v",
+    "fun_keyword": "Alt+u",
+    "synonym_keyword": "Alt+s",
+    "vm_keyword": "Alt+k"
+  },
+  "dbTypes": [
+    "hhdb",
+    "oracle",
+    "pgsql",
+    "mysql",
+    "sqlserver",
+    "db2",
+    "dm"
+  ],
+  "findHistory": [
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "mgrs": [
+    {
+      "class": "com.hh.hhdb_admin.mgr.schema.SchemaMgr",
+      "type": "SCHEMA",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.test.MainTestMgr",
+      "type": "MAIN_FRAME",
+      "config": {
+        "comp_class": "com.hh.hhdb_admin.test.schema.SchemaTestComp"
+      }
+    }
+  ]
+}

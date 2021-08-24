@@ -1,0 +1,11 @@
+{
+  "keys": [
+    {
+      "key": "del_exp",
+      "value": {
+        "zh": "删除Schema前请先删除Schema内所有对象",
+        "en": "Please drop all objects in schema before drop it"
+      }
+    }
+  ]
+}

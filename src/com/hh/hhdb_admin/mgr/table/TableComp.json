@@ -1,0 +1,354 @@
+{
+  "keys": [
+    {
+      "key": "SAVE",
+      "value": {
+        "zh": "保存",
+        "en": "save"
+      }
+    },
+    {
+      "key": "SQL_VIEW",
+      "value": {
+        "zh": "SQL预览",
+        "en": "SQL view"
+      }
+    },
+    {
+      "key": "TABLE_NAME",
+      "value": {
+        "zh": "表名",
+        "en": "Table Name"
+      }
+    },
+    {
+      "key": "TABLE_COMMENT",
+      "value": {
+        "zh": "注释",
+        "en": "Comment"
+      }
+    },
+    {
+      "key": "SAVE_SUCCESS",
+      "value": {
+        "zh": "保存成功",
+        "en": "Save Success"
+      }
+    },
+    {
+      "key": "enterTableName",
+      "value": {
+        "zh": "请输入新的表名",
+        "en": "Please Enter Table Name"
+      }
+    },
+    {
+      "key": "rename",
+      "value": {
+        "zh": "重命名",
+        "en": "Rename"
+      }
+    },
+    {
+      "key": "updateSuccess",
+      "value": {
+        "zh": "修改成功",
+        "en": "Update Success"
+      }
+    },
+    {
+      "key": "mistake",
+      "value": {
+        "zh": "错误",
+        "en": "Mistake"
+      }
+    },
+    {
+      "key": "createTable",
+      "value": {
+        "zh": "创建表",
+        "en": "Create table"
+      }
+    },
+    {
+      "key": "fillTableName",
+      "value": {
+        "zh": "请填写表名！",
+        "en": "Please fill in the table name!"
+      }
+    },
+    {
+      "key": "column",
+      "value": {
+        "zh": "列",
+        "en": "Column"
+      }
+    },
+    {
+      "key": "selectColumn",
+      "value": {
+        "zh": "请选择列",
+        "en": "Please select a column"
+      }
+    },
+    {
+      "key": "ForeKeyTableName",
+      "value": {
+        "zh": "外键表名称",
+        "en": "ForeignKeyTableName"
+      }
+    },
+    {
+      "key": "foreignKeyTableColumn",
+      "value": {
+        "zh": "外键表列",
+        "en": "ForeignKeyTableColumn"
+      }
+    },
+    {
+      "key": "onUpdating",
+      "value": {
+        "zh": "更新时",
+        "en": "On Updating"
+      }
+    },
+    {
+      "key": "onDeletion",
+      "value": {
+        "zh": "删除时",
+        "en": "On Deletion"
+      }
+    },
+    {
+      "key": "addForeignKey",
+      "value": {
+        "zh": "添加外键",
+        "en": "Add foreign key"
+      }
+    },
+    {
+      "key": "deleteForeignKey",
+      "value": {
+        "zh": "删除外键",
+        "en": "Delete foreign key"
+      }
+    },
+    {
+      "key": "selectTableColumn",
+      "value": {
+        "zh": "选择外键表:%s 的列",
+        "en": "Select columns for foreign key table: %s"
+      }
+    },
+    {
+      "key": "cannotGetTable",
+      "value": {
+        "zh": "获取不到外键表！",
+        "en": "Cannot get foreign key table!"
+      }
+    },
+    {
+      "key": "connFailed",
+      "value": {
+        "zh": "获取连接失败！",
+        "en": "Failed to get connection!"
+      }
+    },
+    {
+      "key": "schema",
+      "value": {
+        "zh": "模式 : ",
+        "en": "Schema : "
+      }
+    },
+    {
+      "key": "table",
+      "value": {
+        "zh": "表 : ",
+        "en": "Table : "
+      }
+    },
+    {
+      "key": "addColumnFirst",
+      "value": {
+        "zh": "请先添加列！",
+        "en": "Please add a column first!"
+      }
+    },
+    {
+      "key": "accuracy",
+      "value": {
+        "zh": "精度 : ",
+        "en": "accuracy : "
+      }
+    },
+    {
+      "key": "dataType",
+      "value": {
+        "zh": "数据类型 : ",
+        "en": "Data type : "
+      }
+    },
+    {
+      "key": "length",
+      "value": {
+        "zh": "长度 : ",
+        "en": "Length : "
+      }
+    },
+    {
+      "key": "selectDataType",
+      "value": {
+        "zh": "请选择数据类型！",
+        "en": "Please select a data type!"
+      }
+    },
+    {
+      "key": "hasLength",
+      "value": {
+        "zh": "该类型必须填写长度！",
+        "en": "Length must be filled in for this type!"
+      }
+    },
+    {
+      "key": "numberFormatError",
+      "value": {
+        "zh": "数字格式错误！",
+        "en": "Number format error!"
+      }
+    },
+    {
+      "key": "columnName",
+      "value": {
+        "zh": "列名",
+        "en": "Column name"
+      }
+    },
+    {
+      "key": "select",
+      "value": {
+        "zh": "选择",
+        "en": "Select"
+      }
+    },
+    {
+      "key": "constraintExpression",
+      "value": {
+        "zh": "约束表达式",
+        "en": "Constraint expression"
+      }
+    },
+    {
+      "key": "ConstraintMgr",
+      "value": {
+        "zh": "约束管理",
+        "en": "Constraint Management"
+      }
+    },
+    {
+      "key": "addConstraint",
+      "value": {
+        "zh": "添加约束",
+        "en": "Add constraint"
+      }
+    },
+    {
+      "key": "deleteConstraint",
+      "value": {
+        "zh": "删除约束",
+        "en": "Delete constraint"
+      }
+    },
+    {
+      "key": "type",
+      "value": {
+        "zh": "类型",
+        "en": "Type"
+      }
+    },
+    {
+      "key": "defaultValue",
+      "value": {
+        "zh": "默认值",
+        "en": "Default value"
+      }
+    },
+    {
+      "key": "notNull",
+      "value": {
+        "zh": "非空约束",
+        "en": "Non NULL constraint"
+      }
+    },
+    {
+      "key": "primaryKey",
+      "value": {
+        "zh": "主键",
+        "en": "Primary key"
+      }
+    },
+    {
+      "key": "addColumn",
+      "value": {
+        "zh": "添加列",
+        "en": "Add column"
+      }
+    },
+    {
+      "key": "deleteColumn",
+      "value": {
+        "zh": "删除约束",
+        "en": "Delete column"
+      }
+    },
+    {
+      "key": "tableType",
+      "value": {
+        "zh": "分区表类型",
+        "en": "Partition table type"
+      }
+    },
+    {
+      "key": "condition",
+      "value": {
+        "zh": "条件",
+        "en": "Condition"
+      }
+    },
+    {
+      "key": "addUniqueKey",
+      "value": {
+        "zh": "添加唯一键",
+        "en": "Add unique key"
+      }
+    },
+    {
+      "key": "deleteUniqueKey",
+      "value": {
+        "zh": "删除唯一键",
+        "en": "Delete unique key"
+      }
+    },
+    {
+      "key": "uniqueKey",
+      "value": {
+        "zh": "唯一键",
+        "en": "Unique key"
+      }
+    },
+    {
+      "key": "foreignKey",
+      "value": {
+        "zh": "外键",
+        "en": "Foreign key"
+      }
+    },
+    {
+      "key": "partitionType",
+      "value": {
+        "zh": "分区类型",
+        "en": "Partition type"
+      }
+    }
+  ]
+}

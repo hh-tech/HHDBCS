@@ -1,0 +1,221 @@
+{
+  "keys": [
+    {
+      "key": "COL_NAME",
+      "value": {
+        "zh": "列名 :",
+        "en": "Column Name :"
+      }
+    },
+    {
+      "key": "COL_TYPE",
+      "value": {
+        "zh": "类型 :",
+        "en": "Column Type :"
+      }
+    },
+    {
+      "key": "COL_NOT_NULL",
+      "value": {
+        "zh": "非空 :",
+        "en": "Not Null :"
+      }
+    },
+    {
+      "key": "COL_DEFAULT",
+      "value": {
+        "zh": "默认值 :",
+        "en": "Default Value:"
+      }
+    },
+    {
+      "key": "COL_ANNOTATION",
+      "value": {
+        "zh": "注解 :",
+        "en": "Annotation :"
+      }
+    },
+    {
+      "key": "COL_PRIMARY",
+      "value": {
+        "zh": "主键 :",
+        "en": "Primary :"
+      }
+    },
+    {
+      "key": "SAVE",
+      "value": {
+        "zh": "保存",
+        "en": "Save"
+      }
+    },
+    {
+      "key": "PREVIEW_SQL",
+      "value": {
+        "zh": "SQL预览",
+        "en": "Preview Sql"
+      }
+    },
+    {
+      "key": "EMPTY_STR",
+      "value": {
+        "zh": "空字符串",
+        "en": "Empty String"
+      }
+    },
+    {
+      "key": "NULL_OBJ",
+      "value": {
+        "zh": "空<NULL>",
+        "en": "Null"
+      }
+    },
+    {
+      "key": "TIP_LENGTH",
+      "value": {
+        "zh": "长度(正整数)",
+        "en": "Length(Positive Integer)"
+      }
+    },
+    {
+      "key": "TIP_PRECISION",
+      "value": {
+        "zh": "Precision精度(正整数)",
+        "en": "Precision(Positive Integer)"
+      }
+    },
+    {
+      "key": "TIP_VALUE",
+      "value": {
+        "zh": "可选值",
+        "en": "Values"
+      }
+    },
+    {
+      "key": "TIP_SCALE",
+      "value": {
+        "zh": "Scale小数长度(0与整数)",
+        "en": "Scale(0 Or Integer)"
+      }
+    },
+    {
+      "key": "autoIncr",
+      "value": {
+        "zh": "自动增长",
+        "en": "Auto Increment"
+      }
+    },
+    {
+      "key": "zeroFill",
+      "value": {
+        "zh": "0填充",
+        "en": "Zero Fill"
+      }
+    },
+    {
+      "key": "noSign",
+      "value": {
+        "zh": "无符号",
+        "en": "No Sign"
+      }
+    },
+    {
+      "key": "SAVE_SUCCESS",
+      "value": {
+        "zh": "保存成功",
+        "en": "Save Success"
+      }
+    },
+    {
+      "key": "INPUT_NAME",
+      "value": {
+        "zh": "请填写列名！",
+        "en": "Please input the column name！"
+      }
+    },
+    {
+      "key": "ADD_TITLE",
+      "value": {
+        "zh": "新增列",
+        "en": "Add Column"
+      }
+    },
+    {
+      "key": "UPDATE_TITLE",
+      "value": {
+        "zh": "修改列",
+        "en": "Update Column"
+      }
+    },
+    {
+      "key": "COLUMN_INFO",
+      "value": {
+        "zh": "列信息",
+        "en": "Column Information"
+      }
+    },
+    {
+      "key": "deleteSuccess",
+      "value": {
+        "zh": "删除成功",
+        "en": "Delete Success"
+      }
+    },
+    {
+      "key": "RENAME_TITLE",
+      "value": {
+        "zh": "重命名",
+        "en": "Rename Title"
+      }
+    },
+    {
+      "key": "RENAME_INPUT",
+      "value": {
+        "zh": "字段重命名为：",
+        "en": "Renamed to:"
+      }
+    },
+    {
+      "key": "INPUT_NEW_NAME",
+      "value": {
+        "zh": "请输入新的列名!",
+        "en": "Please input a new column name!"
+      }
+    },
+    {
+      "key": "NAME_EQUAL_ERROR",
+      "value": {
+        "zh": "与原列名相同！",
+        "en": "The new column name is the same as the original user name!"
+      }
+    },
+    {
+      "key": "UPD_SUCCESS",
+      "value": {
+        "zh": "修改成功！",
+        "en": "Update success!"
+      }
+    },
+    {
+      "key": "BTN_QD",
+      "value": {
+        "zh": "确定",
+        "en": "Confirm"
+      }
+    },
+    {
+      "key": "BTN_QX",
+      "value": {
+        "zh": "取消",
+        "en": "Cancel"
+      }
+    },
+    {
+      "key": "setValue",
+      "value": {
+        "zh": "设置值",
+        "en": "Set Value"
+      }
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "keys": [
+    {
+      "key": "add_rule",
+      "value": {
+        "zh": "创建规则",
+        "en": "Add Rule"
+      }
+    },
+    {
+      "key": "name",
+      "value": {
+        "zh": "名称",
+        "en": "Name"
+      }
+    },
+    {
+      "key": "event",
+      "value": {
+        "zh": "事件",
+        "en": "Event"
+      }
+    },
+    {
+      "key": "instead_run",
+      "value": {
+        "zh": "代替运行",
+        "en": "Instead Run"
+      }
+    },
+    {
+      "key": "condition",
+      "value": {
+        "zh": "条件",
+        "en": "Condition"
+      }
+    },
+    {
+      "key": "definition",
+      "value": {
+        "zh": "定义",
+        "en": "Definition"
+      }
+    },
+    {
+      "key": "comment",
+      "value": {
+        "zh": "注释",
+        "en": "Comment"
+      }
+    }
+  ]
+}

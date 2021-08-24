@@ -1,0 +1,192 @@
+{
+  "mgrs": [
+    {
+      "class": "com.hh.hhdb_admin.mgr.login.LoginMgr",
+      "type": "LOGIN",
+      "config": {
+        "default_db": "hhdb"
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.monitor.MonitorMgr",
+      "type": "MONITOR",
+      "config": {
+        "default_db": "hhdb"
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.about.AboutMgr",
+      "type": "ABOUT",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.sequence.SequenceMgr",
+      "type": "SEQUENCE",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.query.QueryMgr",
+      "type": "QUERY",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.tree.TreeMgr",
+      "type": "TREE",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.usr.UsrMgr",
+      "type": "USR",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.main_frame.MainFrameMgr",
+      "type": "MAIN_FRAME",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.toolbar.ToolbarMgr",
+      "type": "TOOLBAR",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.menubar.MenubarMgr",
+      "type": "MENUBAR",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.status.StatusMgr",
+      "type": "STATUS",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.attribute.AttributeMgr",
+      "type": "ATTRIBUTE",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.function.FunctionMgr",
+      "type": "FUNCTION",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.database.DatabaseMgr",
+      "type": "DATABASE",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.tablespace.TableSpaceMgr",
+      "type": "TABLE_SPACE",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.view.ViewMgr",
+      "type": "VIEW",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.table_open.TableOpenMgr",
+      "type": "TABLE_OPEN",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.table.TableMgr",
+      "type": "TABLE",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.rule.RuleMgr",
+      "type": "RULE",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.schema.SchemaMgr",
+      "type": "SCHEMA",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.trigger.TriggerMgr",
+      "type": "TRIGGER",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.constraint.ConstraintMgr",
+      "type": "CONSTRAINT",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.column.ColumnMgr",
+      "type": "COLUMN",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.index.IndexMgr",
+      "type": "INDEX",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.pack.PackageMgr",
+      "type": "PACKAGE",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.db_task.TaskMgr",
+      "type": "DB_TASK",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.quick_query.QuickQueryMgr",
+      "type": "QUICK_CMD",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.sql_book.SqlBookMgr",
+      "type": "SQL_BOOK",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.vm_editor.VmMgr",
+      "type": "VM",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.gis.GisMgr",
+      "type": "GIS",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.obj_query.ObjQueryMgr",
+      "type": "OBJ_QUERY",
+      "config": {
+      }
+    }
+  ]
+}

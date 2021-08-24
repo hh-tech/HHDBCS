@@ -1,0 +1,17 @@
+## \deu[+] [Schema]     
+## List of user mappings
+#set($common1 = "SELECT um.srvname AS " + '"服务器"' +",
+	  um.usename AS " + '"用户名"')
+#set($common2 = "FROM pg_catalog.pg_user_mappings um")
+#set($common3 = "ORDER BY 1, 2;")	
+#set($plus = ",CASE WHEN umoptions IS NULL THEN '' ELSE   '(' || pg_catalog.array_to_string(ARRAY(SELECT   pg_catalog.quote_ident(option_name) ||  ' ' ||   pg_catalog.quote_literal(option_value)  FROM   pg_catalog.pg_options_to_table(umoptions)),  ', ') || ')'   END AS " + '"FDW选项"')
+#set($patt= "WHERE (um.srvname ~ '^($arg)$' OR um.usename ~ '^($arg)$')")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus
+#end
+$common2
+#if($arg)
+$patt
+#end
+$common3

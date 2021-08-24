@@ -1,0 +1,88 @@
+{
+  "keys": [
+    {
+      "key": "execute",
+      "value": {
+        "zh": "执行",
+        "en": "Run"
+      }
+    },
+    {
+      "key": "error",
+      "value": {
+        "zh": "错误",
+        "en": "error"
+      }
+    },
+    {
+      "key": "result",
+      "value": {
+        "zh": "结果",
+        "en": "result"
+      }
+    },
+    {
+      "key": "transverse",
+      "value": {
+        "zh": "横向显示",
+        "en": "Lateral display"
+      }
+    },
+    {
+      "key": "vertical",
+      "value": {
+        "zh": "纵向显示",
+        "en": "Longitudinal display"
+      }
+    },
+    {
+      "key": "maxRow",
+      "value": {
+        "zh": "最大行",
+        "en": "maxRow"
+      }
+    },
+    {
+      "key": "maxSet",
+      "value": {
+        "zh": "最大数量",
+        "en": "maxSet"
+      }
+    },
+    {
+      "key": "quickCMD",
+      "value": {
+        "zh": "快捷命令",
+        "en": "Quick CMD"
+      }
+    },
+    {
+      "key": "useHelp",
+      "value": {
+        "zh": "使用帮助",
+        "en": "Using Help"
+      }
+    },
+    {
+      "key": "help",
+      "value": {
+        "zh": "示例 \\xx [PATTERN] obj\n\n\\d  [PATTERN] 对象\n\\dn [PATTERN] 模式\n\\db [PATTERN] 表空间\n\\l  [PATTERN] 数据库\n\\du [PATTERN] 用户\n\\dt [PATTERN] 表\n\\di [PATTERN] 索引\n\\ds [PATTERN] 序列\n\\df [PATTERN] 函数\n\\dv [PATTERN] 视图\n如果表达式[PATTERN]为空，就显示当前库当前模式下的所有；\n如果表达式为*，则显示所有库模式下的所有；\n其他的都是根据表达式匹配对应的名称。\n最大数量：最多查询结果集\n最大行：单个结果集查询数据行数",
+        "en": "example \\xx [PATTERN] obj\n\n\\d  [PATTERN] Object\n\\dn [PATTERN] Schema\n\\db [PATTERN] Table Space\n\\l  [PATTERN] Database\n\\du [PATTERN] User\n\\dt [PATTERN] Table\n\\di [PATTERN] Index\n\\ds [PATTERN] Sequence\n\\df [PATTERN] Function\n\\dv [PATTERN] View\nIf the expression [pattern] is empty, all data in the current schema of the current library will be displayed;\nIf the expression is *, all data in all library schemas will be displayed;\nThe others match the corresponding name according to the expression.\nMaxSet: the maximum number of query result sets\nMaxRow: the maximum number of rows of query data in a single result set"
+      }
+    },
+    {
+      "key": "exception",
+      "value": {
+        "zh": " 是不合法的命令，请输入\\?查看帮助",
+        "en": " is an illegal command. Please enter \\? to view help"
+      }
+    },
+    {
+      "key": "notSupport",
+      "value": {
+        "zh": "此数据库不支持%s命令！",
+        "en": "This database does not support %s command!"
+      }
+    }
+  ]
+}

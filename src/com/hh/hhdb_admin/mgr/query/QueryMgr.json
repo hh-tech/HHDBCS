@@ -1,0 +1,417 @@
+{
+  "keys": [
+    {
+      "key": "auto-commit",
+      "value": {
+        "zh": "自动提交",
+        "en": "Auto Commit"
+      }
+    },
+    {
+      "key": "auto-guestPosting",
+      "value": {
+        "zh": "手动提交",
+        "en": "Manual Commit"
+      }
+    },
+    {
+      "key": "execute",
+      "value": {
+        "zh": "执行",
+        "en": "Run"
+      }
+    },
+    {
+      "key": "stop",
+      "value": {
+        "zh": "停止",
+        "en": "Stop"
+      }
+    },
+    {
+      "key": "submit",
+      "value": {
+        "zh": "提交",
+        "en": "Commit"
+      }
+    },
+    {
+      "key": "roll-back",
+      "value": {
+        "zh": "回滚",
+        "en": "Rollback"
+      }
+    },
+    {
+      "key": "toLoad",
+      "value": {
+        "zh": "本地加载",
+        "en": "Local loading"
+      }
+    },
+    {
+      "key": "bibleloaded",
+      "value": {
+        "zh": "宝典加载",
+        "en": "Book loading"
+      }
+    },
+    {
+      "key": "addbook",
+      "value": {
+        "zh": "保存到宝典",
+        "en": "Save to book"
+      }
+    },
+    {
+      "key": "download",
+      "value": {
+        "zh": "保存到本地",
+        "en": "Save as file"
+      }
+    },
+    {
+      "key": "format",
+      "value": {
+        "zh": "格式化SQL",
+        "en": "Format"
+      }
+    },
+    {
+      "key": "hotkeys",
+      "value": {
+        "zh": "设置",
+        "en": "setting"
+      }
+    },
+    {
+      "key": "current-settings",
+      "value": {
+        "zh": "当前设置",
+        "en": "current settings"
+      }
+    },
+    {
+      "key": "DQL",
+      "value": {
+        "zh": "文本内容当做一条DQL语句执行",
+        "en": "The text content is executed as a DQL statement"
+      }
+    },
+    {
+      "key": "^DQL",
+      "value": {
+        "zh": "文本内容当做一条非DQL语句执行",
+        "en": "The text content is executed as NON-DQL statement"
+      }
+    },
+    {
+      "key": "location",
+      "value": {
+        "zh": "位置",
+        "en": "location:"
+      }
+    },
+    {
+      "key": "line",
+      "value": {
+        "zh": "行",
+        "en": "Line"
+      }
+    },
+    {
+      "key": "error",
+      "value": {
+        "zh": "错误",
+        "en": "error"
+      }
+    },
+    {
+      "key": "interrupt",
+      "value": {
+        "zh": "强制中断sql执行",
+        "en": "Forced interrupt SQL execution."
+      }
+    },
+    {
+      "key": "info",
+      "value": {
+        "zh": "信息",
+        "en": "Info"
+      }
+    },
+    {
+      "key": "current",
+      "value": {
+        "zh": "当前页",
+        "en": "current page"
+      }
+    },
+    {
+      "key": "Select-rows",
+      "value": {
+        "zh": "选择行",
+        "en": "Select rows"
+      }
+    },
+    {
+      "key": "all",
+      "value": {
+        "zh": "全部",
+        "en": "all"
+      }
+    },
+    {
+      "key": "cancel",
+      "value": {
+        "zh": "取消",
+        "en": "cancel"
+      }
+    },
+    {
+      "key": "export",
+      "value": {
+        "zh": "导出当前查询结果",
+        "en": "Export current query results"
+      }
+    },
+    {
+      "key": "success",
+      "value": {
+        "zh": "成功",
+        "en": "success"
+      }
+    },
+    {
+      "key": "message",
+      "value": {
+        "zh": "信息",
+        "en": "Message"
+      }
+    },
+    {
+      "key": "hint",
+      "value": {
+        "zh": "提示",
+        "en": "hint"
+      }
+    },
+    {
+      "key": "result",
+      "value": {
+        "zh": "结果",
+        "en": "result"
+      }
+    },
+    {
+      "key": "transverse",
+      "value": {
+        "zh": "横向显示",
+        "en": "Lateral display"
+      }
+    },
+    {
+      "key": "vertical",
+      "value": {
+        "zh": "纵向显示",
+        "en": "Longitudinal display"
+      }
+    },
+    {
+      "key": "upper",
+      "value": {
+        "zh": "上一页",
+        "en": "Page up"
+      }
+    },
+    {
+      "key": "lower",
+      "value": {
+        "zh": "下一页",
+        "en": "Page down"
+      }
+    },
+    {
+      "key": "submitFailed",
+      "value": {
+        "zh": "提交失败",
+        "en": "Submit failed"
+      }
+    },
+    {
+      "key": "determine",
+      "value": {
+        "zh": "确定",
+        "en": "determine"
+      }
+    },
+    {
+      "key": "exp",
+      "value": {
+        "zh": "导出",
+        "en": "export"
+      }
+    },
+    {
+      "key": "counlist",
+      "value": {
+        "zh": "结果集总条数",
+        "en": "umber of results aggregated"
+      }
+    },
+    {
+      "key": "timeSpent",
+      "value": {
+        "zh": "耗时",
+        "en": "Total query time"
+      }
+    },
+    {
+      "key": "total",
+      "value": {
+        "zh": "总数",
+        "en": "total"
+      }
+    },
+    {
+      "key": "sqlError",
+      "value": {
+        "zh": "sql格式错误",
+        "en": "SQL format error"
+      }
+    },
+    {
+      "key": "noNext",
+      "value": {
+        "zh": "没有下一页数据了",
+        "en": "There is no next page data"
+      }
+    },
+    {
+      "key": "analyse",
+      "value": {
+        "zh": "分析",
+        "en": "analyse"
+      }
+    },
+    {
+      "key": "selectoneSQL",
+      "value": {
+        "zh": "请先选中一条sql,只对选中的sql进行分析",
+        "en": "Please select one SQL first and analyze only the selected SQL"
+      }
+    },
+    {
+      "key": "returned",
+      "value": {
+        "zh": "返回值",
+        "en": "returned"
+      }
+    },
+    {
+      "key": "output",
+      "value": {
+        "zh": "输出值",
+        "en": "output value"
+      }
+    },
+    {
+      "key": "rowsnumber",
+      "value": {
+        "zh": "结果显示行",
+        "en": "The result set shows the number of rows"
+      }
+    },
+    {
+      "key": "page",
+      "value": {
+        "zh": "页",
+        "en": "Page "
+      }
+    },
+    {
+      "key": "nextNo",
+      "value": {
+        "zh": "在手动模式下当前表对连接有限制不可下一页",
+        "en": "In manual mode, the current table is restricted to join and cannot be next page "
+      }
+    },
+    {
+      "key": "query",
+      "value": {
+        "zh": "查询窗口",
+        "en": "Query Window"
+      }
+    },
+    {
+      "key": "derived_type",
+      "value": {
+        "zh": "导出类型：",
+        "en": "Derived Type*:"
+      }
+    },
+    {
+      "key": "saveSqlBook",
+      "value": {
+        "zh": "保存到宝典",
+        "en": "save sql book"
+      }
+    },
+    {
+      "key": "automaticSplit",
+      "value": {
+        "zh": "自动拆分",
+        "en": "Automatic split"
+      }
+    },
+    {
+      "key": "singleQuery",
+      "value": {
+        "zh": "单句查询",
+        "en": "Single query"
+      }
+    },
+    {
+      "key": "singleExecution",
+      "value": {
+        "zh": "单句执行",
+        "en": "Single execution"
+      }
+    },
+    {
+      "key": "objectRefresh",
+      "value": {
+        "zh": "对象刷新",
+        "en": "Object Refresh"
+      }
+    },
+    {
+      "key": "refresh—success",
+      "value": {
+        "zh": "刷新成功",
+        "en": "Refresh the success"
+      }
+    },
+    {
+      "key": "name",
+      "value": {
+        "zh": "名称",
+        "en": "name"
+      }
+    },
+    {
+      "key": "type",
+      "value": {
+        "zh": "类型",
+        "en": "type"
+      }
+    },
+    {
+      "key": "close",
+      "value": {
+        "zh": "关闭",
+        "en": "close"
+      }
+    }
+  ]
+}

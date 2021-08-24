@@ -1,0 +1,18 @@
+{
+	"mgrs": [
+		{
+			"class": "com.hh.hhdb_admin.mgr.usr.UsrMgr",
+			"type": "USR",
+			"config": {
+			}
+		},
+		{
+			"class": "com.hh.hhdb_admin.test.MainTestMgr",
+			"type": "MAIN_FRAME",
+			"config":{
+				"comp_class": "com.hh.hhdb_admin.test.usr.UsrTestComp"
+			}
+
+		}
+	]
+}

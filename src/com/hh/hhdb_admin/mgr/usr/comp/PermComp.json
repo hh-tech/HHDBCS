@@ -1,0 +1,47 @@
+{
+	"keys": [
+		{
+			"key": "SAVE",
+			"value": {
+				"zh": "保存",
+				"en": "Save"
+			}
+		},{
+			"key": "PREVIEW_SQL",
+			"value": {
+				"zh": "SQL预览",
+				"en": "Preview Sql"
+			}
+		},{
+			"key": "USER",
+			"value": {
+				"zh": "用户",
+				"en": "User"
+			}
+		},{
+			"key": "CONN_ERROR",
+			"value": {
+				"zh": "未连接到数据库或连接出错",
+				"en": "Connection Error"
+			}
+		},{
+			"key": "SAVE_SUCCESS",
+			"value": {
+				"zh": "保存成功",
+				"en": "Save Success"
+			}
+		},{
+			"key": "SUPER_ERROR",
+			"value": {
+				"zh": "更新超级用户权限将不会生效！",
+				"en": "Updating superuser permissions will not take effect！"
+			}
+		},{
+			"key": "PERM_TITLE",
+			"value": {
+				"zh": "权限管理",
+				"en": "Permissions Management"
+			}
+		}
+	]
+}

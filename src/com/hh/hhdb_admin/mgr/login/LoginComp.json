@@ -1,0 +1,473 @@
+{
+  "keys": [
+    {
+      "key": "login",
+      "value": {
+        "zh": "登录",
+        "en": "Login"
+      }
+    },
+    {
+      "key": "test_conn",
+      "value": {
+        "zh": "测试连接",
+        "en": "Test Connection"
+      }
+    },
+    {
+      "key": "conn_successful",
+      "value": {
+        "zh": "连接成功",
+        "en": "Connection Successful"
+      }
+    },
+    {
+      "key": "conn_fail",
+      "value": {
+        "zh": "连接失败",
+        "en": "Connection Fail"
+      }
+    },
+    {
+      "key": "testing",
+      "value": {
+        "zh": "正在测试连接",
+        "en": "Testing connection"
+      }
+    },
+    {
+      "key": "switch",
+      "value": {
+        "zh": "切换连接",
+        "en": "Switch Connection"
+      }
+    },
+    {
+      "key": "config",
+      "value": {
+        "zh": "连接配置",
+        "en": "Connection Config"
+      }
+    },
+    {
+      "key": "conn_name",
+      "value": {
+        "zh": "名称* : ",
+        "en": "Name* : "
+      }
+    },
+    {
+      "key": "conn_view",
+      "value": {
+        "zh": "视图* : ",
+        "en": "View* : "
+      }
+    },
+    {
+      "key": "user_view",
+      "value": {
+        "zh": "用户视图",
+        "en": "User view"
+      }
+    },
+    {
+      "key": "dba_view",
+      "value": {
+        "zh": "高级视图",
+        "en": "DBA view"
+      }
+    },
+    {
+      "key": "language",
+      "value": {
+        "zh": "语言* : ",
+        "en": "Language* : "
+      }
+    },
+    {
+      "key": "EN",
+      "value": {
+        "zh": "英文",
+        "en": "English"
+      }
+    },
+    {
+      "key": "ZH",
+      "value": {
+        "zh": "中文",
+        "en": "Chinese"
+      }
+    },
+    {
+      "key": "db_type",
+      "value": {
+        "zh": "类型* : ",
+        "en": "Type* : "
+      }
+    },
+    {
+      "key": "hhdb",
+      "value": {
+        "zh": "恒辉数据库",
+        "en": "HHDB"
+      }
+    },
+    {
+      "key": "pgsql",
+      "value": {
+        "zh": "POSTGRESQL",
+        "en": "POSTGRESQL"
+      }
+    },
+    {
+      "key": "oracle",
+      "value": {
+        "zh": "ORACLE",
+        "en": "ORACLE"
+      }
+    },
+    {
+      "key": "mysql",
+      "value": {
+        "zh": "MYSQL",
+        "en": "MYSQL"
+      }
+    },
+    {
+      "key": "sqlserver",
+      "value": {
+        "zh": "SQLSERVER",
+        "en": "SQLSERVER"
+      }
+    },
+    {
+      "key": "db2",
+      "value": {
+        "zh": "DB2",
+        "en": "DB2"
+      }
+    },
+    {
+      "key": "dm",
+      "value": {
+        "zh": "达梦数据库",
+        "en": "DM"
+      }
+    },
+    {
+      "key": "db_url",
+      "value": {
+        "zh": "连接* : ",
+        "en": "Connection* : "
+      }
+    },
+    {
+      "key": "db_user",
+      "value": {
+        "zh": "用户* : ",
+        "en": "Username* : "
+      }
+    },
+    {
+      "key": "db_pass",
+      "value": {
+        "zh": "密码* : ",
+        "en": "Password* : "
+      }
+    },
+    {
+      "key": "db_schema",
+      "value": {
+        "zh": "模式 : ",
+        "en": "Schema : "
+      }
+    },
+    {
+      "key": "user_type",
+      "value": {
+        "zh": "用户类型 : ",
+        "en": "User type : "
+      }
+    },
+    {
+      "key": "choose",
+      "value": {
+        "zh": "选择",
+        "en": "Choose"
+      }
+    },
+    {
+      "key": "reset",
+      "value": {
+        "zh": "重置",
+        "en": "Reset"
+      }
+    },
+    {
+      "key": "save",
+      "value": {
+        "zh": "保存",
+        "en": "Save"
+      }
+    },
+    {
+      "key": "template",
+      "value": {
+        "zh": "模板",
+        "en": "Template"
+      }
+    },
+    {
+      "key": "saveSuccess",
+      "value": {
+        "zh": "保存成功",
+        "en": "Save Success!"
+      }
+    },
+    {
+      "key": "add",
+      "value": {
+        "zh": "新增",
+        "en": "Add"
+      }
+    },
+    {
+      "key": "edit",
+      "value": {
+        "zh": "修改",
+        "en": "Edit"
+      }
+    },
+    {
+      "key": "delete",
+      "value": {
+        "zh": "删除",
+        "en": "Delete"
+      }
+    },
+    {
+      "key": "select",
+      "value": {
+        "zh": "选择",
+        "en": "Select"
+      }
+    },
+    {
+      "key": "connNameNotNull",
+      "value": {
+        "zh": "名称不能为空！",
+        "en": "Name not ne null!"
+      }
+    },
+    {
+      "key": "pleaseSelectData",
+      "value": {
+        "zh": "请选择数据！",
+        "en": "Please Select Data!"
+      }
+    },
+    {
+      "key": "pleaseSelectOneData",
+      "value": {
+        "zh": "请选择一条数据！",
+        "en": "Please Select One Data!"
+      }
+    },
+    {
+      "key": "onlySelectOne",
+      "value": {
+        "zh": "只能选择一条数据！",
+        "en": "Only one piece of data can be selected!"
+      }
+    },
+    {
+      "key": "cancel",
+      "value": {
+        "zh": "取消",
+        "en": "Cancel"
+      }
+    },
+    {
+      "key": "tName",
+      "value": {
+        "zh": "名称",
+        "en": "Name"
+      }
+    },
+    {
+      "key": "tUser",
+      "value": {
+        "zh": "用户",
+        "en": "User"
+      }
+    },
+    {
+      "key": "tType",
+      "value": {
+        "zh": "类型",
+        "en": "Type"
+      }
+    },
+    {
+      "key": "tPass",
+      "value": {
+        "zh": "密码",
+        "en": "Password"
+      }
+    },
+    {
+      "key": "tUrl",
+      "value": {
+        "zh": "连接",
+        "en": "Url"
+      }
+    },
+    {
+      "key": "tSchema",
+      "value": {
+        "zh": "模式",
+        "en": "Schema"
+      }
+    },
+    {
+      "key": "sureDelete",
+      "value": {
+        "zh": "确定删除所选行?",
+        "en": "Are you sure to delete the selected row?"
+      }
+    },
+    {
+      "key": "hint",
+      "value": {
+        "zh": "提示",
+        "en": "hint"
+      }
+    },
+    {
+      "key": "deleteSuccess",
+      "value": {
+        "zh": "删除成功",
+        "en": "Delete Success"
+      }
+    },
+    {
+      "key": "deleteSuccess",
+      "value": {
+        "zh": "删除成功",
+        "en": "Delete Success"
+      }
+    },
+    {
+      "key": "connect",
+      "value": {
+        "zh": "连接",
+        "en": "Connect"
+      }
+    },
+    {
+      "key": "sys_dba",
+      "value": {
+        "zh": "超级管理员",
+        "en": "SYSDBA"
+      }
+    },
+    {
+      "key": "not_dba",
+      "value": {
+        "zh": "该用户不是DBA用户，无法使用高级视图",
+        "en": "User can`t use dba view"
+      }
+    },
+    {
+      "key": "general",
+      "value": {
+        "zh": "常规",
+        "en": "General"
+      }
+    },
+    {
+      "key": "ssh_enabled",
+      "value": {
+        "zh": "是否启用 SSH 通道",
+        "en": "Use SSH tunnel"
+      }
+    },
+    {
+      "key": "ssh_host",
+      "value": {
+        "zh": "主机",
+        "en": "Host"
+      }
+    },
+    {
+      "key": "ssh_port",
+      "value": {
+        "zh": "端口",
+        "en": "Port"
+      }
+    },
+    {
+      "key": "ssh_user",
+      "value": {
+        "zh": "用户",
+        "en": "User Name"
+      }
+    },
+    {
+      "key": "ssh_password",
+      "value": {
+        "zh": "密码",
+        "en": "Password"
+      }
+    },
+    {
+      "key": "ssh_config",
+      "value": {
+        "zh": "配置",
+        "en": "Config"
+      }
+    },
+    {
+      "key": "not_null",
+      "value": {
+        "zh": "不能为空",
+        "en": "cannot be null"
+      }
+    },
+    {
+      "key": "ssh_type",
+      "value": {
+        "zh": "认证方式",
+        "en": "Authentication Method"
+      }
+    },
+    {
+      "key": "ssh_public_key",
+      "value": {
+        "zh": "公钥",
+        "en": "Public Key"
+      }
+    },
+    {
+      "key": "ssh_private_key",
+      "value": {
+        "zh": "秘钥",
+        "en": "Private Key"
+      }
+    },
+    {
+      "key": "ssh_private_key_pwd",
+      "value": {
+        "zh": "口令",
+        "en": "Passphrase"
+      }
+    },
+    {
+      "key": "defaultSave",
+      "value": {
+        "zh": "默认保存 : ",
+        "en": "Default save : "
+      }
+    }
+  ]
+}

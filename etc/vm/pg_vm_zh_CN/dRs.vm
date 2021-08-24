@@ -1,0 +1,34 @@
+## \dRs[+] [PATTERN] 
+## list replication subscriptions
+#set($common1 = "SELECT subname AS "+ '"名称"' +",
+	pg_catalog.pg_get_userbyid(subowner) AS "+ '"拥有者"' +",
+	subenabled AS "+ '"启用"' +",
+	subpublications AS "+ '"公开"'+"")
+#set($common2 = "ORDER BY 1;")
+#set($patt = "AND subname ~ '^($arg)$'")
+#set($plus=",subsynccommit AS "+ '"同步提交"' +",
+	subconninfo AS "+ '"连接信息"' +"")
+#set($common3="FROM pg_catalog.pg_subscription
+	WHERE subdbid = (SELECT oid
+	                 FROM pg_catalog.pg_database
+	                 WHERE datname = pg_catalog.current_database())")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus
+#end
+$common3
+#if($arg)
+$patt
+#end
+$common2
+
+
+
+
+
+
+
+
+
+
+

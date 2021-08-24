@@ -1,0 +1,116 @@
+{
+  "keys": [
+    {
+      "key": "INDEX_NAME",
+      "value": {
+        "zh": "索引名 * : ",
+        "en": "Index Name :"
+      }
+    },
+    {
+      "key": "INDEX_TYPE",
+      "value": {
+        "zh": "类型 * : ",
+        "en": "Index Type :"
+      }
+    },
+    {
+      "key": "COLUMN",
+      "value": {
+        "zh": "列名",
+        "en": "Column"
+      }
+    },
+    {
+      "key": "sortOrder",
+      "value": {
+        "zh": "排序顺序",
+        "en": "Sort Order"
+      }
+    },
+    {
+      "key": "SELECT",
+      "value": {
+        "zh": "选择",
+        "en": "Select"
+      }
+    },
+    {
+      "key": "asc",
+      "value": {
+        "zh": "升序",
+        "en": "ASC"
+      }
+    },
+    {
+      "key": "desc",
+      "value": {
+        "zh": "降序",
+        "en": "DESC"
+      }
+    },
+    {
+      "key": "SAVE",
+      "value": {
+        "zh": "保存",
+        "en": "Save"
+      }
+    },
+    {
+      "key": "PREVIEW_SQL",
+      "value": {
+        "zh": "SQL预览",
+        "en": "Preview Sql"
+      }
+    },
+    {
+      "key": "SAVE_SUCCESS",
+      "value": {
+        "zh": "保存成功",
+        "en": "Save Success"
+      }
+    },
+    {
+      "key": "INPUT_NAME",
+      "value": {
+        "zh": "请填写索引名称！",
+        "en": "Please input the column name！"
+      }
+    },
+    {
+      "key": "ADD_TITLE",
+      "value": {
+        "zh": "新增索引",
+        "en": "Add Column"
+      }
+    },
+    {
+      "key": "INDEX_INFO",
+      "value": {
+        "zh": "索引信息",
+        "en": "Index Information"
+      }
+    },
+    {
+      "key": "INDEX_COLUMN",
+      "value": {
+        "zh": "索引字段 * : ",
+        "en": "Index Column"
+      }
+    },
+    {
+      "key": "SELECT_COL",
+      "value": {
+        "zh": "请选择索引列",
+        "en": "Please select a column！"
+      }
+    },
+    {
+      "key": "deleteSuccess",
+      "value": {
+        "zh": "删除成功",
+        "en": "Delete Success"
+      }
+    }
+  ]
+}

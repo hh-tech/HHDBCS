@@ -1,0 +1,27 @@
+## \dg[+]  [PATTERN]      
+## List of roles
+#set($common1 = "SELECT r.rolname as"+ '"Role name"'+", r.rolsuper as superuser, r.rolinherit as extends,
+	  r.rolcreaterole as"+ '"Create role"'+", r.rolcreatedb as"+ '"Create DB"'+", r.rolcanlogin as Replication,
+	  r.rolconnlimit as Bypass, r.rolvaliduntil as RLS,
+	  ARRAY(SELECT b.rolname
+	        FROM pg_catalog.pg_auth_members m
+	        JOIN pg_catalog.pg_roles b ON (m.roleid = b.oid)
+	        WHERE m.member = r.oid) as"+ '"Member of"')
+#set($common2 = ", r.rolreplication as copy
+	FROM pg_catalog.pg_roles r")
+#set($common3 = "ORDER BY 1;")
+#set($plus = ",pg_catalog.shobj_description(r.oid, 'pg_authid') AS Description")
+#set($patt= "WHERE r.rolname OPERATOR(pg_catalog.~) '^($arg)$'")
+#set($patt1= "WHERE r.rolname !~ '^pg_'")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus
+#end
+$common2
+#if($arg)
+$patt
+#elseif($cmdSql.indexOf('S')>0)
+#else
+$patt1
+#end
+$common3

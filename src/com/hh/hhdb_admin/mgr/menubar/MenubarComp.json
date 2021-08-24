@@ -1,0 +1,585 @@
+{
+  "keys": [
+    {
+      "key": "file",
+      "value": {
+        "zh": "文件(F)",
+        "en": "File(F)"
+      }
+    },
+    {
+      "key": "exit",
+      "value": {
+        "zh": "退出",
+        "en": "Exit"
+      }
+    },
+    {
+      "key": "tool",
+      "value": {
+        "zh": "工具(T)",
+        "en": "Tool(T)"
+      }
+    },
+    {
+      "key": "viewToolbar",
+      "value": {
+        "zh": "显示工具栏",
+        "en": "Show Toolbar"
+      }
+    },
+    {
+      "key": "hideToolbar",
+      "value": {
+        "zh": "隐藏工具栏",
+        "en": "Hide Toolbar"
+      }
+    },
+    {
+      "key": "switch",
+      "value": {
+        "zh": "切换连接",
+        "en": "Switch Connection"
+      }
+    },
+    {
+      "key": "query",
+      "value": {
+        "zh": "查询窗口",
+        "en": "Query Window"
+      }
+    },
+    {
+      "key": "db_task",
+      "value": {
+        "zh": "任务管理",
+        "en": "Task Manage"
+      }
+    },
+    {
+      "key": "quick_cmd",
+      "value": {
+        "zh": "快捷命令",
+        "en": "Quick CMD"
+      }
+    },
+    {
+      "key": "db_monitor",
+      "value": {
+        "zh": "访问监控",
+        "en": "Access Monitor"
+      }
+    },
+    {
+      "key": "sys_monitor",
+      "value": {
+        "zh": "系统监控",
+        "en": "System Monitor"
+      }
+    },
+    {
+      "key": "sftp",
+      "value": {
+        "zh": "SFTP",
+        "en": "SFTP"
+      }
+    },
+    {
+      "key": "sql_book",
+      "value": {
+        "zh": "SQL宝典",
+        "en": "SQL book"
+      }
+    },
+    {
+      "key": "help",
+      "value": {
+        "zh": "帮助(H)",
+        "en": "Help(H)"
+      }
+    },
+    {
+      "key": "about",
+      "value": {
+        "zh": "关于",
+        "en": "About"
+      }
+    },
+    {
+      "key": "license",
+      "value": {
+        "zh": "许可",
+        "en": "License"
+      }
+    },
+    {
+      "key": "db_lock_info",
+      "value": {
+        "zh": "数据库锁信息",
+        "en": "Database lock info"
+      }
+    },
+    {
+      "key": "db_test",
+      "value": {
+        "zh": "数据库性能测试",
+        "en": "Database Test"
+      }
+    },
+    {
+      "key": "pg_bench",
+      "value": {
+        "zh": "PgBench基准测试",
+        "en": "PgBench Test"
+      }
+    },
+    {
+      "key": "tpcc",
+      "value": {
+        "zh": "tpcc性能测试",
+        "en": "Tpcc Test"
+      }
+    },
+    {
+      "key": "sql_exchange",
+      "value": {
+        "zh": "SQL转换",
+        "en": "Sql Exchange"
+      }
+    },
+    {
+      "key": "setting",
+      "value": {
+        "zh": "设置",
+        "en": "Setting"
+      }
+    },
+    {
+      "key": "isExit",
+      "value": {
+        "zh": "是否退出程序？",
+        "en": "Exit The Program?"
+      }
+    },
+    {
+      "key": "tip",
+      "value": {
+        "zh": "提示",
+        "en": "Tips"
+      }
+    },
+    {
+      "key": "licenseInfo",
+      "value": {
+        "zh": "许可信息",
+        "en": "License Information"
+      }
+    },
+    {
+      "key": "updateLicense",
+      "value": {
+        "zh": "更新许可",
+        "en": "Update License"
+      }
+    },
+    {
+      "key": "next",
+      "value": {
+        "zh": "下一步",
+        "en": "Next"
+      }
+    },
+    {
+      "key": "PleUptLicense",
+      "value": {
+        "zh": "请先更新许可！",
+        "en": "Please update the license first!"
+      }
+    },
+    {
+      "key": "PleUptLicenseExpire",
+      "value": {
+        "zh": "许可过期，请更新许可！",
+        "en": "License expire,Please update the license!"
+      }
+    },
+    {
+      "key": "attribute",
+      "value": {
+        "zh": "属性",
+        "en": "Attribute"
+      }
+    },
+    {
+      "key": "value",
+      "value": {
+        "zh": "值",
+        "en": "Value"
+      }
+    },
+    {
+      "key": "licenseStatus",
+      "value": {
+        "zh": "许可状态",
+        "en": "License Status"
+      }
+    },
+    {
+      "key": "noLicense",
+      "value": {
+        "zh": "License不存在，请更新许可信息",
+        "en": "License does not exist, please update the license information!"
+      }
+    },
+    {
+      "key": "licenseExpired",
+      "value": {
+        "zh": "许可过期",
+        "en": "License expired!"
+      }
+    },
+    {
+      "key": "LicenseAvailable",
+      "value": {
+        "zh": "许可正常",
+        "en": "License Available"
+      }
+    },
+    {
+      "key": "licenseError",
+      "value": {
+        "zh": "License错误，请更新许可信息",
+        "en": "license Error, please update the license information!"
+      }
+    },
+    {
+      "key": "licenseCompany",
+      "value": {
+        "zh": "许可公司",
+        "en": "License Company"
+      }
+    },
+    {
+      "key": "licenseProduct",
+      "value": {
+        "zh": "许可产品",
+        "en": "License Product"
+      }
+    },
+    {
+      "key": "productVersion",
+      "value": {
+        "zh": "产品版本",
+        "en": "Product Version"
+      }
+    },
+    {
+      "key": "expireDate",
+      "value": {
+        "zh": "过期时间",
+        "en": "Expire Date"
+      }
+    },
+    {
+      "key": "daysRemaining",
+      "value": {
+        "zh": "使用期限",
+        "en": "Days Remaining"
+      }
+    },
+    {
+      "key": "chooseLicense",
+      "value": {
+        "zh": "选择许可",
+        "en": "Choose License"
+      }
+    },
+    {
+      "key": "Ok",
+      "value": {
+        "zh": "确定",
+        "en": "Ok"
+      }
+    },
+    {
+      "key": "cancel",
+      "value": {
+        "zh": "取消",
+        "en": "Cancel"
+      }
+    },
+    {
+      "key": "updateSuccess",
+      "value": {
+        "zh": "更新成功！",
+        "en": "Update Success!"
+      }
+    },
+    {
+      "key": "btn_value",
+      "value": {
+        "zh": "文件浏览",
+        "en": "File Browse"
+      }
+    },
+    {
+      "key": "licenseFile",
+      "value": {
+        "zh": "许可文件",
+        "en": "License File"
+      }
+    },
+    {
+      "key": "licenseFileNotNull",
+      "value": {
+        "zh": "请选择许可文件！",
+        "en": "Please Choose License File!"
+      }
+    },
+    {
+      "key": "version",
+      "value": {
+        "zh": "产品版本",
+        "en": "Product Version"
+      }
+    },
+    {
+      "key": "productName",
+      "value": {
+        "zh": "产品名称",
+        "en": "Product Name"
+      }
+    },
+    {
+      "key": "versionNotExit",
+      "value": {
+        "zh": "版本信息不存在！",
+        "en": "Version info Not Exit!"
+      }
+    },
+    {
+      "key": "versionError",
+      "value": {
+        "zh": "读取版本信息错误！",
+        "en": "Version Error!"
+      }
+    },
+    {
+      "key": "core_commit_date",
+      "value": {
+        "zh": "核心提交时间",
+        "en": "Latest Core Commit Date"
+      }
+    },
+    {
+      "key": "core_commit_version",
+      "value": {
+        "zh": "核心提交版本号",
+        "en": "Latest Core Commit Version"
+      }
+    },
+    {
+      "key": "commit_date",
+      "value": {
+        "zh": "提交时间",
+        "en": "Latest Commit Version"
+      }
+    },
+    {
+      "key": "commit_version",
+      "value": {
+        "zh": "提交版本号",
+        "en": "Latest Commit Version"
+      }
+    },
+    {
+      "key": "package_time",
+      "value": {
+        "zh": "打包时间",
+        "en": "Package Time"
+      }
+    },
+    {
+      "key": "sql_Conversion",
+      "value": {
+        "zh": "SQL转换",
+        "en": "SQL Conversion"
+      }
+    },
+    {
+      "key": "clear",
+      "value": {
+        "zh": "清空",
+        "en": "clear"
+      }
+    },
+    {
+      "key": "convSuccess",
+      "value": {
+        "zh": "转换成功",
+        "en": "Conversion success"
+      }
+    },
+    {
+      "key": "rowsnumber",
+      "value": {
+        "zh": "结果显示行",
+        "en": "The result set shows the number of rows"
+      }
+    },
+    {
+      "key": "quer_settings",
+      "value": {
+        "zh": "查询器快捷键设置",
+        "en": "Query shortcut key Settings"
+      }
+    },
+    {
+      "key": "frontkey",
+      "value": {
+        "zh": "前键",
+        "en": "Front key"
+      }
+    },
+    {
+      "key": "backkey",
+      "value": {
+        "zh": "后键",
+        "en": "Back key"
+      }
+    },
+    {
+      "key": "combination",
+      "value": {
+        "zh": "组合键",
+        "en": "Key combination"
+      }
+    },
+    {
+      "key": "key",
+      "value": {
+        "zh": "关键词",
+        "en": "key"
+      }
+    },
+    {
+      "key": "table_name",
+      "value": {
+        "zh": "表名称",
+        "en": "table name"
+      }
+    },
+    {
+      "key": "view_name",
+      "value": {
+        "zh": "视图名称",
+        "en": "View name"
+      }
+    },
+    {
+      "key": "fun_name",
+      "value": {
+        "zh": "函数名称",
+        "en": "function name"
+      }
+    },
+    {
+      "key": "synonyms-for",
+      "value": {
+        "zh": "同义词",
+        "en": "Synonyms For"
+      }
+    },
+    {
+      "key": "general_setting",
+      "value": {
+        "zh": "一般设置",
+        "en": "general setting"
+      }
+    },
+    {
+      "key": "automatic",
+      "value": {
+        "zh": "自动弹框",
+        "en": "automatic"
+      }
+    },
+    {
+      "key": "manual",
+      "value": {
+        "zh": "手动弹框",
+        "en": "Manual"
+      }
+    },
+    {
+      "key": "prompt_mode",
+      "value": {
+        "zh": "查询器弹框",
+        "en": "Query pop-up mode"
+      }
+    },
+    {
+      "key": "invalid",
+      "value": {
+        "zh": "无效",
+        "en": "invalid"
+      }
+    },
+    {
+      "key": "success",
+      "value": {
+        "zh": "成功",
+        "en": "success"
+      }
+    },
+    {
+      "key": "message",
+      "value": {
+        "zh": "信息",
+        "en": "Message"
+      }
+    },
+    {
+      "key": "settingError",
+      "value": {
+        "zh": "快捷键设置错误或冲突！",
+        "en": "Shortcut key setting error or conflict"
+      }
+    },
+    {
+      "key": "error",
+      "value": {
+        "zh": "错误",
+        "en": "error"
+      }
+    },
+    {
+      "key": "vm_setting",
+      "value": {
+        "zh": "模版编辑器快捷键设置",
+        "en": "Template editor shortcut settings"
+      }
+    },
+    {
+      "key": "null_view",
+      "value": {
+        "zh": "空值显示为 : ",
+        "en": "Null values are displayed as : "
+      }
+    },
+    {
+      "key": "copyInfo",
+      "value": {
+        "zh": "复制产品信息",
+        "en": "Copy product information"
+      }
+    },
+    {
+      "key": "copySuccess",
+      "value": {
+        "zh": "复制成功",
+        "en": "Copy sss"
+      }
+    }
+  ]
+}

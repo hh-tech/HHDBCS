@@ -1,0 +1,17 @@
+{
+	"keys": [
+		{
+			"key": "OPEN_VIEW",
+			"value": {
+				"zh": "打开视图",
+				"en": "Open View"
+			}
+		},{
+			"key": "OPEN_MVIEW",
+			"value": {
+				"zh": "打开物化视图",
+				"en": "Open Materialized View"
+			}
+		}
+	]
+}

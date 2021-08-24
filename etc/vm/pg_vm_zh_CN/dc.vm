@@ -1,0 +1,40 @@
+## \dc[S+] [PATTERN]      
+## List of conversions
+#set($common1 = "SELECT n.nspname AS " + '"架构模式"' +",
+	       c.conname AS " + '"名称"' +",
+	       pg_catalog.pg_encoding_to_char(c.conforencoding) AS " + '"来源"' +",
+	       pg_catalog.pg_encoding_to_char(c.contoencoding) AS " + '"目的地"' +",
+	       CASE WHEN c.condefault THEN 'yes'
+	       ELSE 'no' END AS " + '"预设?"')
+#set($common2 = "FROM pg_catalog.pg_conversion c
+	     JOIN pg_catalog.pg_namespace n ON n.oid = c.connamespace")
+#set($common3 = "WHERE true")
+#set($common4 = "AND pg_catalog.pg_conversion_is_visible(c.oid)
+	ORDER BY 1, 2;")
+#set($plus1 = ",d.description AS " + '"描述"')
+#set($plus2 = "LEFT JOIN pg_catalog.pg_description d ON d.classoid = c.tableoid
+	          AND d.objoid = c.oid AND d.objsubid = 0")
+#set($noS = "AND n.nspname <> 'pg_catalog'
+	  AND n.nspname <> 'information_schema'")
+#set($patt= "AND c.conname OPERATOR(pg_catalog.~) '^($arg)$'")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus1
+#end
+$common2
+#if($cmdSql.indexOf('+') > 0)
+$plus2
+#end
+$common3
+#if($cmdSql.indexOf('S') < 0)
+#if($arg)
+$patt
+#else
+$noS
+#end
+#else
+#if($arg)
+$patt
+#end
+#end
+$common4

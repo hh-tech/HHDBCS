@@ -1,0 +1,44 @@
+{
+  "mgrs": [
+    {
+      "class": "com.hh.hhdb_admin.mgr.main_frame.MainFrameMgr",
+      "type": "MAIN_FRAME",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.attribute.AttributeMgr",
+      "type": "ATTRIBUTE",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.toolbar.ToolbarMgr",
+      "type": "TOOLBAR",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.menubar.MenubarMgr",
+      "type": "MENUBAR",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.status.StatusMgr",
+      "type": "STATUS",
+      "config": {
+      }
+    },{
+      "class": "com.hh.hhdb_admin.mgr.tree.TreeMgr",
+      "type": "TREE",
+      "config": {
+      }
+    },{
+      "class": "com.hh.hhdb_admin.mgr.about.AboutMgr",
+      "type": "ABOUT",
+      "config": {
+      }
+    }
+  ]
+}

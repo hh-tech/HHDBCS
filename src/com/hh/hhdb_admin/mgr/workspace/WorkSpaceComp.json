@@ -1,0 +1,81 @@
+{
+	"keys": [
+		{
+			"key": "workspace",
+			"value": {
+				"zh": "工作空间",
+				"en": "Workspace"
+			}
+		},
+		{
+			"key": "file_not_exist",
+			"value": {
+				"zh": "文件不存在",
+				"en": "File is not exist"
+			}
+		},
+		{
+			"key": "no_pop",
+			"value": {
+				"zh": "不再弹出",
+				"en": "No more popup"
+			}
+		},
+		{
+			"key": "save",
+			"value": {
+				"zh": "保存",
+				"en": "Save"
+			}
+		},
+		{
+			"key": "save_suc",
+			"value": {
+				"zh": "保存成功",
+				"en": "Saved successfully"
+			}
+		},
+		{
+			"key": "ok",
+			"value": {
+				"zh": "确定",
+				"en": "Ok"
+			}
+		},
+		{
+			"key": "cancel",
+			"value": {
+				"zh": "取消",
+				"en": "Canecl"
+			}
+		},
+		{
+			"key": "workspaceOccupied",
+			"value": {
+				"zh": "表空间已占用，请更改！",
+				"en": "Workspace occupied, Please change!"
+			}
+		},
+		{
+			"key": "btn_value",
+			"value": {
+				"zh": "选择",
+				"en": "Choose"
+			}
+		},
+		{
+			"key": "desc",
+			"value": {
+				"zh": "所有目录",
+				"en": "All Directories"
+			}
+		},
+		{
+			"key": "workspaceNotNull",
+			"value": {
+				"zh": "请选择工作空间！",
+				"en": "Please Choose Workspace!"
+			}
+		}
+	]
+}

@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<event from="com.hhdb.csadmin.plugin.tree" to="com.hhdb.csadmin.plugin.prop"> 	
-	<!--一个事件中可以包含一个或者多个属性-->
-	<property name="show table_prop">
-	表格名称,test
-	表格大小,10K
-	</property>
-</event>

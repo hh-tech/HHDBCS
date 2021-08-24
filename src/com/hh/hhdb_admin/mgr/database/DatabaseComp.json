@@ -1,0 +1,345 @@
+{
+	"keys": [
+		{
+			"key": "save",
+			"value": {
+				"zh": "保存",
+				"en": "save"
+			}
+		},
+		{
+			"key": "addSuccess",
+			"value": {
+				"zh": "添加成功！",
+				"en": "Add Success!"
+			}
+		},
+		{
+			"key": "hint",
+			"value": {
+				"zh": "提示",
+				"en": "hint"
+			}
+		},
+		{
+			"key": "mistake",
+			"value": {
+				"zh": "错误",
+				"en": "Mistake"
+			}
+		},
+		{
+			"key": "previewSql",
+			"value": {
+				"zh": "SQL预览",
+				"en": "SQL preview"
+			}
+		},
+		{
+			"key": "databaseName",
+			"value": {
+				"zh": "数据库名 * ：",
+				"en": "DB Name * :"
+			}
+		},
+		{
+			"key": "dbOwner",
+			"value": {
+				"zh": "拥有者 * ：",
+				"en": "Owner * :"
+			}
+		},
+		{
+			"key": "dbSpaceName",
+			"value": {
+				"zh": "表空间 * ：",
+				"en": "Table Space * :"
+			}
+		},
+		{
+			"key": "dbDescription",
+			"value": {
+				"zh": "注解 ：",
+				"en": "Description :"
+			}
+		},
+		{
+			"key": "charSet",
+			"value": {
+				"zh": "字符集 ：",
+				"en": "Character Set :"
+			}
+		},
+		{
+			"key": "collateRule",
+			"value": {
+				"zh": "校对规则 ：",
+				"en": "Collate Rule :"
+			}
+		},
+		{
+			"key": "autoStorage",
+			"value": {
+				"zh": "自动储存 ：",
+				"en": "Auto Storage :"
+			}
+		},
+		{
+			"key": "autoStoragePath",
+			"value": {
+				"zh": "自动储存路径 ：",
+				"en": "Auto Storage Path :"
+			}
+		},
+		{
+			"key": "dbPath",
+			"value": {
+				"zh": "数据库路径 ：",
+				"en": "Db Path :"
+			}
+		},
+		{
+			"key": "codeSet",
+			"value": {
+				"zh": "字符集 ：",
+				"en": "Code Set :"
+			}
+		},
+		{
+			"key": "territory",
+			"value": {
+				"zh": "地区 ：",
+				"en": "Territory :"
+			}
+		},
+		{
+			"key": "pageSize",
+			"value": {
+				"zh": "分页大小 ：",
+				"en": "Page Size :"
+			}
+		},{
+			"key": "pleEnterDbName",
+			"value": {
+				"zh": "请输入数据库名！",
+				"en": "Please Enter DB Name!"
+			}
+		},
+		{
+			"key": "pleSelDbOwner",
+			"value": {
+				"zh": "请选择拥有者！",
+				"en": "Please Select Owner!"
+			}
+		},
+		{
+			"key": "pleSelDbSpace",
+			"value": {
+				"zh": "请选择表空间！",
+				"en": "Please Select Table Space!"
+			}
+		},
+		{
+			"key": "pleEntPath",
+			"value": {
+				"zh": "请填写自动存储路径！",
+				"en": "Please Enter Auto Storage Path!"
+			}
+		},
+		{
+			"key": "addDatabase",
+			"value": {
+				"zh": "添加数据库",
+				"en": "Add Database"
+			}
+		},{
+			"key": "notSupport",
+			"value": {
+				"zh": "暂不支持！",
+				"en": "Not Support!"
+			}
+		},
+		{
+			"key": "deleteSuccess",
+			"value": {
+				"zh": "删除成功",
+				"en": "Delete Success"
+			}
+		},
+		{
+			"key": "logic_name",
+			"value": {
+				"zh": "逻辑名称",
+				"en": "Logic_name"
+			}
+		},
+		{
+			"key": "file_type",
+			"value": {
+				"zh": "文件类型",
+				"en": "File_type"
+			}
+		},
+		{
+			"key": "file_group",
+			"value": {
+				"zh": "文件组",
+				"en": "File_group"
+			}
+		},
+		{
+			"key": "init_size",
+			"value": {
+				"zh": "初始大小(MB)",
+				"en": "Init_size(MB)"
+			}
+		},
+		{
+			"key": "auto_incr",
+			"value": {
+				"zh": "自动增长",
+				"en": "Auto_incr"
+			}
+		},
+		{
+			"key": "auto_incr_setting",
+			"value": {
+				"zh": "更改自动增长设置",
+				"en": "Auto_incr_setting"
+			}
+		},
+		{
+			"key": "file_path",
+			"value": {
+				"zh": "路径",
+				"en": "File_path"
+			}
+		},
+		{
+			"key": "file_name",
+			"value": {
+				"zh": "文件名",
+				"en": "File_name"
+			}
+		},
+		{
+			"key": "row_data",
+			"value": {
+				"zh": "行数据",
+				"en": "Row_data"
+			}
+		},
+		{
+			"key": "value1",
+			"value": {
+				"zh": "增量为 1 MB，不限制增长",
+				"en": "1 MB increment, unlimited growth"
+			}
+		},
+		{
+			"key": "log",
+			"value": {
+				"zh": "日志",
+				"en": "Log"
+			}
+		},
+		{
+			"key": "notApplicable",
+			"value": {
+				"zh": "不适用",
+				"en": "Not applicable"
+			}
+		},
+		{
+			"key": "value2",
+			"value": {
+				"zh": "增量为 10%，不限制增长",
+				"en": "10% increment, unlimited growth"
+			}
+		},
+		{
+			"key": "byPercentage",
+			"value": {
+				"zh": "按百分比(%)",
+				"en": "By Percentage"
+			}
+		},
+		{
+			"key": "byMB",
+			"value": {
+				"zh": "按 MB(MB)",
+				"en": "by MB(MB)"
+			}
+		},
+		{
+			"key": "LimitFileGrowth",
+			"value": {
+				"zh": "限制文件增长(MB)",
+				"en": "Limit File Growth(MB)"
+			}
+		},
+		{
+			"key": "unlimitedFileGrowth",
+			"value": {
+				"zh": "不限制文件增长",
+				"en": "Unlimited File Growth"
+			}
+		},
+		{
+			"key": "enableAutoGrowth",
+			"value": {
+				"zh": "启用自动增长",
+				"en": "Enable Auto Growth"
+			}
+		},
+		{
+			"key": "fileGrowth",
+			"value": {
+				"zh": "文件增长",
+				"en": "File Growth"
+			}
+		},
+		{
+			"key": "maximumFileSize",
+			"value": {
+				"zh": "文件增长",
+				"en": "Maximum File Size"
+			}
+		},
+		{
+			"key": "submit",
+			"value": {
+				"zh": "确定",
+				"en": "Submit"
+			}
+		},
+		{
+			"key": "cancel",
+			"value": {
+				"zh": "取消",
+				"en": "cancel"
+			}
+		},
+		{
+			"key": "Increments",
+			"value": {
+				"zh": "增量为 ",
+				"en": "In increments of "
+			}
+		},
+		{
+			"key": "maximumGrowthLimit",
+			"value": {
+				"zh": "，增长的最大值限制为 ",
+				"en": ", The maximum growth limit is "
+			}
+		},
+		{
+			"key": "databaseFile",
+			"value": {
+				"zh": "数据库文件：",
+				"en": "Database File"
+			}
+		}
+	]
+}

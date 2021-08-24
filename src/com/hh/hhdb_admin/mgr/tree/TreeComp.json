@@ -1,0 +1,536 @@
+{
+  "keys": [
+    {
+      "key": "server",
+      "value": {
+        "zh": "服务器：",
+        "en": "Server:"
+      }
+    },
+    {
+      "key": "search",
+      "value": {
+        "zh": "搜索",
+        "en": "Search"
+      }
+    },
+    {
+      "key": "searchAll",
+      "value": {
+        "zh": "搜索所有",
+        "en": "Search All"
+      }
+    },
+    {
+      "key": "dbGroup",
+      "value": {
+        "zh": "数据库集合",
+        "en": "Database Group"
+      }
+    },
+    {
+      "key": "tableSpaceGroup",
+      "value": {
+        "zh": "表空间集合",
+        "en": "TableSpace Group"
+      }
+    },
+    {
+      "key": "role",
+      "value": {
+        "zh": "角色",
+        "en": "Role"
+      }
+    },
+    {
+      "key": "loginUserGroup",
+      "value": {
+        "zh": "登录用户集合",
+        "en": "Login User Group"
+      }
+    },
+    {
+      "key": "columnGroup",
+      "value": {
+        "zh": "列集合",
+        "en": "Column Group"
+      }
+    },
+    {
+      "key": "constraintGroup",
+      "value": {
+        "zh": "约束集合",
+        "en": "Constraint Group"
+      }
+    },
+    {
+      "key": "indexGroup",
+      "value": {
+        "zh": "索引集合",
+        "en": "Index Group"
+      }
+    },
+    {
+      "key": "ruleGroup",
+      "value": {
+        "zh": "规则集合",
+        "en": "Rule Group"
+      }
+    },
+    {
+      "key": "triggerGroup",
+      "value": {
+        "zh": "触发器集合",
+        "en": "Trigger Group"
+      }
+    },
+    {
+      "key": "type",
+      "value": {
+        "zh": "类型",
+        "en": "Type"
+      }
+    },
+    {
+      "key": "sequence",
+      "value": {
+        "zh": "序列",
+        "en": "Sequence"
+      }
+    },
+    {
+      "key": "function",
+      "value": {
+        "zh": "函数",
+        "en": "Function"
+      }
+    },
+    {
+      "key": "materializedView",
+      "value": {
+        "zh": "物化视图",
+        "en": "MaterializedView"
+      }
+    },
+    {
+      "key": "view",
+      "value": {
+        "zh": "视图",
+        "en": "View"
+      }
+    },
+    {
+      "key": "table",
+      "value": {
+        "zh": "表",
+        "en": "Table"
+      }
+    },
+    {
+      "key": "schema",
+      "value": {
+        "zh": "模式",
+        "en": "Schema"
+      }
+    },
+    {
+      "key": "extension",
+      "value": {
+        "zh": "扩展",
+        "en": "Extension"
+      }
+    },
+    {
+      "key": "superRole",
+      "value": {
+        "zh": "超级角色",
+        "en": "Super Role"
+      }
+    },
+    {
+      "key": "dbRole",
+      "value": {
+        "zh": "建库角色",
+        "en": "Database Role"
+      }
+    },
+    {
+      "key": "authorizedRole",
+      "value": {
+        "zh": "授权角色",
+        "en": "Authorized Role"
+      }
+    },
+    {
+      "key": "forbiddenRole",
+      "value": {
+        "zh": "禁用角色",
+        "en": "Forbidden Role"
+      }
+    },
+    {
+      "key": "userGroup",
+      "value": {
+        "zh": "用户集合",
+        "en": "User Group"
+      }
+    },
+    {
+      "key": "add",
+      "value": {
+        "zh": "新增",
+        "en": "Add"
+      }
+    },
+    {
+      "key": "add_object_type",
+      "value": {
+        "zh": "新建对象类型",
+        "en": "Add Object Type"
+      }
+    },
+    {
+      "key": "add_collect_type",
+      "value": {
+        "zh": "新增集合类型",
+        "en": "Add Collect Type"
+      }
+    },
+    {
+      "key": "attribute",
+      "value": {
+        "zh": "属性",
+        "en": "Attribute"
+      }
+    },
+    {
+      "key": "refresh",
+      "value": {
+        "zh": "刷新",
+        "en": "Refresh"
+      }
+    },
+    {
+      "key": "script_mana",
+      "value": {
+        "zh": "脚本管理",
+        "en": "Script Management"
+      }
+    },
+    {
+      "key": "run_script",
+      "value": {
+        "zh": "运行脚本",
+        "en": "Run script"
+      }
+    },
+    {
+      "key": "edit",
+      "value": {
+        "zh": "修改",
+        "en": "Edit"
+      }
+    },
+    {
+      "key": "delete",
+      "value": {
+        "zh": "删除",
+        "en": "Delete"
+      }
+    },
+    {
+      "key": "remove_partition",
+      "value": {
+        "zh": "移除分区",
+        "en": "Remove Partition"
+      }
+    },
+    {
+      "key": "userGroup",
+      "value": {
+        "zh": "用户集合",
+        "en": "User Group"
+      }
+    },
+    {
+      "key": "backup",
+      "value": {
+        "zh": "备份",
+        "en": "Backup"
+      }
+    },
+    {
+      "key": "restore",
+      "value": {
+        "zh": "恢复",
+        "en": "Restore"
+      }
+    },
+    {
+      "key": "copy",
+      "value": {
+        "zh": "复制",
+        "en": "Copy"
+      }
+    },
+    {
+      "key": "paste",
+      "value": {
+        "zh": "粘贴",
+        "en": "Paste"
+      }
+    },
+    {
+      "key": "open",
+      "value": {
+        "zh": "打开",
+        "en": "Open"
+      }
+    },
+    {
+      "key": "design",
+      "value": {
+        "zh": "设计",
+        "en": "Design"
+      }
+    },
+    {
+      "key": "add_to_partition",
+      "value": {
+        "zh": "添加到分区表",
+        "en": "Add To partition"
+      }
+    },
+    {
+      "key": "add_partition",
+      "value": {
+        "zh": "添加分区",
+        "en": "Add Partition"
+      }
+    },
+    {
+      "key": "truncate",
+      "value": {
+        "zh": "清空",
+        "en": "Truncate"
+      }
+    },
+    {
+      "key": "cascade_truncate",
+      "value": {
+        "zh": "级联清空",
+        "en": "Cascade Truncate"
+      }
+    },
+    {
+      "key": "cascade_delete",
+      "value": {
+        "zh": "级联删除",
+        "en": "Cascade Delete"
+      }
+    },
+    {
+      "key": "import_data",
+      "value": {
+        "zh": "导入数据",
+        "en": "Import Data"
+      }
+    },
+    {
+      "key": "rename",
+      "value": {
+        "zh": "重命名",
+        "en": "Rename"
+      }
+    },
+    {
+      "key": "auth",
+      "value": {
+        "zh": "验证",
+        "en": "Auth"
+      }
+    },
+    {
+      "key": "debug",
+      "value": {
+        "zh": "调试",
+        "en": "Debug"
+      }
+    },
+    {
+      "key": "run",
+      "value": {
+        "zh": "运行",
+        "en": "Run"
+      }
+    },
+    {
+      "key": "authorize_management",
+      "value": {
+        "zh": "权限管理",
+        "en": "Authorize Management"
+      }
+    },
+    {
+      "key": "authorize_mana",
+      "value": {
+        "zh": "权限管理",
+        "en": "Authorize Management"
+      }
+    },
+    {
+      "key": "install",
+      "value": {
+        "zh": "安装",
+        "en": "Install"
+      }
+    },
+    {
+      "key": "uninstall",
+      "value": {
+        "zh": "卸载",
+        "en": "Uninstall"
+      }
+    },
+    {
+      "key": "refresh_data",
+      "value": {
+        "zh": "刷新数据",
+        "en": "Refresh Data"
+      }
+    },
+    {
+      "key": "warnning",
+      "value": {
+        "zh": "警告",
+        "en": "Warnning"
+      }
+    },
+    {
+      "key": "trigger",
+      "value": {
+        "zh": "触发器",
+        "en": "Trigger"
+      }
+    },
+    {
+      "key": "roleGroup",
+      "value": {
+        "zh": "角色集合",
+        "en": "Role Group"
+      }
+    },
+    {
+      "key": "remove_partition_success",
+      "value": {
+        "zh": "移除分区成功",
+        "en": "Remove Partition Success"
+      }
+    },
+    {
+      "key": "sure_delete",
+      "value": {
+        "zh": "是否删除?",
+        "en": "Sure Delete?"
+      }
+    },
+    {
+      "key": "delete_success",
+      "value": {
+        "zh": "删除成功",
+        "en": "Delete Success"
+      }
+    },
+    {
+      "key": "package",
+      "value": {
+        "zh": "包",
+        "en": "Package"
+      }
+    },
+    {
+      "key": "truncate_db",
+      "value": {
+        "zh": "清空数据库",
+        "en": "Truncate Database"
+      }
+    },
+    {
+      "key": "truncate_schema",
+      "value": {
+        "zh": "清空模式",
+        "en": "Truncate Schema"
+      }
+    },
+    {
+      "key": "purgeSuccess",
+      "value": {
+        "zh": "清除成功！",
+        "en": "Purge Success!"
+      }
+    },
+    {
+      "key": "flashbackSuccess",
+      "value": {
+        "zh": "闪回成功！",
+        "en": "Flashback Success!"
+      }
+    },
+    {
+      "key": "sure_purge",
+      "value": {
+        "zh": "是否清除?",
+        "en": "Sure Purge?"
+      }
+    },
+    {
+      "key": "sure_flashback",
+      "value": {
+        "zh": "是否闪回?",
+        "en": "Sure Flashback?"
+      }
+    },
+    {
+      "key": "hint",
+      "value": {
+        "zh": "提示",
+        "en": "Hint"
+      }
+    },
+    {
+      "key": "enterTableName",
+      "value": {
+        "zh": "请输入新的表名",
+        "en": "Please Enter Table Name"
+      }
+    },
+    {
+      "key": "rename",
+      "value": {
+        "zh": "重命名",
+        "en": "Rename"
+      }
+    },
+    {
+      "key": "schema",
+      "value": {
+        "zh": "模式",
+        "en": "Schema"
+      }
+    },
+    {
+      "key": "database",
+      "value": {
+        "zh": "数据库",
+        "en": "Database"
+      }
+    },
+    {
+      "key": "sure_change",
+      "value": {
+        "zh": "是否切换模式",
+        "en": "Sure Change Schema?"
+      }
+    }
+  ]
+}

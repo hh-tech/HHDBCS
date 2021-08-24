@@ -1,0 +1,68 @@
+[
+	{
+		"class": "oracle.jdbc.driver.OracleDriver",
+		"url": "jdbc:oracle:thin:@192.168.2.23:1521/ORCL",
+		"user": "QWE",
+		"password": "123456",
+		"schema": "",
+		"sys": false,
+		"active": true
+
+	},
+	{
+		"class": "com.mysql.cj.jdbc.Driver",
+		"url": "jdbc:mysql://192.168.2.190:3306/mysql?zeroDateTimeBehavior=CONVERT_TO_NULL&rewriteBatchedStatements=true&useCursorFetch=true&serverTimezone=Asia/Shanghai",
+		"user": "root",
+		"password": "dba$123",
+		"schema": "testdb",
+		"active": false
+	},
+	{
+		"class": "org.hhdbsql.Driver",
+		"url": "jdbc:hhdbsql://192.168.2.22:1432/hhdb",
+		"user": "dba",
+		"password": "123456",
+		"schema": "public",
+		"active": false
+	},
+	{
+		"class": "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+		"url": "jdbc:sqlserver://192.168.21.128:1433;DatabaseName=testdb",
+		"user": "sa",
+		"password": "dba$123",
+		"schema": "dbo",
+		"active": false
+	},
+	{
+		"class": "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+		"url": "jdbc:sqlserver://192.168.2.32:1433;DatabaseName=testdb",
+		"user": "sa",
+		"password": "123456",
+		"schema": "dbo",
+		"active": false
+	},
+	{
+		"class": "com.ibm.db2.jcc.DB2Driver",
+		"url": "jdbc:db2://192.168.21.129:50000/SAMPLE",
+		"user": "db2inst1",
+		"password": "dba$123",
+		"schema": "DB2INST1",
+		"active": false
+	},
+	{
+		"class": "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+		"url": "jdbc:sqlserver://192.168.23.157:1433;databaseName=tt",
+		"user": "sa",
+		"password": "dba$123",
+		"schema": "",
+		"active": false
+	},
+	{
+		"class": "com.ibm.db2.jcc.DB2Driver",
+		"url": "jdbc:db2://192.168.23.7:50000/testdb",
+		"user": "db2inst1",
+		"password": "12345678",
+		"schema": "testdb",
+		"active": false
+	}
+]
