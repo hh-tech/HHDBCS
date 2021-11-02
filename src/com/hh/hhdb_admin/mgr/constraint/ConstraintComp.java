@@ -3,8 +3,7 @@ package com.hh.hhdb_admin.mgr.constraint;
 import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.container.HBarPanel;
 import com.hh.frame.swingui.view.container.HDialog;
 import com.hh.frame.swingui.view.container.HPanel;
@@ -25,6 +24,7 @@ import com.hh.hhdb_admin.mgr.constraint.otherConst.AbsTable;
 import com.hh.hhdb_admin.mgr.table.TableComp;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -42,7 +42,11 @@ public abstract class ConstraintComp {
     private static final String DOMAIN_NAME = ConstraintComp.class.getName();
 
     static {
-        LangMgr.merge(DOMAIN_NAME, LangUtil.loadLangRes(ConstraintComp.class));
+        try {
+            LangMgr2.loadMerge(ConstraintComp.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private final AtomicInteger atomicId = new AtomicInteger();
@@ -183,12 +187,13 @@ public abstract class ConstraintComp {
 
     void delConst(String constType, String schema, String table, String constName) throws Exception {
         ConstraintUtil.delete(constType, schema, table, constName);
+        PopPaneUtil.info(StartUtil.parentFrame.getWindow(), getLang("deleteSuccess"));
         refreshTree();
     }
 
     public static String getLang(String key) {
-        LangMgr.setDefaultLang(StartUtil.default_language);
-        return LangMgr.getValue(DOMAIN_NAME, key);
+        LangMgr2.setDefaultLang(StartUtil.default_language);
+        return LangMgr2.getValue(DOMAIN_NAME, key);
     }
 
     private ImageIcon getIcon(String name) {

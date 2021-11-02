@@ -1,12 +1,18 @@
 package com.hh.hhdb_admin.test.column;
 
+import java.io.File;
+import java.sql.Connection;
+
+import javax.swing.JOptionPane;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.common.util.db.ConnUtil;
 import com.hh.frame.swingui.view.container.HBarPanel;
-import com.hh.frame.swingui.view.container.HDialog;
 import com.hh.frame.swingui.view.container.HFrame;
 import com.hh.frame.swingui.view.ctrl.HButton;
 import com.hh.frame.swingui.view.layout.bar.HBarLayout;
@@ -15,11 +21,6 @@ import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.mgr.column.ColumnComp;
 import com.hh.hhdb_admin.mgr.login.LoginUtil;
 import com.hh.hhdb_admin.test.MgrTestUtil;
-import org.apache.commons.lang3.StringUtils;
-
-import javax.swing.*;
-import java.io.File;
-import java.sql.Connection;
 
 /**
  * @author YuSai
@@ -69,7 +70,7 @@ public class ColumnCompTest {
                     jdbcBean.setSchema(schema);
                     tableName = LoginUtil.getRealName(tableName, dbTypeEnum.name());
                     colName = LoginUtil.getRealName(colName, dbTypeEnum.name());
-                    HDialog dialog = new HDialog(800, 600);
+//                    HDialog dialog = new HDialog(800, 600);
                     ColumnComp columnForm = new ColumnComp(conn, dbTypeEnum, schema, tableName) {
                         @Override
                         public void refreshTree() {

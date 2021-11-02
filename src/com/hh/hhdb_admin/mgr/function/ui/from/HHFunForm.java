@@ -15,6 +15,7 @@ import com.hh.frame.swingui.view.layout.GridSplitEnum;
 import com.hh.frame.swingui.view.layout.HDivLayout;
 import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.common.icon.IconSizeEnum;
+import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.function.FunctionMgr;
 import org.apache.commons.lang3.StringUtils;
 
@@ -94,7 +95,7 @@ public class HHFunForm extends FunBaseForm {
                 }
             }
             sqlText.append(")");
-            //函数才有返回值
+            
             if(yy.getValue().equals("FUNCTION")){
                 sqlText.append(" RETURNS ");
                 if (count >= 2) {
@@ -103,7 +104,10 @@ public class HHFunForm extends FunBaseForm {
                     sqlText.append(fh.getValue());
                 }
             }
-            sqlText.append(" AS ").append("$BODY$").append("\n").append("BEGIN").append("\n\n").append("END").append("\n").append("$BODY$").append("\n");
+            sqlText.append(" AS ").append("$BODY$").append("\n").append("BEGIN\n")
+                    .append("\t-- Routine body goes here...\n\n");
+            if(yy.getValue().equals("FUNCTION")) sqlText.append("\tRETURN '';\n");
+            sqlText.append("END").append("\n").append("$BODY$").append("\n");
             sqlText.append("LANGUAGE "+ "pl" + prefix + "sql" ).append(";");
         }
         return sqlText.toString();
@@ -137,7 +141,7 @@ public class HHFunForm extends FunBaseForm {
                 LastPanel lasp = new LastPanel(false);
                 lasp.set(mes.getComp());
     
-                HDialog dialog = new HDialog(600, 300);
+                HDialog dialog = new HDialog(StartUtil.parentFrame,600, 300);
                 dialog.setWindowTitle(FunctionMgr.getLang("result"));
                 dialog.setIconImage(IconFileUtil.getLogo(IconSizeEnum.SIZE_16).getImage());
                 HPanel hPanel = new HPanel();

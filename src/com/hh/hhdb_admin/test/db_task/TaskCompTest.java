@@ -1,11 +1,15 @@
 package com.hh.hhdb_admin.test.db_task;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.dbtask.DbTask;
 import com.hh.frame.dbtask.TaskType;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.container.HBarPanel;
 import com.hh.frame.swingui.view.container.HFrame;
 import com.hh.frame.swingui.view.container.HPanel;
@@ -22,17 +26,17 @@ import com.hh.hhdb_admin.mgr.db_task.dig.AbsCfgDig;
 import com.hh.hhdb_admin.mgr.db_task.dig.SqlFileCfgDig;
 import com.hh.hhdb_admin.test.MgrTestUtil;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
 public class TaskCompTest {
 
     private static final HPanel rootPanel = new HPanel();
 
     public static void main(String[] args) throws Exception {
         HHSwingUi.init();
-        LangMgr.merge(TaskMgr.class.getName(), LangUtil.loadLangRes(TaskMgr.class));
+        try {
+            LangMgr2.loadMerge(TaskMgr.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         JdbcBean jdbc = MgrTestUtil.getJdbcBean(DBTypeEnum.oracle);
         IconFileUtil.setIconBaseDir(new File("etc/icon/"));
         HFrame f = new HFrame(1024, HFrame.fromW2H(1024));

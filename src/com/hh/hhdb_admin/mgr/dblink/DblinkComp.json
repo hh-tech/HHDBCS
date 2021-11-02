@@ -1,0 +1,109 @@
+{
+	"keys": [
+		{
+			"key": "add",
+			"value": {
+				"zh": "新增",
+				"en": "Add"
+			}
+		},
+		{
+			"key": "edit",
+			"value": {
+				"zh": "编辑",
+				"en": "Edit"
+			}
+		},
+		{
+			"key": "dblink",
+			"value": {
+				"zh": "数据库链接",
+				"en": "Database link"
+			}
+		},
+		{
+			"key": "owner",
+			"value": {
+				"zh": "所有者：",
+				"en": "Owner: "
+			}
+		},
+		{
+			"key": "name",
+			"value": {
+				"zh": "名称：",
+				"en": "Name: "
+			}
+		},
+		{
+			"key": "shared",
+			"value": {
+				"zh": "已共享：",
+				"en": "Shared: "
+			}
+		},
+		{
+			"key": "public",
+			"value": {
+				"zh": "公共：",
+				"en": "Public: "
+			}
+		},
+		{
+			"key": "connection_to",
+			"value": {
+				"zh": "连接到：",
+				"en": "Connection to: "
+			}
+		},
+		{
+			"key": "username",
+			"value": {
+				"zh": "用户名：",
+				"en": "Username: "
+			}
+		},
+		{
+			"key": "password",
+			"value": {
+				"zh": "密码：",
+				"en": "Password: "
+			}
+		},
+		{
+			"key": "database",
+			"value": {
+				"zh": "数据库：",
+				"en": "Database: "
+			}
+		},
+		{
+			"key": "certifier",
+			"value": {
+				"zh": "认证者：",
+				"en": "Certifier: "
+			}
+		},
+		{
+			"key": "save",
+			"value": {
+				"zh": "保存",
+				"en": "Save"
+			}
+		},
+		{
+			"key": "sql_preview",
+			"value": {
+				"zh": "SQL预览",
+				"en": "SQL Preview"
+			}
+		},
+		{
+			"key": "savedSuccess",
+			"value": {
+				"zh": "保存成功！",
+				"en": "Saved successfully!"
+			}
+		}
+	]
+}

@@ -65,12 +65,12 @@ public class SchemaCompTest {
         toolBar.add(new HButton("删除模式") {
             @Override
             protected void onClick() {
-                try {
-                    schemaComp.delete(conn, selectBox.getValue());
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
-                loadSchema(conn, jdbcBean);
+//                try {
+//                    schemaComp.delete(conn, selectBox.getValue());
+//                } catch (Exception exception) {
+//                    exception.printStackTrace();
+//                }
+//                loadSchema(conn, jdbcBean);
             }
         });
         HDialog dialog = StartUtil.getMainDialog();

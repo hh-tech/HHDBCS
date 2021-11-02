@@ -1,17 +1,18 @@
 package com.hh.hhdb_admin.mgr.monitor.util;
 
-import com.hh.frame.common.base.DBTypeEnum;
-import com.hh.frame.common.util.db.SqlExeUtil;
-import com.hh.frame.common.util.db.SqlQueryUtil;
-import com.hh.frame.lang.LangEnum;
-import com.hh.frame.lang.LangMgr;
-import org.apache.commons.lang3.StringUtils;
-
 import java.sql.Connection;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.hh.frame.common.base.DBTypeEnum;
+import com.hh.frame.common.util.db.SqlExeUtil;
+import com.hh.frame.common.util.db.SqlQueryUtil;
+import com.hh.frame.lang.LangEnum;
+import com.hh.frame.lang.LangMgr2;
 
 public class MonitorUtil {
 
@@ -45,7 +46,7 @@ public class MonitorUtil {
         if (null != data) {
             String user;
             String total;
-            if (LangMgr.getDefaultLang().equals(LangEnum.EN)) {
+            if (LangMgr2.getDefaultLang().equals(LangEnum.EN)) {
                 user = columnValues.get(0).get("USE_MEM");
                 total = columnValues.get(0).get("TOTAL_MEM");
             } else {
@@ -74,7 +75,7 @@ public class MonitorUtil {
     public static String getNetInfo(Boolean bool) {
         String sql;
         String name = bool ? "eth_util.sh" : "eth_util";
-        if (LangMgr.getDefaultLang().equals(LangEnum.EN)) {
+        if (LangMgr2.getDefaultLang().equals(LangEnum.EN)) {
             sql = "select sys_util('" + name + "','lang=en eth_list') as eth_list;";
         } else {
             sql = "select sys_util('" + name + "','eth_list') as eth_list;";
@@ -91,7 +92,7 @@ public class MonitorUtil {
     public static String getDiskUsage(Boolean bool) {
         String sql;
         String name = bool ? "disk_util.sh" : "disk_util";
-        if (LangMgr.getDefaultLang().equals(LangEnum.EN)) {
+        if (LangMgr2.getDefaultLang().equals(LangEnum.EN)) {
             sql = "select sys_util('" + name + "','lang=en show_disk_usage') as show_disk_usage;";
         } else {
             sql = "select sys_util('" + name + "','show_disk_usage') as show_disk_usage;";
@@ -108,7 +109,7 @@ public class MonitorUtil {
     public static String getDiskPerf(Boolean bool) {
         String sql;
         String name = bool ? "disk_util.sh" : "disk_util";
-        if (LangMgr.getDefaultLang().equals(LangEnum.EN)) {
+        if (LangMgr2.getDefaultLang().equals(LangEnum.EN)) {
             sql = "select sys_util('" + name + "','lang=en show_disk_perf') as show_disk_perf;";
         } else {
             sql = "select sys_util('" + name + "','show_disk_perf') as show_disk_perf;";
@@ -125,7 +126,7 @@ public class MonitorUtil {
     public static String getOsInfo(Boolean bool) {
         String sql;
         String name = bool ? "sys_util.sh" : "sys_util";
-        if (LangMgr.getDefaultLang().equals(LangEnum.EN)) {
+        if (LangMgr2.getDefaultLang().equals(LangEnum.EN)) {
             sql = "select sys_util('" + name + "','lang=en os_info') as os_info;";
         } else {
             sql = "select sys_util('" + name + "','os_info') as os_info;";
@@ -142,7 +143,7 @@ public class MonitorUtil {
     public static String getMem(Boolean bool) {
         String sql;
         String name = bool ? "mem_util.sh" : "mem_util";
-        if (LangMgr.getDefaultLang().equals(LangEnum.EN)) {
+        if (LangMgr2.getDefaultLang().equals(LangEnum.EN)) {
             sql = "select sys_util('" + name + "','lang=en show_mem') as show_mem;";
         } else {
             sql = "select sys_util('" + name + "','show_mem') as show_mem;";
@@ -159,7 +160,7 @@ public class MonitorUtil {
     public static String getCpuInfo(Boolean bool) {
         String sql;
         String name = bool ? "cpu_util.sh" : "cpu_util";
-        if (LangMgr.getDefaultLang().equals(LangEnum.EN)) {
+        if (LangMgr2.getDefaultLang().equals(LangEnum.EN)) {
             sql = "select  sys_util('" + name + "','lang=en cpu_info') as cpu_info;";
         } else {
             sql = "select  sys_util('" + name + "','cpu_info') as cpu_info;";
@@ -176,7 +177,7 @@ public class MonitorUtil {
     public static String getCpuPerf(Boolean bool) {
         String sql;
         String name = bool ? "cpu_util.sh" : "cpu_util";
-        if (LangMgr.getDefaultLang().equals(LangEnum.EN)) {
+        if (LangMgr2.getDefaultLang().equals(LangEnum.EN)) {
             sql = "select  sys_util('" + name + "','lang=en cpu_perf') as cpu_perf;";
         } else {
             sql = "select  sys_util('" + name + "','cpu_perf') as cpu_perf;";

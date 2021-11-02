@@ -4,8 +4,7 @@ import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.util.db.SqlExeUtil;
 import com.hh.frame.create_dbobj.column.AbsColumn;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.HeightComp;
 import com.hh.frame.swingui.view.abs.AbsInput;
 import com.hh.frame.swingui.view.container.*;
@@ -29,6 +28,7 @@ import com.hh.hhdb_admin.mgr.table.comp.SqlViewDialog;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -44,7 +44,11 @@ public abstract class ColumnComp {
     private static final String DOMAIN_NAME = ColumnComp.class.getName();
 
     static {
-        LangMgr.merge(DOMAIN_NAME, LangUtil.loadLangRes(ColumnComp.class));
+        try {
+            LangMgr2.loadMerge(ColumnComp.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private final Connection conn;
@@ -261,10 +265,12 @@ public abstract class ColumnComp {
                     return;
                 }
                 try {
-                    absColumn.renameColumn(schema, tabName, colName, newName);
-                    dialog.dispose();
-                    refreshTree();
-                    PopPaneUtil.info(StartUtil.parentFrame.getWindow(), getLang("UPD_SUCCESS"));
+                    if (absColumn != null) {
+                        absColumn.renameColumn(schema, tabName, colName, newName);
+                        dialog.dispose();
+                        refreshTree();
+                        PopPaneUtil.info(StartUtil.parentFrame.getWindow(), getLang("UPD_SUCCESS"));
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                     logUtil.error(LOG_NAME, e);
@@ -291,14 +297,9 @@ public abstract class ColumnComp {
         dialog.show();
     }
 
-    public void delete(String table, String column) throws Exception {
-        absColumn.delColumn(schema, table, column);
-        refreshTree();
-    }
-
     public static String getLang(String key) {
-        LangMgr.setDefaultLang(StartUtil.default_language);
-        return LangMgr.getValue(DOMAIN_NAME, key);
+        LangMgr2.setDefaultLang(StartUtil.default_language);
+        return LangMgr2.getValue(DOMAIN_NAME, key);
     }
 
     public static ImageIcon getIcon(String name) {

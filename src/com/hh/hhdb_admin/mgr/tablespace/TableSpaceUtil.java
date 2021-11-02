@@ -94,10 +94,6 @@ public class TableSpaceUtil {
         tableSpace.addTableSpace(sql);
     }
 
-    public static void delete(String spaceName) throws SQLException {
-        tableSpace.delTabSpace(spaceName);
-    }
-
     static void previewSql(JsonObject data) throws SQLException {
         SqlViewDialog dialog = new SqlViewDialog();
         dialog.setSql(tableSpace.getSql(data));

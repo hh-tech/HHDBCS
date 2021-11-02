@@ -1,23 +1,28 @@
 package com.hh.hhdb_admin.mgr.table.column;
 
-import com.hh.frame.create_dbobj.table.base.AbsTableObjFun;
-import com.hh.frame.json.JsonObject;
-import com.hh.frame.json.JsonValue;
-import com.hh.frame.swingui.view.abs.AbsHComp;
-import com.hh.frame.swingui.view.tab.HTable;
-import com.hh.frame.swingui.view.tab.col.json.JsonCol;
-import com.hh.frame.swingui.view.util.PopPaneUtil;
-import com.hh.hhdb_admin.mgr.table.TableComp;
-import com.hh.hhdb_admin.mgr.table.common.TableUtil;
-import org.apache.commons.lang3.StringUtils;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.GridLayout;
 import java.awt.event.ItemEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.hh.frame.create_dbobj.table.base.AbsTableObjFun;
+import com.hh.frame.json.JsonObject;
+import com.hh.frame.json.JsonValue;
+import com.hh.frame.swingui.view.tab.HTable;
+import com.hh.frame.swingui.view.tab.col.json.JsonCol;
+import com.hh.frame.swingui.view.util.PopPaneUtil;
+import com.hh.hhdb_admin.mgr.table.TableComp;
+import com.hh.hhdb_admin.mgr.table.common.TableUtil;
 
 /**
  * @author oyx
@@ -29,7 +34,7 @@ public class ForeignTableColumn extends JsonCol {
 	public static final String FOREIGN_TABLE_NAME = "foreignTableName";
 //	public static final String FOREIGN_TABLE_ID = "foreignTableId";
 
-	private AbsHComp baseComp;
+//	private AbsHComp baseComp;
 	AbsTableObjFun tableObjFun;
 
 	public ForeignTableColumn(String name, String value, HTable hTab, Connection conn) {
@@ -81,7 +86,11 @@ public class ForeignTableColumn extends JsonCol {
 			myPanel.add(schemaBox);
 			myPanel.add(new JLabel(TableComp.getLang("table")));
 			myPanel.add(tableBox);
-			int result = JOptionPane.showConfirmDialog(baseComp != null ? baseComp.getComp() : getTab().getComp().getParent().getParent(), myPanel, "请选外键表", JOptionPane.OK_CANCEL_OPTION);
+
+			final JDialog dialog = new JDialog();
+			dialog.setAlwaysOnTop(dialog.isAlwaysOnTopSupported());
+
+			int result = JOptionPane.showConfirmDialog(dialog, myPanel, "请选外键表", JOptionPane.OK_CANCEL_OPTION);
 			if (result == JOptionPane.OK_OPTION) {
 				selectSchema = (String) schemaBox.getSelectedItem();
 				selectTable = (String) tableBox.getSelectedItem();

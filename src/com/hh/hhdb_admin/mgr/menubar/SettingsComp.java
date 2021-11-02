@@ -58,7 +58,7 @@ public class SettingsComp {
             rowInput = new TextInput("varPageSize", fileJsonArr.get("varPageSize").asInt()+"");
             rowInput.setInputVerifier(VerifyUtil.getTextIntVerifier(MenubarComp.getLang("rowsnumber"), 1, 2147483647));
             nullInput = new TextInput("null");
-            dialog = new HDialog(StartUtil.parentFrame, 600, 590);
+            dialog = new HDialog(StartUtil.parentFrame, 650, 640);
             dialog.setRootPanel(init());
             dialog.setIconImage(MenubarComp.getIcon("setting"));
             dialog.setWindowTitle(MenubarComp.getLang("setting"));
@@ -78,6 +78,7 @@ public class SettingsComp {
         keyhPanel.add(getKeyWordPanel(MenubarComp.getLang("view_name"), QueryEditUtil.VIEW_KEYWORD));
         keyhPanel.add(getKeyWordPanel(MenubarComp.getLang("fun_name"), QueryEditUtil.FUN_KEYWORD));
         keyhPanel.add(getKeyWordPanel(MenubarComp.getLang("synonyms-for"), QueryEditUtil.SYNONYM_KEYWORD));
+        keyhPanel.add(getKeyWordPanel(MenubarComp.getLang("package"), QueryEditUtil.PACKAGE_KEYWORD));
         keyhPanel.add(new HeightComp(5));
 
         VMkeyhPanel.setTitle(MenubarComp.getLang("vm_setting"));
@@ -166,12 +167,13 @@ public class SettingsComp {
                 String viewText = ((HGridPanel) keyhPanel.getHComp(QueryEditUtil.VIEW_KEYWORD)).getInputValue(QueryEditUtil.VIEW_KEYWORD);
                 String funText = ((HGridPanel) keyhPanel.getHComp(QueryEditUtil.FUN_KEYWORD)).getInputValue(QueryEditUtil.FUN_KEYWORD);
                 String synonymText = ((HGridPanel) keyhPanel.getHComp(QueryEditUtil.SYNONYM_KEYWORD)).getInputValue(QueryEditUtil.SYNONYM_KEYWORD);
+                String packageText = ((HGridPanel) keyhPanel.getHComp(QueryEditUtil.PACKAGE_KEYWORD)).getInputValue(QueryEditUtil.PACKAGE_KEYWORD);
                 String vmkeyText = ((HGridPanel) VMkeyhPanel.getHComp(QueryEditUtil.VMKEYWORD)).getInputValue(QueryEditUtil.VMKEYWORD);
                 String varPageSize = ((HGridPanel) generalPanel.getHComp("varPageSize")).getInputValue("varPageSize");
                 String automatic = ((HGridPanel) generalPanel.getHComp(QueryEditUtil.AUTOMATIC)).getInputValue(QueryEditUtil.AUTOMATIC);
                 String nul = ((HGridPanel) generalPanel.getHComp("null")).getInputValue("null");
 
-                if (checkQkey(keyText,tabText,viewText,funText,synonymText,vmkeyText)) return;
+                if (checkQkey(keyText,tabText,viewText,funText,synonymText,packageText,vmkeyText)) return;
                 BufferedWriter writer = null;
                 try {
                     //保存快捷方式到json
@@ -187,6 +189,7 @@ public class SettingsComp {
                                 newObj.add(QueryEditUtil.VIEW_KEYWORD, viewText);
                                 newObj.add(QueryEditUtil.FUN_KEYWORD, funText);
                                 newObj.add(QueryEditUtil.SYNONYM_KEYWORD, synonymText);
+                                newObj.add(QueryEditUtil.PACKAGE_KEYWORD, packageText);
                                 newObj.add(QueryEditUtil.VMKEYWORD, vmkeyText);
                                 jsob.add(a.getName(), newObj);
                                 break;
@@ -236,7 +239,7 @@ public class SettingsComp {
     /**
      * 快捷键合法验证
      */
-    private boolean checkQkey(String keyText,String tabText,String viewText,String funText,String synonymText,String vmkeyText) {
+    private boolean checkQkey(String keyText,String tabText,String viewText,String funText,String synonymText,String packageText,String vmkeyText) {
         for (String s : Arrays.asList(keyText, tabText, viewText,funText,synonymText,vmkeyText)) {
             if (s.equals(MenubarComp.getLang("invalid")) || s.equals("Ctrl+f")) {
                 JOptionPane.showMessageDialog(null, MenubarComp.getLang("settingError") + s, MenubarComp.getLang("error"), JOptionPane.ERROR_MESSAGE);
@@ -247,12 +250,18 @@ public class SettingsComp {
         if (verify(keyText,viewText)) return true;
         if (verify(keyText,funText)) return true;
         if (verify(keyText,synonymText)) return true;
+        if (verify(keyText,packageText)) return true;
         if (verify(tabText,viewText)) return true;
         if (verify(tabText,funText)) return true;
         if (verify(tabText,synonymText)) return true;
+        if (verify(tabText,packageText)) return true;
         if (verify(viewText,funText)) return true;
         if (verify(viewText,synonymText)) return true;
-        return verify(funText, synonymText);
+        if (verify(viewText,packageText)) return true;
+        if (verify(funText,synonymText)) return true;
+        if (verify(funText,packageText)) return true;
+        if (verify(synonymText,packageText)) return true;
+        return false;
     }
 
     private boolean verify(String str,String str1){

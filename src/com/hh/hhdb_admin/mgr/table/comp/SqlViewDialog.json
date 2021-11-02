@@ -6,6 +6,18 @@
 				"zh": "SQL预览",
 				"en": "Preview Sql"
 			}
+		},{
+			"key": "TO_QUERY",
+			"value": {
+				"zh": "复制到查询器",
+				"en": "To Query"
+			}
+		},{
+			"key": "CANCEL",
+			"value": {
+				"zh": "取消",
+				"en": "Cancel"
+			}
 		}
 	]
 }

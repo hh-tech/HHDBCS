@@ -6,15 +6,11 @@ import com.hh.frame.create_dbobj.treeMr.base.TreeMrNode;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
 import com.hh.frame.create_dbobj.treeMr.base.ViewType;
 import com.hh.frame.create_dbobj.treeMr.mr.AbsTreeMr;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.container.HPanel;
 import com.hh.frame.swingui.view.container.HTabPane;
 import com.hh.frame.swingui.view.container.LastPanel;
-import com.hh.frame.swingui.view.ctrl.HButton;
 import com.hh.frame.swingui.view.input.TextInput;
-import com.hh.frame.swingui.view.layout.GridSplitEnum;
-import com.hh.frame.swingui.view.layout.HDivLayout;
 import com.hh.frame.swingui.view.tree.HTreeNode;
 import com.hh.hhdb_admin.common.icon.IconBean;
 import com.hh.hhdb_admin.common.icon.IconFileUtil;
@@ -24,6 +20,7 @@ import com.hh.hhdb_admin.mgr.tree.handler.RightClickHandler;
 import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,7 +35,11 @@ public class TreeComp extends HPanel {
     public static final String DOMAIN_NAME = TreeComp.class.getName();
 
     static {
-        LangMgr.merge(DOMAIN_NAME, LangUtil.loadLangRes(TreeComp.class));
+        try {
+            LangMgr2.loadMerge(TreeComp.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private CsTree tree;
@@ -65,9 +66,12 @@ public class TreeComp extends HPanel {
 
             TreeMrType[] nodeArr = {TreeMrType.COLUMN_GROUP, TreeMrType.CONSTRAINT_GROUP, TreeMrType.FOREIGN_KEY_GROUP,
                     TreeMrType.CHECK_KEY_GROUP, TreeMrType.PRIMARY_KEY_GROUP, TreeMrType.UNIQUE_KEY_GROUP,
-                    TreeMrType.INDEX_GROUP, TreeMrType.RULE_GROUP, TreeMrType.TRIGGER_GROUP, TreeMrType.COLUMN,
+                    TreeMrType.INDEX_GROUP, TreeMrType.RULE_GROUP, TreeMrType.TRIGGER_GROUP, TreeMrType.TRIGGER, TreeMrType.COLUMN,
                     TreeMrType.INDEX, TreeMrType.RULE, TreeMrType.TRIGGER, TreeMrType.FOREIGN_KEY, TreeMrType.CHECK_KEY,
-                    TreeMrType.PRIMARY_KEY, TreeMrType.UNIQUE_KEY
+                    TreeMrType.PRIMARY_KEY, TreeMrType.UNIQUE_KEY, TreeMrType.PACKAGE_HEAD, TreeMrType.PACKAGE_BODY,
+                    TreeMrType.PACKAGE_FUNCTION_GROUP, TreeMrType.PACKAGE_FUNCTION, TreeMrType.PACKAGE_PROCEDURE_GROUP,
+                    TreeMrType.PACKAGE_PROCEDURE, TreeMrType.PACKAGE_TYPE_GROUP, TreeMrType.PACKAGE_TYPE,
+                    TreeMrType.PACKAGE_HEAD_REFERENCES_GROUP, TreeMrType.PACKAGE_BODY_REFERENCES_GROUP, TreeMrType.PACKAGE_REFERENCES
             };
             Arrays.asList(nodeArr).forEach(item -> treeComp.tree.addExcSechType(item.name()));
             treeComp.initMainTreePanel(loginBean, treeComp.tree);
@@ -101,23 +105,23 @@ public class TreeComp extends HPanel {
     }
 
     private HPanel getSearchPanel() {
-        HPanel searchPanel = new HPanel(new HDivLayout(GridSplitEnum.C9));
+        HPanel searchPanel = new HPanel();
         searchPanel.getComp().setMaximumSize(new Dimension(0, 300));
-        TextInput searchInput = new TextInput();
-        searchPanel.add(searchInput);
-        searchPanel.getComp().setBackground(Color.white);
-        searchPanel.add(new HButton(getLang("search")) {
+        TextInput searchInput = new TextInput() {
             @Override
-            protected void onClick() {
+            protected void doChange() {
                 if (isSchemaSearch) {
-                    schemaTree.searchNode(searchInput.getValue());
+                    schemaTree.searchNode(this.getValue());
                     schemaTree.openAllRootNode();
                 } else {
-                    tree.searchNode(searchInput.getValue());
+                    tree.searchNode(this.getValue());
                     tree.openAllRootNode();
                 }
             }
-        });
+        };
+
+        searchPanel.add(searchInput);
+        searchPanel.getComp().setBackground(Color.white);
         return searchPanel;
     }
 
@@ -177,11 +181,15 @@ public class TreeComp extends HPanel {
      * @param schemaName 模式名
      * @param tableName  表名
      * @param nodeType   节点类型
+     * @param isParent   是否刷新指定节点的父节点
      */
-    public void refreshNode(String schemaName, String tableName, TreeMrType nodeType) {
+    public void refreshNode(String schemaName, String tableName, TreeMrType nodeType, Boolean isParent) {
         HTreeNode targetNode = getNode(tree.getRootNode(), schemaName, tableName, nodeType);
         if (targetNode == null) {
             return;
+        }
+        if (isParent) {
+            targetNode = targetNode.getParentHTreeNode();
         }
         tree.getLeftDoubleHandler().refreshNode(targetNode);
     }
@@ -215,7 +223,7 @@ public class TreeComp extends HPanel {
     }
 
     public static String getLang(String key) {
-        return LangMgr.getValue(DOMAIN_NAME, key);
+        return LangMgr2.getValue(DOMAIN_NAME, key);
     }
 
 

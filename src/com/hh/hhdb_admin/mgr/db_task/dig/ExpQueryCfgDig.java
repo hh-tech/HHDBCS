@@ -1,24 +1,36 @@
 package com.hh.hhdb_admin.mgr.db_task.dig;
 
 import com.hh.frame.common.base.JdbcBean;
+import com.hh.frame.common.util.DriverUtil;
+import com.hh.frame.common.util.db.ConnUtil;
 import com.hh.frame.dbmg.exp.data.ExpEnum;
+import com.hh.frame.dbobj2.DataUtil;
+import com.hh.frame.dbquery.QueryTool;
 import com.hh.frame.dbtask.DbTask;
 import com.hh.frame.dbtask.ExpQueryAsCsvOrXlsTask;
 import com.hh.frame.dbtask.ExpQueryAsInsertTask;
+import com.hh.frame.sqlwin.WinMgr;
 import com.hh.frame.swingui.view.container.HPanel;
 import com.hh.frame.swingui.view.ctrl.HButton;
 import com.hh.frame.swingui.view.input.*;
 import com.hh.frame.swingui.view.input.fc.DirChooserInput;
 import com.hh.frame.swingui.view.layout.GridSplitEnum;
 import com.hh.frame.swingui.view.layout.HDivLayout;
+import com.hh.frame.swingui.view.util.PopPaneUtil;
 import com.hh.frame.swingui.view.util.VerifyUtil;
+import com.hh.hhdb_admin.common.util.DbCmdStrUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.query.util.TempEdit;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
+import java.io.File;
+import java.sql.Connection;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -49,18 +61,22 @@ public class ExpQueryCfgDig extends AbsCfgDig {
         dialog.setWindowTitle(getLang("query_export"));
         setJdbcPanel();
         rootPanel.add(initPanel());
-        rootPanel.add(super.getToolBar());
+        rootPanel.add(getToolBar());
         dialog.setRootPanel(rootPanel);
-        super.setSize(rootPanel.getHeight() + 70);
+        setSize(rootPanel.getHeight() + 70);
         if (config != null) {
             String schemaName = config.get(StartUtil.PARAM_SCHEMA);
             String sql = config.get(SQL);
             schemaInput.setValue(schemaName);
             sqlInput.setValue(sql);
+            if (StringUtils.isNotBlank(schemaName) && StringUtils.isNotBlank(sql)) {
+                templateInput.setValue(geneTemplate(schemaName, sql));
+            }
             if (config.get("taskName") != null) {
                 setTaskName(config.get("taskName"));
             }
         }
+        
     }
 
     @Override
@@ -78,8 +94,8 @@ public class ExpQueryCfgDig extends AbsCfgDig {
         if (sqlInput.isEnabled()) {
             sqlInput.setValue("");
         }
-
-        templateInput.setValue("");
+        boolean isSetTemp = !sqlInput.isEnabled() && !schemaInput.isEnabled();
+        templateInput.setValue(isSetTemp ? geneTemplate(schemaInput.getValue(), sqlInput.getValue()) : "");
         perFileLinesInput.setValue("");
         dirPath.setValue("");
     }
@@ -121,11 +137,47 @@ public class ExpQueryCfgDig extends AbsCfgDig {
             config.put("expEnum", ExpEnum.csv.name());
             task = new ExpQueryAsCsvOrXlsTask(getTaskName(), jdbc, config);
         } else {
-            config.put("expEnum", ExpEnum.xls.name());
+            config.put("expEnum", ExpEnum.xlsx.name());
             task = new ExpQueryAsCsvOrXlsTask(getTaskName(), jdbc, config);
         }
     }
-
+    
+    private String geneTemplate(String schemaName,String sql) {
+        String res = "";
+        String sqlName = sqlInput.getValue();
+        if (StringUtils.isBlank(schemaName)) {
+            PopPaneUtil.error(StartUtil.parentFrame.getWindow(),getLang("schema_not_null"));
+            return res;
+        }
+        if (StringUtils.isBlank(sqlName)) {
+            PopPaneUtil.error(StartUtil.parentFrame.getWindow(),getLang("sql_not_null"));
+            return res;
+        }
+        
+        String exportFile = WinMgr.workDir + File.separator + new Date().getTime() + File.separator;  //数据临时文件夹
+        Connection conn = null;
+        try {
+            conn = ConnUtil.getConn(jdbc);
+            if (!schemaName.equals(jdbc.getSchema())) ConnUtil.setCurrentSchema(conn, DbCmdStrUtil.toDbCmdStr(schemaName, DriverUtil.getDbType(jdbc)) );
+            QueryTool expdata = new QueryTool(conn, sql, new File(exportFile), 1);
+            expdata.first();
+            Map<String, String> defMap = new LinkedHashMap<>();
+            expdata.getColNames().forEach(a -> defMap.put(a,a));
+            res = DataUtil.getInsertVm(defMap, jdbc.getSchema(), "new_table");
+        } catch (Exception e) {
+            e.printStackTrace();
+            PopPaneUtil.error(dialog.getWindow(),e.getMessage());
+        } finally {
+            try {
+                if (new File(exportFile).exists()) FileUtils.forceDelete(new File(exportFile));
+                ConnUtil.close(conn);
+            } catch (Exception e) {
+                PopPaneUtil.error(dialog.getWindow(),e);
+            }
+        }
+        return res;
+    }
+    
     private HPanel initPanel() {
         HPanel panel = new HPanel();
         panel.setTitle(getLang("query_config"));
@@ -143,7 +195,12 @@ public class ExpQueryCfgDig extends AbsCfgDig {
                     templateLine.add(new LabelInput(getLang("data_template")), templateInput, new HButton(getLang("template")) {
                         @Override
                         protected void onClick() {
-                            new TempEdit(templateInput.getValue(), jdbc, sqlInput.getValue(), "*请根据选择的表修改值参数", dialog) {
+                            String template = geneTemplate(schemaInput.getValue(), sqlInput.getValue());
+                            if (StringUtils.isBlank(template)) {
+                                return;
+                            }
+                            
+                            new TempEdit(templateInput.getValue(), template, "*请根据选择的表修改值参数", dialog) {
                                 public void save(String sql) {
                                     templateInput.setValue(sql);
                                 }

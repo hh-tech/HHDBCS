@@ -1,0 +1,109 @@
+{
+  "keys":[
+    {
+      "key": "execute",
+      "value": {
+        "zh": "执行",
+        "en": "execute"
+      }
+    },
+    {
+      "key": "format",
+      "value": {
+        "zh": "格式化",
+        "en": "Format"
+      }
+    },
+    {
+      "key": "saveToSqlBook",
+      "value": {
+        "zh": "保存到宝典",
+        "en": "Save"
+      }
+    },
+    {
+      "key": "saveSuccess",
+      "value": {
+        "zh": "保存成功，编译成功!",
+        "en": "Successfully saved and compiled!"
+      }
+    },
+    {
+      "key": "compileFailed",
+      "value": {
+        "zh": "保存成功，编译失败!",
+        "en": "Save succeeded, compilation failed!"
+      }
+    },
+    {
+      "key": "failed",
+      "value": {
+        "zh": "保存失败，编译失败!",
+        "en": "Save failed, compilation failed!"
+      }
+    },
+    {
+      "key": "refresh",
+      "value": {
+        "zh": "刷新",
+        "en": "Refresh"
+      }
+    },
+    {
+      "key": "attribute",
+      "value": {
+        "zh": "属性",
+        "en": "Attribute"
+      }
+    },
+    {
+      "key": "enterTypeName",
+      "value": {
+        "zh": "请输入类型名称！",
+        "en": "Please Enter Type Name!"
+      }
+    },
+    {
+      "key": "name",
+      "value": {
+        "zh": "名称：",
+        "en": "Name : "
+      }
+    },
+    {
+      "key": "add",
+      "value": {
+        "zh": "新增",
+        "en": "Add"
+      }
+    },
+    {
+      "key": "submit",
+      "value": {
+        "zh": "确定",
+        "en": "Submit"
+      }
+    },
+    {
+      "key": "cancel",
+      "value": {
+        "zh": "取消",
+        "en": "Cancel"
+      }
+    },
+    {
+      "key": "type",
+      "value": {
+        "zh": "类型",
+        "en": "Type"
+      }
+    },
+    {
+      "key": "type_body",
+      "value": {
+        "zh": "类型体",
+        "en": "Type body"
+      }
+    }
+  ]
+}

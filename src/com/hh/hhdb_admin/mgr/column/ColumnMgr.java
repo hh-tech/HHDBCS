@@ -22,7 +22,6 @@ public class ColumnMgr extends AbsGuiMgr {
     public static final String CMD_SHOW_ADD_TABLE_COLUMN = "CMD_SHOW_ADD_TABLE_COLUMN";//添加列
     public static final String CMD_SHOW_UPDATE_TABLE_COLUMN = "CMD_SHOW_UPDATE_TABLE_COLUMN";//修改列
     public static final String CMD_SHOW_RENAME_TABLE_COLUMN = "CMD_SHOW_RENAME_TABLE_COLUMN";//重命名列
-    public static final String CMD_DELETE_TABLE_COLUMN = "CMD_DELETE_TABLE_COLUMN";//删除名列
     public static String PARAM_COLUMN_NAME = "COLUMN_NAME";
 
     @Override
@@ -56,19 +55,23 @@ public class ColumnMgr extends AbsGuiMgr {
                         .add(StartUtil.PARAM_SCHEMA, schemaName));
             }
         };
-        if (CMD_SHOW_ADD_TABLE_COLUMN.equals(GuiJsonUtil.toStrCmd(msg))) {
-            columnComp.show(false, "");
-        } else if (CMD_SHOW_UPDATE_TABLE_COLUMN.equals(GuiJsonUtil.toStrCmd(msg))) {
-            String columnName = GuiJsonUtil.toPropValue(msg, PARAM_COLUMN_NAME);
-            columnComp.show(true, columnName);
-        } else if (CMD_SHOW_RENAME_TABLE_COLUMN.equals(GuiJsonUtil.toStrCmd(msg))) {
-            String columnName = GuiJsonUtil.toPropValue(msg, PARAM_COLUMN_NAME);
-            columnComp.renameColumn(tableName, columnName);
-        } else if (CMD_DELETE_TABLE_COLUMN.equals(GuiJsonUtil.toStrCmd(msg))) {
-            String columnName = GuiJsonUtil.toPropValue(msg, PARAM_COLUMN_NAME);
-            columnComp.delete(tableName, columnName);
-        } else {
-            unknowMsg(msg.toPrettyString());
+        switch (GuiJsonUtil.toStrCmd(msg)) {
+            case CMD_SHOW_ADD_TABLE_COLUMN:
+                columnComp.show(false, "");
+                break;
+            case CMD_SHOW_UPDATE_TABLE_COLUMN: {
+                String columnName = GuiJsonUtil.toPropValue(msg, PARAM_COLUMN_NAME);
+                columnComp.show(true, columnName);
+                break;
+            }
+            case CMD_SHOW_RENAME_TABLE_COLUMN: {
+                String columnName = GuiJsonUtil.toPropValue(msg, PARAM_COLUMN_NAME);
+                columnComp.renameColumn(tableName, columnName);
+                break;
+            }
+            default:
+                unknowMsg(msg.toPrettyString());
+                break;
         }
     }
 

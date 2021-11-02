@@ -29,6 +29,7 @@ public class TypeColumn extends JsonCol {
 	public static final String JSON_SCALE = "__scale";
 	AbsTableObjFun tableObjFun;
 
+
 	public TypeColumn(String name, String value) {
 		super(name, value);
 		tableObjFun = TableComp.getCreateTabTool().getTableObjFun();
@@ -60,7 +61,7 @@ public class TypeColumn extends JsonCol {
 		JLabel scaleLabel = new JLabel(TableComp.getLang("accuracy"));
 //		JCheckBox checkBox = new JCheckBox("自动增长", false);
 		AtomicBoolean verify = new AtomicBoolean(true);
-		HDialog hDialog = new HDialog(StartUtil.getMainDialog(), 460, 360) {
+		HDialog hDialog = new HDialog(TableComp.dialog == null ? StartUtil.getMainDialog() : TableComp.dialog, 460, 360,true) {
 			@Override
 			protected void onConfirm() {
 				type[0] = (String) comboBox.getSelectedItem();
@@ -124,9 +125,11 @@ public class TypeColumn extends JsonCol {
 		lastPanel.setHead(myPanel);
 		hDialog.setWindowTitle(TableComp.getLang("selectDataType"));
 		hDialog.setOption();
-		HPanel panel =new HPanel();
+		HPanel panel = new HPanel();
 		panel.setLastPanel(lastPanel);
 		hDialog.setRootPanel(panel);
+		//setAlwaysOnTop至于窗口最顶部
+		hDialog.getWindow().setAlwaysOnTop(hDialog.getWindow().isAlwaysOnTopSupported());
 		hDialog.show();
 		return jsonObject;
 	}

@@ -1,0 +1,24 @@
+{
+	"mgrs": [
+		{
+			"class": "com.hh.hhdb_admin.mgr.login.LoginMgr",
+			"type": "LOGIN",
+			"config":{
+				"default_db": "hhdb"
+			}
+		},
+		{
+			"class": "com.hh.hhdb_admin.mgr.dblink.DblinkMgr",
+			"type": "DBLINK",
+			"config":{
+			}
+		},
+		{
+			"class": "com.hh.hhdb_admin.test.MainTestMgr",
+			"type": "MAIN_FRAME",
+			"config":{
+				"comp_class": "com.hh.hhdb_admin.test.dblink.DblinkTestComp"
+			}
+		}
+	]
+}

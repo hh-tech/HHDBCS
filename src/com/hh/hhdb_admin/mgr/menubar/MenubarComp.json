@@ -580,6 +580,20 @@
         "zh": "复制成功",
         "en": "Copy sss"
       }
+    },
+    {
+      "key": "package",
+      "value": {
+        "zh": "包名称",
+        "en": "Package name"
+      }
+    },
+    {
+      "key": "nonsupport",
+      "value": {
+        "zh": "暂不支持!",
+        "en": "Not supported at the moment!"
+      }
     }
   ]
 }

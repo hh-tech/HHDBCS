@@ -1,9 +1,13 @@
 package com.hh.hhdb_admin.mgr.db_task;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.hh.frame.dbtask.TaskType;
 import com.hh.frame.json.JsonObject;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.engine.AbsGuiMgr;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.frame.swingui.view.container.LastPanel;
@@ -14,10 +18,6 @@ import com.hh.hhdb_admin.mgr.db_task.dig.ExpQueryCfgDig;
 import com.hh.hhdb_admin.mgr.db_task.dig.SqlFileCfgDig;
 import com.hh.hhdb_admin.mgr.login.LoginBean;
 import com.hh.hhdb_admin.mgr.main_frame.MainFrameMgr;
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author: Jiang
@@ -34,7 +34,11 @@ public class TaskMgr extends AbsGuiMgr {
 
     @Override
     public void init(JsonObject jObj) {
-        LangMgr.merge(TaskMgr.class.getName(), LangUtil.loadLangRes(TaskMgr.class));
+    	 try {
+             LangMgr2.loadMerge(TaskMgr.class);
+         }catch (Exception e){
+             e.printStackTrace();
+         }
     }
 
     @Override
@@ -144,7 +148,7 @@ public class TaskMgr extends AbsGuiMgr {
     }
 
     protected static String getLang(String key) {
-        return LangMgr.getValue(TaskMgr.class.getName(), key);
+        return LangMgr2.getValue(TaskMgr.class.getName(), key);
     }
 
     @Override

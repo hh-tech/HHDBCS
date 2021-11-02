@@ -53,9 +53,6 @@ public class SchemaMgr extends AbsGuiMgr {
             case CMD_DESIGN:
                 schemaComp.update(loginBean.getConn(), schemaName);
                 break;
-            case CMD_DELETE:
-                schemaComp.delete(loginBean.getConn(), schemaName);
-                break;
             default:
         }
     }

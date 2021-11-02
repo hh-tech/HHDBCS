@@ -27,7 +27,10 @@ public class PackageTestComp extends AbsMainTestComp {
             barPanel.add(new HButton("添加包") {
                 @Override
                 public void onClick() {
-                    StartUtil.eng.doPush(CsMgrEnum.PACKAGE, GuiJsonUtil.toJsonCmd(PackageMgr.CMD_ADD));
+                    StartUtil.eng.doPush(CsMgrEnum.PACKAGE, GuiJsonUtil.toJsonCmd(PackageMgr.CMD_ADD)
+                            .add(StartUtil.PARAM_SCHEMA, jdbcBean.getUser())
+                            .add(PackageMgr.PARAM_TEST, "test")
+                            .add(PackageMgr.PARAM_NAME, "test"));
                 }
             });
         }

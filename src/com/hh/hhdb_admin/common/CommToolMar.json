@@ -94,6 +94,13 @@
         "zh": "对象查找",
         "en": "Object Query"
       }
+    },
+    {
+      "key": "cmd",
+      "value": {
+        "zh": "CMD",
+        "en": "CMD"
+      }
     }
   ]
 }

@@ -14,7 +14,6 @@ import com.hh.hhdb_admin.mgr.tree.TreeMgr;
 import com.hh.hhdb_admin.mgr.usr.comp.AddUpdUsrComp;
 import com.hh.hhdb_admin.mgr.usr.comp.PermComp;
 import com.hh.hhdb_admin.mgr.usr.comp.ReNameUsrComp;
-import com.hh.hhdb_admin.mgr.usr.util.UsrUtil;
 
 import java.sql.Connection;
 
@@ -26,8 +25,6 @@ public class UsrMgr extends AbsGuiMgr {
     public static final String CMD_SHOW_PERMISSION = "show_usr_permission";
     public static final String CMD_SHOW_RENAME = "show_usr_rename";
     public static final String CMD_SET_TEST_CONN = "set_test_conn";
-    public static final String CMD_DELETE = "del_usr";
-    public static final String CMD_DELETE_ROLE = "del_role";
     public static final String PARAM_USR_NAME = "usrName";
     public static final String PARAM_TEST_CONN_ID = "testConnId";
     private static final String SUCCESS = "success";
@@ -46,16 +43,12 @@ public class UsrMgr extends AbsGuiMgr {
 
     @Override
     public String getHelp() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(GuiJsonUtil.genCmdHelp(CMD_SHOW_ADD_USER, "显示添加用户面板", GuiMsgType.RECE));
-        sb.append(GuiJsonUtil.genCmdHelp(CMD_SHOW_UPDATE_USER, "显示设计用户面板", GuiMsgType.RECE));
-        sb.append(GuiJsonUtil.genCmdHelp(CMD_SHOW_ADD_ROLE, "显示添加角色面板", GuiMsgType.RECE));
-        sb.append(GuiJsonUtil.genCmdHelp(CMD_SHOW_UPDATE_ROLE, "显示设计角色面板", GuiMsgType.RECE));
-        sb.append(GuiJsonUtil.genCmdHelp(CMD_SHOW_PERMISSION, "显示用户权限面板", GuiMsgType.RECE));
-        sb.append(GuiJsonUtil.genCmdHelp(CMD_DELETE, "删除用户", GuiMsgType.RECE));
-        sb.append(GuiJsonUtil.genCmdHelp(CMD_SHOW_RENAME, "显示重命名用户弹框", GuiMsgType.RECE));
-        sb.append(GuiJsonUtil.genCmdHelp(CMD_DELETE_ROLE, "删除角色", GuiMsgType.RECE));
-        return sb.toString();
+        return GuiJsonUtil.genCmdHelp(CMD_SHOW_ADD_USER, "显示添加用户面板", GuiMsgType.RECE) +
+                GuiJsonUtil.genCmdHelp(CMD_SHOW_UPDATE_USER, "显示设计用户面板", GuiMsgType.RECE) +
+                GuiJsonUtil.genCmdHelp(CMD_SHOW_ADD_ROLE, "显示添加角色面板", GuiMsgType.RECE) +
+                GuiJsonUtil.genCmdHelp(CMD_SHOW_UPDATE_ROLE, "显示设计角色面板", GuiMsgType.RECE) +
+                GuiJsonUtil.genCmdHelp(CMD_SHOW_PERMISSION, "显示用户权限面板", GuiMsgType.RECE) +
+                GuiJsonUtil.genCmdHelp(CMD_SHOW_RENAME, "显示重命名用户弹框", GuiMsgType.RECE);
     }
 
 
@@ -81,14 +74,6 @@ public class UsrMgr extends AbsGuiMgr {
                 break;
             case CMD_SHOW_RENAME:
                 getReNameUsrComp().show(StartUtil.getMainDialog(), GuiJsonUtil.toPropValue(msg, PARAM_USR_NAME));
-                break;
-            case CMD_DELETE:
-                UsrUtil.delUser(conn, GuiJsonUtil.toPropValue(msg, PARAM_USR_NAME));
-                infoRefreashUsrSet();
-                break;
-            case CMD_DELETE_ROLE:
-                UsrUtil.delRole(conn, GuiJsonUtil.toPropValue(msg, PARAM_USR_NAME));
-                infoRefreshRoleSet();
                 break;
             default:
                 unknowMsg(msg.toPrettyString());

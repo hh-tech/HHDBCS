@@ -5,7 +5,7 @@ import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.common.util.db.SqlExeUtil;
 import com.hh.frame.create_dbobj.userMr.base.UsrFormType;
-import com.hh.frame.lang.LangMgr;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.container.HBarPanel;
 import com.hh.frame.swingui.view.container.HDialog;
 import com.hh.frame.swingui.view.container.HPanel;
@@ -23,6 +23,7 @@ import com.hh.hhdb_admin.mgr.usr.comp.form.UsrBaseForm;
 import com.hh.hhdb_admin.mgr.usr.util.FormUtil;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.util.Arrays;
 
@@ -45,12 +46,18 @@ public abstract class AddUpdUsrComp {
     private final static String LK_UPDATE_ROLE_TITLE = "UPDATE_ROLE_TITLE";
     private final static String LK_PREVIEW_SQL = "PREVIEW_SQL";
     private final static String LK_SAVE = "SAVE";
-    private final static String LK_ERROR = "ERROR";
+//    private final static String LK_ERROR = "ERROR";
     private final static String LK_CONN_ERROR = "CONN_ERROR";
     private final static String LK_SAVE_SUCCESS = "SAVE_SUCCESS";
 
     static {
-        LangMgr.merge(domainName, com.hh.frame.lang.LangUtil.loadLangRes(AddUpdUsrComp.class));
+
+        try {
+			LangMgr2.loadMerge(AddUpdUsrComp.class);
+		} catch (IOException e) {
+			PopPaneUtil.error(e);
+		}
+    
     }
 
     public AddUpdUsrComp(Connection conn, UsrFormType compType) {
@@ -83,11 +90,11 @@ public abstract class AddUpdUsrComp {
             form.clearForm();
             dialog.setIconImage(IconFileUtil.getLogo(IconSizeEnum.SIZE_16).getImage());
             if (compType == UsrFormType.usr) {
-                dialog.setWindowTitle(LangMgr.getValue(domainName, LK_ADD_TITLE));
+                dialog.setWindowTitle(LangMgr2.getValue(domainName, LK_ADD_TITLE));
             } else if (compType == UsrFormType.role) {
-                dialog.setWindowTitle(LangMgr.getValue(domainName, LK_ADD_ROLE_TITLE));
+                dialog.setWindowTitle(LangMgr2.getValue(domainName, LK_ADD_ROLE_TITLE));
             } else if (compType == UsrFormType.login) {
-                dialog.setWindowTitle(LangMgr.getValue(domainName, LK_ADD_LOGIN_TITLE));
+                dialog.setWindowTitle(LangMgr2.getValue(domainName, LK_ADD_LOGIN_TITLE));
             }
 
             dialog.setRootPanel(panel);
@@ -112,11 +119,11 @@ public abstract class AddUpdUsrComp {
             form.clearForm();
             form.initForm(usrName);
             if (compType == UsrFormType.usr) {
-                dialog.setWindowTitle(LangMgr.getValue(domainName, LK_UPDATE_TITLE) + "(" + usrName + ")");
+                dialog.setWindowTitle(LangMgr2.getValue(domainName, LK_UPDATE_TITLE) + "(" + usrName + ")");
             } else if (compType == UsrFormType.role) {
-                dialog.setWindowTitle(LangMgr.getValue(domainName, LK_UPDATE_ROLE_TITLE) + "(" + usrName + ")");
+                dialog.setWindowTitle(LangMgr2.getValue(domainName, LK_UPDATE_ROLE_TITLE) + "(" + usrName + ")");
             } else if (compType == UsrFormType.login) {
-                dialog.setWindowTitle(LangMgr.getValue(domainName, LK_ADD_LOGIN_TITLE) + "(" + usrName + ")");
+                dialog.setWindowTitle(LangMgr2.getValue(domainName, LK_ADD_LOGIN_TITLE) + "(" + usrName + ")");
             }
 
             dialog.setIconImage(IconFileUtil.getLogo(IconSizeEnum.SIZE_16).getImage());
@@ -152,7 +159,7 @@ public abstract class AddUpdUsrComp {
                 clickSaveBtn();
             }
         };
-        button.setText(LangMgr.getValue(domainName, LK_SAVE));
+        button.setText(LangMgr2.getValue(domainName, LK_SAVE));
         button.setIcon(IconFileUtil.getIcon(new IconBean(CsMgrEnum.USR.name(), "save", IconSizeEnum.SIZE_16)));
 
         HButton sqlBtn = new HButton() {
@@ -161,7 +168,7 @@ public abstract class AddUpdUsrComp {
                 clickSqlViewBtn();
             }
         };
-        sqlBtn.setText(LangMgr.getValue(domainName, LK_PREVIEW_SQL));
+        sqlBtn.setText(LangMgr2.getValue(domainName, LK_PREVIEW_SQL));
         sqlBtn.setIcon(IconFileUtil.getIcon(new IconBean(CsMgrEnum.USR.name(), "viewsql", IconSizeEnum.SIZE_16)));
         toolBar.add(button);
         toolBar.add(sqlBtn);
@@ -193,7 +200,7 @@ public abstract class AddUpdUsrComp {
                 String sql = form.getSql();
                 try {
                     if (conn == null) {
-                        PopPaneUtil.error(dialog.getWindow(), LangMgr.getValue(domainName, LK_CONN_ERROR));
+                        PopPaneUtil.error(dialog.getWindow(), LangMgr2.getValue(domainName, LK_CONN_ERROR));
                         return;
                     }
                     if (StringUtils.isBlank(sql)) {
@@ -204,7 +211,7 @@ public abstract class AddUpdUsrComp {
                     form.clearForm();
                     this.dialog.hide();
                     informRefreshUsr();
-                    PopPaneUtil.info(dialog.getWindow(), LangMgr.getValue(domainName, LK_SAVE_SUCCESS));
+                    PopPaneUtil.info(dialog.getWindow(), LangMgr2.getValue(domainName, LK_SAVE_SUCCESS));
                 } catch (Exception e) {
                     PopPaneUtil.error(dialog.getWindow(), e.getMessage());
                 }

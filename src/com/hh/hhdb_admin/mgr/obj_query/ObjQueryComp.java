@@ -1,5 +1,20 @@
 package com.hh.hhdb_admin.mgr.obj_query;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.SwingWorker;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.common.util.db.ConnUtil;
@@ -9,12 +24,19 @@ import com.hh.frame.create_dbobj.treeMr.base.EventType;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrNode;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
 import com.hh.frame.create_dbobj.treeMr.mr.AbsTreeMr;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.abs.AbsInput;
-import com.hh.frame.swingui.view.container.*;
+import com.hh.frame.swingui.view.container.HBarPanel;
+import com.hh.frame.swingui.view.container.HDialog;
+import com.hh.frame.swingui.view.container.HGridPanel;
+import com.hh.frame.swingui.view.container.HPanel;
+import com.hh.frame.swingui.view.container.LastPanel;
 import com.hh.frame.swingui.view.ctrl.HButton;
-import com.hh.frame.swingui.view.input.*;
+import com.hh.frame.swingui.view.input.CheckBoxInput;
+import com.hh.frame.swingui.view.input.CheckGroupInput;
+import com.hh.frame.swingui.view.input.LabelInput;
+import com.hh.frame.swingui.view.input.SelectBox;
+import com.hh.frame.swingui.view.input.TextInput;
 import com.hh.frame.swingui.view.layout.GridSplitEnum;
 import com.hh.frame.swingui.view.layout.HDivLayout;
 import com.hh.frame.swingui.view.layout.HGridLayout;
@@ -29,16 +51,6 @@ import com.hh.hhdb_admin.common.icon.IconSizeEnum;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.login.LoginBean;
 import com.hh.hhdb_admin.mgr.obj_query.handler.ObjRightMenuActionHandler;
-import org.apache.commons.lang3.StringUtils;
-
-import javax.swing.*;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author Jiang
@@ -49,7 +61,11 @@ public class ObjQueryComp {
     private static final String DOMAIN_NAME = ObjQueryComp.class.getName();
 
     static {
-        LangMgr.merge(DOMAIN_NAME, LangUtil.loadLangRes(ObjQueryComp.class));
+    	try {
+            LangMgr2.loadMerge(ObjQueryComp.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private final String preKeyWord;
@@ -63,7 +79,6 @@ public class ObjQueryComp {
     private HTable resTable;
     private CheckGroupInput typeGroup;
     private AbsObjQuery query;
-    private HPanel rootPanel;
 
     private HDialog dialog;
     SwingWorker<String, List<Map<String, String>>> worker;
@@ -113,7 +128,7 @@ public class ObjQueryComp {
         panel.setLastPanel(initResTable());
 
         lastPanel.set(panel.getComp());
-        rootPanel = new HPanel();
+        HPanel rootPanel = new HPanel();
         rootPanel.setLastPanel(lastPanel);
         return rootPanel;
     }
@@ -134,6 +149,7 @@ public class ObjQueryComp {
                 String schemaName = schemaSelectBox.getValue();
                 String nodeName = oldRow.get("name");
                 String type = oldRow.get("type");
+
                 //todo 完善右键点击逻辑
                 HTreeNode schemaNode = new HTreeNode();
                 schemaNode.setName(schemaName);
@@ -211,7 +227,7 @@ public class ObjQueryComp {
             Connection conn = null;
             try {
                 conn = ConnUtil.getConn(loginBean.getJdbc());
-                item.getChildNodeList(treeMrNode, conn).forEach(node -> schemaSelectBox.addOption(node.getName(), node.getName()));
+                item.getChildNodeList(treeMrNode, conn, null).forEach(node -> schemaSelectBox.addOption(node.getName(), node.getName()));
             } catch (SQLException | ClassNotFoundException e) {
                 e.printStackTrace();
             } finally {
@@ -223,7 +239,7 @@ public class ObjQueryComp {
         });
         filterPanel.add(getWithLabelInput(getLang("schemaName"), schemaSelectBox));
         if (dbTypeEnum != DBTypeEnum.sqlserver) {
-           filterPanel.add(ignoreCaseBox);
+            filterPanel.add(ignoreCaseBox);
         } else {
             filterPanel.add(new LabelInput());
         }
@@ -300,10 +316,18 @@ public class ObjQueryComp {
                 @Override
                 protected void process(List<List<Map<String, String>>> listList) {
                     boolean flag = listList.get(0).size() > 0 && listList.get(0).size() > resTable.getRowCount();
-                    if (flag) {
-                        for (List<Map<String, String>> maps : listList) {
-                            resTable.load(maps, 0);
-                        }
+                    if (!flag) {
+                        return;
+                    }
+                    for (List<Map<String, String>> maps : listList) {
+                        List<Map<String, String>> data = new ArrayList<>();
+                        maps.forEach(item -> {
+                            if (checkIsPackageChild(item.get("type"))) {
+                                item.put("name", item.get("packageName") + "." + item.get("name"));
+                            }
+                            data.add(item);
+                        });
+                        resTable.load(data, 0);
                     }
                 }
 
@@ -317,7 +341,6 @@ public class ObjQueryComp {
                 }
             };
             worker.execute();
-//			new QueryThread().start();
         } catch (Exception e) {
             e.printStackTrace();
             PopPaneUtil.error(dialog.getWindow(), e.getMessage());
@@ -362,8 +385,8 @@ public class ObjQueryComp {
     }
 
     private String getLang(String key) {
-        LangMgr.setDefaultLang(StartUtil.default_language);
-        return LangMgr.getValue(DOMAIN_NAME, key);
+        LangMgr2.setDefaultLang(StartUtil.default_language);
+        return LangMgr2.getValue(DOMAIN_NAME, key);
     }
 
     private ImageIcon getIcon(String name) {
@@ -379,4 +402,7 @@ public class ObjQueryComp {
         return gridPanel;
     }
 
+    private boolean checkIsPackageChild(String type) {
+        return type.equals(TreeMrType.PACKAGE_FUNCTION.name()) || type.equals(TreeMrType.PACKAGE_PROCEDURE.name());
+    }
 }

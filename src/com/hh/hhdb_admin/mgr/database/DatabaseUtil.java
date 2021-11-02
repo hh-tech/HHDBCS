@@ -51,10 +51,6 @@ public class DatabaseUtil {
         database.addDatabase(data);
     }
 
-    public static void delete(String spaceName) throws Exception {
-        database.deleteDatabase(spaceName);
-    }
-
     static void previewSql(JsonObject data) {
         SqlViewDialog dialog = new SqlViewDialog();
         dialog.setSql(database.getSql(data));

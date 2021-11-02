@@ -1,8 +1,7 @@
 package com.hh.hhdb_admin.mgr.menubar;
 
 import com.hh.frame.json.JsonObject;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.frame.swingui.view.hmenu.CheckMenuItem;
 import com.hh.frame.swingui.view.hmenu.HMenu;
@@ -18,6 +17,7 @@ import com.hh.hhdb_admin.mgr.about.AboutMgr;
 import com.hh.hhdb_admin.mgr.main_frame.MainFrameMgr;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -30,7 +30,11 @@ public class MenubarComp extends HMenuBar {
 	public static final String DOMAIN_NAME = MenubarComp.class.getName();
 
 	static {
-		LangMgr.merge(DOMAIN_NAME, LangUtil.loadLangRes(MenubarComp.class));
+		try {
+			LangMgr2.loadMerge(MenubarComp.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private static final String SETTING = "setting";
@@ -143,8 +147,8 @@ public class MenubarComp extends HMenuBar {
 	}
 
 	public static String getLang(String key) {
-		LangMgr.setDefaultLang(StartUtil.default_language);
-		return LangMgr.getValue(DOMAIN_NAME, key);
+		LangMgr2.setDefaultLang(StartUtil.default_language);
+		return LangMgr2.getValue(DOMAIN_NAME, key);
 	}
 
 	private void sendMsg(CsMgrEnum mgrEnum, JsonObject msg) {

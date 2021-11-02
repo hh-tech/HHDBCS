@@ -1,0 +1,123 @@
+{
+  "keys": [
+    {
+      "key": "addPackage",
+      "value": {
+        "zh": "新增",
+        "en": "Add Package"
+      }
+    },
+    {
+      "key": "packName",
+      "value": {
+        "zh": "包名：",
+        "en": "name : "
+      }
+    },
+    {
+      "key": "submit",
+      "value": {
+        "zh": "确定",
+        "en": "Submit"
+      }
+    },
+    {
+      "key": "cancel",
+      "value": {
+        "zh": "取消",
+        "en": "Cancel"
+      }
+    },
+    {
+      "key": "enterPackageName",
+      "value": {
+        "zh": "请输入包名！",
+        "en": "Please Enter Package Name!"
+      }
+    },
+    {
+      "key": "execute",
+      "value": {
+        "zh": "执行",
+        "en": "execute"
+      }
+    },
+    {
+      "key": "format",
+      "value": {
+        "zh": "格式化",
+        "en": "Format"
+      }
+    },
+    {
+      "key": "saveToSqlBook",
+      "value": {
+        "zh": "保存到宝典",
+        "en": "Save"
+      }
+    },
+    {
+      "key": "packageHead",
+      "value": {
+        "zh": "包头",
+        "en": "Package head"
+      }
+    },
+    {
+      "key": "packageBody",
+      "value": {
+        "zh": "包体",
+        "en": "Package body"
+      }
+    },
+    {
+      "key": "attribute",
+      "value": {
+        "zh": "属性",
+        "en": "Attribute"
+      }
+    },
+    {
+      "key": "saveSuccess",
+      "value": {
+        "zh": "保存成功，编译成功!",
+        "en": "Successfully saved and compiled!"
+      }
+    },
+    {
+      "key": "compileFailed",
+      "value": {
+        "zh": "保存成功，编译失败!",
+        "en": "Save succeeded, compilation failed!"
+      }
+    },
+    {
+      "key": "failed",
+      "value": {
+        "zh": "保存失败，编译失败!",
+        "en": "Save failed, compilation failed!"
+      }
+    },
+    {
+      "key": "packageDescription",
+      "value": {
+        "zh": "包说明",
+        "en": "Package description"
+      }
+    },
+    {
+      "key": "package",
+      "value": {
+        "zh": "包",
+        "en": "Package"
+      }
+    },
+    {
+      "key": "refresh",
+      "value": {
+        "zh": "刷新",
+        "en": "Refresh"
+      }
+    }
+  ]
+}

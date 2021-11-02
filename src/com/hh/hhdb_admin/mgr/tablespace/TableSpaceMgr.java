@@ -51,8 +51,6 @@ public class TableSpaceMgr extends AbsGuiMgr {
         String cmd = GuiJsonUtil.toStrCmd(msg);
         if (TableSpaceMgr.CMD_SHOW_ADD_TABLE_SPACE.equals(cmd)) {
             spaceComp.show();
-        } else if (TableSpaceMgr.CMD_DELETE_TABLE_SPACE.equals(cmd)) {
-            spaceComp.delTableSpace(msg.getString("name"));
         } else {
             unknowMsg(msg.toPrettyString());
         }

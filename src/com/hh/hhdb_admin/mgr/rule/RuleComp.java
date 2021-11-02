@@ -1,18 +1,26 @@
 package com.hh.hhdb_admin.mgr.rule;
 
+import java.io.IOException;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.common.util.db.SqlExeUtil;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
 import com.hh.frame.json.JsonObject;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.frame.swingui.view.HeightComp;
 import com.hh.frame.swingui.view.container.HBarPanel;
 import com.hh.frame.swingui.view.container.HDialog;
 import com.hh.frame.swingui.view.container.HPanel;
 import com.hh.frame.swingui.view.ctrl.HButton;
-import com.hh.frame.swingui.view.input.*;
+import com.hh.frame.swingui.view.input.CheckBoxInput;
+import com.hh.frame.swingui.view.input.LabelInput;
+import com.hh.frame.swingui.view.input.SelectBox;
+import com.hh.frame.swingui.view.input.TextAreaInput;
+import com.hh.frame.swingui.view.input.TextInput;
+import com.hh.frame.swingui.view.input.WithLabelInput;
 import com.hh.frame.swingui.view.layout.GridSplitEnum;
 import com.hh.frame.swingui.view.layout.HDivLayout;
 import com.hh.frame.swingui.view.layout.bar.HBarLayout;
@@ -21,7 +29,6 @@ import com.hh.hhdb_admin.CsMgrEnum;
 import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.tree.TreeMgr;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author: Jiang
@@ -33,7 +40,11 @@ public class RuleComp {
     private static final String DOMAIN_NAME = RuleComp.class.getName();
 
     static {
-        LangMgr.merge(DOMAIN_NAME, LangUtil.loadLangRes(RuleComp.class));
+    	try {
+            LangMgr2.loadMerge(RuleComp.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private final HDialog dialog;
@@ -140,7 +151,7 @@ public class RuleComp {
     }
 
     public static String getLang(String key) {
-        return LangMgr.getValue(DOMAIN_NAME, key);
+        return LangMgr2.getValue(DOMAIN_NAME, key);
     }
 
 }

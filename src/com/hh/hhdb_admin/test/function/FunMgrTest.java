@@ -1,5 +1,8 @@
 package com.hh.hhdb_admin.test.function;
 
+import java.io.File;
+import java.io.IOException;
+
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.ClassLoadUtil;
@@ -7,8 +10,7 @@ import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.common.util.db.ConnUtil;
 import com.hh.frame.json.Json;
 import com.hh.frame.json.JsonObject;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.engine.GuiEngine;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.frame.swingui.view.ui.HHSwingUi;
@@ -22,13 +24,15 @@ import com.hh.hhdb_admin.mgr.login.LoginMgr;
 import com.hh.hhdb_admin.test.MainTestMgr;
 import com.hh.hhdb_admin.test.MgrTestUtil;
 
-import java.io.File;
-
 public class FunMgrTest {
 
 	public static void main(String[] args) throws Exception {
 		IconFileUtil.setIconBaseDir(new File("etc/icon/"));
-		LangMgr.merge(FunctionMgr.class.getName(), LangUtil.loadLangRes(FunctionMgr.class));
+		try {
+            LangMgr2.loadMerge(FunctionMgr.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 		HHSwingUi.init();
 		String jStr= ClassLoadUtil.loadTextRes(FunMgrTest.class, "conf.json");
 		JsonObject jObj=Json.parse(jStr).asObject();

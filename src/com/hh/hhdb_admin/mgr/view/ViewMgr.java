@@ -1,19 +1,30 @@
 package com.hh.hhdb_admin.mgr.view;
 
+import java.io.File;
+import java.sql.Connection;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.JDialog;
+
+import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
 import com.hh.frame.json.JsonObject;
 import com.hh.frame.swingui.engine.AbsGuiMgr;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.frame.swingui.engine.GuiMsgType;
+import com.hh.frame.swingui.view.container.HDialog;
+import com.hh.frame.swingui.view.container.HPanel;
 import com.hh.hhdb_admin.CsMgrEnum;
+import com.hh.hhdb_admin.common.util.DbCmdStrUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.login.LoginBean;
 import com.hh.hhdb_admin.mgr.login.LoginMgr;
+import com.hh.hhdb_admin.mgr.main_frame.MainFrameComp;
+import com.hh.hhdb_admin.mgr.main_frame.MainFrameMgr;
+import com.hh.hhdb_admin.mgr.table_open.ModifyTabDataComp;
 import com.hh.hhdb_admin.mgr.tree.TreeMgr;
 import com.hh.hhdb_admin.mgr.view.comp.AddUpdViewComp;
-import com.hh.hhdb_admin.mgr.view.comp.OpenViewComp;
-
-import java.sql.Connection;
 
 /**
  * author:yangxianhui
@@ -34,6 +45,9 @@ public class ViewMgr extends AbsGuiMgr {
     private static final String SUCCESS = "success";
     private LoginBean loginBean;
     private Connection conn;
+    private String openId = null;
+    private static final String OPEN_TMP = "open_tmp";
+    private Map<String, ModifyTabDataComp> map = new HashMap<>();
 
 
     @Override
@@ -68,6 +82,13 @@ public class ViewMgr extends AbsGuiMgr {
         String cmd = GuiJsonUtil.toStrCmd(msg);
         String schemaName = GuiJsonUtil.toPropValue(msg, StartUtil.PARAM_SCHEMA);
         switch (cmd) {
+        	case StartUtil.CMD_CLOSE:
+				openId = GuiJsonUtil.toPropValue(msg, StartUtil.CMD_ID);
+				ModifyTabDataComp tabDataComp = map.get(openId);
+				tabDataComp.close();
+				map.remove(openId);
+				StartUtil.eng.rmFromSharedMap(openId);
+				break;
             case CMD_SHOW_CREATE_VIEW:
                 getAddUpdateComp().show(schemaName, false);
                 break;
@@ -77,10 +98,9 @@ public class ViewMgr extends AbsGuiMgr {
                 break;
             }
             case CMD_SHOW_OPEN_VIEW: {
-                String viewName = GuiJsonUtil.toPropValue(msg, PARAM_VIEW_NAME);
-                OpenViewComp openViewComp = new OpenViewComp(loginBean.getJdbc());
-                openViewComp.show(schemaName, viewName, false);
-                break;
+            	String viewName = GuiJsonUtil.toPropValue(msg, PARAM_VIEW_NAME);
+            	openView(viewName,schemaName);
+            	break;
             }
             case CMD_SHOW_CREATE_MVIEW:
                 getAddUpdateComp().show(schemaName, true);
@@ -92,8 +112,7 @@ public class ViewMgr extends AbsGuiMgr {
             }
             case CMD_SHOW_OPEN_MVIEW: {
                 String viewName = GuiJsonUtil.toPropValue(msg, PARAM_VIEW_NAME);
-                OpenViewComp openViewComp = new OpenViewComp(loginBean.getJdbc());
-                openViewComp.show(schemaName, viewName, true);
+                openView(viewName,schemaName);
                 break;
             }
             case CMD_DELETE_VIEW: {
@@ -112,6 +131,8 @@ public class ViewMgr extends AbsGuiMgr {
         }
     }
 
+
+    
 
     @Override
     public JsonObject doCall(JsonObject msg) {
@@ -164,5 +185,50 @@ public class ViewMgr extends AbsGuiMgr {
             conn = loginBean.getConn();
         }
 
+    }
+    
+    
+    private void openView(String viewName,String schemaName) {
+
+		
+		ModifyTabDataComp tablePanel = null;
+		
+		//判断是否已打
+		boolean bool = true;
+		for (String string : map.keySet()) {
+			tablePanel = map.get(string);
+			if (viewName.equals(tablePanel.getTabName()) && schemaName.equals(tablePanel.getSchemaName())) {
+				openId = string;
+				bool = false;
+				break;
+			}
+		}
+		if (bool) {
+			File tmpFile = new File(StartUtil.workspace + File.separator + OPEN_TMP);
+			
+			
+			tablePanel = new ModifyTabDataComp(loginBean.getJdbc(),schemaName, viewName, tmpFile);
+	        String sql = String.format("select * from %s.%s",
+	            		schemaName,
+	                    DbCmdStrUtil.toDbCmdStr(viewName, DriverUtil.getDbType(loginBean.getJdbc())));
+	        tablePanel.loadReadOnlyTable(sql);
+	        //打开新的
+			openId = StartUtil.eng.push2SharedMap(tablePanel);
+			map.put(openId + "", tablePanel);
+		}
+		if (((MainFrameComp) StartUtil.parentFrame).getTabPane() == null) {
+			HDialog dialog = new HDialog(StartUtil.parentFrame, HDialog.LARGE_WIDTH);
+			HPanel panel = new HPanel();
+			panel.setLastPanel(tablePanel);
+			((JDialog) dialog.getWindow()).setTitle(tablePanel.getSchemaName() + "." + tablePanel.getTabName());
+			((JDialog) dialog.getWindow()).setResizable(false);
+			dialog.setRootPanel(panel);
+			dialog.show();
+		} else {
+			StartUtil.eng.doPush(CsMgrEnum.MAIN_FRAME, GuiJsonUtil.toJsonCmd(MainFrameMgr.ADD_TAB_PANE_ITEM)
+					.add(StartUtil.CMD_ID, openId).add("title", schemaName + "." + viewName).add(MainFrameMgr.PARAM_MGR_TYPE, CsMgrEnum.VIEW.name()));
+		}
+		
+    
     }
 }

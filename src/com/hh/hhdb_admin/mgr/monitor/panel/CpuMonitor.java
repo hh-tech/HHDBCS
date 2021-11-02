@@ -1,8 +1,44 @@
 package com.hh.hhdb_admin.mgr.monitor.panel;
 
+import static java.util.concurrent.Executors.newScheduledThreadPool;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ItemEvent;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+import javax.swing.JOptionPane;
+
+import org.apache.commons.lang3.StringUtils;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.NumberTickUnit;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.labels.StandardXYSeriesLabelGenerator;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.chart.title.TextTitle;
+import org.jfree.data.time.Day;
+import org.jfree.data.time.Hour;
+import org.jfree.data.time.Minute;
+import org.jfree.data.time.Second;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
+import org.jfree.ui.RectangleInsets;
+
 import com.hh.frame.common.util.db.SqlQueryUtil;
 import com.hh.frame.lang.LangEnum;
-import com.hh.frame.lang.LangMgr;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.container.HPanel;
 import com.hh.frame.swingui.view.container.HSplitPanel;
 import com.hh.frame.swingui.view.container.LastPanel;
@@ -16,31 +52,6 @@ import com.hh.hhdb_admin.common.util.logUtil;
 import com.hh.hhdb_admin.mgr.monitor.MonitorComp;
 import com.hh.hhdb_admin.mgr.monitor.comp.SystemMonitorComp;
 import com.hh.hhdb_admin.mgr.monitor.util.MonitorUtil;
-import org.apache.commons.lang3.StringUtils;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.axis.NumberTickUnit;
-import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.labels.StandardXYSeriesLabelGenerator;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.chart.title.TextTitle;
-import org.jfree.data.time.*;
-import org.jfree.ui.RectangleInsets;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.sql.Connection;
-import java.util.List;
-import java.util.*;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-import static java.util.concurrent.Executors.newScheduledThreadPool;
 
 /**
  * @author YuSai
@@ -79,11 +90,11 @@ public class CpuMonitor extends MonitorComp implements Runnable {
 
     private final TimeSeries idleSeries = new TimeSeries(getLang("idleRate"));
 
-    private static final String USER_USAGE_RATE = LangMgr.getDefaultLang().equals(LangEnum.EN) ? "USER_USAGE_RATE" : "用户使用率";
+    private static final String USER_USAGE_RATE = LangMgr2.getDefaultLang().equals(LangEnum.EN) ? "USER_USAGE_RATE" : "用户使用率";
 
-    private static final String SYS_USAGE_RATE = LangMgr.getDefaultLang().equals(LangEnum.EN) ? "SYS_USAGE_RATE" : "系统使用率";
+    private static final String SYS_USAGE_RATE = LangMgr2.getDefaultLang().equals(LangEnum.EN) ? "SYS_USAGE_RATE" : "系统使用率";
 
-    private static final String IDLE_RATE = LangMgr.getDefaultLang().equals(LangEnum.EN) ? "IDLE_RATE" : "空闲率";
+    private static final String IDLE_RATE = LangMgr2.getDefaultLang().equals(LangEnum.EN) ? "IDLE_RATE" : "空闲率";
 
     private final List<Map<Second, Map<String, String>>> list = new ArrayList<>();
 

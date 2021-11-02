@@ -2,8 +2,7 @@ package com.hh.hhdb_admin.mgr.query;
 
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.json.JsonObject;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.engine.AbsGuiMgr;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.hhdb_admin.CsMgrEnum;
@@ -23,7 +22,11 @@ public class QueryMgr extends AbsGuiMgr {
 	@Override
 	public void init(JsonObject jObj) {
 		sign = 0;
-		LangMgr.merge(QueryMgr.class.getName(), LangUtil.loadLangRes(QueryMgr.class));
+		try {
+			LangMgr2.loadMerge(QueryMgr.class);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -87,7 +90,7 @@ public class QueryMgr extends AbsGuiMgr {
 	 * @return
 	 */
 	public static String getLang(String key) {
-		return LangMgr.getValue(QueryMgr.class.getName(), key);
+		return LangMgr2.getValue(QueryMgr.class.getName(), key);
 	}
 
 	public static ImageIcon getIcon(String name) {

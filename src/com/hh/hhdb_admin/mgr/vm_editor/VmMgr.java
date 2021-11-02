@@ -1,8 +1,9 @@
 package com.hh.hhdb_admin.mgr.vm_editor;
 
+import javax.swing.ImageIcon;
+
 import com.hh.frame.json.JsonObject;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.engine.AbsGuiMgr;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.hhdb_admin.CsMgrEnum;
@@ -11,8 +12,6 @@ import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.common.icon.IconSizeEnum;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.main_frame.MainFrameMgr;
-
-import javax.swing.*;
 
 /**
  * 模板编辑器
@@ -23,7 +22,11 @@ public class VmMgr extends AbsGuiMgr {
 
 	@Override
 	public void init(JsonObject jObj) {
-		LangMgr.merge(VmMgr.class.getName(), LangUtil.loadLangRes(VmMgr.class));
+		try {
+			LangMgr2.loadMerge(VmMgr.class);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -67,7 +70,7 @@ public class VmMgr extends AbsGuiMgr {
 	}
 
 	public static String getLang(String key) {
-		return LangMgr.getValue(VmMgr.class.getName(), key);
+		return LangMgr2.getValue(VmMgr.class.getName(), key);
 	}
 
 	public static ImageIcon getIcon(String name) {

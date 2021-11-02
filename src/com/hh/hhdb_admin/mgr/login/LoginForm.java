@@ -5,7 +5,7 @@ import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.create_dbobj.treeMr.base.ViewType;
 import com.hh.frame.json.JsonObject;
 import com.hh.frame.lang.LangEnum;
-import com.hh.frame.lang.LangMgr;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.event.HHEventUtil;
 import com.hh.frame.swingui.view.abs.AbsInput;
 import com.hh.frame.swingui.view.container.HPanel;
@@ -71,7 +71,7 @@ public abstract class LoginForm {
                     String v = langLabelInput.getValue();
                     if (v != null) {
                         StartUtil.default_language = LangEnum.valueOf(langSelect.getValue());
-                        LangMgr.setDefaultLang(LangEnum.valueOf(v));
+                        LangMgr2.setDefaultLang(LangEnum.valueOf(v));
                         System.out.println("当前语言" + v);
                         StartUtil.setLocale(LangEnum.valueOf(v));
                         JComponent.setDefaultLocale(Locale.getDefault());
@@ -92,11 +92,11 @@ public abstract class LoginForm {
                     HPanel panel = new HPanel();
                     if (DBTypeEnum.oracle.equals(DBTypeEnum.valueOf(typeLabelInput.getValue()))) {
                         panel.add(userTypeLabelInput, defaultSaveInput);
-                        lastPanel.set(panel.getComp());
                     } else {
                         panel.add(defaultSaveInput);
-                        lastPanel.set(panel.getComp());
                     }
+                    lastPanel.set(panel.getComp());
+                    template();
                 }
             }
         };
@@ -125,6 +125,7 @@ public abstract class LoginForm {
                 (JTextComponent) passLabelInput.getInput().getComp(),
                 (JTextComponent) schemaLabelInput.getInput().getComp()
         );
+        template();
     }
 
     /**

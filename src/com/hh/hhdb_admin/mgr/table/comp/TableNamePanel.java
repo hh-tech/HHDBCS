@@ -3,7 +3,7 @@ package com.hh.hhdb_admin.mgr.table.comp;
 import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.create_dbobj.table.CreateTableTool;
 import com.hh.frame.lang.LangEnum;
-import com.hh.frame.lang.LangMgr;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.abs.AbsInput;
 import com.hh.frame.swingui.view.container.HBarPanel;
 import com.hh.frame.swingui.view.container.HPanel;
@@ -38,7 +38,7 @@ public class TableNamePanel extends TableCreatePanel {
 		lastPanel = new LastPanel(false);
 		tableNameInput = new TextInput("table_name", "new_table");
 		annotateInput = new TextAreaInput("annotateArea", "", 2);
-		GridSplitEnum splitEnum = LangMgr.getDefaultLang() == LangEnum.ZH ? GridSplitEnum.C1 : GridSplitEnum.C2;
+		GridSplitEnum splitEnum = LangMgr2.getDefaultLang() == LangEnum.ZH ? GridSplitEnum.C1 : GridSplitEnum.C2;
 
 		add(getLabelInput(TableComp.getLang(LK_TABLE_NAME), tableNameInput, splitEnum));
 		add(getLabelInput(TableComp.getLang(LK_TABLE_COMMENT), annotateInput, splitEnum));

@@ -35,7 +35,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.io.*;
 import java.sql.Connection;
@@ -60,7 +59,7 @@ public class ModifyTabTool {
 	private boolean readOnly = false;
 	private AbsTableObjFun tableObjFun;
 	private VersionBean dbVersion;
-	private List<AddLobBean> addLobNumList;
+	private Map<Integer, List<AddLobBean>> addLobNumMap;
 	Map<String, String> nameTypeMap;
 
 
@@ -69,7 +68,7 @@ public class ModifyTabTool {
 		this.dbTypeEnum = dbTypeEnum;
 		this.lobMap = new LinkedHashMap<>();
 		this.tableObjFun = CreateTableUtil.getDateType(dbTypeEnum);
-		addLobNumList = new ArrayList<>();
+		addLobNumMap = new LinkedHashMap<>();
 	}
 
 	public ModifyTabTool(DBTypeEnum dbTypeEnum, HTable table, ModifyTabDataComp dataComp) {
@@ -267,14 +266,18 @@ public class ModifyTabTool {
 					boolean isMssqlText = dbTypeEnum == DBTypeEnum.sqlserver && type != null && tableObjFun.getCharacterStringType().contains(type.toUpperCase());
 					if (isMssqlText) {
 						values.append("N");
-					} else if (addLobNumList != null) {
-						sqlBean.setAddLobs(addLobNumList);
-						for (AddLobBean addLob : addLobNumList) {
-							if (addLob.getName().equals(key)) {
-								addLob.setType(type);
-								values.append("?");
-								flag = false;
-								break;
+					} else if (addLobNumMap != null) {
+//						sqlBean.setAddLobs(addLobNumList)
+						List<AddLobBean> addLobBeans = addLobNumMap.get(rowBean.getCurrRowNum());
+						if (addLobBeans != null) {
+							sqlBean.setAddLobs(addLobBeans);
+							for (AddLobBean addLob : addLobBeans) {
+								if (addLob.getName().equals(key)) {
+									addLob.setType(type);
+									values.append("?");
+									flag = false;
+									break;
+								}
 							}
 						}
 					}
@@ -574,7 +577,7 @@ public class ModifyTabTool {
 			try {
 				os = new ByteArrayOutputStream();
 				String code = viewer.getCode();
-				boolean isGet = viewer.isEdit() && (code == null || EncodingDetect.getUsedCode().contains(code.trim()) || viewer.genType().equals(LobViewer.NULL));
+				boolean isGet = (code == null || EncodingDetect.getUsedCode().contains(code.trim()) || viewer.genType().equals(LobViewer.NULL));
 				if (isGet) {
 					viewer.getTextArea().getArea().getTextArea().write(new OutputStreamWriter(os));
 					data = os.toByteArray();
@@ -585,9 +588,9 @@ public class ModifyTabTool {
 				HTabRowBean addBean = table.getSelectedRowBeans().get(0);
 				boolean isAdd = addBean.getOldRow() == null;
 				boolean isBlob = ModifyTabDataUtil.isBlob(dbTypeEnum, type, tableObjFun);
+				int selectedColumn = table.getComp().getSelectedColumn();
+				int selectedRow = table.getComp().getSelectedRow();
 				if (isAdd) {
-					int selectedColumn = table.getComp().getSelectedColumn();
-					int selectedRow = ((JTable) table.getComp()).getSelectedRow();
 					//					JsonColEditor cellEditor = (JsonColEditor) ((JTable) table.getComp()).getColumnModel().getColumn(selectedColumn).getCellEditor();
 					if (data != null && data.length > 0) {
 						File tmpData = new File(tmpAddDir, selectedRow + "_" + selectedColumn + ".dat");
@@ -596,9 +599,25 @@ public class ModifyTabTool {
 						}
 						tmpData.createNewFile();
 						try (ByteArrayInputStream is = new ByteArrayInputStream(data)) {
-							Long length = LobUtil.writeStream2File(is, tmpData, 0);
+							String length = "0";
+							if (isBlob) {
+								length = String.valueOf(LobUtil.writeStream2File(is, tmpData, 0));
+							} else {
+								Reader reader = new InputStreamReader(is);
+								length = LobUtil.reader2File(reader, tmpData, 0).split("_")[1];
+							}
 							lobJson = ModifyTabDataUtil.getLobJson(type, 0 + "_" + length, tmpData.getAbsolutePath());
-							addLobNumList.add(new AddLobBean(colName, isBlob, data));
+							AddLobBean addLobBean = new AddLobBean(selectedRow, selectedColumn, colName, isBlob, data);
+							List<AddLobBean> addLobBeans = addLobNumMap.get(selectedRow);
+							if (addLobBeans == null) {
+								addLobBeans = new ArrayList<>();
+							}
+							if (addLobBeans.contains(addLobBean)) {
+								addLobBeans.set(addLobBeans.indexOf(addLobBean), addLobBean);
+							} else {
+								addLobBeans.add(addLobBean);
+							}
+							addLobNumMap.put(selectedRow, addLobBeans);
 						}
 					}
 				} else {
@@ -608,7 +627,7 @@ public class ModifyTabTool {
 						MysqlTable mysqlTable = new MysqlTable(conn, schemaName, tableName);
 						pks = mysqlTable.getSubObjNames(TabObjEnum.PK);
 					}
-					saveLob(isBlob, data);
+					saveLob(isBlob, selectedRow, selectedColumn, data);
 					conn.commit();
 				}
 
@@ -629,7 +648,7 @@ public class ModifyTabTool {
 			}
 		}
 
-		public void saveLob(boolean isBlob, byte[] data) throws Exception {
+		public void saveLob(boolean isBlob, int row, int column, byte[] data) throws Exception {
 			HTabRowBean rowBean = table.getSelectedRowBeans().get(0);
 			String sql;
 			String tabFullName = ModifyTabDataUtil.getTabFullName(dbTypeEnum, schemaName, tableName);
@@ -649,7 +668,7 @@ public class ModifyTabTool {
 				sql = String.format("UPDATE %s SET %s =NULL WHERE %s", tabFullName, getSetName(colName), where);
 			}
 			if (!isMsSqlText) {
-				AddLobBean addLobBean = new AddLobBean(colName, isBlob, data);
+				AddLobBean addLobBean = new AddLobBean(row, column, colName, isBlob, data);
 				updateLob(conn, sql, Collections.singletonList(addLobBean));
 			}
 		}

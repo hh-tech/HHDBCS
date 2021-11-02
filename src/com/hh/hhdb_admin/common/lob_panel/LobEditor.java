@@ -1,6 +1,7 @@
 package com.hh.hhdb_admin.common.lob_panel;
 
 import com.hh.frame.swingui.view.ctrl.HButton;
+import com.hh.frame.swingui.view.textEditor.HTextArea;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
 import org.apache.commons.io.FileUtils;
 
@@ -10,9 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * 从路径中选择文件，把文件展示在Viewer中
@@ -25,10 +24,11 @@ public class LobEditor extends LobViewer {
 	/**
 	 * 文件选择过滤器
 	 */
-	private List<FileFilter> extFilters;
+	private Set<FileFilter> extFilters;
 
 
 	public LobEditor() {
+		textArea = new HTextArea(false, true);
 		HButton openFileBtn = new HButton("打开");
 		openFileBtn.addActionListener(new OpenFileListener());
 		super.toolBar.add(openFileBtn);
@@ -54,6 +54,7 @@ public class LobEditor extends LobViewer {
 						for (FileFilter extFilter : extFilters) {
 							fileChooser.addChoosableFileFilter(extFilter);
 						}
+
 						fileChooser.setAcceptAllFileFilterUsed(true);
 					}
 					fileChooser.setDialogTitle("选择文件");
@@ -94,13 +95,13 @@ public class LobEditor extends LobViewer {
 		return localFile;
 	}
 
-	public void setExtFilters(List<FileFilter> extFilters) {
+	public void setExtFilters(Set<FileFilter> extFilters) {
 		this.extFilters = extFilters;
 	}
 
 	public void addFilters(FileFilter... filters) {
 		if (extFilters == null) {
-			extFilters = new ArrayList<>();
+			extFilters = new LinkedHashSet<>();
 		}
 		extFilters.addAll(Arrays.asList(filters));
 	}

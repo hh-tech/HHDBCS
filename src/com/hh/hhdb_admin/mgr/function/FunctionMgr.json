@@ -94,14 +94,14 @@
     {
       "key": "addparameter",
       "value": {
-        "zh": "添加参数",
+        "zh": "添加",
         "en": "Add parameters"
       }
     },
     {
       "key": "deleteparameter",
       "value": {
-        "zh": "删除参数",
+        "zh": "删除",
         "en": "Delete parameter"
       }
     },
@@ -320,6 +320,13 @@
       "value": {
         "zh": "运行成功",
         "en": "The successful running"
+      }
+    },
+    {
+      "key": "correctStatement",
+      "value": {
+        "zh": "请输入正确语句!",
+        "en": "Please enter the correct statement!"
       }
     }
   ]

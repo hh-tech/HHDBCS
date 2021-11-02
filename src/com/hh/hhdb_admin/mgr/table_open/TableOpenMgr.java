@@ -1,8 +1,16 @@
 package com.hh.hhdb_admin.mgr.table_open;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.JDialog;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.hh.frame.json.JsonObject;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.engine.AbsGuiMgr;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.frame.swingui.view.container.HDialog;
@@ -14,12 +22,6 @@ import com.hh.hhdb_admin.mgr.login.LoginBean;
 import com.hh.hhdb_admin.mgr.main_frame.MainFrameComp;
 import com.hh.hhdb_admin.mgr.main_frame.MainFrameMgr;
 import com.hh.hhdb_admin.mgr.table.TableMgr;
-import org.apache.commons.lang3.StringUtils;
-
-import javax.swing.*;
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 public class TableOpenMgr extends AbsGuiMgr {
 	public static final String CMD_OPEN_TABLE = "OPEN_TABLE";        //打开表
@@ -32,7 +34,11 @@ public class TableOpenMgr extends AbsGuiMgr {
 
 	@Override
 	public void init(JsonObject jObj) {
-		LangMgr.merge(TableOpenMgr.class.getName(), LangUtil.loadLangRes(TableOpenMgr.class));
+		try {
+            LangMgr2.loadMerge(TableOpenMgr.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 		tmpFile = new File(StartUtil.workspace, OPEN_TMP);
 	}
 
@@ -163,6 +169,6 @@ public class TableOpenMgr extends AbsGuiMgr {
 	 * @return
 	 */
 	public static String getLang(String key) {
-		return LangMgr.getValue(TableOpenMgr.class.getName(), key);
+		return LangMgr2.getValue(TableOpenMgr.class.getName(), key);
 	}
 }

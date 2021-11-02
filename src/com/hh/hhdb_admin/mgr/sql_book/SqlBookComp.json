@@ -20,6 +20,48 @@
         "zh": "文件过大，请选择不超过%sM的文件",
         "en": "The file size is too large. Please select a file no more than %s M"
       }
+    },
+    {
+      "key": "packageDesign",
+      "value": {
+        "zh": "Package设计",
+        "en": "Package design"
+      }
+    },
+    {
+      "key": "typeDesign",
+      "value": {
+        "zh": "类型或类型体设计",
+        "en": "Type or type body design"
+      }
+    },
+    {
+      "key": "query",
+      "value": {
+        "zh": "查询器",
+        "en": "Query window"
+      }
+    },
+    {
+      "key": "templateEditor",
+      "value": {
+        "zh": "模版编辑器",
+        "en": "Template editor"
+      }
+    },
+    {
+      "key": "onlyOracleDm",
+      "value": {
+        "zh": "Package设计仅支持oracle、dm数据库",
+        "en": "Package design only supports Oracle and DM databases"
+      }
+    },
+    {
+      "key": "onlyOracle",
+      "value": {
+        "zh": "Type设计仅支持oracle数据库",
+        "en": "Package design only supports Oracle databases"
+      }
     }
   ]
 }

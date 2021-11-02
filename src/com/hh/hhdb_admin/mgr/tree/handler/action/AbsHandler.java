@@ -1,7 +1,7 @@
 package com.hh.hhdb_admin.mgr.tree.handler.action;
 
 import com.hh.frame.json.JsonObject;
-import com.hh.frame.lang.LangMgr;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.frame.swingui.view.tree.HTreeNode;
 import com.hh.hhdb_admin.CsMgrEnum;
@@ -54,7 +54,7 @@ public abstract class AbsHandler {
     }
 
     public static String getLang(String key) {
-        return LangMgr.getValue(TreeComp.DOMAIN_NAME, key);
+        return LangMgr2.getValue(TreeComp.DOMAIN_NAME, key);
     }
 
     public void setSchemaName(String schemaName) {

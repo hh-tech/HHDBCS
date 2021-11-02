@@ -1,18 +1,17 @@
 package com.hh.hhdb_admin.mgr.schema;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Arrays;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.HHdbPgsqlPrefixEnum;
 import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.common.util.db.SqlExeUtil;
 import com.hh.frame.common.util.db.SqlQueryUtil;
 import com.hh.frame.common.util.db.SqlStrUtil;
-import com.hh.frame.swingui.view.util.PopPaneUtil;
-import com.hh.hhdb_admin.common.util.StartUtil;
-import org.apache.commons.lang3.StringUtils;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Arrays;
 
 /**
  * @author: Jiang
@@ -26,38 +25,6 @@ public class SchemaUtil {
      */
     private static final DBTypeEnum[] NOT_EDIT_SCHEMA_NAME = {DBTypeEnum.sqlserver, DBTypeEnum.db2, DBTypeEnum.dm};
 
-    public static void delSchema(Connection conn, String schemaName) throws Exception {
-        DBTypeEnum type = DriverUtil.getDbType(conn);
-        schemaName = SqlStrUtil.dealDoubleQuote(type, schemaName);
-        switch (type) {
-            case hhdb:
-            case pgsql:
-                if (schemaName.equalsIgnoreCase("\"public\"")) {
-                    PopPaneUtil.error(StartUtil.parentFrame.getWindow(), "Public模式无法删除");
-                    return;
-                }
-                SqlExeUtil.executeUpdate(conn, String.format("DROP SCHEMA %s cascade", schemaName));
-                break;
-            case sqlserver:
-                SqlExeUtil.executeUpdate(conn, String.format("DROP SCHEMA %s", schemaName));
-                break;
-            case db2:
-                try {
-                    SqlExeUtil.executeUpdate(conn, String.format("drop schema %s restrict", schemaName));
-                } catch (Exception e) {
-                    if (e.getMessage().toUpperCase().contains("SQLCODE=-478, SQLSTATE=42893, SQLERRMC=SCHEMA")) {
-                        throw new Exception(SchemaComp.getLang("del_exp"));
-                    } else {
-                        throw e;
-                    }
-                }
-                break;
-            case dm:
-                SqlExeUtil.executeUpdate(conn, String.format("DROP SCHEMA %s CASCADE", schemaName));
-                break;
-            default:
-        }
-    }
 
     public static String getSchemaComment(Connection conn, String schemaName) throws SQLException {
         DBTypeEnum dbTypeEnum = DriverUtil.getDbType(conn);

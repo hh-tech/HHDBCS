@@ -187,6 +187,36 @@
       "type": "OBJ_QUERY",
       "config": {
       }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.delete.DeleteMgr",
+      "type": "DELETE",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.dblink.DblinkMgr",
+      "type": "DBLINK",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.type.TypeMgr",
+      "type": "TYPE",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.synonym.SynonymMgr",
+      "type": "SYNONYM",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.cmd.CmdMgr",
+      "type": "CMD",
+      "config": {
+      }
     }
   ]
 }

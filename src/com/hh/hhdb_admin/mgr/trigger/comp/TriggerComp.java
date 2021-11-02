@@ -1,5 +1,11 @@
 package com.hh.hhdb_admin.mgr.trigger.comp;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
@@ -7,8 +13,7 @@ import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.common.util.db.ConnUtil;
 import com.hh.frame.common.util.db.SqlExeUtil;
 import com.hh.frame.create_dbobj.triggerMr.mr.AbsTriggerMr;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.container.HBarPanel;
 import com.hh.frame.swingui.view.container.HDialog;
 import com.hh.frame.swingui.view.container.HPanel;
@@ -25,10 +30,6 @@ import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.table.comp.SqlViewDialog;
 import com.hh.hhdb_admin.mgr.trigger.TriggerUtil;
 import com.hh.hhdb_admin.mgr.trigger.comp.form.TriggerForm;
-import org.apache.commons.lang3.StringUtils;
-
-import java.sql.Connection;
-import java.sql.SQLException;
 
 public abstract class TriggerComp {
 
@@ -44,7 +45,11 @@ public abstract class TriggerComp {
     private static final String domainName = TriggerComp.class.getName();
 
     static {
-        LangMgr.merge(domainName, LangUtil.loadLangRes(TriggerComp.class));
+        try {
+			LangMgr2.loadMerge(TriggerComp.class);
+		} catch (IOException e) {
+			PopPaneUtil.error(e);
+		}
     }
 
     /**
@@ -140,7 +145,7 @@ public abstract class TriggerComp {
     }
 
     public static String getLang(String key) {
-        return LangMgr.getDefaultValue(domainName, key);
+        return LangMgr2.getValue(domainName, key);
     }
 
     /**

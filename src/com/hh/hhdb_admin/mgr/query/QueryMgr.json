@@ -319,7 +319,13 @@
       "key": "rowsnumber",
       "value": {
         "zh": "结果显示行",
-        "en": "The result set shows the number of rows"
+        "en": "Result display row"
+      }
+    },{
+      "key": "Null",
+      "value": {
+        "zh": "空值显示为",
+        "en": "Null value display"
       }
     },
     {
@@ -411,6 +417,13 @@
       "value": {
         "zh": "关闭",
         "en": "close"
+      }
+    },
+    {
+      "key": "refresh2",
+      "value": {
+        "zh": "刷新中...",
+        "en": "The refresh..."
       }
     }
   ]

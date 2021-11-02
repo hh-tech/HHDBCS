@@ -227,7 +227,8 @@ public class MapContentPanel extends LastPanel {
      * @param name
      * @throws IOException
      */
-    public synchronized void addLayer(String name) throws Exception {
+    @SuppressWarnings("deprecation")
+	public synchronized void addLayer(String name) throws Exception {
         File file = new File(name);
         Color color = DEFAULT_COLOR[i];
         i++;

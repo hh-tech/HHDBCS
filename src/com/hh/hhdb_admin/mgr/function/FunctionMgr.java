@@ -3,11 +3,11 @@ package com.hh.hhdb_admin.mgr.function;
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.DriverUtil;
+import com.hh.frame.create_dbobj.function.mr.AbsFunMr;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrNode;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
 import com.hh.frame.json.JsonObject;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.engine.AbsGuiMgr;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.hhdb_admin.CsMgrEnum;
@@ -15,6 +15,9 @@ import com.hh.hhdb_admin.common.icon.IconBean;
 import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.common.icon.IconSizeEnum;
 import com.hh.hhdb_admin.common.util.StartUtil;
+import com.hh.hhdb_admin.mgr.function.ui.deBug_from.OrDebugForm;
+import com.hh.hhdb_admin.mgr.function.util.DebugUtil;
+import com.hh.hhdb_admin.mgr.function.util.FunUtil;
 import com.hh.hhdb_admin.mgr.login.LoginBean;
 import com.hh.hhdb_admin.mgr.login.LoginMgr;
 import com.hh.hhdb_admin.mgr.tree.TreeMgr;
@@ -39,7 +42,11 @@ public class FunctionMgr extends AbsGuiMgr {
 
     @Override
     public void init(JsonObject jObj) {
-        LangMgr.merge(FunctionMgr.class.getName(), LangUtil.loadLangRes(FunctionMgr.class));
+        try {
+            LangMgr2.loadMerge(FunctionMgr.class);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -59,12 +66,12 @@ public class FunctionMgr extends AbsGuiMgr {
         jdbcBean = lb.getJdbc();
 
         FunctionComp fun = null;
-        if(!GuiJsonUtil.toStrCmd(msg).equals(CMD_DEBUG_FUNCTION)){
+        if(!GuiJsonUtil.toStrCmd(msg).equals(CMD_DEBUG_FUNCTION) && !GuiJsonUtil.toStrCmd(msg).equals(RUN_FUNCTION) && !GuiJsonUtil.toStrCmd(msg).equals(DEBUG)){
             fun = new FunctionComp(jdbcBean,GuiJsonUtil.toPropValue(msg, StartUtil.PARAM_SCHEMA)){
                 @Override
                 protected void refresh() {
                     String ty = TreeMrType.FUNCTION_GROUP.name();
-                    if (DriverUtil.getDbType(jdbcBean)==DBTypeEnum.mysql) ty = GuiJsonUtil.toPropValue(msg,TYPE).equals(TreeMrType.FUNCTION.name()) ? TreeMrType.FUNCTION_GROUP.name() : TreeMrType.PROCEDURE_GROUP.name();
+                    if (DriverUtil.getDbType(jdbcBean)==DBTypeEnum.mysql || DriverUtil.getDbType(jdbcBean)==DBTypeEnum.sqlserver) ty = GuiJsonUtil.toPropValue(msg,TYPE).equals(TreeMrType.FUNCTION.name()) ? TreeMrType.FUNCTION_GROUP.name() : TreeMrType.PROCEDURE_GROUP.name();
                     StartUtil.eng.doPush(CsMgrEnum.TREE, GuiJsonUtil.toJsonCmd(TreeMgr.CMD_REFRESH)
                             .add(TreeMgr.PARAM_NODE_TYPE, ty)
                             .add(StartUtil.PARAM_SCHEMA, GuiJsonUtil.toPropValue(msg, StartUtil.PARAM_SCHEMA)));
@@ -85,16 +92,18 @@ public class FunctionMgr extends AbsGuiMgr {
                 fun.addDebugInfo(GuiJsonUtil.toPropValue(msg, PARAM_FUNC_NAME),GuiJsonUtil.toPropValue(msg,TYPE));
                 break;
             case CMD_DEBUG_FUNCTION:
-                TreeMrNode treeNode = new TreeMrNode(GuiJsonUtil.toPropValue(msg, PARAM_FUNC_NAME),GuiJsonUtil.toPropValue(msg, PARAM_FUNC_ID),
-                        TreeMrType.valueOf(GuiJsonUtil.toPropValue(msg,TYPE)) , "");
-                treeNode.setSchemaName(GuiJsonUtil.toPropValue(msg, StartUtil.PARAM_SCHEMA));
-                new FunDebugComp(treeNode,jdbcBean);
+                DebugUtil.examine(GuiJsonUtil.toPropValue(msg, StartUtil.PARAM_SCHEMA),jdbcBean);
+                FunUtil.getDebugBaseForm(msg,jdbcBean);
                 break;
             case DEBUG:
-                new FunDebugComp(jdbcBean);
+                DebugUtil.examine(jdbcBean.getSchema(),jdbcBean);
+                new OrDebugForm(jdbcBean);
                 break;
             case RUN_FUNCTION:
-                fun.run(GuiJsonUtil.toPropValue(msg, PARAM_FUNC_NAME),GuiJsonUtil.toPropValue(msg, PARAM_FUNC_ID),GuiJsonUtil.toPropValue(msg,TYPE),GuiJsonUtil.toPropValue(msg,PARAM_PACKNAME));
+                TreeMrNode treeNode = new TreeMrNode(GuiJsonUtil.toPropValue(msg, PARAM_FUNC_NAME),GuiJsonUtil.toPropValue(msg, PARAM_FUNC_ID), TreeMrType.valueOf(GuiJsonUtil.toPropValue(msg,TYPE)), "");
+                treeNode.setSchemaName(GuiJsonUtil.toPropValue(msg, StartUtil.PARAM_SCHEMA));
+                AbsFunMr funMr = AbsFunMr.genFunMr(DriverUtil.getDbType(jdbcBean),treeNode);
+                FunUtil.getRunFun(funMr,jdbcBean,GuiJsonUtil.toPropValue(msg,PARAM_PACKNAME));
                 break;
             case EXAMINE_FUNCTION:
                 fun.examine(GuiJsonUtil.toPropValue(msg, PARAM_FUNC_NAME),GuiJsonUtil.toPropValue(msg, PARAM_FUNC_ID),GuiJsonUtil.toPropValue(msg,TYPE));
@@ -115,7 +124,7 @@ public class FunctionMgr extends AbsGuiMgr {
      * @return
      */
     public static String getLang(String key) {
-        return LangMgr.getValue(FunctionMgr.class.getName(), key);
+        return LangMgr2.getValue(FunctionMgr.class.getName(), key);
     }
 
     public static ImageIcon getIcon(String name) {

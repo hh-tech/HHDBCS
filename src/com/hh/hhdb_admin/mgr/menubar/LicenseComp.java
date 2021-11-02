@@ -1,11 +1,25 @@
 package com.hh.hhdb_admin.mgr.menubar;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.ImageIcon;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.lic.LicBean;
 import com.hh.frame.lic.VerifyLicTool;
 import com.hh.frame.swingui.view.container.HBarPanel;
 import com.hh.frame.swingui.view.container.HDialog;
+import com.hh.frame.swingui.view.container.HFrame;
 import com.hh.frame.swingui.view.container.HPanel;
+import com.hh.frame.swingui.view.container.HWindow;
 import com.hh.frame.swingui.view.container.LastPanel;
 import com.hh.frame.swingui.view.ctrl.HButton;
 import com.hh.frame.swingui.view.input.fc.FileChooserInput;
@@ -18,34 +32,31 @@ import com.hh.hhdb_admin.common.icon.IconBean;
 import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.common.icon.IconSizeEnum;
 import com.hh.hhdb_admin.common.util.StartUtil;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import javax.swing.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author YuSai
  */
 public class LicenseComp {
 
-    private final HDialog dialog;
+    private HWindow dialog;
     private HTable table;
 
     public LicenseComp(boolean flag) {
-        dialog = new HDialog() {
-            @Override
-            protected void closeEvent() {
-                if (flag) {
-                    System.exit(0);
-                }
-            }
-        };
+    	
+    	if(!StartUtil.parentFrame.isVisible()) {
+    		HFrame frame = new HFrame(800, 400);
+    		frame.setCloseType(true);
+    		dialog = frame;
+    	}else {
+	        dialog = new HDialog(StartUtil.parentFrame,800,600,true) {
+	            @Override
+	            protected void closeEvent() {
+	                if (flag) {
+	                    System.exit(0);
+	                }
+	            }
+	        };
+    	}
         dialog.setRootPanel(getPanel(flag));
         dialog.setIconImage(IconFileUtil.getLogo().getImage());
         dialog.getWindow().setLocationRelativeTo(null);
@@ -53,8 +64,16 @@ public class LicenseComp {
         table.load(getTableData(), 1);
         dialog.show();
     }
+    
+    
 
-    private HPanel getPanel(boolean flag) {
+    public HWindow getDialog() {
+		return dialog;
+	}
+
+
+
+	private HPanel getPanel(boolean flag) {
         HPanel rootPanel = new HPanel();
         HBarLayout barLayout = new HBarLayout();
         barLayout.setAlign(AlignEnum.LEFT);
@@ -214,4 +233,5 @@ public class LicenseComp {
         return IconFileUtil.getIcon(new IconBean(CsMgrEnum.MENUBAR.name(), name, IconSizeEnum.SIZE_16));
     }
 
+  
 }

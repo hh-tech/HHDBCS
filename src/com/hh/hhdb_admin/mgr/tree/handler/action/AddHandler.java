@@ -1,6 +1,7 @@
 package com.hh.hhdb_admin.mgr.tree.handler.action;
 
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
+import com.hh.frame.dbobj2.ora.OraSessionEnum;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.frame.swingui.view.tree.HTreeNode;
 import com.hh.hhdb_admin.CsMgrEnum;
@@ -8,15 +9,18 @@ import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.column.ColumnMgr;
 import com.hh.hhdb_admin.mgr.constraint.ConstraintMgr;
 import com.hh.hhdb_admin.mgr.database.DatabaseMgr;
+import com.hh.hhdb_admin.mgr.dblink.DblinkMgr;
 import com.hh.hhdb_admin.mgr.function.FunctionMgr;
 import com.hh.hhdb_admin.mgr.index.IndexMgr;
 import com.hh.hhdb_admin.mgr.pack.PackageMgr;
 import com.hh.hhdb_admin.mgr.rule.RuleMgr;
 import com.hh.hhdb_admin.mgr.schema.SchemaMgr;
 import com.hh.hhdb_admin.mgr.sequence.SequenceMgr;
+import com.hh.hhdb_admin.mgr.synonym.SynonymMgr;
 import com.hh.hhdb_admin.mgr.table.TableMgr;
 import com.hh.hhdb_admin.mgr.tablespace.TableSpaceMgr;
 import com.hh.hhdb_admin.mgr.trigger.TriggerMgr;
+import com.hh.hhdb_admin.mgr.type.TypeMgr;
 import com.hh.hhdb_admin.mgr.usr.UsrMgr;
 import com.hh.hhdb_admin.mgr.view.ViewMgr;
 
@@ -67,7 +71,6 @@ public class AddHandler extends AbsHandler {
                 sendMsg(CsMgrEnum.TABLE_SPACE, GuiJsonUtil.toJsonCmd(TableSpaceMgr.CMD_SHOW_ADD_TABLE_SPACE));
                 break;
             case TABLE_SPACE:
-            case TYPE_GROUP:
                 break;
             case ROOT_USER_GROUP:
                 sendMsg(CsMgrEnum.USR, GuiJsonUtil.toJsonCmd(UsrMgr.CMD_SHOW_ADD_USER));
@@ -121,6 +124,22 @@ public class AddHandler extends AbsHandler {
                 sendMsg(CsMgrEnum.PACKAGE, GuiJsonUtil.toJsonCmd(PackageMgr.CMD_ADD)
                         .add(StartUtil.PARAM_SCHEMA, schemaName)
                         .add(StartUtil.PARAM_TABLE, tableName));
+                break;
+            case DBLINK_GROUP:
+                sendMsg(CsMgrEnum.DBLINK, GuiJsonUtil.toJsonCmd(DblinkMgr.CMD_SHOW)
+                        .add(DblinkMgr.PARAM_NAME, ""));
+                break;
+            case SYNONYM_GROUP:
+                sendMsg(CsMgrEnum.SYNONYM, GuiJsonUtil.toJsonCmd(SynonymMgr.CMD_SHOW)
+                        .add(SynonymMgr.PARAM_NAME, ""));
+                break;
+            case TYPE_GROUP:
+            case TYPE_BODY_GROUP:
+                OraSessionEnum sessionEnum = TreeMrType.TYPE_GROUP.equals(nodeType)
+                        ? OraSessionEnum.type : OraSessionEnum.typebody;
+                sendMsg(CsMgrEnum.TYPE, GuiJsonUtil.toJsonCmd(TypeMgr.CMD_ADD)
+                        .add(StartUtil.PARAM_SCHEMA, schemaName)
+                        .add(TypeMgr.PARAM_TYPE, sessionEnum.name()));
                 break;
             default:
         }

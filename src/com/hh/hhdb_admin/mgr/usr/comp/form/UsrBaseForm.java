@@ -1,12 +1,17 @@
 package com.hh.hhdb_admin.mgr.usr.comp.form;
 
 
+import java.awt.Dimension;
+import java.io.IOException;
+import java.sql.Connection;
+import java.text.SimpleDateFormat;
+
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.create_dbobj.userMr.mr.AbsUsrMr;
 import com.hh.frame.dbobj2.version.VersionBean;
 import com.hh.frame.dbobj2.version.VersionUtil;
-import com.hh.frame.lang.LangMgr;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.abs.AbsHComp;
 import com.hh.frame.swingui.view.abs.AbsInput;
 import com.hh.frame.swingui.view.container.HPanel;
@@ -16,18 +21,18 @@ import com.hh.frame.swingui.view.layout.HDivLayout;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
 
-import java.awt.*;
-import java.sql.Connection;
-import java.text.SimpleDateFormat;
-
 public abstract class UsrBaseForm extends AbsHComp {
-    private static final String domainName = HHUsrForm.class.getName();
+    private static final String domainName = UsrBaseForm.class.getName();
     protected Connection conn;
     protected DBTypeEnum dbType;
     protected AbsUsrMr usrMr;
 
     static {
-        LangMgr.merge(domainName, com.hh.frame.lang.LangUtil.loadLangRes(UsrBaseForm.class));
+        try {
+			LangMgr2.loadMerge(UsrBaseForm.class);
+		} catch (IOException e) {
+			PopPaneUtil.error(e);
+		}
     }
 
     public UsrBaseForm(Connection conn) {
@@ -123,6 +128,6 @@ public abstract class UsrBaseForm extends AbsHComp {
     }
 
     public String getLang(String key) {
-        return LangMgr.getDefaultValue(domainName, key);
+        return LangMgr2.getValue(domainName, key);
     }
 }

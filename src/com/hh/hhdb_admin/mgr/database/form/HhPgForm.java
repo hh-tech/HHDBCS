@@ -22,7 +22,6 @@ import java.util.Map;
  */
 public class HhPgForm extends AbsForm {
 
-    private static final String LOG_NAME = HhPgForm.class.getSimpleName();
 
     private final Connection conn;
     private final DBTypeEnum dbTypeEnum;

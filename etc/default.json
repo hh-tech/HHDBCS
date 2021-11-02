@@ -16,6 +16,7 @@
     "view_keyword": "Alt+v",
     "fun_keyword": "Alt+u",
     "synonym_keyword": "Alt+s",
+    "package_keyword": "Alt+p",
     "vm_keyword": "Alt+k"
   },
   "dbTypes": [
@@ -28,5 +29,6 @@
     "dm"
   ],
   "findHistory": [
+    
   ]
 }

@@ -314,6 +314,20 @@
         "zh": "下一步，编辑SQL",
         "en": "Next,Edit Sql"
       }
+    },
+    {
+      "key": "pleaseSelectOneData",
+      "value": {
+        "zh": "请选择一条数据！",
+        "en": "Please Select One Data!"
+      }
+    },
+    {
+      "key": "onlySelectOne",
+      "value": {
+        "zh": "只能选择一条数据！",
+        "en": "Only one piece of data can be selected!"
+      }
     }
   ]
 }

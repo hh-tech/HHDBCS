@@ -111,6 +111,13 @@
         "zh": "删除成功",
         "en": "Delete Success"
       }
+    },
+    {
+      "key": "delete_success",
+      "value": {
+        "zh": "删除成功",
+        "en": "Delete Success"
+      }
     }
   ]
 }

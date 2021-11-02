@@ -1,12 +1,18 @@
 package com.hh.hhdb_admin.mgr.sequence;
 
+import java.io.IOException;
+import java.sql.Connection;
+
+import javax.swing.JOptionPane;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.common.util.LM;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
 import com.hh.frame.json.JsonObject;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.engine.AbsGuiMgr;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.frame.swingui.engine.GuiMsgType;
@@ -18,10 +24,6 @@ import com.hh.hhdb_admin.mgr.login.LoginMgr;
 import com.hh.hhdb_admin.mgr.sequence.common.SeqCompUtil;
 import com.hh.hhdb_admin.mgr.sequence.comp.SeqComp;
 import com.hh.hhdb_admin.mgr.tree.TreeMgr;
-import org.apache.commons.lang3.StringUtils;
-
-import javax.swing.*;
-import java.sql.Connection;
 
 public class SequenceMgr extends AbsGuiMgr{
 	public static Connection conn;
@@ -34,7 +36,11 @@ public class SequenceMgr extends AbsGuiMgr{
 	private SeqComp seqC;
 
 	static {
-		LangMgr.merge(domainName, LangUtil.loadLangRes(SequenceMgr.class));
+		try {
+            LangMgr2.loadMerge(SequenceMgr.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 	@Override
@@ -123,7 +129,7 @@ public class SequenceMgr extends AbsGuiMgr{
 	 *
 	 */
 	 public static String getLang(String key) {
-	       return LangMgr.getValue(domainName, key);
+	       return LangMgr2.getValue(domainName, key);
 	 }
 
 	 /**

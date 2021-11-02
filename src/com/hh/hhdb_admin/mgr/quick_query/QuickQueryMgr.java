@@ -2,8 +2,7 @@ package com.hh.hhdb_admin.mgr.quick_query;
 
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.json.JsonObject;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.engine.AbsGuiMgr;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.frame.swingui.view.container.HPanel;
@@ -24,7 +23,11 @@ public class QuickQueryMgr extends AbsGuiMgr {
 
 	@Override
 	public void init(JsonObject jObj) {
-		LangMgr.merge(QuickQueryMgr.class.getName(), LangUtil.loadLangRes(QuickQueryMgr.class));
+		try {
+			LangMgr2.loadMerge(QuickQueryMgr.class);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -86,7 +89,7 @@ public class QuickQueryMgr extends AbsGuiMgr {
 	}
 
 	public static String getLang(String key) {
-		return LangMgr.getValue(QuickQueryMgr.class.getName(), key);
+		return LangMgr2.getValue(QuickQueryMgr.class.getName(), key);
 	}
 
 	public static ImageIcon getIcon(String name) {

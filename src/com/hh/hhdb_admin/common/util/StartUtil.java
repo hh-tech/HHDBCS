@@ -9,9 +9,9 @@ import com.hh.frame.swingui.engine.GuiEngine;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.frame.swingui.view.container.HDialog;
 import com.hh.frame.swingui.view.container.HFrame;
-import com.hh.frame.swingui.view.test.images.ImageUtil;
 import com.hh.frame.swingui.view.ui.HHSwingUi;
 import com.hh.hhdb_admin.CsMgrEnum;
+import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.mgr.login.LoginBean;
 import com.hh.hhdb_admin.mgr.login.LoginMgr;
 import com.hh.hhdb_admin.mgr.main_frame.MainFrameComp;
@@ -51,18 +51,20 @@ public class StartUtil {
 	public static final String CMD_ID = "id"; // 分页面板id
 	public static final String PARAM_SCHEMA = "schema"; // 模式名
 	public static final String PARAM_TABLE = "table"; // 表名
-	public static final HFrame parentFrame = new MainFrameComp();
+	public static HFrame parentFrame;
 	/**
 	 * default.json文件常量
 	 */
 	public static final String DEFAULT_LANGUAGE = "language";
-	public static final String CS_VERSION = "6.3";
+	public static final String CS_VERSION = "6.4";
 
 	private static File etcFile = null;
 	private static HDialog dialog = null;
 
 	static {
 		try {
+			IconFileUtil.setIconBaseDir(new File(StartUtil.getEtcFile(),"icon"));
+			parentFrame = new MainFrameComp();
 			JsonObject fileJsonArr = Json.parse(FileUtils.readFileToString(defaultJsonFile, StandardCharsets.UTF_8))
 					.asObject();
 			// 从配置文件读取默认语言
@@ -86,7 +88,7 @@ public class StartUtil {
 			return dialog;
 		}
 		dialog = new HDialog(parentFrame, 400);
-		dialog.setIconImage(ImageUtil.getImage("manage.png"));
+		dialog.setIconImage(IconFileUtil.getLogo());
 		return dialog;
 	}
 

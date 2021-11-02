@@ -1,0 +1,16 @@
+{
+  "way": [
+    {
+      "key": ".sql",
+      "type": "def",
+      "class": "com.hh.hhdb_admin.mgr.sql_book.util.QueryOpen",
+      "value": "查询器"
+    },
+    {
+      "key": ".vm",
+      "type": "def",
+      "class": "com.hh.hhdb_admin.mgr.sql_book.util.VMOpen",
+      "value": "模版编辑器"
+    }
+  ]
+}

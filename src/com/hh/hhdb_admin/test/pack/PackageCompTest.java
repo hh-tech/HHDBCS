@@ -4,6 +4,7 @@ import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.common.util.db.ConnUtil;
+import com.hh.frame.swingui.view.container.HFrame;
 import com.hh.frame.swingui.view.ui.HHSwingUi;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
 import com.hh.hhdb_admin.common.icon.IconFileUtil;
@@ -34,7 +35,10 @@ public class PackageCompTest {
                     jdbcBean.setUser(LoginUtil.getRealName(jdbcBean.getUser(), dbType.name()));
                     jdbcBean.setSchema(schema);
                     Connection conn = ConnUtil.getConn(jdbcBean);
-                    new PackageComp(conn, schema);
+                    HFrame frame = new HFrame();
+                    frame.setRootPanel(new PackageComp(conn, schema).getAddPanel("test_package"));
+                    frame.show();
+                    frame.maximize();
                 } else {
                     PopPaneUtil.info(dbType.name() + "暂不支持");
                 }

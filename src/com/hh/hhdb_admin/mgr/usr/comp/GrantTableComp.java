@@ -4,7 +4,7 @@ import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.create_dbobj.userMr.mr.AbsUsrMr;
 import com.hh.frame.dbobj2.version.VersionUtil;
-import com.hh.frame.lang.LangMgr;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.abs.AbsHComp;
 import com.hh.frame.swingui.view.container.LastPanel;
 import com.hh.frame.swingui.view.tab.HTabRowBean;
@@ -19,6 +19,7 @@ import com.hh.hhdb_admin.mgr.usr.util.UsrUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -48,7 +49,11 @@ public class GrantTableComp extends AbsHComp {
     protected static final String domainName = GrantTableComp.class.getName();
 
     static {
-        LangMgr.merge(domainName, com.hh.frame.lang.LangUtil.loadLangRes(GrantTableComp.class));
+        try {
+			LangMgr2.loadMerge(GrantTableComp.class);
+		} catch (IOException e) {
+			PopPaneUtil.error(e);
+		}
     }
 
     public GrantTableComp(PrivsType type, Connection conn) {
@@ -64,10 +69,10 @@ public class GrantTableComp extends AbsHComp {
             scrollPane = new JScrollPane(hTable.getComp());
             panel.set(scrollPane);
 
-            if (type == PrivsType.sys) {
+//            if (type == PrivsType.sys) {
                 searchToolBar = new SearchToolBar(hTable);
                 panel.setHead(searchToolBar.getComp());
-            }
+//            }
 
             if (type == PrivsType.role) {
                 this.columns = "role";
@@ -135,7 +140,7 @@ public class GrantTableComp extends AbsHComp {
         hTable = new HTable();
         hTable.setRowHeight(25);
         scrollPane.getViewport().add(hTable.getComp());
-        if (searchToolBar != null && type == PrivsType.sys) {
+        if (searchToolBar != null ) {
             ((JPanel) panel.getComp()).remove(searchToolBar.getComp());
             searchToolBar = new SearchToolBar(hTable);
             panel.setHead(searchToolBar.getComp());
@@ -147,17 +152,17 @@ public class GrantTableComp extends AbsHComp {
 
     protected void addColumn() {
         if (type == PrivsType.role) {
-            hTable.addCols(new DataCol(columns, LangMgr.getValue(domainName, "ROLE")));
-            BoolCol boolCol = new BoolCol("grant", LangMgr.getValue(domainName, "GRANT"));
+            hTable.addCols(new DataCol(columns, LangMgr2.getValue(domainName, "ROLE")));
+            BoolCol boolCol = new BoolCol("grant", LangMgr2.getValue(domainName, "GRANT"));
             boolCol.setWidth(200);
             hTable.addCols(boolCol);
 
 
         } else {
-            hTable.addCols(new DataCol(columns, LangMgr.getValue(domainName, UsrUtil.getPermTitleKey(typeEnum))));
+            hTable.addCols(new DataCol(columns, LangMgr2.getValue(domainName, UsrUtil.getPermTitleKey(typeEnum))));
 
 
-            BoolCol boolCol = new BoolCol("grant", LangMgr.getValue(domainName, "GRANT"));
+            BoolCol boolCol = new BoolCol("grant", LangMgr2.getValue(domainName, "GRANT"));
             boolCol.setWidth(200);
             hTable.addCols(boolCol);
         }

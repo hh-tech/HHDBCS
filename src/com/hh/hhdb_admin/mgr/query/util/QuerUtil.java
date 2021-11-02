@@ -256,7 +256,6 @@ public class QuerUtil {
 		} catch (Exception e) {
 			logUtil.error(logName, e);
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null,StringUtils.isNotBlank(e.getMessage()) ? e.getMessage():QueryMgr.getLang("sqlError"), QueryMgr.getLang("error"), JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }

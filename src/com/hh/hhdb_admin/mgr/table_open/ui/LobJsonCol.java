@@ -23,7 +23,6 @@ import com.hh.hhdb_admin.mgr.table_open.common.LobViewListener;
 import com.hh.hhdb_admin.mgr.table_open.common.ModifyTabDataUtil;
 import com.hh.hhdb_admin.mgr.table_open.common.ModifyTabTool;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -65,7 +64,6 @@ public class LobJsonCol extends JsonCol {
 		this.dbTypeEnum = dbTypeEnum;
 		this.type = type;
 		tableObjFun = CreateTableUtil.getDateType(dbTypeEnum);
-
 	}
 
 	@Override
@@ -120,9 +118,6 @@ public class LobJsonCol extends JsonCol {
 	 */
 	private byte[] readLobData(boolean isBlob, File dataFile, String offset, String len) throws IOException {
 		byte[] bytes = null;
-		if (StringUtils.isBlank(offset) || StringUtils.isBlank(len)) {
-			return null;
-		}
 		if (isBlob) {
 			try (InputStream stream = LobUtil.getStreamFromFile(dataFile, Long.parseLong(offset), Long.parseLong(len))) {
 				bytes = IOUtils.toByteArray(stream);
@@ -146,13 +141,18 @@ public class LobJsonCol extends JsonCol {
 			LastPanel panel = getLastPanel(bytes);
 			HPanel dPanel = new HPanel();
 			dPanel.setLastPanel(panel);
-			dialog = StartUtil.getMainDialog();
-			dialog.setSize(900, 900 / 4 * 3);
+			dialog = new HDialog(StartUtil.getMainDialog(), 900, 900 / 4 * 3);
 			dialog.setRootPanel(dPanel);
 			dialog.setTitle("显示大字段数据");
 			dialog.setWindowTitle("二进制显示");
-			((JDialog) dialog.getWindow()).setResizable(true);
+			JDialog jDialog = ((JDialog) dialog.getWindow());
+			jDialog.setResizable(true);
+			//setAlwaysOnTop至于窗口最顶部
+			jDialog.setAlwaysOnTop(dialog.getWindow().isAlwaysOnTopSupported());
+			jDialog.setModal(true);
 			dialog.show();
+			viewer.getTextArea().getArea().getTextArea().requestFocus();
+			panel.updateUI();
 		} catch (IOException e) {
 			PopPaneUtil.error(e);
 			e.printStackTrace();
@@ -181,7 +181,7 @@ public class LobJsonCol extends JsonCol {
 			if (cleanListener != null) {
 				cleanListener.setViewer((LobEditor) viewer);
 			}
-			addFilter();
+			addFilter(LobViewer.TEXT);
 			((LobEditor) viewer).addToolBarBtn(initBtn());
 		} else {
 			rInput.setTitle("显示类型(只读)");
@@ -200,8 +200,10 @@ public class LobJsonCol extends JsonCol {
 				return;
 			}
 			try {
+				((LobEditor) viewer).setExtFilters(null);
 				String type = ((JRadioButton) e.getItem()).getName();
 				viewer.changeType(type);
+				addFilter(type);
 			} catch (IOException ioException) {
 				ioException.printStackTrace();
 				PopPaneUtil.error(ioException);
@@ -213,12 +215,17 @@ public class LobJsonCol extends JsonCol {
 		return panel;
 	}
 
-	private void addFilter() {
-		FileFilter txtFilter = new FileNameExtensionFilter("Text", "txt", "rtf");
-		FileFilter imageFilter = new FileNameExtensionFilter("Images", "jpg", "png", "bmp", "gif ");
-		FileFilter xmlFilter = new FileNameExtensionFilter("XML", "xml");
-		FileFilter htmlFilter = new FileNameExtensionFilter("HTML", "htm", "html");
-		((LobEditor) viewer).addFilters(txtFilter, imageFilter, xmlFilter, htmlFilter);
+	private void addFilter(String type) {
+		if (type.equalsIgnoreCase(LobViewer.IMAGE)) {
+			FileFilter imageFilter = new FileNameExtensionFilter("Images (*.jpg,*.png,*.bmp,*.gif)", "jpg", "jpeg", "png", "bmp", "gif ");
+			((LobEditor) viewer).addFilters(imageFilter);
+		} else if (type.equalsIgnoreCase(LobViewer.TEXT)) {
+			FileFilter txtFilter = new FileNameExtensionFilter("Text (*.txt,*.text,*.rtf)", "txt", "text", "rtf");
+			FileFilter xmlFilter = new FileNameExtensionFilter("XML (*.xml)", "xml");
+			FileFilter htmlFilter = new FileNameExtensionFilter("HTML (*.html)", "htm", "html");
+			FileFilter sqlFilter = new FileNameExtensionFilter("SQL (*.sql)", "sql");
+			((LobEditor) viewer).addFilters(txtFilter, xmlFilter, htmlFilter, sqlFilter);
+		}
 	}
 
 	private HButton[] initBtn() {
@@ -259,7 +266,9 @@ public class LobJsonCol extends JsonCol {
 	}
 
 	public void dispose() {
-		resJsonObject.set(((ModifyTabTool.SaveLobListener) saveListener).getLobJson());
+		JsonObject lobJson = ((ModifyTabTool.SaveLobListener) saveListener).getLobJson();
+		resJsonObject.set(lobJson);
+//		jsonColEditor.setValue(lobJson);
 		dialog.dispose();
 	}
 
@@ -283,8 +292,14 @@ public class LobJsonCol extends JsonCol {
 		this.htab = table;
 	}
 
+	//	@Override
+//	public TableCellEditor newColEditor() {
+//		jsonColEditor=new LobJsonColEditor(this);
+//		return jsonColEditor;
+//	}
 	@Override
 	public HTable getTab() {
 		return htab;
 	}
+
 }

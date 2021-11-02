@@ -1,5 +1,6 @@
 package com.hh.hhdb_admin.mgr.function.ui.from;
 
+import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.common.util.db.SqlExeUtil;
@@ -21,9 +22,9 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 public class OrFunForm extends FunBaseForm {
-    private SelectBox fh;
-    private SelectBox yy;
-    private TextInput name;
+    protected SelectBox fh;
+    protected SelectBox yy;
+    protected TextInput name;
 
     public OrFunForm(AbsFunMr funMr, Connection conn, JdbcBean jdbcBean, boolean isEdit)throws Exception {
         super(funMr,conn,jdbcBean);
@@ -74,7 +75,14 @@ public class OrFunForm extends FunBaseForm {
         }else {
             JTable table = hTable.getComp();
             int rows = table.getRowCount();
-            sqlText.append("CREATE OR REPLACE ").append(yy.getValue()).append(" "+(StringUtils.isNotBlank(name.getValue()) ? name.getValue() : "new"));
+            
+            String funName = "";
+            if (dbType.equals(DBTypeEnum.dm)) {
+                funName = funMr.treeNode.getSchemaName()+".";
+            }
+            funName += StringUtils.isNotBlank(name.getValue()) ? name.getValue() : "new";
+            sqlText.append("CREATE OR REPLACE ").append(yy.getValue()).append(" " + funName);
+            
             if (rows>0) sqlText.append("(");
             for (int i = 0; i < rows; i++) {
                 if(table.getValueAt(i, 0) != null && table.getValueAt(i, 0) != "" && table.getValueAt(i, 1) != null && table.getValueAt(i, 1) !="" && table.getValueAt(i, 2) != null
@@ -87,10 +95,12 @@ public class OrFunForm extends FunBaseForm {
             }
             if (rows>0) sqlText.append(")");
             //函数才有返回值
-            if(yy.getValue().equals("FUNCTION")){
-                sqlText.append(" RETURN ").append(fh.getValue());
-            }
-            sqlText.append(" AS ").append("\n").append("BEGIN").append("\n\n").append("\n").append("END").append(";");
+            if(yy.getValue().equals("FUNCTION"))  sqlText.append(" RETURN ").append(fh.getValue());
+            sqlText.append(" AS ").append("\n").append("BEGIN\n")
+                    .append("\t-- routine body goes here, e.g.\n")
+                    .append("\t-- DBMS_OUTPUT.PUT_LINE('HHDBCS for Oracle');\n");
+            if(yy.getValue().equals("FUNCTION")) sqlText.append("\tRETURN NULL;\n");
+            sqlText.append("END").append(";");
         }
         return sqlText.toString();
     }

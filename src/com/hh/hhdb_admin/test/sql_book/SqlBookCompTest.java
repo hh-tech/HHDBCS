@@ -19,17 +19,6 @@ public class SqlBookCompTest {
                 protected void openTask(String filePath) {
                     PopPaneUtil.info("打开任务框");
                 }
-
-                @Override
-                protected void openQuery(String text) {
-                    PopPaneUtil.info("在查询框中打开");
-
-                }
-
-                @Override
-                protected void openVM(String text) {
-                    PopPaneUtil.info("在模版框中打开");
-                }
             };
             bookComp.show();
         } catch (Exception e) {

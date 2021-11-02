@@ -27,11 +27,13 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.Iterator;
+import java.util.regex.Pattern;
 
 public class LobViewer extends AbsHComp {
 	private final LastPanel panel = new LastPanel(false);
 	private final JLabel labelStatus = new JLabel();
 	private byte[] data = null;
+	private final Pattern pattern = Pattern.compile("[0-9a-zA-Z~!@#$%^&*()_+|<>,.?/:;'\\[\\]{}\"\\s\\t\\r\\n]+");
 	//	private
 	protected HButton exportBtn;
 
@@ -73,16 +75,17 @@ public class LobViewer extends AbsHComp {
 	public static final String TYPE_PDF = "pdf";
 
 
-	private HTextArea textArea;
-	private ImageIcon image;
-	private String code;
+	protected HTextArea textArea;
+	protected ImageIcon image;
+	protected String code;
 
 	protected boolean edit = false;
-	private boolean readOnly = false;
+	protected boolean readOnly = false;
 
 
 	public LobViewer() {
 		this.comp = panel.getComp();
+		textArea = new HTextArea(false, false);
 		init();
 	}
 
@@ -98,6 +101,7 @@ public class LobViewer extends AbsHComp {
 		exportBtn = new HButton("导出");
 		exportBtn.addActionListener(new ExportListener());
 		toolBar.add(exportBtn);
+
 	}
 
 	public void loadData(byte[] data) throws IOException {
@@ -110,22 +114,25 @@ public class LobViewer extends AbsHComp {
 	public void load(byte[] data, String type) throws IOException {
 		this.data = data;
 		String encode = data == null ? NULL : code;
-		textArea = new HTextArea(false, isEdit());
+
 		if (!type.equals(NULL) && data != null) {
 			try (ByteArrayInputStream stream = new ByteArrayInputStream(data);
 				 BufferedReader reader = new BufferedReader(new InputStreamReader(stream, EncodingDetect.getFileEncode(data)))) {
 				textArea.read(reader);
 			}
+		} else {
+			textArea.setText("");
 		}
 		if (data == null) {
 			type = NULL;
 		}
 		changeType(type);
 		labelStatus.setText("大小:" + ModifyTabDataUtil.formatSize(getSize(data)) + " | 类型(编码) :" + (encode == null ? type : encode));
+		panel.updateUI();
 	}
 
 	public void changeType(String type) throws IOException {
-		if (data == null||data.length==0) {
+		if (data == null || data.length == 0) {
 //			type = NULL;
 			edit = true;
 		}
@@ -147,7 +154,6 @@ public class LobViewer extends AbsHComp {
 				break;
 			}
 			case NULL: {
-				textArea = new HTextArea(false, isEdit());
 				image = getIcon("error");
 				panel.set(textArea.getComp());
 				exportBtn.setEnabled(false);
@@ -176,6 +182,13 @@ public class LobViewer extends AbsHComp {
 		if (data == null || data.length <= 0) {
 			return NULL;
 		}
+
+		boolean isUtf8 = new String(data).matches(String.valueOf(pattern));
+		if (isUtf8) {
+			code = EncodingDetect.UTF_8;
+			return TEXT;
+		}
+
 		String type = genType(data);
 		switch (type) {
 			case IMAGE_JPG:
@@ -293,11 +306,17 @@ public class LobViewer extends AbsHComp {
 				try {
 					JFileChooser fileChooser = getjFileChooser(file);
 					fileChooser.setDialogTitle("导出文件");
-					int value = fileChooser.showOpenDialog(getComp());
+					int value = fileChooser.showSaveDialog(getComp());
 					if (value == JFileChooser.APPROVE_OPTION) {
 						file = fileChooser.getSelectedFile();
-						if (file != null && file.exists()) {
-							FileUtils.writeByteArrayToFile(file, data, false);
+						if (file != null) {
+							if (!file.exists()) {
+								file.createNewFile();
+								FileUtils.writeByteArrayToFile(file, data, false);
+								PopPaneUtil.info("导出成功");
+							} else {
+								PopPaneUtil.error(String.format("文件 : %s 已存在!", file.getAbsolutePath()));
+							}
 						}
 					}
 				} catch (IOException exception) {
@@ -310,13 +329,6 @@ public class LobViewer extends AbsHComp {
 
 	}
 
-	public boolean isEdit() {
-		return edit;
-	}
-
-	public void setEdit(boolean edit) {
-		this.edit = edit;
-	}
 
 	public void setReadOnly(boolean readOnly) {
 		this.readOnly = readOnly;

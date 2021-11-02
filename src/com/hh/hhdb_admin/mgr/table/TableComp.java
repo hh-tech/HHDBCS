@@ -1,12 +1,26 @@
 package com.hh.hhdb_admin.mgr.table;
 
+import java.awt.Container;
+import java.io.IOException;
+import java.sql.BatchUpdateException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.db.SqlExeUtil;
 import com.hh.frame.create_dbobj.table.CreateTableTool;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
-import com.hh.frame.swingui.view.container.*;
+import com.hh.frame.lang.LangMgr2;
+import com.hh.frame.swingui.view.container.HDialog;
+import com.hh.frame.swingui.view.container.HFrame;
+import com.hh.frame.swingui.view.container.HPanel;
+import com.hh.frame.swingui.view.container.HTabPane;
+import com.hh.frame.swingui.view.container.LastPanel;
 import com.hh.frame.swingui.view.layout.GridSplitEnum;
 import com.hh.frame.swingui.view.layout.HDivLayout;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
@@ -15,16 +29,12 @@ import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.table.common.CreateTableSqlSyntax;
 import com.hh.hhdb_admin.mgr.table.common.TableCreatePanel;
 import com.hh.hhdb_admin.mgr.table.common.TableUtil;
-import com.hh.hhdb_admin.mgr.table.comp.*;
-import org.apache.commons.lang3.StringUtils;
-
-import java.awt.*;
-import java.sql.BatchUpdateException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.hh.hhdb_admin.mgr.table.comp.ColumnPanel;
+import com.hh.hhdb_admin.mgr.table.comp.ForeignKeyPanel;
+import com.hh.hhdb_admin.mgr.table.comp.PartitionPanel;
+import com.hh.hhdb_admin.mgr.table.comp.SqlViewDialog;
+import com.hh.hhdb_admin.mgr.table.comp.TableNamePanel;
+import com.hh.hhdb_admin.mgr.table.comp.UniquePanel;
 
 /**
  * @author oyx
@@ -36,7 +46,11 @@ public class TableComp implements CreateTableSqlSyntax {
 	public static final String DOMAIN_NAME = TableComp.class.getName();
 
 	static {
-		LangMgr.merge(DOMAIN_NAME, LangUtil.loadLangRes(TableComp.class));
+		try {
+            LangMgr2.loadMerge(TableComp.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
 
 	private static final String TAB_COL_PANEL = "col_mgr_panel";
@@ -62,15 +76,15 @@ public class TableComp implements CreateTableSqlSyntax {
 	public static CreateTableTool createTabTool;
 	public static JdbcBean jdbcBean;
 	private static DBTypeEnum dbTypeEnum;
-	private final HDialog dialog;
+	public static HDialog dialog = new HDialog(StartUtil.parentFrame, HFrame.LARGE_WIDTH, HFrame.LARGE_WIDTH / 4 * 3);;
 	public String title;
 
 	public TableComp(Connection conn, DBTypeEnum dbTypeEnum) {
 		this.conn = conn;
 		TableComp.dbTypeEnum = dbTypeEnum;
 		createTabTool = new CreateTableTool(dbTypeEnum);
+
 		lastPanel = initComp();
-		dialog = new HDialog(StartUtil.parentFrame, HFrame.LARGE_WIDTH, HFrame.LARGE_WIDTH / 4 * 3);
 		Container parent = dialog.getWindow().getParent();
 		HPanel panel = new HPanel();
 		panel.setLastPanel(lastPanel);
@@ -260,7 +274,7 @@ public class TableComp implements CreateTableSqlSyntax {
 	}
 
 	public static String getLang(String key) {
-		return LangMgr.getValue(TableComp.class.getName(), key);
+		return LangMgr2.getValue(TableComp.class.getName(), key);
 	}
 
 	protected void refresh() {

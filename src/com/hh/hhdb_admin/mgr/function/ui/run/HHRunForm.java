@@ -1,30 +1,24 @@
 package com.hh.hhdb_admin.mgr.function.ui.run;
 
 import com.hh.frame.common.base.JdbcBean;
-import com.hh.frame.common.util.db.ConnUtil;
 import com.hh.frame.create_dbobj.function.mr.AbsFunMr;
+import com.hh.frame.swingui.view.container.LastPanel;
+import com.hh.frame.swingui.view.tab.HTable;
+import com.hh.frame.swingui.view.tab.col.DataCol;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.function.FunctionMgr;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class HHRunForm extends RunBaseForm {
+    private HTable resTable;
 
-    protected RunTool runTool;
-
-    /**
-     * 初始化调试面板
-     *
-     * @param jdbcBean
-     * @param pars
-     */
     public HHRunForm(AbsFunMr funMr, JdbcBean jdbcBean) throws Exception {
-        super(funMr,jdbcBean);
+        super(funMr,jdbcBean,"");
         try {
             textArea.setText(getSql(new HashMap<>()));
             show();
@@ -34,59 +28,22 @@ public class HHRunForm extends RunBaseForm {
         }
     }
 
-
-    @Override
-    protected void runFun() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                StringBuffer sb = new StringBuffer();
-                try {
-                    if (paTable.getComp().isEditing()) paTable.getComp().getCellEditor().stopCellEditing();
-                    runTool =  new RunTool(conn,textArea.getText());
-                    List<String> list = runTool.procRun();
-                    list.forEach(a -> sb.append(a+"\n"));
-                }catch (Exception e){
-                    e.printStackTrace();
-                    sb.append(e.getMessage()+"\n");
-                    finish();
-                }finally {
-                    messageText.setValue(sb.toString());
-                    stopBut.setEnabled(false);
-                    runBut.setEnabled(true);
-                }
-            }
-        }).start();
-    }
-
-    @Override
-    protected void finish() {
-        if (null != runTool) runTool.cancel();
-        ConnUtil.close(conn);
-    }
-
     @Override
     protected List<Map<String, String>> infoParam() {
-        Connection con = null;
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-        try {
-            con = ConnUtil.getConn(jdbcBean);
-            Map<String, String> parms = funMr.getFunInPar(con);
-            if (parms.isEmpty()) {
-                return list;
-            } else {
-                for (String str : parms.keySet()) {
+        if (parMap.isEmpty()) {
+            return list;
+        } else {
+            for (Map<String, String> map : parMap) {
+                if ("IN".equals(map.get("in_out")) || "INOUT".equals(map.get("in_out"))) {
+                    if (map.get("parameter") == null) continue;
                     Map<String, String> dparma = new HashMap<String, String>();
-                    dparma.put("parameter", str);
-                    dparma.put("dbType", parms.get(str));
+                    dparma.put("parameter", map.get("parameter"));
+                    dparma.put("dbType", map.get("type"));
                     dparma.put("value", "");
                     list.add(dparma);
                 }
             }
-        }catch (Exception e){
-            e.printStackTrace();
-        }finally {
-            ConnUtil.close(con);
         }
         return list;
     }
@@ -99,10 +56,54 @@ public class HHRunForm extends RunBaseForm {
                 finalParms.append(finalParms.length() == 0 ? "" : ",").append("'" + valMap.get(str) + "'");
         }
         
-        if (funMr.treeNode.getType().name().equals("FUNCTION")) {
+        if (type.name().equals("FUNCTION")) {
             return "select \"" + funMr.treeNode.getSchemaName() + "\".\"" + funMr.treeNode.getName() + "\"(" + finalParms + ");";
         } else {
             return "CALL \"" + funMr.treeNode.getSchemaName() + "\".\"" + funMr.treeNode.getName() + "\"(" + finalParms + ");";
         }
+    }
+    
+    @Override
+    protected void runFun() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                StringBuffer sb = new StringBuffer();
+                try {
+                    if (null != resTable) resTable.load(new ArrayList<>(), 1);
+                    StringBuffer outStr = new StringBuffer();
+                    runTool =  new RunTool(conn,textArea.getText());
+                    Map<String,String> map = runTool.hhPgRun(outStr);
+                    sb.append(FunctionMgr.getLang("run-succeed")+"！\n");
+                    sb.append(outStr);
+    
+                    if (!map.isEmpty()) {
+    
+                        if (null == resTable) {
+                            resTable = new HTable();
+                            resTable.setRowHeight(25);
+                            resTable.hideSeqCol();
+                            map.keySet().forEach(a -> resTable.addCols(new DataCol(a, a)));
+                            LastPanel lastPanel = new LastPanel(false);
+                            lastPanel.setWithScroll(resTable.getComp());
+                            hTabPane.addPanel("result", FunctionMgr.getLang("result"), lastPanel.getComp(), true);
+                        }
+                        List<Map<String, String>> valist = new ArrayList<Map<String, String>>();
+                        Map<String, String> dparma = new HashMap<String, String>();
+                        map.keySet().forEach(a -> dparma.put(a, map.get(a)+""));
+                        valist.add(dparma);
+                        resTable.load(valist, 1);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    sb.append(e.getMessage()+"\n");
+                    finish();
+                }finally {
+                    messageText.setValue(sb.toString());
+                    stopBut.setEnabled(false);
+                    runBut.setEnabled(true);
+                }
+            }
+        }).start();
     }
 }

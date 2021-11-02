@@ -1,10 +1,21 @@
 package com.hh.hhdb_admin.test.query;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.JOptionPane;
+import javax.swing.JSplitPane;
+import javax.swing.event.ChangeEvent;
+
+import org.apache.commons.io.FileUtils;
+
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.db.ConnUtil;
 import com.hh.frame.dbquery.QueryTool;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.parser.PosBean;
 import com.hh.frame.sqlwin.SqlWin;
 import com.hh.frame.sqlwin.WinMgr;
@@ -23,19 +34,15 @@ import com.hh.hhdb_admin.mgr.query.QueryMgr;
 import com.hh.hhdb_admin.mgr.query.ui.DataTab;
 import com.hh.hhdb_admin.mgr.query.ui.OutputTabPanel;
 import com.hh.hhdb_admin.test.MgrTestUtil;
-import org.apache.commons.io.FileUtils;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import java.io.File;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 public class QuerCompTest {
 
 	public static void main(String[] args) throws Exception {
-		LangMgr.merge(QueryMgr.class.getName(), LangUtil.loadLangRes(QueryMgr.class));
+		try {
+            LangMgr2.loadMerge(QueryMgr.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 		IconFileUtil.setIconBaseDir(new File("etc/icon/"));
 		HHSwingUi.init();
 

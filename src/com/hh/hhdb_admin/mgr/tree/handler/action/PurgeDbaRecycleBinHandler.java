@@ -1,10 +1,14 @@
 package com.hh.hhdb_admin.mgr.tree.handler.action;
 
 import com.hh.frame.common.util.db.SqlExeUtil;
+import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
+import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.frame.swingui.view.tree.HTreeNode;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
+import com.hh.hhdb_admin.CsMgrEnum;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.tree.TreeComp;
+import com.hh.hhdb_admin.mgr.tree.TreeMgr;
 
 import javax.swing.*;
 
@@ -24,7 +28,9 @@ public class PurgeDbaRecycleBinHandler extends AbsHandler {
         }
         SqlExeUtil.executeUpdate(loginBean.getConn(), "PURGE DBA_RECYCLEBIN");
         PopPaneUtil.info(StartUtil.parentFrame.getWindow(), getLang("purgeSuccess"));
-        refreshWithNode(treeNode.getParentHTreeNode());
+        sendMsg(CsMgrEnum.TREE, GuiJsonUtil.toJsonCmd(TreeMgr.CMD_REFRESH)
+                .add(StartUtil.PARAM_SCHEMA, schemaName)
+                .add(TreeMgr.PARAM_NODE_TYPE, TreeMrType.RECYCLE_BIN_GROUP.name()));
     }
 
 }

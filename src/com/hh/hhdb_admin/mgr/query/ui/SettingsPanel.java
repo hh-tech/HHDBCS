@@ -1,5 +1,7 @@
 package com.hh.hhdb_admin.mgr.query.ui;
 
+import com.hh.frame.lang.LangEnum;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.HeightComp;
 import com.hh.frame.swingui.view.abs.AbsInput;
 import com.hh.frame.swingui.view.container.HDialog;
@@ -47,7 +49,7 @@ public class SettingsPanel {
     private HPanel init() throws Exception {
         generalPanel.add(null,null);
         generalPanel.add(getWithLabelInput("varPageSize", QueryMgr.getLang("rowsnumber") + ":", rowInput));
-        generalPanel.add(getWithLabelInput("null", "空值显示为:", nullInput));
+        generalPanel.add(getWithLabelInput("null", QueryMgr.getLang("Null")+":", nullInput));
 
         HPanel hPanel = new HPanel(new HDivLayout(15, 10, GridSplitEnum.C12));
         hPanel.add(generalPanel);
@@ -73,7 +75,7 @@ public class SettingsPanel {
     }
 
     private static WithLabelInput getWithLabelInput(String id, String label, AbsInput intput) {
-        HPanel hPanel = new HPanel(new HDivLayout(GridSplitEnum.C3));
+        HPanel hPanel = new HPanel(new HDivLayout(LangMgr2.getDefaultLang() == LangEnum.ZH ? GridSplitEnum.C3 : GridSplitEnum.C4));
         WithLabelInput wli = new WithLabelInput(hPanel, label, intput);
         wli.setId(id);
         return wli;

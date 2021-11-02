@@ -38,19 +38,14 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellEditor;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 public class ModifyTabDataComp extends LastPanel {
 	public static final String LOG_NAME = ModifyTabDataComp.class.getSimpleName();
@@ -169,7 +164,26 @@ public class ModifyTabDataComp extends LastPanel {
 		}
 		//删除已有表格和工具栏
 		removeAll();
-		tab = new HTipTable();
+		tab = new HTipTable() {
+			/**
+			 * 添加delete键删除选中行事件
+			 */
+			@Override
+			protected void addDelKeyListener() {
+				final String deleteAction = "delete";
+				InputMap inputMap = jTab.getInputMap(javax.swing.JComponent.WHEN_FOCUSED);
+				ActionMap actionMap = jTab.getActionMap();
+				inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), deleteAction);
+				actionMap.put(deleteAction, new AbstractAction() {
+					private static final long serialVersionUID = -679276663210720663L;
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						delRow();
+					}
+				});
+			}
+		};
 		tab.setNullSymbol(nullSymbol);
 //		tab.setHeadPopMenu(new DefHeaderPopMenu());
 		tab.setRowPopMenu(new ExpTabBodyPopMenu());
@@ -368,6 +382,21 @@ public class ModifyTabDataComp extends LastPanel {
 			List<HTabRowBean> addValue = tab.getRowBeans(RowStatus.ADD);
 			List<HTabRowBean> delValue = tab.getRowBeans(RowStatus.DEL);
 			boolean change = changedValue != null && changedValue.size() > 0;
+			int lobCount = 0;
+			for (HTabRowBean hTabRowBean : changedValue) {
+				Map<String, String> currRow = hTabRowBean.getCurrRow();
+				Set<String> keySet = currRow.keySet();
+				for (String key : keySet) {
+					String text = currRow.get(key);
+					if (text.contains("\"__TEXT\": ") && text.contains("\"file_path\": ")) {
+						lobCount++;
+					}
+				}
+			}
+			if (lobCount > 0 && changedValue.size() == lobCount) {
+				change = false;
+			}
+
 			boolean add = addValue != null && addValue.size() > 0;
 			boolean del = delValue != null && delValue.size() > 0;
 			isChange = change || add || del;
@@ -438,7 +467,9 @@ public class ModifyTabDataComp extends LastPanel {
 	protected boolean isCancelSaveData() {
 		if (isChange) {
 			Object[] options = {"保存", "不保存", "取消"};
-			int result = JOptionPane.showOptionDialog(tab.getComp().getParent(), "是否保存修改的内容?", "确认",
+			final JDialog dialog = new JDialog();
+			dialog.setAlwaysOnTop(dialog.isAlwaysOnTopSupported());
+			int result = JOptionPane.showOptionDialog(dialog, "是否保存修改的内容?", "确认",
 					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 			if (result == JOptionPane.YES_OPTION) {
 				saveData();
@@ -529,7 +560,7 @@ public class ModifyTabDataComp extends LastPanel {
 			int selectedColumn = jTable.getSelectedColumn();
 			int selectedRow = jTable.getSelectedRow();
 			jTable.changeSelection(selectedRow, selectedColumn, false, false);
-			jTable.editCellAt(selectedRow, selectedColumn);
+//			jTable.editCellAt(selectedRow, selectedColumn);
 			Component component = jTable.getEditorComponent();
 			if (component instanceof JTextField) {
 				component.requestFocus();
@@ -564,6 +595,7 @@ public class ModifyTabDataComp extends LastPanel {
 			}
 			tab.add(tab.getRowCount(), new HashMap<>());
 			ModifyTabDataUtil.requestFocus(tab, 1, colListSelectionListener);
+			setSaveBtnStatus();
 //			int columnCount = jTable.getColumnCount();
 //			Map<String, Enum<?>> lobMap = tabColTool.getLobMap();
 		}
@@ -576,28 +608,7 @@ public class ModifyTabDataComp extends LastPanel {
 	private class DelRowListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			opToolBarPanel.getDelRow().setEnabled(false);
-			try {
-				if (tab.getComp().isEditing()) {
-					tab.getComp().getCellEditor().stopCellEditing();
-				}
-				tabColTool.setTable(tab);
-				int select = tab.getComp().getSelectedRows().length;
-				if (select > 0) {
-					int result = JOptionPane.showConfirmDialog(tab.getComp(), String.format("确定要删除 %s 条记录吗?", select), "确认删除", JOptionPane.YES_NO_OPTION);
-					if (result == JOptionPane.YES_OPTION) {
-						tab.deleteSelectRow();
-						setSaveBtnStatus();
-					}
-				} else {
-					PopPaneUtil.info("请选择要删除的记录");
-				}
-			} catch (Exception exception) {
-				logUtil.error(LOG_NAME, exception);
-				exception.printStackTrace();
-				PopPaneUtil.error(exception);
-				setSaveBtnStatus();
-			}
+			delRow();
 		}
 	}
 
@@ -607,7 +618,9 @@ public class ModifyTabDataComp extends LastPanel {
 	private class SaveListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			int result = JOptionPane.showConfirmDialog(tab.getComp(), "确定要提交修改吗?", "确认提交", JOptionPane.YES_NO_OPTION);
+			final JDialog dialog = new JDialog();
+			dialog.setAlwaysOnTop(dialog.isAlwaysOnTopSupported());
+			int result = JOptionPane.showConfirmDialog(dialog, "确定要提交修改吗?", "确认提交", JOptionPane.YES_NO_OPTION);
 			if (result == JOptionPane.YES_OPTION) {
 				saveData();
 			}
@@ -643,6 +656,32 @@ public class ModifyTabDataComp extends LastPanel {
 		}
 	}
 
+	private void delRow() {
+		opToolBarPanel.getDelRow().setEnabled(false);
+		try {
+			if (tab.getComp().isEditing()) {
+				tab.getComp().getCellEditor().stopCellEditing();
+			}
+			tabColTool.setTable(tab);
+			int select = tab.getComp().getSelectedRows().length;
+			if (select > 0) {
+				final JDialog dialog = new JDialog();
+				dialog.setAlwaysOnTop(dialog.isAlwaysOnTopSupported());
+				int result = JOptionPane.showConfirmDialog(dialog, String.format("确定要删除 %s 条记录吗?", select), "确认删除", JOptionPane.YES_NO_OPTION);
+				if (result == JOptionPane.YES_OPTION) {
+					tab.deleteSelectRow();
+					setSaveBtnStatus();
+				}
+			} else {
+				PopPaneUtil.info("请选择要删除的记录");
+			}
+		} catch (Exception exception) {
+			logUtil.error(LOG_NAME, exception);
+			exception.printStackTrace();
+			PopPaneUtil.error(exception);
+			setSaveBtnStatus();
+		}
+	}
 
 	/**
 	 * Sql预览点击事件

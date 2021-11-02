@@ -1,21 +1,23 @@
 package com.hh.hhdb_admin.mgr.about;
 
+import java.awt.Font;
+import java.io.IOException;
+
+import javax.swing.ImageIcon;
+
 import com.hh.frame.lang.LangEnum;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.container.HDialog;
 import com.hh.frame.swingui.view.container.HPanel;
 import com.hh.frame.swingui.view.ctrl.HImage;
 import com.hh.frame.swingui.view.ctrl.HImgButton;
 import com.hh.frame.swingui.view.input.LabelInput;
+import com.hh.frame.swingui.view.util.PopPaneUtil;
 import com.hh.hhdb_admin.CsMgrEnum;
 import com.hh.hhdb_admin.common.icon.IconBean;
 import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.common.icon.IconSizeEnum;
 import com.hh.hhdb_admin.common.util.StartUtil;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class AboutComp {
     private final HDialog dialog;
@@ -37,12 +39,16 @@ public class AboutComp {
 
 
     static {
-        LangMgr.merge(domainName, LangUtil.loadLangRes(AboutComp.class));
+        try {
+			LangMgr2.loadMerge(AboutComp.class);
+		} catch (IOException e) {
+			PopPaneUtil.error(e);
+		}
     }
 
     public AboutComp() {
         dialog = new HDialog(null,ICONS[0].getIconWidth(), ICONS[0].getIconHeight() + 25,true);
-        dialog.setWindowTitle(LangMgr.getValue(domainName, LK_TITLE));
+        dialog.setWindowTitle(LangMgr2.getValue(domainName, LK_TITLE));
         dialog.setIconImage(IconFileUtil.getLogo(IconSizeEnum.SIZE_16).getImage());
         HPanel panel = new HPanel();
         panel.add(getImg());
@@ -69,7 +75,7 @@ public class AboutComp {
         };
         imgBtn1.setMouseExitedIconIcon(getBtnIcon("next", true));
         imgBtn1.setMouseEnteredIcon(getBtnIcon("next", false));
-        imgBtn1.setToolTipText(LangMgr.getValue(domainName, LK_NEXT));
+        imgBtn1.setToolTipText(LangMgr2.getValue(domainName, LK_NEXT));
         imgBtn1.setSize(16, 16);
 
         HImgButton imgBtn2 = new HImgButton() {
@@ -87,14 +93,14 @@ public class AboutComp {
 
         imgBtn2.setMouseExitedIconIcon(getBtnIcon("pre", true));
         imgBtn2.setMouseEnteredIcon(getBtnIcon("pre", false));
-        imgBtn2.setToolTipText(LangMgr.getValue(domainName, LK_PREV));
+        imgBtn2.setToolTipText(LangMgr2.getValue(domainName, LK_PREV));
 
         img.add(0, 145, 30, 50, imgBtn2);
         img.add(455, 145, 30, 50, imgBtn1);
 
-        LabelInput product = new LabelInput(LangMgr.getValue(domainName, LK_PRODUCT));
+        LabelInput product = new LabelInput(LangMgr2.getValue(domainName, LK_PRODUCT));
 
-        LabelInput version = new LabelInput(LangMgr.getValue(domainName, LK_VERSION) + StartUtil.CS_VERSION);
+        LabelInput version = new LabelInput(LangMgr2.getValue(domainName, LK_VERSION) + StartUtil.CS_VERSION);
 
 
         if (StartUtil.default_language == LangEnum.EN) {

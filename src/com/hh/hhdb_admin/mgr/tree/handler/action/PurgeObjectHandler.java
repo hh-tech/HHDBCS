@@ -34,7 +34,7 @@ public class PurgeObjectHandler extends AbsHandler {
                 throw new IllegalStateException("Unexpected value: " + TreeMrType.valueOf(treeNode.getType()));
         }
         PopPaneUtil.info(StartUtil.parentFrame.getWindow(), getLang("purgeSuccess"));
-        refreshWithNode(treeNode.getParentHTreeNode());
+        refreshWithNode(treeNode);
     }
 
 }

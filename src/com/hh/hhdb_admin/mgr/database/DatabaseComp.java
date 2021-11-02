@@ -3,8 +3,7 @@ package com.hh.hhdb_admin.mgr.database;
 import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.json.JsonObject;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.container.HBarPanel;
 import com.hh.frame.swingui.view.container.HDialog;
 import com.hh.frame.swingui.view.container.HPanel;
@@ -22,6 +21,7 @@ import com.hh.hhdb_admin.common.util.logUtil;
 import com.hh.hhdb_admin.mgr.database.form.AbsForm;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -34,7 +34,11 @@ public abstract class DatabaseComp {
     private static final String DOMAIN_NAME = DatabaseComp.class.getName();
 
     static {
-        LangMgr.merge(DOMAIN_NAME, LangUtil.loadLangRes(DatabaseComp.class));
+        try {
+            LangMgr2.loadMerge(DatabaseComp.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static HDialog dialog;
@@ -119,14 +123,9 @@ public abstract class DatabaseComp {
         dialog.show();
     }
 
-    void delDatabase(String dbName) throws Exception {
-        DatabaseUtil.delete(dbName);
-        refreshTree();
-    }
-
     public static String getLang(String key) {
-        LangMgr.setDefaultLang(StartUtil.default_language);
-        return LangMgr.getValue(DOMAIN_NAME, key);
+        LangMgr2.setDefaultLang(StartUtil.default_language);
+        return LangMgr2.getValue(DOMAIN_NAME, key);
     }
 
     private ImageIcon getIcon(String name) {

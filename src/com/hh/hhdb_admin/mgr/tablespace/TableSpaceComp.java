@@ -3,20 +3,21 @@ package com.hh.hhdb_admin.mgr.tablespace;
 import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.json.JsonObject;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.HeightComp;
 import com.hh.frame.swingui.view.container.HBarPanel;
 import com.hh.frame.swingui.view.container.HDialog;
 import com.hh.frame.swingui.view.container.HPanel;
 import com.hh.frame.swingui.view.container.LastPanel;
 import com.hh.frame.swingui.view.ctrl.HButton;
+import com.hh.frame.swingui.view.input.LabelInput;
 import com.hh.frame.swingui.view.layout.bar.HBarLayout;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.common.util.logUtil;
 import com.hh.hhdb_admin.mgr.tablespace.form.AbsForm;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -28,7 +29,11 @@ public abstract class TableSpaceComp {
     private static final String DOMAIN_NAME = TableSpaceComp.class.getName();
     private static final String LOG_NAME = TableSpaceComp.class.getSimpleName();
     static {
-        LangMgr.merge(DOMAIN_NAME, LangUtil.loadLangRes(TableSpaceComp.class));
+        try {
+            LangMgr2.loadMerge(TableSpaceComp.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private final HDialog dialog;
@@ -48,10 +53,14 @@ public abstract class TableSpaceComp {
 
     public HPanel getPanel() {
         HPanel panel = new HPanel();
-        panel.add(initBtnPanel());
-        LastPanel lastPanel = new LastPanel();
-        lastPanel.set(spaceForm.getPanel().getComp());
-        panel.setLastPanel(lastPanel);
+        if (spaceForm == null) {
+            panel.add(new LabelInput(getLang("notSupport"), AlignEnum.CENTER));
+        } else {
+            panel.add(initBtnPanel());
+            LastPanel lastPanel = new LastPanel();
+            lastPanel.set(spaceForm.getPanel().getComp());
+            panel.setLastPanel(lastPanel);
+        }
         return panel;
     }
 
@@ -125,14 +134,9 @@ public abstract class TableSpaceComp {
         dialog.show();
     }
 
-    void delTableSpace(String spaceName) throws Exception {
-        TableSpaceUtil.delete(spaceName);
-        refreshTree();
-    }
-
     public static String getLang(String key) {
-        LangMgr.setDefaultLang(StartUtil.default_language);
-        return LangMgr.getValue(DOMAIN_NAME, key);
+        LangMgr2.setDefaultLang(StartUtil.default_language);
+        return LangMgr2.getValue(DOMAIN_NAME, key);
     }
 
     public abstract void refreshTree();

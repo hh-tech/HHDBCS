@@ -1,13 +1,21 @@
 package com.hh.hhdb_admin;
 
 import com.hh.frame.common.base.BaseProduct;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.hhdb_admin.common.util.StartUtil;
 
 import java.io.File;
 import java.io.IOException;
 
 public class CSProduct extends BaseProduct {
+
+	static {
+		try {
+			LangMgr2.loadMerge(CSProduct.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public CSProduct() {
 		this.version=StartUtil.CS_VERSION;
@@ -27,8 +35,8 @@ public class CSProduct extends BaseProduct {
 			BaseProduct frameP=CSProduct.readProductJson(verFile);
 			p.addDepProduct(frameP);
 
-			LangUtil.loadMerge(CSProduct.class);
 			p.writeProductJson2Dir(new File("./hhdb_csadmin/etc"));
+			p.writeProductJson2Dir(new File("./etc"));
 		}
 	}
 

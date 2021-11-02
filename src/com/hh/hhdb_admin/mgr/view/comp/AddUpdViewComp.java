@@ -1,11 +1,27 @@
 package com.hh.hhdb_admin.mgr.view.comp;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Objects;
+
+import javax.swing.ImageIcon;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.create_dbobj.viewMr.mr.AbsViewMr;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.swingui.view.container.*;
+import com.hh.frame.lang.LangMgr2;
+import com.hh.frame.swingui.view.container.HBarPanel;
+import com.hh.frame.swingui.view.container.HDialog;
+import com.hh.frame.swingui.view.container.HPanel;
+import com.hh.frame.swingui.view.container.HSplitPanel;
+import com.hh.frame.swingui.view.container.LastPanel;
 import com.hh.frame.swingui.view.ctrl.HButton;
 import com.hh.frame.swingui.view.layout.bar.HBarLayout;
 import com.hh.frame.swingui.view.textEditor.HTextArea;
@@ -19,15 +35,6 @@ import com.hh.hhdb_admin.common.util.DbCmdStrUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.login.LoginBean;
 import com.hh.hhdb_admin.mgr.table_open.ModifyTabDataComp;
-import org.apache.commons.lang3.StringUtils;
-
-import javax.swing.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.File;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Objects;
 
 /**
  * 添加和修改视图的组件
@@ -74,7 +81,11 @@ public class AddUpdViewComp {
     private static final String VIEW_TMP = "view_tmp";
 
     static {
-        LangMgr.merge(domainName, com.hh.frame.lang.LangUtil.loadLangRes(AddUpdViewComp.class));
+        try {
+			LangMgr2.loadMerge(AddUpdViewComp.class);
+		} catch (IOException e) {
+			PopPaneUtil.error(e);
+		}
     }
 
 
@@ -141,10 +152,10 @@ public class AddUpdViewComp {
             this.schemaName = schemaName;
             this.isMaterialized = isMaterialized;
             String title = isMaterialized ? LK_ADD_MVIEW_TITLE : LK_ADD_VIEW_TITLE;
-            dialog.setWindowTitle(LangMgr.getValue(domainName, title));
+            dialog.setWindowTitle(LangMgr2.getValue(domainName, title));
             dialog.setIconImage(IconFileUtil.getLogo().getImage());
             dialog.setRootPanel(panel);
-            setTextEditorValue(LangMgr.getValue(domainName, LK_PLEASE_ENTER_DEFINE) + "select * from usr");
+            setTextEditorValue(LangMgr2.getValue(domainName, LK_PLEASE_ENTER_DEFINE) + "select * from usr");
             dialog.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -176,7 +187,7 @@ public class AddUpdViewComp {
                 }
             });
             String title = isMaterialized ? LK_UPDATE_MVIEW_TITLE : LK_UPDATE_VIEW_TITLE;
-            dialog.setWindowTitle(LangMgr.getValue(domainName, title) + "(" + viewName + ")");
+            dialog.setWindowTitle(LangMgr2.getValue(domainName, title) + "(" + viewName + ")");
             dialog.setIconImage(IconFileUtil.getLogo().getImage());
             dialog.setSize(750, 550);
             dialog.setRootPanel(panel);
@@ -244,7 +255,7 @@ public class AddUpdViewComp {
      * 弹出视图名称输入框
      */
     private void popViewNameInput() {
-        String name = PopPaneUtil.input(LangMgr.getValue(domainName, LK_PLEASE_ENTER_VIEW_NAME));
+        String name = PopPaneUtil.input(LangMgr2.getValue(domainName, LK_PLEASE_ENTER_VIEW_NAME));
         if (!StringUtils.isBlank(name)) {
             createOrReplaceView(name, getTextSql());
         }
@@ -266,7 +277,7 @@ public class AddUpdViewComp {
             sql = sql.replaceAll("--.*", "");
 
             if (!sql.toLowerCase().trim().startsWith("select")) {
-                throw new Exception(LangMgr.getValue(domainName, LK_PLEASE_ENTER_SELECT_SQL));
+                throw new Exception(LangMgr2.getValue(domainName, LK_PLEASE_ENTER_SELECT_SQL));
             }
             mcomp.loadReadOnlyTable(sql);
             int maxLocation = splitPanel.getComp().getMaximumDividerLocation();
@@ -332,7 +343,7 @@ public class AddUpdViewComp {
             informRefreshView(this.schemaName, isMaterialized);
             mcomp.close();
             this.dialog.dispose();
-            PopPaneUtil.info(StartUtil.parentFrame.getWindow(), LangMgr.getValue(domainName, LK_SAVE_SUCCESS));
+            PopPaneUtil.info(StartUtil.parentFrame.getWindow(), LangMgr2.getValue(domainName, LK_SAVE_SUCCESS));
         } catch (SQLException e) {
             e.printStackTrace();
             PopPaneUtil.error(dialog.getWindow(), e);
@@ -355,28 +366,28 @@ public class AddUpdViewComp {
      * 初始化工具栏按钮
      */
     private void initBtn() {
-        saveBtn = new HButton(LangMgr.getValue(domainName, LK_SAVE)) {
+        saveBtn = new HButton(LangMgr2.getValue(domainName, LK_SAVE)) {
             @Override
             protected void onClick() {
                 clickSaveBtn();
             }
         };
         saveBtn.setIcon(getIcon("save"));
-        saveAsBtn = new HButton(LangMgr.getValue(domainName, LK_SAVE_AS)) {
+        saveAsBtn = new HButton(LangMgr2.getValue(domainName, LK_SAVE_AS)) {
             @Override
             protected void onClick() {
                 clickSaveAsBtn();
             }
         };
         saveAsBtn.setIcon(getIcon("saveas"));
-        viewBtn = new HButton(LangMgr.getValue(domainName, LK_PREVIEW)) {
+        viewBtn = new HButton(LangMgr2.getValue(domainName, LK_PREVIEW)) {
             @Override
             protected void onClick() {
                 clickViewBtn();
             }
         };
         viewBtn.setIcon(getIcon("runview"));
-        selTableBtn = new HButton(LangMgr.getValue(domainName, LK_SELECT_TABLE_COLUMN)) {
+        selTableBtn = new HButton(LangMgr2.getValue(domainName, LK_SELECT_TABLE_COLUMN)) {
             @Override
             protected void onClick() {
                 clickSelTableBtn();

@@ -1,13 +1,15 @@
 package com.hh.hhdb_admin.mgr.trigger.comp;
 
+import java.io.IOException;
+
 import com.hh.frame.common.base.AlignEnum;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.container.HBarPanel;
 import com.hh.frame.swingui.view.container.HDialog;
 import com.hh.frame.swingui.view.container.HPanel;
 import com.hh.frame.swingui.view.container.LastPanel;
 import com.hh.frame.swingui.view.layout.bar.HBarLayout;
+import com.hh.frame.swingui.view.util.PopPaneUtil;
 import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.common.icon.IconSizeEnum;
 import com.hh.hhdb_admin.common.util.StartUtil;
@@ -26,10 +28,10 @@ public class TriggerEditDialog {
 
     static {
         try {
-            LangMgr.merge(domainName, LangUtil.loadLangRes(TriggerEditDialog.class));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+			LangMgr2.loadMerge(TriggerEditDialog.class);
+		} catch (IOException e) {
+			PopPaneUtil.error(e);
+		}
     }
 
     public TriggerEditDialog(String initText) {
@@ -49,7 +51,7 @@ public class TriggerEditDialog {
         panel.setHead(bar.getComp());
         textArea.setText(initText);
         dialog.setIconImage(IconFileUtil.getLogo(IconSizeEnum.SIZE_16).getImage());
-        dialog.setWindowTitle(LangMgr.getValue(domainName, "EDIT"));
+        dialog.setWindowTitle(LangMgr2.getValue(domainName, "EDIT"));
         HPanel hPanel = new HPanel();
         hPanel.setLastPanel(panel);
         dialog.setRootPanel(hPanel);

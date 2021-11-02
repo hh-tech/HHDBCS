@@ -9,16 +9,11 @@ import com.hh.frame.common.util.db.SqlExeUtil;
 import com.hh.frame.common.util.db.SqlQueryUtil;
 import com.hh.frame.create_dbobj.function.mr.AbsFunMr;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrNode;
-import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
 import com.hh.frame.json.JsonObject;
-import com.hh.frame.swingui.view.tab.HTable;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
-import com.hh.hhdb_admin.mgr.function.FunDebugComp;
 import com.hh.hhdb_admin.mgr.function.FunctionMgr;
-import org.apache.commons.lang3.StringUtils;
 
-import javax.swing.*;
 import java.sql.Connection;
 import java.util.*;
 
@@ -49,9 +44,35 @@ public class DebugUtil {
             ConnUtil.close(conn);
         }
     }
-
+    
     /**
-     * 验证函数是否异常
+     * 调试环境验证
+     */
+    public static void examine(String schemaName,JdbcBean jdbcBean) throws Exception{
+        Connection conn = null;
+        try {
+            conn = ConnUtil.getConn(jdbcBean);
+            if (DriverUtil.getDbType(jdbcBean) == DBTypeEnum.oracle){
+                //安装调试所需包
+                String str = "SELECT OWNER, OBJECT_NAME, OBJECT_TYPE FROM ALL_OBJECTS " +
+                        "WHERE OBJECT_TYPE = 'PACKAGE'  AND OWNER = '"+ schemaName +"'" +
+                        " AND OBJECT_NAME = 'ADP_DEBUG'";
+                List<Map<String, String>> list = SqlQueryUtil.selectStrMapList(conn, str);
+                if(null == list || list.isEmpty()) {
+                    String sql= ClassLoadUtil.loadTextRes(FunctionMgr.class, "adp_debug.sql");
+                    SqlExeUtil.batchExecute(conn, Arrays.asList(sql.split("//")));
+                }
+                //添加调试权限
+                SqlExeUtil.executeUpdate(conn,"grant DEBUG CONNECT SESSION to " + jdbcBean.getUser());
+                SqlExeUtil.executeUpdate(conn,"grant DEBUG ANY PROCEDURE to " + jdbcBean.getUser());
+            }
+        }finally {
+            ConnUtil.close(conn);
+        }
+    }
+    
+    /**
+     * 验证函数是否编译通过
      * @param conn
      * @param name
      * @param type
@@ -94,127 +115,39 @@ public class DebugUtil {
     }
 
     /**
-     * 获取调试sql
-     *
-     * @param funMr
-     * @param conn
-     * @return
-     * @throws Exception
-     */
-    public static String getSql(HTable hTable, AbsFunMr funMr, Connection conn) {
-        String str = "";
-        try {
-            DBTypeEnum dbType = DriverUtil.getDbType(conn);
-            JTable parmtable = hTable.getComp();
-            if (parmtable.isEditing()) parmtable.getCellEditor().stopCellEditing();
-            int rows = parmtable.getRowCount();
-
-            if (dbType.equals(DBTypeEnum.hhdb) || dbType.equals(DBTypeEnum.pgsql)) {
-                StringBuffer sql = new StringBuffer("\"" + funMr.treeNode.getSchemaName() + "\".\"" + funMr.treeNode.getName() + "\"(");
-                for (int i = 0; i < rows; i++) {
-                    sql.append(parmtable.getValueAt(i, 2) + "::" + parmtable.getValueAt(i, 1));
-                    if (i != (rows - 1)) sql.append(",");
-                }
-                sql.append(")");
-                str = sql.toString();
-            } else if (dbType.equals(DBTypeEnum.oracle)) {
-                Map<String, String> maps = new HashMap<String, String>();
-                for (int i = 0; i < rows; i++) {
-                    maps.put(parmtable.getValueAt(i, 0) + "", parmtable.getValueAt(i, 2) + "");
-                }
-
-                List<Map<String, String>> valList = infoParam(conn,null,funMr.treeNode.getName(),funMr.treeNode.getSchemaName());
-                str = getORSql(valList,maps,funMr.treeNode.getName(),funMr.treeNode.getType());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            PopPaneUtil.error(StartUtil.parentFrame .getWindow(), FunctionMgr.getLang("error") + ":" + e.getMessage());
-        }
-        return str;
-    }
-
-    /**
-     * 获取函数存储过程等对象参数信息
-     * @param con
-     * @param packName  包名
-     * @param objName   对象名
-     * @param schema    模式
-     * @return
-     * @throws Exception
-     */
-    public static List<Map<String, String>> infoParam(Connection con,String packName,String objName,String schema) throws Exception {
-        StringBuffer sql = new StringBuffer();
-        sql.append("SELECT ARGUMENT_NAME , DATA_TYPE, IN_OUT, DATA_LENGTH\n");
-        sql.append("FROM ALL_ARGUMENTS\n");
-        sql.append("WHERE OWNER = '"+ schema +"'\n");
-        if (StringUtils.isNotBlank(packName)) {
-            sql.append("AND PACKAGE_NAME = '"+ packName +"'\n");
-        } else {
-            sql.append("AND PACKAGE_NAME IS NULL\n");
-        }
-        sql.append("AND OBJECT_NAME = '"+ objName +"'\n");
-        sql.append("AND DATA_TYPE IS NOT NULL\n");
-        sql.append("AND DATA_LEVEL = 0\n");
-        sql.append("ORDER BY SEQUENCE, IN_OUT");
-
-        return SqlQueryUtil.selectStrMapList(con, sql.toString());
-    }
-
-    /**
-     * 获取函数输入参数详细信息
-     *
+     * 获取函数参数信息
      * @return
      */
-    public static List<Map<String, String>> getInPara(AbsFunMr funMr, Connection conn) throws Exception {
-        DBTypeEnum dbType = DriverUtil.getDbType(conn);
-
+    public static List<Map<String, String>> getParam(AbsFunMr funMr, JdbcBean jdbcBean) {
+        Connection con = null;
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-        if (dbType.equals(DBTypeEnum.hhdb) || dbType.equals(DBTypeEnum.pgsql)) {
-            if (verifyFun(funMr.getFunParameter(conn).get(0).get("prosrc").toString()).length() < 1) {
-                throw new Exception(FunctionMgr.getLang("debugHint") + "!");
+        try {
+            con = ConnUtil.getConn(jdbcBean);
+            DBTypeEnum dbType = DriverUtil.getDbType(con);
+            if (dbType.equals(DBTypeEnum.hhdb) || dbType.equals(DBTypeEnum.pgsql)) {
+                if (verifyFun(funMr.getFunParameter(con).get(0).get("prosrc").toString()).length() < 1) {
+                    throw new Exception(FunctionMgr.getLang("debugHint") + "!");
+                }
             }
-        } else if (dbType.equals(DBTypeEnum.oracle)) {
-
-        }
-        Map<String, String> parms = funMr.getFunInPar(conn);
-        if (parms.isEmpty()) {
-            return new ArrayList<Map<String, String>>();
-        } else {
-            for (String str : parms.keySet()) {
-                Map<String, String> dparma = new HashMap<String, String>();
-                dparma.put("parameter", str);
-                dparma.put("dbType", parms.get(str));
-                dparma.put("value", "");
-                list.add(dparma);
+            Map<String, String> parms = funMr.getFunInPar(con);
+            if (parms.isEmpty()) {
+                return new ArrayList<Map<String, String>>();
+            } else {
+                for (String str : parms.keySet()) {
+                    Map<String, String> dparma = new HashMap<String, String>();
+                    dparma.put("name", str);
+                    dparma.put("type", parms.get(str));
+                    dparma.put("value", "");
+                    list.add(dparma);
+                }
             }
+        }catch (Exception e){
+            e.printStackTrace();
+            PopPaneUtil.error(StartUtil.parentFrame .getWindow(),e.getMessage());
+        }finally {
+            ConnUtil.close(con);
         }
         return list;
-    }
-
-    /**
-     * 调试环境验证
-     */
-    public static void examine(String schemaName,JdbcBean jdbcBean) throws Exception{
-        Connection conn = null;
-        try {
-            conn = ConnUtil.getConn(jdbcBean);
-            if (DriverUtil.getDbType(jdbcBean) == DBTypeEnum.oracle){
-                //安装调试所需包
-                String str = "SELECT OWNER, OBJECT_NAME, OBJECT_TYPE FROM ALL_OBJECTS " +
-                        "WHERE OBJECT_TYPE = 'PACKAGE'  AND OWNER = '"+ schemaName +"'" +
-                        " AND OBJECT_NAME = 'ADP_DEBUG'";
-                List<Map<String, String>> list = SqlQueryUtil.selectStrMapList(conn, str);
-                if(null == list || list.isEmpty()) {
-                    String sql= ClassLoadUtil.loadTextRes(FunDebugComp.class, "adp_debug.sql");
-                    SqlExeUtil.batchExecute(conn, Arrays.asList(sql.split("//")));
-                }
-                //添加调试权限
-                SqlExeUtil.executeUpdate(conn,"grant DEBUG CONNECT SESSION to " + jdbcBean.getUser());
-                SqlExeUtil.executeUpdate(conn,"grant DEBUG ANY PROCEDURE to " + jdbcBean.getUser());
-            }
-        }finally {
-            ConnUtil.close(conn);
-        }
     }
 
     /**
@@ -222,21 +155,21 @@ public class DebugUtil {
      *
      * @return
      */
-    public static List<String> getOutPara(TreeMrNode treeNode, JdbcBean jdbcBean) throws Exception {
+    public static Map<String,String> getOutPara(TreeMrNode treeNode, JdbcBean jdbcBean) throws Exception {
+        Map<String,String> map = new LinkedHashMap<>();
         AbsFunMr funMr = AbsFunMr.genFunMr(DriverUtil.getDbType(jdbcBean),treeNode);
         Connection conn = ConnUtil.getConn(jdbcBean);
         try {
-            List<String> list = new ArrayList<String>();
             Map<String, JsonObject> jmap = funMr.getFunAllPar(conn);
             if (null != jmap) {
                 for (String key : jmap.keySet()) {
                     JsonObject jsb = jmap.get(key);
                     if (jsb != null){
-                        if (jsb.getString("out_in").equals("OUT") || jsb.getString("out_in").equals("IN/OUT")) list.add(key);
+                        if (jsb.getString("out_in").equals("OUT") || jsb.getString("out_in").equals("IN/OUT")) map.put(key,"");
                     }
                 }
             }
-            return list;
+            return map;
         }finally {
             ConnUtil.close(conn);
         }
@@ -244,7 +177,6 @@ public class DebugUtil {
 
     /**
      * 验证函数是否有内容
-     *
      * @param str
      * @return
      */
@@ -258,56 +190,5 @@ public class DebugUtil {
             }
         }
         return result.trim();
-    }
-
-    /**
-     * 获取or调试sql
-     * @param valList   参数集合
-     * @param valMap    参数值集合
-     * @param objName   对象名
-     * @param type      类型
-     * @return
-     * @throws Exception
-     */
-    private static String getORSql(List<Map<String, String>> valList,Map<String, String> valMap,String objName,TreeMrType type) throws Exception {
-        String runsql = "";
-
-        StringBuffer variate = new StringBuffer();
-        StringBuffer param = new StringBuffer();
-        for (Map<String, String> map : valList) {
-            if (map.get("argument_name") == null) {
-                //添加函数返回值
-                if ( type == TreeMrType.FUNCTION ) variate.append("\tRESULT " + ( map.get("data_type").equals("VARCHAR2") ? "VARCHAR2 ( 4000 )" : map.get("data_type") )).append(";\n");
-                continue;
-            }
-
-            //变量
-            String str = map.get("data_type").equals("VARCHAR2") ? "VARCHAR2 ( 4000 )" : map.get("data_type");
-            str = "\""+ map.get("argument_name") + "\" " + str;
-            if ("IN".equals(map.get("in_out")) || "IN/OUT".equals(map.get("in_out"))) {
-                if ( null != valMap && StringUtils.isNotBlank(valMap.get(map.get("argument_name"))) ) {
-                    str += " := '" + valMap.get(map.get("argument_name"))+"'";
-                }
-            }
-            variate.append("\t"+str+";\n");
-            //参数
-            param.append(param.length()>1 ? "," : "").append("\""+map.get("argument_name")+"\" => \""+map.get("argument_name")+"\"");
-        }
-
-        StringBuffer sql = new StringBuffer();
-        if (variate.length() >0) {
-            sql.append("DECLARE\n").append(variate);
-        }
-        sql.append("BEGIN\n");
-
-        //调用函数
-        sql.append( type == TreeMrType.FUNCTION ? "\tRESULT :=" : "");
-        sql.append( type == TreeMrType.FUNCTION ? " " : "\t");
-        sql.append("\""+ objName +"\"(");
-        sql.append(param);
-        sql.append(");\n");
-
-        runsql = sql.append("END;\n").toString();
-        return runsql;
     }
 }

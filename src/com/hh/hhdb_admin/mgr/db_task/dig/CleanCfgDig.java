@@ -3,6 +3,7 @@ package com.hh.hhdb_admin.mgr.db_task.dig;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.dbtask.CleanTask;
 import com.hh.frame.dbtask.DbTask;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
@@ -19,15 +20,17 @@ public class CleanCfgDig extends AbsCfgDig {
         boolean isSchema = false;
         if (config != null) {
             isSchema = Boolean.parseBoolean(config.get("isSchema"));
-            super.setSchema(config.get("schema"));
+            if (!StringUtils.isBlank(config.get("schema"))) {
+                setSchema(config.get("schema"));
+            }
             if (config.get("taskName") != null) {
                 setTaskName(config.get("taskName"));
             }
         }
         dialog.setWindowTitle(isSchema ? getLang("clean_schema") : getLang("clean_db"));
-        rootPanel.add(super.getToolBar());
+        rootPanel.add(getToolBar());
         dialog.setRootPanel(rootPanel);
-        super.setSize(rootPanel.getHeight());
+        setSize(rootPanel.getHeight());
     }
 
     @Override
@@ -38,8 +41,8 @@ public class CleanCfgDig extends AbsCfgDig {
 
     @Override
     protected void setTask() {
-        String taskName = super.getTaskName();
-        JdbcBean jdbc = super.getJdbc();
+        String taskName = getTaskName();
+        JdbcBean jdbc = getJdbc();
         task = new CleanTask(taskName, jdbc);
     }
 }

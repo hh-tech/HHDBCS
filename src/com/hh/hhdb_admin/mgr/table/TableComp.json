@@ -297,7 +297,7 @@
     {
       "key": "deleteColumn",
       "value": {
-        "zh": "删除约束",
+        "zh": "删除列",
         "en": "Delete column"
       }
     },

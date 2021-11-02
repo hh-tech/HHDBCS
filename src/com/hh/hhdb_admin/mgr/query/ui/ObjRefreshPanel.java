@@ -56,7 +56,10 @@ public class ObjRefreshPanel {
         dialog = new HDialog(StartUtil.parentFrame,800, 600){
             @Override
             protected void closeEvent() {
-                if (isEnd) refBut.setIcon(QueryMgr.getIcon("refresh"));
+                if (isEnd) {
+                    refBut.setIcon(QueryMgr.getIcon("refresh"));
+                    refBut.setText(QueryMgr.getLang("objectRefresh"));
+                }
                 dialog.dispose();
             }
         };
@@ -68,50 +71,52 @@ public class ObjRefreshPanel {
     }
     
     public void show(){
-        if (isEnd) dialog.show();
+        dialog.show();
     }
     
     /**
      * 刷新
      */
     private void refresh(){
-        new Thread(new Runnable() {
+        objTable.load(new ArrayList<>(), 1);
+        refBut.setIcon(ImgUtil.readImgIcon(new File("etc\\icon\\query\\refresh2_16.gif")));
+        refBut.setText(QueryMgr.getLang("refresh2"));
+        refreshbtn.setEnabled(false);
+        isEnd = false;
+        
+        new SwingWorker<String, JsonArray>() {
             @Override
-            public void run() {
+            protected String doInBackground() throws Exception {
                 Connection conns = null;
-                isEnd = false;
                 try {
                     conns = ConnUtil.getConn(jdbc);
-                    refBut.setIcon(ImgUtil.readImgIcon(new File("etc\\icon\\query\\refresh2_16.gif")));
-                    refreshbtn.setIcon(ImgUtil.readImgIcon(new File("etc\\icon\\query\\refresh2_16.gif")));
-                    
-                    //刷新内容显示
                     jsonValues = KeyWordUtil.getKeyWordJson(conns);
-                    conns = ConnUtil.getConn(jdbc);
-                    KeyWordUtil.getDbObjectJson(jsonValues,conns, jdbc.getSchema(),"table"); //先设置表提示
-                    KeyWordUtil.getDbObjectJson(jsonValues,conns, jdbc.getSchema(),"view");
-                    KeyWordUtil.getDbObjectJson(jsonValues,conns, jdbc.getSchema(),"function");
+                    List<String> list = new LinkedList<>(Arrays.asList("table", "view", "function"));
                     DBTypeEnum dbtype = DriverUtil.getDbType(conns);
-                    if (dbtype == DBTypeEnum.oracle || dbtype == DBTypeEnum.dm) {
-                        KeyWordUtil.getDbObjectJson(jsonValues,conns, jdbc.getSchema(),"synonym");
+                    if (dbtype == DBTypeEnum.oracle || dbtype == DBTypeEnum.dm) list.add("synonym");
+                    for (String str : list) {
+                        Thread.sleep(500);
+                        KeyWordUtil.getDbObjectJson(jsonValues,conns, jdbc.getSchema(),str);
+                        publish(jsonValues);
                     }
-    
-                    List<Map<String, String>> data = new LinkedList<>();
-                    jsonValues.forEach(a-> {
-                        String name = a.asObject().getString("caption");
-                        String type = a.asObject().getString("meta");
-                        if (!type.equals("reserve") && !type.equals("key") && !type.equals("sys_view") && !type.equals("user_view")) {
-                            Map<String, String> map = new LinkedHashMap<>();
-                            map.put("name",name);
-                            map.put("type",type);
-                            data.add(map);
-                        }
-                    });
-//                    Thread.sleep(1000);
-                    objTable.load(data, 1);
-                    
+                } finally {
+                    ConnUtil.close(conns);
+                }
+                return "";
+            }
+            @Override
+            protected void process(List<JsonArray> list) {
+                if (list.get(0).size() > 0) {
+                    for (JsonArray json : list) {
+                        objTable.load(getData(json), 1);
+                    }
+                }
+            }
+            @Override
+            protected void done() {
+                try {
+                    objTable.load(getData(jsonValues), 1);
                     refBut.setIcon(QueryMgr.getIcon("refresh3"));
-                    refreshbtn.setIcon(QueryMgr.getIcon("refresh3"));
                     if (null != dialog && dialog.isVisible()) {
                         JOptionPane.showMessageDialog(StartUtil.parentFrame.getWindow(), QueryMgr.getLang("refresh—success"),QueryMgr.getLang("hint"), JOptionPane.INFORMATION_MESSAGE);
                     }
@@ -121,12 +126,13 @@ public class ObjRefreshPanel {
                     jsonValues = new JsonArray();
                     refBut.setIcon(QueryMgr.getIcon("refresh"));
                     PopPaneUtil.error(StartUtil.parentFrame.getWindow(),e);
-                } finally {
-                    ConnUtil.close(conns);
+                }finally {
+                    refBut.setText(QueryMgr.getLang("objectRefresh"));
+                    refreshbtn.setEnabled(true);
                     isEnd = true;
                 }
             }
-        }).start();
+        }.execute();
     }
     
     private HPanel init() {
@@ -161,7 +167,7 @@ public class ObjRefreshPanel {
             public void onClick() {
                 if (isEnd) {
                     refBut.setIcon(QueryMgr.getIcon("refresh"));
-                    refreshbtn.setIcon(QueryMgr.getIcon("refresh"));
+                    refBut.setText(QueryMgr.getLang("objectRefresh"));
                 }
                 dialog.dispose();
             }
@@ -171,7 +177,7 @@ public class ObjRefreshPanel {
         refreshbtn = new HButton(QueryMgr.getLang("objectRefresh")) {
             @Override
             public void onClick() {
-                if (isEnd) refresh();
+                refresh();
             }
         };
         refreshbtn.setIcon(QueryMgr.getIcon("refresh"));
@@ -181,6 +187,21 @@ public class ObjRefreshPanel {
         HBarPanel toolBarPane = new HBarPanel(l);
         toolBarPane.add(closebtn,refreshbtn);
         return toolBarPane;
+    }
+    
+    private List<Map<String, String>> getData(JsonArray json){
+        List<Map<String, String>> data = new LinkedList<>();
+        json.forEach(a-> {
+            String name = a.asObject().getString("caption");
+            String type = a.asObject().getString("meta");
+            if (!type.equals("reserve") && !type.equals("key") && !type.equals("sys_view") && !type.equals("user_view")) {
+                Map<String, String> map = new LinkedHashMap<>();
+                map.put("name",name);
+                map.put("type",type);
+                data.add(map);
+            }
+        });
+        return data;
     }
     
     protected void update(JsonArray jsonValues) {

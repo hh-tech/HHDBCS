@@ -92,7 +92,7 @@ public class VersionInfoComp {
 		btnPanel.add(copBtn);
 		tablePanel.add(table);
 		rootPanel.add(btnPanel, tablePanel);
-		baseName = baseName == null ? baseProduct.getName() : baseName + SP + baseProduct.getName();
+		baseName = baseName == null ? baseProduct.getName(StartUtil.default_language) : baseName + SP + baseProduct.getName(StartUtil.default_language);
 		rootPanel.setTitle(baseName);
 		List<BaseProduct> depProducts = baseProduct.getDepProducts();
 		if (depProducts != null && depProducts.size() > 0) {
@@ -173,7 +173,7 @@ public class VersionInfoComp {
 	private List<Map<String, String>> getValuesMaps(BaseProduct baseProduct) {
 		List<Map<String, String>> verMaps = new ArrayList<>();
 		Map<String, String> nameValueMap = new LinkedHashMap<>();
-		nameValueMap.put(PRODUCT_NAME, baseProduct.getName());
+		nameValueMap.put(PRODUCT_NAME, baseProduct.getName(StartUtil.default_language));
 		nameValueMap.put(VERSION, baseProduct.getVersion());
 		nameValueMap.put(COMMIT_VERSION, baseProduct.getCommitGitTag());
 		nameValueMap.put(COMMIT_DATE, baseProduct.getCommitDate());

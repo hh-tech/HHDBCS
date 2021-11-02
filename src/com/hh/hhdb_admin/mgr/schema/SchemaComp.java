@@ -1,8 +1,7 @@
 package com.hh.hhdb_admin.mgr.schema;
 
 import com.hh.frame.common.base.JdbcBean;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.HeightComp;
 import com.hh.frame.swingui.view.container.HDialog;
 import com.hh.frame.swingui.view.container.HPanel;
@@ -11,11 +10,12 @@ import com.hh.frame.swingui.view.input.TextInput;
 import com.hh.frame.swingui.view.input.WithLabelInput;
 import com.hh.frame.swingui.view.layout.GridSplitEnum;
 import com.hh.frame.swingui.view.layout.HDivLayout;
-import com.hh.frame.swingui.view.test.images.ImageUtil;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
+import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
 import java.sql.Connection;
 
 
@@ -33,7 +33,11 @@ public class SchemaComp {
     private Connection conn;
 
     static {
-        LangMgr.merge(DOMAIN_NAME, LangUtil.loadLangRes(SchemaComp.class));
+    	try {
+            LangMgr2.loadMerge(SchemaComp.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void add(Connection conn, JdbcBean jdbcBean) throws Exception {
@@ -50,11 +54,6 @@ public class SchemaComp {
             e.printStackTrace();
             PopPaneUtil.error(StartUtil.parentFrame.getWindow(), e.getMessage());
         }
-    }
-
-    public void delete(Connection conn, String schemaName) throws Exception {
-        SchemaUtil.delSchema(conn, schemaName);
-        refresh();
     }
 
     public void initPanel(String oldName, String oldComment, JdbcBean jdbcBean) throws Exception {
@@ -87,7 +86,7 @@ public class SchemaComp {
                 refresh();
             }
         };
-        dialog.setIconImage(ImageUtil.getImage("manage.png"));
+        dialog.setIconImage(IconFileUtil.getLogo());
         dialog.setWindowTitle(oldName == null ? "新建模式" : "修改模式");
         dialog.setOption();
         dialog.setRootPanel(rootPanel);
@@ -98,8 +97,8 @@ public class SchemaComp {
 
     }
 
-    protected static String getLang(String key) {
-        return LangMgr.getValue(DOMAIN_NAME, key);
+    public static String getLang(String key) {
+        return LangMgr2.getValue(DOMAIN_NAME, key);
     }
 
 }

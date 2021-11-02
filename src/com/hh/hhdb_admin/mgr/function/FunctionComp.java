@@ -32,15 +32,15 @@ import javax.swing.event.DocumentListener;
 import java.sql.Connection;
 
 public class FunctionComp {
-    private Connection conn;
-    private JdbcBean jdbcBean;
+    private final Connection conn;
+    private final JdbcBean jdbcBean;
     private FunBaseForm funForm;
 
     private HDialog dlog,dialog;
     HButton sqlBut,compileBut,upBut,saveBut,formatBut;
 
     private boolean isEdit;				//true 修改
-    private String schemaName = "";		//模式名
+    private final String schemaName;		//模式名
     private String oldText = "";        //面板初始内容
 
     public FunctionComp(JdbcBean jdbcBean,String schemaName)throws Exception {
@@ -77,7 +77,7 @@ public class FunctionComp {
             LastPanel lastPanel = funForm.getParaPanel();
             lastPanel.setHead(toolBarPane.getComp());
 
-            dlog = new HDialog(StartUtil.parentFrame,700, 450){
+            dlog = new HDialog(StartUtil.parentFrame,700, 480){
                 @Override
                 protected void closeEvent() {
                     ConnUtil.close(conn);
@@ -115,8 +115,6 @@ public class FunctionComp {
 
     /**
      * 删除
-     * @return
-     * @throws Exception
      */
     public void delete(String functionName, String id,String type){
         try {
@@ -129,72 +127,59 @@ public class FunctionComp {
         }catch (Exception e){
             e.printStackTrace();
             PopPaneUtil.error(StartUtil.parentFrame.getWindow(),FunctionMgr.getLang("error")+":"+e.getMessage());
+        }finally {
+            ConnUtil.close(conn);
         }
     }
 
     /**
      * oracle添加调试信息
-     * @return
-     * @throws Exception
      */
     public void addDebugInfo(String functionName,String type){
         try {
             SqlExeUtil.executeUpdate(conn,"ALTER "+ (TreeMrType.valueOf(type) == TreeMrType.FUNCTION ? "FUNCTION " : "PROCEDURE ") +
                     schemaName +"."+ functionName +" COMPILE DEBUG");
-            JOptionPane.showMessageDialog(StartUtil.parentFrame.getWindow(), FunctionMgr.getLang("inerrancy2"),FunctionMgr.getLang("hint"), JOptionPane.INFORMATION_MESSAGE);
+            PopPaneUtil.info(StartUtil.parentFrame.getWindow(),FunctionMgr.getLang("inerrancy2"));
         }catch (Exception e){
             e.printStackTrace();
             PopPaneUtil.error(StartUtil.parentFrame.getWindow(),FunctionMgr.getLang("error")+":"+e.getMessage());
-        }
-    }
-
-    /**
-     * 运行函数
-     * @param funName
-     * @param id
-     * @param type
-     * @param packName  为包对象时包名称
-     */
-    public void run(String funName, String id,String type,String packName){
-        try {
-            TreeMrNode treeNode = new TreeMrNode(funName,id, TreeMrType.valueOf(type), "");
-            treeNode.setSchemaName(schemaName);
-            AbsFunMr funMr = AbsFunMr.genFunMr(DriverUtil.getDbType(conn),treeNode);
-            FunUtil.getRunFun(funMr,jdbcBean,packName);
-        }catch (Exception e){
-            e.printStackTrace();
-            PopPaneUtil.error(StartUtil.parentFrame.getWindow(),FunctionMgr.getLang("error")+":"+e.getMessage());
+        }finally {
+            ConnUtil.close(conn);
         }
     }
 
     /**
      * 检查函数
-     * @param functionName
-     * @param id
-     * @param type
+     * @param functionName 函数名
+     * @param id id
+     * @param type type
      */
     public void examine(String functionName, String id,String type){
         try {
             TreeMrNode treeNode = new TreeMrNode(functionName,id, TreeMrType.valueOf(type), "");
             treeNode.setSchemaName(schemaName);
             AbsFunMr funMr = AbsFunMr.genFunMr(DriverUtil.getDbType(conn),treeNode);
-            FunUtil.getFunBaseForm(funMr,conn,jdbcBean,isEdit).examineFun();
+            FunBaseForm funBaseForm = FunUtil.getFunBaseForm(funMr,conn,jdbcBean,isEdit);
+            if (funBaseForm != null) {
+                funBaseForm.examineFun();
+            }
         }catch (Exception e){
             e.printStackTrace();
             PopPaneUtil.error(StartUtil.parentFrame.getWindow(),FunctionMgr.getLang("error")+":"+e.getMessage());
+        }finally {
+            ConnUtil.close(conn);
         }
     }
 
     /**
      * 打开sql编辑面板
-     * @param sql
      */
     private void getSqlPanel(){
         try {
             dialog = new HDialog(StartUtil.parentFrame,1000, 800){
                 @Override
                 protected void closeEvent() {
-                    if (isEdit) ConnUtil.close(conn);
+                    ConnUtil.close(conn);
                     if (null != dlog) {
                         dlog.dispose();
                     }
@@ -214,13 +199,14 @@ public class FunctionComp {
         }
     }
 
-    private HBarPanel getHBarPanel()throws Exception {
+    private HBarPanel getHBarPanel() {
         HBarLayout l = new HBarLayout();
         l.setAlign(AlignEnum.LEFT);
         HBarPanel hToolBar = new HBarPanel(l);
 
         if (isEdit) {
-            if (DriverUtil.getDbType(jdbcBean) == DBTypeEnum.oracle) {
+            DBTypeEnum db = DriverUtil.getDbType(jdbcBean);
+            if (db == DBTypeEnum.oracle || db == DBTypeEnum.dm) {
                 //编译
                 compileBut = new HButton(FunctionMgr.getLang("compile")) {
                     @Override
@@ -247,14 +233,14 @@ public class FunctionComp {
         saveBut = new HButton(FunctionMgr.getLang("save")) {
             @Override
             public void onClick() {
-                StringBuffer sb = new StringBuffer();
+                StringBuilder sb = new StringBuilder();
                 try {
                     funForm.save();
                     setEnabled(false);
                     refresh();
 
                     if (isEdit) {
-                        sb.append(FunctionMgr.getLang("savesuccess")+"!\n");
+                        sb.append(FunctionMgr.getLang("savesuccess")).append("!\n");
                         oldText = funForm.queryUi.getText();
                         if (null != compileBut) {
                             sb.append(compile());
@@ -266,7 +252,7 @@ public class FunctionComp {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    if (isEdit) sb.append(e.getMessage()+"\n");
+                    if (isEdit) sb.append(e.getMessage()).append("\n");
                     if (!isEdit) PopPaneUtil.error(StartUtil.parentFrame.getWindow(),e.getMessage());
                 }finally {
                     if (isEdit) funForm.messageText.setValue(sb.toString());
@@ -308,7 +294,7 @@ public class FunctionComp {
     private StringBuffer compile(){
         StringBuffer sb = new StringBuffer();
         TreeMrType type = funForm.funMr.treeNode.getType();
-        OracleCompileTool tool = new OracleCompileTool(conn, schemaName, type == TreeMrType.FUNCTION ? OraSessionEnum.function : OraSessionEnum.procedure,funForm.funMr.treeNode.getName());
+        OracleCompileTool tool = new OracleCompileTool(conn, schemaName, type.name().equals(TreeMrType.FUNCTION.name()) ? OraSessionEnum.function : OraSessionEnum.procedure,funForm.funMr.treeNode.getName());
         tool.compile();
         String errorMsg = tool.getErrorMsg(false);
         sb.append(StringUtils.isEmpty(errorMsg) ? FunctionMgr.getLang("compileSuccess")+"\n" : FunctionMgr.getLang("compileResult")+"\n"+errorMsg+"\n");

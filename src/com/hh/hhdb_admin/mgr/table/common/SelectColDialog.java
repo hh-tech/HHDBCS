@@ -11,6 +11,7 @@ import com.hh.frame.swingui.view.tab.col.bool.BoolCol;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
 import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.common.icon.IconSizeEnum;
+import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.table.TableComp;
 import org.apache.commons.lang3.StringUtils;
 
@@ -45,7 +46,7 @@ public class SelectColDialog {
 		LastPanel lastPanel = new LastPanel(false);
 		lastPanel.set(scrollPane);
 		selectCol = new LinkedHashSet<>();
-		dialog = new HDialog(500, 400) {
+		dialog = new HDialog(TableComp.dialog == null ? StartUtil.getMainDialog() : TableComp.dialog,500, 400,true) {
 			@Override
 			protected void onConfirm() {
 				TableModel model =  table.getComp().getModel();
@@ -105,6 +106,8 @@ public class SelectColDialog {
 			data.add(map);
 		}
 		table.load(data, 0);
+		//setAlwaysOnTop至于窗口最顶部
+		dialog.getWindow().setAlwaysOnTop(dialog.getWindow().isAlwaysOnTopSupported());
 		dialog.show();
 	}
 

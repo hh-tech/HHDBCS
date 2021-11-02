@@ -1,0 +1,90 @@
+{
+  "keys": [
+    {
+      "key": "cmd",
+      "value": {
+        "zh": "CMD窗口",
+        "en": "CMD Window"
+      }
+    },
+    {
+      "key": "success",
+      "value": {
+        "zh": "成功",
+        "en": "success"
+      }
+    },{
+      "key": "rowsnumber",
+      "value": {
+        "zh": "结果显示行",
+        "en": "Result display row"
+      }
+    },{
+      "key": "current-settings",
+      "value": {
+        "zh": "当前设置",
+        "en": "current settings"
+      }
+    },{
+      "key": "determine",
+      "value": {
+        "zh": "确定",
+        "en": "determine"
+      }
+    },{
+      "key": "message",
+      "value": {
+        "zh": "信息",
+        "en": "Message"
+      }
+    },{
+      "key": "fileexist",
+      "value": {
+        "zh": "文件不存在",
+        "en": "file does not exist"
+      }
+    },{
+      "key": "Null",
+      "value": {
+        "zh": "空值显示为",
+        "en": "Null value display"
+      }
+    },{
+      "key": "backout",
+      "value": {
+        "zh": "撤销",
+        "en": "backout"
+      }
+    },{
+      "key": "import",
+      "value": {
+        "zh": "导入",
+        "en": "import"
+      }
+    },{
+      "key": "export",
+      "value": {
+        "zh": "导出",
+        "en": "export"
+      }
+    },{
+      "key": "setup",
+      "value": {
+        "zh": "设置",
+        "en": "set up"
+      }
+    },{
+      "key": "copy",
+      "value": {
+        "zh": "复制",
+        "en": "copy"
+      }
+    },{
+      "key": "paste",
+      "value": {
+        "zh": "粘贴",
+        "en": "paste"
+      }
+    }
+  ]
+}

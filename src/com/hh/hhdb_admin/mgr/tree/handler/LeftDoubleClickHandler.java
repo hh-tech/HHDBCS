@@ -66,7 +66,8 @@ public class LeftDoubleClickHandler {
                 treeMrNode.setTableName(TreeUtil.getTableName(treeNode));
                 treeMrNode.setSchemaName(TreeUtil.getSchemaName(treeNode, typeEnum));
                 treeMrNode.setPackageName(TreeUtil.getPackageName(treeNode));
-                List<TreeMrNode> allList = treeMr.getChildNode(treeMrNode, loginBean.getConn());
+                String filterData = loginBean.getFilterData().get(treeMrNode.getType().name());
+                List<TreeMrNode> allList = treeMr.getChildNode(treeMrNode, loginBean.getConn(), filterData);
                 List<HTreeNode> childList = new ArrayList<>();
                 for (TreeMrNode t : allList) {
                     HTreeNode newNode = new HTreeNode();

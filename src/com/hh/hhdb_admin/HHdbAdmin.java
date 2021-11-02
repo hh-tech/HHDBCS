@@ -1,5 +1,6 @@
 package com.hh.hhdb_admin;
 
+import com.hh.frame.common.util.SleepUtil;
 import com.hh.frame.json.Json;
 import com.hh.frame.json.JsonObject;
 import com.hh.frame.lic.VerifyLicTool;
@@ -28,10 +29,13 @@ public class HHdbAdmin {
     public static void main(String[] args) {
         try {
             StartUtil.setLocale(StartUtil.default_language);
-            IconFileUtil.setIconBaseDir(new File(StartUtil.getEtcFile(),"icon"));
             VerifyLicTool vt = StartUtil.getVt();
             if (vt == null || vt.expired()) {
-                new LicenseComp(true);
+            	LicenseComp comp = new LicenseComp(true);
+            	while(comp.getDialog().isVisible()) {
+            		SleepUtil.sleep100();
+            	}
+               
             }
             WorkSpaceComp wscomp = new WorkSpaceComp();
             if (!wscomp.noPop()) {
@@ -61,8 +65,8 @@ public class HHdbAdmin {
             hsp.dispose();
             StartUtil.eng.doPush(CsMgrEnum.LOGIN, GuiJsonUtil.toJsonCmd(LoginMgr.CMD_SHOW_LOGIN));
         } catch (Exception e1) {
-            e1.printStackTrace();
             PopPaneUtil.error(e1);
+            System.exit(0);
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.hh.hhdb_admin.mgr.query;
 
 import com.hh.frame.common.base.AlignEnum;
-import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.common.util.db.ConnUtil;
@@ -12,6 +11,7 @@ import com.hh.frame.json.Json;
 import com.hh.frame.json.JsonArray;
 import com.hh.frame.json.JsonObject;
 import com.hh.frame.parser.PosBean;
+import com.hh.frame.sqlwin.PreferSqlWinBean;
 import com.hh.frame.sqlwin.SqlWin;
 import com.hh.frame.sqlwin.WinMgr;
 import com.hh.frame.sqlwin.rs.WinRs;
@@ -33,6 +33,7 @@ import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.common.util.logUtil;
 import com.hh.hhdb_admin.common.util.textEditor.QueryEditUtil;
 import com.hh.hhdb_admin.common.util.textEditor.QueryEditorTextArea;
+import com.hh.hhdb_admin.common.util.textEditor.tooltip.Tooltip;
 import com.hh.hhdb_admin.mgr.query.ui.ObjRefreshPanel;
 import com.hh.hhdb_admin.mgr.query.ui.OutputTabPanel;
 import com.hh.hhdb_admin.mgr.query.ui.SettingsPanel;
@@ -69,6 +70,8 @@ public class QueryComp extends AbsHComp{
     private HSplitPanel splitPane = new HSplitPanel(false);
     //编辑器
     private QueryEditorTextArea textArea;
+    //提示工具
+    private Tooltip tip;
     //对象刷新面板
     private ObjRefreshPanel objRefres;
 
@@ -103,6 +106,8 @@ public class QueryComp extends AbsHComp{
         rowsum = fileJsonArr.get("varPageSize").asInt();
         nullSign = fileJsonArr.get("null").asString();
         textArea = QueryEditUtil.getQueryEditor(true);
+        tip = QueryEditUtil.getQueryTooltip(textArea.getTextArea(),textArea.type);
+        tip.setJdbc(jdbc);
         if (StringUtils.isNotBlank(text)) textArea.setText(text);
         absSqlWinId = "OQ_" + QueryMgr.sign++;
         sqlwin = WinMgr.newWin(jdbc, absSqlWinId);
@@ -274,6 +279,7 @@ public class QueryComp extends AbsHComp{
                                 setKeyWord();
                             }
                             currSchame = schemabox.getValue();
+                            tip.setJdbc(jdbc);
                         } catch (Exception e1) {
                             e1.printStackTrace();
                             logUtil.error(logName, e1);
@@ -320,7 +326,7 @@ public class QueryComp extends AbsHComp{
                 	}
 					outputTabPanel.setMessage(selectedSql+"\n"+bean.getText());
                 } catch (Exception e) {
-                	outputTabPanel.setMessage(selectedSql+"\n"+e.toString());
+                	outputTabPanel.setMessage(selectedSql+"\n"+ e);
 				}
             }
         };
@@ -373,12 +379,11 @@ public class QueryComp extends AbsHComp{
                     objRefres = new ObjRefreshPanel(objRefresh,jdbc) {
                         @Override
                         public void update(JsonArray jsonValues) {
-                            textArea.setkeyword(jsonValues);
+                            tip.setkeyword(jsonValues);
                         }
                     };
-                } else {
-                    objRefres.show();
                 }
+                objRefres.show();
             }
         };
         objRefresh.setIcon(QueryMgr.getIcon("refresh"));
@@ -429,7 +434,9 @@ public class QueryComp extends AbsHComp{
                     sqlwin.setAutoCommit(false);
                 }
 
-                sqlwin.setNumPerPage(rowsum);
+                PreferSqlWinBean pwb = new PreferSqlWinBean();
+                pwb.setNumPerPage(rowsum);
+                sqlwin.setPrefer(pwb);
                 WinRs rs = null;
                 if (executeTypeBox.getValue().equals(QueryMgr.getLang("automaticSplit"))) {
                     rs = sqlwin.runSql(sql, pos);
@@ -477,9 +484,9 @@ public class QueryComp extends AbsHComp{
                                 rollBut.setEnabled(true);
                                 schemabox.setEnabled(false);
                                 executeTypeBox.setEnabled(false);
-                            }else {
+//                            }else {
                                 //手动提交模式下处理当执行select等不用提交的语句时，被操作表连接挂起问题
-                                commit();
+//                                commit();
                             }
                         } catch (Exception e) {
                         	e.printStackTrace();
@@ -567,23 +574,24 @@ public class QueryComp extends AbsHComp{
         jsonValues = new JsonArray();
         //先设置常用的关键字
         jsonValues = KeyWordUtil.getKeyWordJson(sqlwin.getConn());
-        textArea.setkeyword(jsonValues);
+        tip.setkeyword(jsonValues);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     conns = ConnUtil.getConn(jdbc);
                     KeyWordUtil.getDbObjectJson(jsonValues,conns, currSchame,"table"); //先设置表提示
-                    textArea.setkeyword(jsonValues);
+                    tip.setkeyword(jsonValues);
                     KeyWordUtil.getDbObjectJson(jsonValues,conns, currSchame,"view");
-                    textArea.setkeyword(jsonValues);
-                    KeyWordUtil.getDbObjectJson(jsonValues,conns, currSchame,"function");
-                    textArea.setkeyword(jsonValues);
-                    DBTypeEnum dbtype = DriverUtil.getDbType(conns);
-                    if (dbtype == DBTypeEnum.oracle || dbtype == DBTypeEnum.dm) {
-                        KeyWordUtil.getDbObjectJson(jsonValues,conns, currSchame,"synonym");
-                        textArea.setkeyword(jsonValues);
-                    }
+                    tip.setkeyword(jsonValues);
+                    KeyWordUtil.getDbObjectJson(jsonValues,conns, currSchame,"mview");
+                    tip.setkeyword(jsonValues);
+                    KeyWordUtil.getDbObjectJson(jsonValues,conns, currSchame,"function","procedure");
+                    tip.setkeyword(jsonValues);
+                    KeyWordUtil.getDbObjectJson(jsonValues,conns, currSchame,"synonym");
+                    tip.setkeyword(jsonValues);
+                    KeyWordUtil.getDbObjectJson(jsonValues,conns, currSchame,"pack");
+                    tip.setkeyword(jsonValues);
                 } catch (Exception e) {
                     e.printStackTrace();
                     logUtil.error(logName, e);

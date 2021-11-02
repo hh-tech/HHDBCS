@@ -283,14 +283,7 @@
     {
       "key": "delete",
       "value": {
-        "zh": "添加数据文件",
-        "en": "Delete"
-      }
-    },
-    {
-      "key": "delete",
-      "value": {
-        "zh": "添加数据文件",
+        "zh": "删除数据文件",
         "en": "Delete"
       }
     },
@@ -481,6 +474,13 @@
       "value": {
         "zh": "保证保留：",
         "en": "Guarantee : "
+      }
+    },
+    {
+      "key": "notSupport",
+      "value": {
+        "zh": "此数据库尚未实现该功能",
+        "en": "This database does not implement this feature"
       }
     }
   ]

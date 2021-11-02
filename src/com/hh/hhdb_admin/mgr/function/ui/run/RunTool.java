@@ -1,58 +1,57 @@
 package com.hh.hhdb_admin.mgr.function.ui.run;
 
-import com.hh.frame.common.base.DBTypeEnum;
-import com.hh.frame.common.util.DriverUtil;
+import com.hh.frame.common.util.db.SqlExeUtil;
+import com.hh.frame.sqlwin.rs.MultiRsBean;
+import com.hh.frame.sqlwin.util.WinRsUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+/**
+ * 函数运行
+ */
 public class RunTool {
 	Connection conn;
 	String sql;
 	Statement stmt;
+    ResultSet rs;
 	CallableStatement call;
 	
 	public RunTool(Connection conn, String sql) {
 		this.conn = conn;
 		this.sql = sql;
 	}
-	public List<String> procRun() throws SQLException{
-		List<String> l = new ArrayList<>();
-		DBTypeEnum dbtype = DriverUtil.getDbType(conn);
-		switch (dbtype) {
-		case hhdb:
-		case pgsql:
-			hhPgProcOutput(conn, sql, l);
-			break;
-		case oracle:
-			oracleProcOutput(conn, sql, l);
-			break;
-		// TODO 其他数据库类型
-		default:
-		}
-		return l;
-	}
+	
 	public void cancel() {
 		if(call!=null) {
 			try {
-				call.cancel();
+				if (!call.isClosed()) call.cancel();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-//				e.printStackTrace();
+				e.printStackTrace();
 			}
 		}
 		if(stmt!=null) {
 			try {
-				stmt.cancel();
+				if (!stmt.isClosed()) stmt.cancel();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-//				e.printStackTrace();
+				e.printStackTrace();
 			}
 		}
+		if (rs != null) {
+            try {
+				if (!rs.isClosed()) rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
 	}
-	private void oracleProcOutput(Connection conn, String sql, List<String> l) throws SQLException {
+	
+	public List<String> oracleRun() throws SQLException {
+		List<String> l = new ArrayList<>();
 		String enableSql = "begin dbms_output.enable(); end;";
 		StringBuilder sb = new StringBuilder();
 		sb.append("declare\n");
@@ -82,9 +81,17 @@ public class RunTool {
 			if (stmt != null)
 				stmt.close();
 		}
+		return l;
 	}
-
-	private void hhPgProcOutput(Connection conn, String sql, List<String> l) throws SQLException {
+	
+	/**
+	 * 运行hh/Pg函数
+	 * @param outStr	函数中打印的信息
+	 * @return
+	 * @throws SQLException
+	 */
+	public Map<String,String> hhPgRun(StringBuffer outStr) throws SQLException {
+		Map<String,String> map = new HashMap<>();
 		stmt = conn.createStatement();
 		boolean hashResult = stmt.execute(sql);
 		SQLWarning sqlWarning = stmt.getWarnings();
@@ -92,24 +99,67 @@ public class RunTool {
 		if (null != sqlWarning) {
 			String str = sqlWarning.getMessage();
 			if (StringUtils.isNotEmpty(str)) {
-				l.add(str);
+				outStr.append(str+"\n");
 				while (sqlWarning != null) {
 					sqlWarning = sqlWarning.getNextWarning();
 					if (null != sqlWarning) {
-						l.add(sqlWarning.getMessage());
+						outStr.append(sqlWarning.getMessage()+"\n");
 					}
 				}
 			}
 		}
-		
 		if(hashResult) {
-			ResultSet rs = stmt.getResultSet();
+			rs = stmt.getResultSet();
 			while (rs.next()) {
 				ResultSetMetaData rsmd = rs.getMetaData();
 				for (int i = 0; i < rsmd.getColumnCount(); i++) {
-					l.add(rsmd.getColumnLabel(i + 1) + "=" + rs.getString(i + 1));
+					map.put(rsmd.getColumnLabel(i + 1),rs.getString(i + 1));
 				}
 			}
 		}
+		return map;
+	}
+    
+    /**
+     * 运行mysql函数
+     * @param outSql    查询存储过程输出参数值sql
+     * @param parList   存储过程参数设置sql
+     * @return
+     * @throws SQLException
+     */
+	public Map<String,String> mysqlRun(StringBuffer outSql,List<String> parList) throws SQLException {
+        Map<String,String> map = new HashMap<>();
+        boolean hashResult = false;
+        stmt = conn.createStatement();
+        if (null != parList && !parList.isEmpty()) {
+            //设置参数
+			SqlExeUtil.batchExecute(conn,parList);
+            //执行函数
+            SqlExeUtil.executeUpdate(conn,sql);
+            //获取结果
+           	if (StringUtils.isNotBlank(outSql)) hashResult = stmt.execute(outSql.toString());
+        } else {
+            hashResult = stmt.execute(sql);
+        }
+        if (hashResult) {
+            rs = stmt.getResultSet();
+            while (rs.next()) {
+                ResultSetMetaData rsmd = rs.getMetaData();
+                for (int i = 0; i < rsmd.getColumnCount(); i++) {
+                    map.put(rsmd.getColumnLabel(i + 1),rs.getString(i + 1));
+                }
+            }
+        }
+		return map;
+	}
+	
+	/**
+	 * 运行sqlsrver函数
+	 * @return
+	 * @throws SQLException
+	 */
+	public MultiRsBean sqlsrverRun() throws SQLException {
+		stmt = conn.createStatement();
+        return WinRsUtil.getMultiRs(stmt, sql);
 	}
 }

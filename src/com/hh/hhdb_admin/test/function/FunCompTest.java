@@ -1,10 +1,14 @@
 package com.hh.hhdb_admin.test.function;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.swing.JOptionPane;
+
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.container.HFrame;
 import com.hh.frame.swingui.view.container.HPanel;
 import com.hh.frame.swingui.view.ctrl.HButton;
@@ -16,15 +20,15 @@ import com.hh.hhdb_admin.mgr.function.FunctionComp;
 import com.hh.hhdb_admin.mgr.function.FunctionMgr;
 import com.hh.hhdb_admin.test.MgrTestUtil;
 
-import javax.swing.*;
-import java.io.File;
-
 public class FunCompTest {
 
 	public static void main(String[] args) throws Exception {
 		IconFileUtil.setIconBaseDir(new File("etc/icon/"));
-		LangMgr.merge(FunctionMgr.class.getName(), LangUtil.loadLangRes(FunctionMgr.class));
-
+		try {
+            LangMgr2.loadMerge(FunctionMgr.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 		HHSwingUi.init();
 
 		HFrame frame = new HFrame();

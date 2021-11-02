@@ -1,7 +1,9 @@
 package com.hh.hhdb_admin.test.vm_editor;
 
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import java.io.File;
+import java.io.IOException;
+
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.container.HDialog;
 import com.hh.frame.swingui.view.container.HFrame;
 import com.hh.frame.swingui.view.container.HPanel;
@@ -14,12 +16,14 @@ import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.vm_editor.VmComp;
 import com.hh.hhdb_admin.mgr.vm_editor.VmMgr;
 
-import java.io.File;
-
 public class VMCompTest {
 
 	public static void main(String[] args) throws Exception {
-		LangMgr.merge(VmMgr.class.getName(), LangUtil.loadLangRes(VmMgr.class));
+		try {
+            LangMgr2.loadMerge(VmMgr.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 		IconFileUtil.setIconBaseDir(new File("etc/icon/"));
 		HHSwingUi.init();
 

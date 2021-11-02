@@ -407,7 +407,7 @@ public class ModifyTabDataUtil {
 	}
 
 	public static void requestFocus(HTable tab, int column, ModifyTabDataComp.ColListSelectionListener selectionListener) {
-		JTable jTable = ((JTable) tab.getComp());
+		JTable jTable = tab.getComp();
 		if (selectionListener == null) {
 			selectionListener = new ModifyTabDataComp.ColListSelectionListener(jTable);
 		}
@@ -415,7 +415,7 @@ public class ModifyTabDataUtil {
 		int n = jTable.getRowCount() - 1;
 		jTable.setRowSelectionInterval(n, n);
 		jTable.changeSelection(n, column, false, false);
-		jTable.editCellAt(n, column);
+//		jTable.editCellAt(n, column);
 		Component component = jTable.getEditorComponent();
 		if (component instanceof JTextField) {
 			component.requestFocus();

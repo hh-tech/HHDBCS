@@ -1,11 +1,22 @@
 package com.hh.hhdb_admin.mgr.index;
 
+import java.awt.Component;
+import java.awt.Dimension;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import javax.swing.ImageIcon;
+import javax.swing.JScrollPane;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.create_dbobj.index.Index;
 import com.hh.frame.create_dbobj.index.IndexEnum;
 import com.hh.frame.json.JsonObject;
-import com.hh.frame.lang.LangMgr;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.abs.AbsHComp;
 import com.hh.frame.swingui.view.abs.AbsInput;
 import com.hh.frame.swingui.view.container.HBarPanel;
@@ -31,12 +42,6 @@ import com.hh.hhdb_admin.common.icon.IconSizeEnum;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.common.util.logUtil;
 import com.hh.hhdb_admin.mgr.table.comp.SqlViewDialog;
-import org.apache.commons.lang3.StringUtils;
-
-import javax.swing.*;
-import java.awt.*;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 /**
  * @author YuSai
@@ -47,10 +52,14 @@ public abstract class IndexComp {
     private static final String DOMAIN_NAME = IndexComp.class.getName();
 
     static {
-        LangMgr.merge(DOMAIN_NAME, com.hh.frame.lang.LangUtil.loadLangRes(IndexComp.class));
+        try {
+            LangMgr2.loadMerge(IndexComp.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private HDialog dialog;
+    private final HDialog dialog;
     private final DBTypeEnum dbTypeEnum;
     private final String schema;
     private final String tableName;
@@ -190,14 +199,9 @@ public abstract class IndexComp {
         dialog.show();
     }
 
-    void delIndex(String indexName) throws Exception {
-        index.delIndex(schema, tableName, indexName);
-        refreshTree();
-    }
-
     public static String getLang(String key) {
-        LangMgr.setDefaultLang(StartUtil.default_language);
-        return LangMgr.getValue(DOMAIN_NAME, key);
+        LangMgr2.setDefaultLang(StartUtil.default_language);
+        return LangMgr2.getValue(DOMAIN_NAME, key);
     }
 
     private ImageIcon getIcon(String name) {

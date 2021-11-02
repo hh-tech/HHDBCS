@@ -96,7 +96,9 @@ public abstract class TableCreatePanel extends HPanel implements CreateTableSqlS
 					TableUtil.stopEditing(table);
 					int[] row = ((JTable) table.getComp()).getSelectedRows();
 					if (row.length > 0) {
-						int result = JOptionPane.showConfirmDialog(null, "确定删除所选行?", "提示", JOptionPane.YES_NO_OPTION);
+						final JDialog dialog = new JDialog();
+						dialog.setAlwaysOnTop(dialog.isAlwaysOnTopSupported());
+						int result = JOptionPane.showConfirmDialog(dialog, "确定删除所选行?", "提示", JOptionPane.YES_NO_OPTION);
 						if (result == JOptionPane.YES_OPTION) {
 							table.deleteSelectRow();
 						}

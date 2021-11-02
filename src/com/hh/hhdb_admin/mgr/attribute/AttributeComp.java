@@ -5,8 +5,7 @@ import com.hh.frame.create_dbobj.attributeMr.AttrMrNode;
 import com.hh.frame.create_dbobj.attributeMr.mr.AbsAttributeMr;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
 import com.hh.frame.json.JsonObject;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.container.HDialog;
 import com.hh.frame.swingui.view.container.HSplitPanel;
 import com.hh.frame.swingui.view.container.LastPanel;
@@ -18,6 +17,7 @@ import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
 import java.sql.Connection;
 
 /**
@@ -30,7 +30,11 @@ public class AttributeComp {
     public static final String DOMAIN_NAME = AttributeComp.class.getName();
 
     static {
-        LangMgr.merge(DOMAIN_NAME, LangUtil.loadLangRes(AttributeComp.class));
+        try {
+            LangMgr2.loadMerge(AttributeComp.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void showAttr(JsonObject msg, JdbcBean jdbcBean, Connection conn) throws Exception {
@@ -61,7 +65,7 @@ public class AttributeComp {
         splitPanel.setLastComp4Two(panelTwo);
 
         dialog.setRootPanel(splitPanel);
-        dialog.setWindowTitle(LangMgr.getValue(DOMAIN_NAME, "attribute"));
+        dialog.setWindowTitle(LangMgr2.getValue(DOMAIN_NAME, "attribute"));
         dialog.setIconImage(IconFileUtil.getLogo());
         table.load(attributeMr.getAttribution(attrMrNode, conn), 0);
         table.setRowHeight(25);

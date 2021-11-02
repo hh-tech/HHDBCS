@@ -9,8 +9,7 @@ import com.hh.frame.create_dbobj.treeMr.base.ViewType;
 import com.hh.frame.json.Json;
 import com.hh.frame.json.JsonObject;
 import com.hh.frame.lang.LangEnum;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.frame.swingui.view.container.*;
 import com.hh.frame.swingui.view.ctrl.HButton;
@@ -66,7 +65,11 @@ public abstract class LoginComp {
     public static final Pattern pattern = Pattern.compile("[0-9]*");
 
     static {
-        LangMgr.merge(DOMAIN_NAME, LangUtil.loadLangRes(LoginComp.class));
+        try {
+            LangMgr2.loadMerge(LoginComp.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private HPanel loginFormPanel;
@@ -122,8 +125,8 @@ public abstract class LoginComp {
     }
 
     public static String getLang(String key) {
-        LangMgr.setDefaultLang(StartUtil.default_language);
-        return LangMgr.getValue(DOMAIN_NAME, key);
+        LangMgr2.setDefaultLang(StartUtil.default_language);
+        return LangMgr2.getValue(DOMAIN_NAME, key);
     }
 
     public void showLogin() {
@@ -183,13 +186,17 @@ public abstract class LoginComp {
         loginBtn.setEnabled(false);
         loginBtn.setIcon(getIcon("login"));
 
-        cancelBtn = new HButton(getLang("cancel"));
-        cancelBtn.addActionListener(e -> {
-            frame.dispose();
-            if (dialog != null) {
-                dialog.hide();
+        cancelBtn = new HButton(getLang("cancel")) {
+            @Override
+            protected void onClick() {
+                if (dialog != null) {
+                    dialog.hide();
+                } else {
+                    frame.dispose();
+                    System.exit(0);
+                }
             }
-        });
+        };
         cancelBtn.setIcon(getIcon("cancel"));
         rightPanel.add(loginBtn, cancelBtn);
         footPanel.add(leftPanel, rightPanel);
@@ -238,7 +245,7 @@ public abstract class LoginComp {
             @Override
             protected void closeEvent() {
                 StartUtil.default_language = loginForm.oldLang;
-                LangMgr.setDefaultLang(loginForm.oldLang);
+                LangMgr2.setDefaultLang(loginForm.oldLang);
                 StartUtil.setLocale(loginForm.oldLang);
             }
         };
@@ -273,6 +280,7 @@ public abstract class LoginComp {
     }
 
     private void login() {
+        loginBean.initFilterData();
         JsonObject connInfo = loginForm.getData(false);
         JdbcBean jdbcBean = LoginUtil.json2JdbcBean(connInfo);
         try {
@@ -297,7 +305,7 @@ public abstract class LoginComp {
                 json.set("language", loginForm.langLabelInput.getValue());
                 FileUtils.writeStringToFile(StartUtil.defaultJsonFile, json.toPrettyString(), StandardCharsets.UTF_8);
                 StartUtil.default_language = LangEnum.valueOf(loginForm.langLabelInput.getValue());
-                LangMgr.setDefaultLang(StartUtil.default_language);
+                LangMgr2.setDefaultLang(StartUtil.default_language);
                 StartUtil.setLocale(StartUtil.default_language);
             } catch (IOException ioException) {
                 ioException.printStackTrace();

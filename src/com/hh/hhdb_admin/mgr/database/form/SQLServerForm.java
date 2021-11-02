@@ -32,7 +32,6 @@ import java.util.Map;
  */
 public class SQLServerForm extends AbsForm {
 
-    private static final String LOG_NAME = SQLServerForm.class.getSimpleName();
 
     private final Connection conn;
     private final HPanel formPanel;

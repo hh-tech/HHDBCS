@@ -1,10 +1,15 @@
 package com.hh.hhdb_admin.test.obj_query;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.Connection;
+
+import org.apache.commons.io.FileUtils;
+
 import com.hh.frame.common.util.db.ConnUtil;
 import com.hh.frame.json.Json;
 import com.hh.frame.json.JsonObject;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.engine.GuiEngine;
 import com.hh.frame.swingui.view.container.HFrame;
 import com.hh.frame.swingui.view.ui.HHSwingUi;
@@ -15,10 +20,6 @@ import com.hh.hhdb_admin.mgr.login.LoginBean;
 import com.hh.hhdb_admin.mgr.login.LoginMgr;
 import com.hh.hhdb_admin.mgr.obj_query.ObjQueryComp;
 import com.hh.hhdb_admin.test.MgrTestUtil;
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.sql.Connection;
 
 /**
  * @author Jiang
@@ -32,7 +33,11 @@ public class ObjQueryCompTest {
 		try {
 			HFrame frame = new HFrame(800, 800);
 			HHSwingUi.init();
-			LangMgr.merge(ObjQueryComp.class.getName(), LangUtil.loadLangRes(ObjQueryComp.class));
+			try {
+	            LangMgr2.loadMerge(ObjQueryComp.class);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
 			IconFileUtil.setIconBaseDir(new File("etc/icon/"));
 			File configJson = new File("etc/conf.json");
 			String jStr = FileUtils.readFileToString(configJson, "UTF-8");

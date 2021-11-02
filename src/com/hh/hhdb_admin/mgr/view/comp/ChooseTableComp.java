@@ -1,13 +1,33 @@
 package com.hh.hhdb_admin.mgr.view.comp;
 
+import java.awt.Container;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrNode;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
 import com.hh.frame.create_dbobj.viewMr.mr.AbsViewMr;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.swingui.view.container.*;
+import com.hh.frame.lang.LangMgr2;
+import com.hh.frame.swingui.view.container.HBarPanel;
+import com.hh.frame.swingui.view.container.HDialog;
+import com.hh.frame.swingui.view.container.HPanel;
+import com.hh.frame.swingui.view.container.HSplitPanel;
+import com.hh.frame.swingui.view.container.LastPanel;
 import com.hh.frame.swingui.view.ctrl.HButton;
 import com.hh.frame.swingui.view.layout.bar.HBarLayout;
 import com.hh.frame.swingui.view.tab.HTabRowBean;
@@ -26,16 +46,6 @@ import com.hh.hhdb_admin.common.util.DbCmdStrUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.login.LoginBean;
 import com.hh.hhdb_admin.mgr.tree.TreeUtil;
-import org.apache.commons.lang3.StringUtils;
-
-import javax.swing.*;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
-import java.awt.*;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.*;
 
 /**
  * 选择表列来可视化生成select语句用来创建视图
@@ -67,7 +77,11 @@ public abstract class ChooseTableComp {
     private HDialog dialog;
 
     static {
-        LangMgr.merge(domainName, com.hh.frame.lang.LangUtil.loadLangRes(ChooseTableComp.class));
+        try {
+			LangMgr2.loadMerge(ChooseTableComp.class);
+		} catch (IOException e) {
+			PopPaneUtil.error(e);
+		}
     }
 
 
@@ -93,7 +107,7 @@ public abstract class ChooseTableComp {
     public void show(HDialog parentDialog) {
         this.dialog = new HDialog(parentDialog, 700);
         maps.clear();
-        this.dialog.setWindowTitle(LangMgr.getValue(domainName, LK_SELECT_TABLE_COLUMN));
+        this.dialog.setWindowTitle(LangMgr2.getValue(domainName, LK_SELECT_TABLE_COLUMN));
         colPanel.getComp().setVisible(false);
         if (colTree == null) {
             colTree = getLeftTree();
@@ -186,7 +200,7 @@ public abstract class ChooseTableComp {
         l.setAlign(AlignEnum.LEFT);
         l.setxGap(2);
         HBarPanel toolBar = new HBarPanel(l);
-        HButton saveButton = new HButton(LangMgr.getValue(domainName, LK_SAVE)) {
+        HButton saveButton = new HButton(LangMgr2.getValue(domainName, LK_SAVE)) {
             @Override
             protected void onClick() {
                 clickSaveBtn(getSql());
@@ -205,8 +219,8 @@ public abstract class ChooseTableComp {
      */
     private void initTable() {
         table = new HTable();
-        DataCol colCol = new DataCol(COL_NAME, LangMgr.getValue(domainName, LK_COLUMN_NAME));
-        BoolCol selCol = new BoolCol(COL_SELECT, LangMgr.getValue(domainName, LK_SELECTED));
+        DataCol colCol = new DataCol(COL_NAME, LangMgr2.getValue(domainName, LK_COLUMN_NAME));
+        BoolCol selCol = new BoolCol(COL_SELECT, LangMgr2.getValue(domainName, LK_SELECTED));
         selCol.setWidth(100);
         table.addCols(colCol,selCol);
         table.setRowHeight(30);

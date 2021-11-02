@@ -1,7 +1,9 @@
 package com.hh.hhdb_admin.test.quick_query;
 
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import java.io.File;
+import java.io.IOException;
+
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.container.HDialog;
 import com.hh.frame.swingui.view.container.HFrame;
 import com.hh.frame.swingui.view.container.HPanel;
@@ -15,12 +17,14 @@ import com.hh.hhdb_admin.mgr.quick_query.QuickQueryComp;
 import com.hh.hhdb_admin.mgr.quick_query.QuickQueryMgr;
 import com.hh.hhdb_admin.test.MgrTestUtil;
 
-import java.io.File;
-
 public class QuickQuerCompTest {
 
 	public static void main(String[] args) throws Exception {
-		LangMgr.merge(QuickQueryMgr.class.getName(), LangUtil.loadLangRes(QuickQueryMgr.class));
+		try {
+            LangMgr2.loadMerge(QuickQueryMgr.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 		IconFileUtil.setIconBaseDir(new File("etc/icon/"));
 		HHSwingUi.init();
 

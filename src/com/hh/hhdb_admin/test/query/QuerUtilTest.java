@@ -1,8 +1,11 @@
 package com.hh.hhdb_admin.test.query;
 
+import java.io.IOException;
+
+import javax.swing.JOptionPane;
+
 import com.hh.frame.common.base.JdbcBean;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.container.HFrame;
 import com.hh.frame.swingui.view.container.HPanel;
 import com.hh.frame.swingui.view.ctrl.HButton;
@@ -13,12 +16,14 @@ import com.hh.hhdb_admin.mgr.query.QueryMgr;
 import com.hh.hhdb_admin.mgr.query.util.QuerUtil;
 import com.hh.hhdb_admin.test.MgrTestUtil;
 
-import javax.swing.*;
-
 public class QuerUtilTest {
 
 	public static void main(String[] args) throws Exception {
-		LangMgr.merge(QueryMgr.class.getName(), LangUtil.loadLangRes(QueryMgr.class));
+		try {
+            LangMgr2.loadMerge(QueryMgr.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 		HHSwingUi.init();
 
 		HFrame frame = new HFrame();

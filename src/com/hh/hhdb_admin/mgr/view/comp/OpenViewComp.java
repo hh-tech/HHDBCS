@@ -1,9 +1,14 @@
 package com.hh.hhdb_admin.mgr.view.comp;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
+
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.create_dbobj.viewMr.mr.AbsViewMr;
-import com.hh.frame.lang.LangMgr;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.container.HDialog;
 import com.hh.frame.swingui.view.container.HPanel;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
@@ -11,10 +16,6 @@ import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.common.util.DbCmdStrUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.table_open.ModifyTabDataComp;
-
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.File;
 
 /**
  * 打开视图的组件
@@ -31,7 +32,11 @@ public class OpenViewComp {
     private final File tmpFile;
 
     static {
-        LangMgr.merge(domainName, com.hh.frame.lang.LangUtil.loadLangRes(OpenViewComp.class));
+        try {
+			LangMgr2.loadMerge(OpenViewComp.class);
+		} catch (IOException e) {
+			PopPaneUtil.error(e);
+		}
     }
 
     public OpenViewComp(JdbcBean bean) {
@@ -67,7 +72,7 @@ public class OpenViewComp {
                 }
             });
 
-            dialog.setWindowTitle(LangMgr.getValue(domainName, title) + "(" + viewName + ")");
+            dialog.setWindowTitle(LangMgr2.getValue(domainName, title) + "(" + viewName + ")");
             dialog.setIconImage(IconFileUtil.getLogo().getImage());
             dialog.setRootPanel(panel);
             dialog.setSize(750, 550);

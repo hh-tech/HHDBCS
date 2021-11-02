@@ -1,17 +1,17 @@
 package com.hh.hhdb_admin.mgr.usr.comp;
 
 
-import com.hh.frame.lang.LangMgr;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.tab.HTabRowBean;
 import com.hh.frame.swingui.view.tab.RowStatus;
 import com.hh.frame.swingui.view.tab.col.DataCol;
 import com.hh.frame.swingui.view.tab.col.bool.BoolCol;
 import com.hh.hhdb_admin.mgr.usr.util.ServiceUtil;
 import com.hh.hhdb_admin.mgr.usr.util.UsrUtil;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
 
 /**
  * 权限表格
@@ -71,9 +71,9 @@ public class SqlServerGrantComp extends GrantTableComp {
     @Override
     protected void addColumn() {
 
-        BoolCol boolCol = new BoolCol("grant", LangMgr.getValue(domainName, "GRANT"));
+        BoolCol boolCol = new BoolCol("grant", LangMgr2.getValue(domainName, "GRANT"));
         boolCol.setWidth(150);
-        hTable.addCols(new DataCol(columns, LangMgr.getValue(domainName, UsrUtil.getPermTitleKey(this.typeEnum))));
+        hTable.addCols(new DataCol(columns, LangMgr2.getValue(domainName, UsrUtil.getPermTitleKey(this.typeEnum))));
         hTable.setSingleSelection(true);
 
 //

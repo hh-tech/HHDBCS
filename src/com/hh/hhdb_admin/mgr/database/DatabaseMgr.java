@@ -50,15 +50,10 @@ public class DatabaseMgr extends AbsGuiMgr {
             }
         };
         String cmd = GuiJsonUtil.toStrCmd(msg);
-        switch (cmd) {
-            case CMD_SHOW_ADD_DATABASE:
-                databaseComp.show();
-                break;
-            case CMD_DELETE_DATABASE:
-                databaseComp.delDatabase(msg.getString("name"));
-                break;
-            default:
-                unknowMsg(msg.toPrettyString());
+        if (CMD_SHOW_ADD_DATABASE.equals(cmd)) {
+            databaseComp.show();
+        } else {
+            unknowMsg(msg.toPrettyString());
         }
     }
 

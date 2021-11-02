@@ -7,11 +7,14 @@ import com.hh.frame.swingui.view.tree.HTreeNode;
 import com.hh.hhdb_admin.CsMgrEnum;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.column.ColumnMgr;
+import com.hh.hhdb_admin.mgr.dblink.DblinkMgr;
 import com.hh.hhdb_admin.mgr.function.FunctionMgr;
 import com.hh.hhdb_admin.mgr.pack.PackageMgr;
 import com.hh.hhdb_admin.mgr.schema.SchemaMgr;
 import com.hh.hhdb_admin.mgr.sequence.SequenceMgr;
+import com.hh.hhdb_admin.mgr.synonym.SynonymMgr;
 import com.hh.hhdb_admin.mgr.trigger.TriggerMgr;
+import com.hh.hhdb_admin.mgr.type.TypeMgr;
 import com.hh.hhdb_admin.mgr.usr.UsrMgr;
 import com.hh.hhdb_admin.mgr.view.ViewMgr;
 import org.apache.commons.lang3.StringUtils;
@@ -84,6 +87,22 @@ public class DesignHandler extends AbsHandler {
                         .add(PackageMgr.HEAD_OR_BODY, sessionEnum.name())
                         .add(StartUtil.PARAM_SCHEMA, schemaName)
                         .add(StartUtil.PARAM_TABLE, packageName));
+                break;
+            case DBLINK:
+                sendMsg(CsMgrEnum.DBLINK, GuiJsonUtil.toJsonCmd(DblinkMgr.CMD_SHOW)
+                        .add(DblinkMgr.PARAM_NAME, name));
+                break;
+            case SYNONYM:
+                sendMsg(CsMgrEnum.SYNONYM, GuiJsonUtil.toJsonCmd(SynonymMgr.CMD_SHOW)
+                        .add(SynonymMgr.PARAM_NAME, name));
+                break;
+            case TYPE:
+            case TYPE_BODY:
+                sessionEnum = TreeMrType.TYPE.equals(nodeType) ? OraSessionEnum.type : OraSessionEnum.typebody;
+                sendMsg(CsMgrEnum.TYPE, GuiJsonUtil.toJsonCmd(TypeMgr.CMD_DESIGN)
+                        .add(StartUtil.PARAM_SCHEMA, schemaName)
+                        .add(TypeMgr.PARAM_TYPE, sessionEnum.name())
+                        .add(TypeMgr.PARAM_NAME, name));
                 break;
             default:
         }

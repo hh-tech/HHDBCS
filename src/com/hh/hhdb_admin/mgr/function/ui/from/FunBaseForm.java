@@ -6,6 +6,7 @@ import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.create_dbobj.function.mr.AbsFunMr;
+import com.hh.frame.create_dbobj.table.CreateTableTool;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
 import com.hh.frame.swingui.view.abs.AbsHComp;
 import com.hh.frame.swingui.view.container.HBarPanel;
@@ -27,12 +28,14 @@ import com.hh.hhdb_admin.mgr.function.FunctionMgr;
 import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class FunBaseForm extends AbsHComp {
     public AbsFunMr funMr;
+    public static CreateTableTool createTabTool;
     protected DBTypeEnum dbType;
     protected Connection conn;
     protected JdbcBean jdbcBean;
@@ -48,6 +51,7 @@ public abstract class FunBaseForm extends AbsHComp {
         this.conn = conn;
         this.jdbcBean = jdbcBean;
         this.dbType = DriverUtil.getDbType(conn);
+        createTabTool = new CreateTableTool(dbType);
     }
 
     /**
@@ -123,15 +127,22 @@ public abstract class FunBaseForm extends AbsHComp {
             if(funMr.treeNode.getType() == TreeMrType.PROCEDURE) hTable.addCols(new ListCol("schema", FunctionMgr.getLang("schema"), Arrays.asList("IN", "OUT", "INOUT")));
         }else if (dbType.equals(DBTypeEnum.sqlserver)){
             if(funMr.treeNode.getType() == TreeMrType.PROCEDURE) hTable.addCols(new ListCol("schema", FunctionMgr.getLang("schema"), Arrays.asList("IN","output")));
-        }else if (dbType.equals(DBTypeEnum.db2) || dbType.equals(DBTypeEnum.dm)){
+        }else if (dbType.equals(DBTypeEnum.db2)){
             if(funMr.treeNode.getType() == TreeMrType.PROCEDURE) hTable.addCols(new ListCol("schema", FunctionMgr.getLang("schema"), Arrays.asList("IN","OUT")));
         }else {
             hTable.addCols(new ListCol("schema",FunctionMgr.getLang("schema"), Arrays.asList("IN", "OUT", "INOUT")));
         }
-        hTable.addCols(new ListCol("type",FunctionMgr.getLang("type"), funMr.getDataType()));
+        if ( dbType.equals(DBTypeEnum.mysql) || dbType.equals(DBTypeEnum.sqlserver) ){
+            TypeColumn typeCol = new TypeColumn("dataType", FunctionMgr.getLang("type"));
+            typeCol.setWidth(140);
+            hTable.addCols(typeCol);
+        } else {
+            hTable.addCols(new ListCol("type",FunctionMgr.getLang("type"), funMr.getDataType()));
+        }
         hTable.setRowHeight(25);
         LastPanel lastPanel = new LastPanel(false);
         lastPanel.setWithScroll(hTable.getComp());
+        hTable.load(new ArrayList<>(),1);
 
         HBarLayout l = new HBarLayout();
         l.setAlign(AlignEnum.LEFT);
@@ -142,7 +153,7 @@ public abstract class FunBaseForm extends AbsHComp {
             public void onClick() {
                 Map<String, String> line = new HashMap<>();
                 line.put("name","");
-                if (dbType.equals(DBTypeEnum.mysql) || dbType.equals(DBTypeEnum.db2) || dbType.equals(DBTypeEnum.dm)){
+                if (dbType.equals(DBTypeEnum.mysql) || dbType.equals(DBTypeEnum.db2)){
                     if(funMr.treeNode.getType() == TreeMrType.PROCEDURE) line.put("schema","");
                 }else {
                     line.put("schema","IN");

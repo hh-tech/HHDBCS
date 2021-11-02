@@ -1,21 +1,25 @@
 package com.hh.hhdb_admin.mgr.usr.comp;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.util.Locale;
+
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.create_dbobj.userMr.mr.AbsUsrMr;
 import com.hh.frame.dbobj2.version.VersionUtil;
 import com.hh.frame.lang.LangEnum;
-import com.hh.frame.lang.LangMgr;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.container.HDialog;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
 import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.usr.util.UsrUtil;
-import org.apache.commons.lang3.StringUtils;
-
-import javax.swing.*;
-import java.sql.Connection;
-import java.util.Locale;
 
 /**
  * 重命名管理面板
@@ -32,7 +36,11 @@ public abstract class ReNameUsrComp {
     private final static String LK_UPD_FAILD = "UPD_FAILD";
 
     static {
-        LangMgr.merge(domainName, com.hh.frame.lang.LangUtil.loadLangRes(ReNameUsrComp.class));
+        try {
+			LangMgr2.loadMerge(ReNameUsrComp.class);
+		} catch (IOException e) {
+			PopPaneUtil.error(e);
+		}
     }
 
 
@@ -57,7 +65,7 @@ public abstract class ReNameUsrComp {
         }
         String newName;
         JOptionPane pane = new JOptionPane(
-                LangMgr.getValue(domainName, LK_RENAME_INPUT),
+                LangMgr2.getValue(domainName, LK_RENAME_INPUT),
                 JOptionPane.PLAIN_MESSAGE,
                 JOptionPane.OK_CANCEL_OPTION,
                 null, null
@@ -67,7 +75,7 @@ public abstract class ReNameUsrComp {
         pane.setSelectionValues(null);
         pane.selectInitialValue();
         pane.setInitialSelectionValue(UsrUtil.formatName(dbType, usrName));
-        JDialog dialog = pane.createDialog(parent.getWindow().getParent(), LangMgr.getValue(domainName, LK_RENAME_TITLE) + "(" + usrName + ")");
+        JDialog dialog = pane.createDialog(parent.getWindow().getParent(), LangMgr2.getValue(domainName, LK_RENAME_TITLE) + "(" + usrName + ")");
         dialog.setIconImage(IconFileUtil.getLogo().getImage());
         dialog.setVisible(true);
         dialog.dispose();
@@ -79,19 +87,19 @@ public abstract class ReNameUsrComp {
             return;
         }
         if (StringUtils.isBlank(newName)) {
-            PopPaneUtil.error(LangMgr.getValue(domainName, LK_INPUT_NEW_NAME));
+            PopPaneUtil.error(LangMgr2.getValue(domainName, LK_INPUT_NEW_NAME));
         } else if (newName.trim().equals(UsrUtil.formatName(dbType, usrName))) {
-            PopPaneUtil.error(LangMgr.getValue(domainName, LK_NAME_EQUAL_ERROR));
+            PopPaneUtil.error(LangMgr2.getValue(domainName, LK_NAME_EQUAL_ERROR));
         } else {
             try {
                 if (conn != null) {
                     AbsUsrMr usrMr = AbsUsrMr.genUsrSqlMr(this.dbType, VersionUtil.getDbVersion(conn));
                     usrMr.reNameUsr(newName, UsrUtil.formatName(dbType, usrName), conn);
                     infoRefreshUsr();
-                    PopPaneUtil.info(LangMgr.getValue(domainName, LK_UPD_SUCCESS));
+                    PopPaneUtil.info(LangMgr2.getValue(domainName, LK_UPD_SUCCESS));
                 }
             } catch (Exception e) {
-                PopPaneUtil.error(LangMgr.getValue(domainName, LK_UPD_FAILD) + e.getMessage());
+                PopPaneUtil.error(LangMgr2.getValue(domainName, LK_UPD_FAILD) + e.getMessage());
             }
         }
     }

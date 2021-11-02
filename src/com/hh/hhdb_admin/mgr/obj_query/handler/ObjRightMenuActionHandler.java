@@ -8,6 +8,7 @@ import com.hh.hhdb_admin.mgr.obj_query.ObjQueryComp;
 import com.hh.hhdb_admin.mgr.tree.CsTree;
 import com.hh.hhdb_admin.mgr.tree.handler.RightMenuActionHandler;
 import com.hh.hhdb_admin.mgr.tree.handler.action.AbsHandler;
+import com.hh.hhdb_admin.mgr.tree.handler.action.RunHandler;
 import org.apache.commons.lang3.EnumUtils;
 
 import java.util.Locale;
@@ -59,7 +60,11 @@ public class ObjRightMenuActionHandler extends RightMenuActionHandler {
 
 			handler.setSchemaName(schemaName);
 			handler.setTableName(tableName);
+			if (handler instanceof RunHandler){
+				((RunHandler) handler).initPack(treeNodes[0].getName());
+			}
 			handler.resolve(treeNodes[0]);
+
 
 			if (EnumUtils.isValidEnum(EventType.class, actionCmd.toUpperCase(Locale.ROOT)) && queryComp != null) {
 				switch (EventType.valueOf(actionCmd.toUpperCase(Locale.ROOT))) {

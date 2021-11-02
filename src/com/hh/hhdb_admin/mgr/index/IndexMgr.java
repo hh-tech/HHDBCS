@@ -13,7 +13,6 @@ import com.hh.hhdb_admin.mgr.login.LoginMgr;
 import com.hh.hhdb_admin.mgr.tree.TreeMgr;
 
 import java.sql.Connection;
-import java.sql.Driver;
 
 /**
  * 索引的组件MGR
@@ -23,7 +22,6 @@ import java.sql.Driver;
 public class IndexMgr extends AbsGuiMgr {
 
     public static final String CMD_SHOW_ADD_TABLE_INDEX = "CMD_SHOW_ADD_TABLE_INDEX"; //添加索引
-    public static final String CMD_DELETE_TABLE_INDEX = "CMD_DELETE_TABLE_INDEX"; //删除索引
 
     @Override
     public void init(JsonObject jObj) {
@@ -31,8 +29,7 @@ public class IndexMgr extends AbsGuiMgr {
 
     @Override
     public String getHelp() {
-        return GuiJsonUtil.genCmdHelp(CMD_SHOW_ADD_TABLE_INDEX, "创建索引", GuiMsgType.RECE)
-                + GuiJsonUtil.genCmdHelp(CMD_DELETE_TABLE_INDEX, "删除索引", GuiMsgType.RECE);
+        return GuiJsonUtil.genCmdHelp(CMD_SHOW_ADD_TABLE_INDEX, "创建索引", GuiMsgType.RECE);
     }
 
     @Override
@@ -57,8 +54,6 @@ public class IndexMgr extends AbsGuiMgr {
         };
         if (CMD_SHOW_ADD_TABLE_INDEX.equals(cmd)) {
             common.show();
-        } else if (CMD_DELETE_TABLE_INDEX.equals(cmd)) {
-            common.delIndex(msg.getString("indexName"));
         } else {
             unknowMsg(msg.toPrettyString());
         }

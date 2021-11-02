@@ -1,6 +1,7 @@
 package com.hh.hhdb_admin.mgr.table_open.common;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author ouyangxu
@@ -9,12 +10,16 @@ import java.io.Serializable;
 public class AddLobBean implements Serializable {
 
 	private static final long serialVersionUID = -7796238765289954464L;
+	private int row;
+	private int column;
 	private String name;
 	private boolean isBlob;
 	private String type;
 	private byte[] data;
 
-	public AddLobBean(String name, boolean isBlob, byte[] data) {
+	public AddLobBean(int row, int column, String name, boolean isBlob, byte[] data) {
+		this.row = row;
+		this.column = column;
 		this.name = name;
 		this.isBlob = isBlob;
 		this.data = data;
@@ -50,5 +55,38 @@ public class AddLobBean implements Serializable {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public int getRow() {
+		return row;
+	}
+
+	public void setRow(int row) {
+		this.row = row;
+	}
+
+	public int getColumn() {
+		return column;
+	}
+
+	public void setColumn(int column) {
+		this.column = column;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		AddLobBean that = (AddLobBean) o;
+		return row == that.row && column == that.column ;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(row, column);
 	}
 }

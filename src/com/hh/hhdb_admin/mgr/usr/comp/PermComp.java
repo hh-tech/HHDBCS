@@ -1,8 +1,15 @@
 package com.hh.hhdb_admin.mgr.usr.comp;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.common.util.db.SqlExeUtil;
-import com.hh.frame.lang.LangMgr;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.container.HBarPanel;
 import com.hh.frame.swingui.view.container.HDialog;
 import com.hh.frame.swingui.view.container.HPanel;
@@ -18,11 +25,6 @@ import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.table.comp.SqlViewDialog;
 import com.hh.hhdb_admin.mgr.usr.util.FormUtil;
 import com.hh.hhdb_admin.mgr.usr.util.UsrUtil;
-import org.apache.commons.lang3.StringUtils;
-
-import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 权限管理面板
@@ -43,7 +45,11 @@ public class PermComp {
     private final static String LK_SUPER_ERROR = "SUPER_ERROR";
 
     static {
-        LangMgr.merge(domainName, com.hh.frame.lang.LangUtil.loadLangRes(PermComp.class));
+        try {
+			LangMgr2.loadMerge(PermComp.class);
+		} catch (IOException e) {
+			PopPaneUtil.error(e);
+		}
     }
 
     public PermComp(Connection conn) {
@@ -62,14 +68,14 @@ public class PermComp {
                     try {
                         String sql = basePermComp.getSql();
                         if (conn == null) {
-                            PopPaneUtil.error(StartUtil.parentFrame.getWindow(), LangMgr.getValue(domainName, LK_CONN_ERROR));
+                            PopPaneUtil.error(StartUtil.parentFrame.getWindow(), LangMgr2.getValue(domainName, LK_CONN_ERROR));
                             return;
                         }
                         if (StringUtils.isBlank(sql)) {
                             return;
                         }
                         if (UsrUtil.isSuperUsrExtra(conn, usr)) {
-                            throw new Exception(LangMgr.getValue(domainName, LK_SUPER_ERROR));
+                            throw new Exception(LangMgr2.getValue(domainName, LK_SUPER_ERROR));
                         }
                         String[] sqlList = sql.split(System.lineSeparator());
                         List<String> newSqlList = new ArrayList<>();
@@ -79,14 +85,14 @@ public class PermComp {
                         SqlExeUtil.batchExecute(conn, newSqlList);
                         basePermComp.refreshTable();
                         dialog.dispose();
-                        PopPaneUtil.info(StartUtil.parentFrame.getWindow(), LangMgr.getValue(domainName, LK_SAVE_SUCCESS));
+                        PopPaneUtil.info(StartUtil.parentFrame.getWindow(), LangMgr2.getValue(domainName, LK_SAVE_SUCCESS));
                     } catch (Exception e) {
                         PopPaneUtil.error(StartUtil.parentFrame.getWindow(), e.getMessage());
                     }
 
                 }
             };
-            button.setText(LangMgr.getValue(domainName, LK_SAVE));
+            button.setText(LangMgr2.getValue(domainName, LK_SAVE));
             HButton sqlBtn = new HButton() {
                 @Override
                 protected void onClick() {
@@ -101,7 +107,7 @@ public class PermComp {
                 }
             };
             sqlBtn.setIcon(IconFileUtil.getIcon(new IconBean(CsMgrEnum.USR.name(), "viewsql", IconSizeEnum.SIZE_16)));
-            sqlBtn.setText(LangMgr.getValue(domainName, LK_PREVIEW_SQL));
+            sqlBtn.setText(LangMgr2.getValue(domainName, LK_PREVIEW_SQL));
             button.setIcon(IconFileUtil.getIcon(new IconBean(CsMgrEnum.USR.name(), "save", IconSizeEnum.SIZE_16)));
             toolBar.add(button);
             toolBar.add(sqlBtn);
@@ -126,7 +132,7 @@ public class PermComp {
             this.usr = usrName;
             this.dialog = dialog;
             dialog.setSize(750, 590);
-            dialog.setWindowTitle(LangMgr.getValue(domainName, LK_TITLE) + "(" + usrName + ")");
+            dialog.setWindowTitle(LangMgr2.getValue(domainName, LK_TITLE) + "(" + usrName + ")");
             dialog.setIconImage(IconFileUtil.getLogo(IconSizeEnum.SIZE_16).getImage());
             dialog.setRootPanel(panel);
 

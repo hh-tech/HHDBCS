@@ -1,5 +1,13 @@
 package com.hh.hhdb_admin.mgr.trigger.comp.form;
 
+import java.awt.event.ItemEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.DriverUtil;
@@ -28,17 +36,8 @@ import com.hh.frame.swingui.view.tab.col.DataCol;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
 import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
-import com.hh.hhdb_admin.mgr.login.LoginComp;
 import com.hh.hhdb_admin.mgr.trigger.TriggerUtil;
 import com.hh.hhdb_admin.mgr.trigger.comp.TriggerComp;
-
-import java.awt.event.ItemEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author YuSai
@@ -120,11 +119,11 @@ public class TriggerForm {
                 if (e.getClickCount() >= 2) {
                     List<HTabRowBean> rowBeans = table.getSelectedRowBeans();
                     if (rowBeans.size() == 0) {
-                        PopPaneUtil.info(dialog.getWindow(), LoginComp.getLang("pleaseSelectOneData"));
+                        PopPaneUtil.info(dialog.getWindow(), getLang("pleaseSelectOneData"));
                         return;
                     }
                     if (rowBeans.size() > 1) {
-                        PopPaneUtil.info(dialog.getWindow(), LoginComp.getLang("onlySelectOne"));
+                        PopPaneUtil.info(dialog.getWindow(), getLang("onlySelectOne"));
                         return;
                     }
                     Map<String, String> map = rowBeans.get(0).getOldRow();

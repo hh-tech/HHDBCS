@@ -7,7 +7,6 @@ import com.hh.frame.swingui.view.container.HFrame;
 import com.hh.frame.swingui.view.container.HPanel;
 import com.hh.frame.swingui.view.container.LastPanel;
 import com.hh.frame.swingui.view.ctrl.HButton;
-import com.hh.frame.swingui.view.test.images.ImageUtil;
 import com.hh.frame.swingui.view.ui.HHSwingUi;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
 import com.hh.hhdb_admin.common.lob_panel.LobViewer;
@@ -77,7 +76,7 @@ public class TestLobViewer {
 			@Override
 			public void onClick() {
 				try {
-					byte[] d = ClassLoadUtil.load2Bytes(ImageUtil.class, "about1.jpg");
+					byte[] d = ClassLoadUtil.load2Bytes(TestLobViewer.class, "about1.jpg");
 					viewer.loadData(d);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block

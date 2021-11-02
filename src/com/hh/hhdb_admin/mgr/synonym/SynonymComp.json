@@ -1,0 +1,137 @@
+{
+	"keys": [
+		{
+			"key": "add",
+			"value": {
+				"zh": "新增",
+				"en": "Add"
+			}
+		},
+		{
+			"key": "edit",
+			"value": {
+				"zh": "编辑",
+				"en": "Edit"
+			}
+		},
+		{
+			"key": "synonym",
+			"value": {
+				"zh": "同义词",
+				"en": "Synonym"
+			}
+		},
+		{
+			"key": "owner",
+			"value": {
+				"zh": "所有者：",
+				"en": "Owner: "
+			}
+		},
+		{
+			"key": "public",
+			"value": {
+				"zh": "公共：",
+				"en": "Public: "
+			}
+		},
+		{
+			"key": "name",
+			"value": {
+				"zh": "名称：",
+				"en": "Name: "
+			}
+		},
+		{
+			"key": "transformation",
+			"value": {
+				"zh": "转换",
+				"en": "Transformation"
+			}
+		},
+		{
+			"key": "object_owner",
+			"value": {
+				"zh": "对象所有者：",
+				"en": "Object owner: "
+			}
+		},
+		{
+			"key": "name",
+			"value": {
+				"zh": "对象名称：",
+				"en": "Object name: "
+			}
+		},
+		{
+			"key": "search",
+			"value": {
+				"zh": "查询",
+				"en": "Search"
+			}
+		},
+		{
+			"key": "dblink",
+			"value": {
+				"zh": "数据库链接：",
+				"en": "Database link: "
+			}
+		},
+		{
+			"key": "select",
+			"value": {
+				"zh": "选择",
+				"en": "Select"
+			}
+		},
+		{
+			"key": "object_name",
+			"value": {
+				"zh": "名称",
+				"en": "Object name"
+			}
+		},
+		{
+			"key": "object_type",
+			"value": {
+				"zh": "类型",
+				"en": "Object type"
+			}
+		},
+		{
+			"key": "pleaseSelectOneData",
+			"value": {
+				"zh": "请选择一条数据！",
+				"en": "Please Select One Data!"
+			}
+		},
+		{
+			"key": "onlySelectOne",
+			"value": {
+				"zh": "只能选择一条数据！",
+				"en": "Only one piece of data can be selected!"
+			}
+		},
+		{
+			"key": "save",
+			"value": {
+				"zh": "保存",
+				"en": "Save"
+			}
+		},
+		{
+			"key": "sql_preview",
+			"value": {
+				"zh": "SQL预览",
+				"en": "SQL Preview"
+			}
+		},
+		{
+			"key": "savedSuccess",
+			"value": {
+				"zh": "保存成功！",
+				"en": "Saved successfully!"
+			}
+		}
+	]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "恒辉通用型数据库桌面管理工具",
+  "version": "6.4",
+  "commit_tag": "866d3d87d51b4db014f3bf0bcff4cec1874719f5",
+  "commit_date": "2021-11-01 17:00:37 +0800",
+  "depends": [
+    {
+      "name": "恒辉基础框架",
+      "version": "1.0",
+      "commit_tag": "2b2c474fdd9c625770ab54eabcc4160e84541295",
+      "commit_date": "2021-11-01 18:56:10 +0800"
+    }
+  ]
+}

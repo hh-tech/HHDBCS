@@ -1,12 +1,18 @@
 package com.hh.hhdb_admin.mgr.db_task.dig;
 
 
+import java.awt.event.ItemEvent;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.dbtask.DbTask;
-import com.hh.frame.lang.LangMgr;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.frame.swingui.view.abs.AbsInput;
 import com.hh.frame.swingui.view.container.HBarPanel;
@@ -15,7 +21,12 @@ import com.hh.frame.swingui.view.container.HGridPanel;
 import com.hh.frame.swingui.view.container.HPanel;
 import com.hh.frame.swingui.view.ctrl.HButton;
 import com.hh.frame.swingui.view.ctrl.HImage;
-import com.hh.frame.swingui.view.input.*;
+import com.hh.frame.swingui.view.input.CheckBoxInput;
+import com.hh.frame.swingui.view.input.LabelInput;
+import com.hh.frame.swingui.view.input.PasswordInput;
+import com.hh.frame.swingui.view.input.SelectBox;
+import com.hh.frame.swingui.view.input.TextInput;
+import com.hh.frame.swingui.view.input.WithLabelInput;
 import com.hh.frame.swingui.view.layout.GridSplitEnum;
 import com.hh.frame.swingui.view.layout.HDivLayout;
 import com.hh.frame.swingui.view.layout.HGridLayout;
@@ -27,11 +38,6 @@ import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.db_task.TaskComp;
 import com.hh.hhdb_admin.mgr.db_task.TaskMgr;
 import com.hh.hhdb_admin.mgr.login.LoginUtil;
-import org.apache.commons.lang3.StringUtils;
-
-import java.awt.event.ItemEvent;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 abstract public class AbsCfgDig {
     protected static final Map<String, String> jdbcMap = new LinkedHashMap<>();
@@ -262,7 +268,7 @@ abstract public class AbsCfgDig {
     }
 
     protected static String getLang(String key) {
-        return LangMgr.getValue(TaskMgr.class.getName(), key);
+        return LangMgr2.getValue(TaskMgr.class.getName(), key);
     }
 
     public void disableOptionBar() {

@@ -2,8 +2,7 @@ package com.hh.hhdb_admin.mgr.gis;
 
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.json.JsonObject;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.engine.AbsGuiMgr;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.frame.swingui.view.ui.HHSwingUi;
@@ -26,7 +25,11 @@ public class GisMgr extends AbsGuiMgr {
 
     @Override
     public void init(JsonObject jObj) {
-        LangMgr.merge(GisMgr.class.getName(), LangUtil.loadLangRes(GisMgr.class));
+        try {
+            LangMgr2.loadMerge(GisMgr.class);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -86,7 +89,7 @@ public class GisMgr extends AbsGuiMgr {
      * @return
      */
     public static String getLang(String key) {
-        return LangMgr.getValue(GisMgr.class.getName(), key);
+        return LangMgr2.getValue(GisMgr.class.getName(), key);
     }
 
     public static ImageIcon getIcon(String name) {

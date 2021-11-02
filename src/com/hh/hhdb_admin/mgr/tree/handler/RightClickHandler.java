@@ -1,22 +1,26 @@
 package com.hh.hhdb_admin.mgr.tree.handler;
 
+import java.awt.event.MouseEvent;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.create_dbobj.treeMr.base.EventType;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrNode;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
 import com.hh.frame.create_dbobj.treeMr.mr.AbsTreeMr;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.hmenu.HMenuItem;
 import com.hh.frame.swingui.view.hmenu.HPopMenu;
 import com.hh.frame.swingui.view.tree.HTreeNode;
+import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.login.LoginBean;
 import com.hh.hhdb_admin.mgr.tree.CsTree;
 import com.hh.hhdb_admin.mgr.tree.TreeComp;
 import com.hh.hhdb_admin.mgr.tree.TreeUtil;
-
-import java.awt.event.MouseEvent;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 /**
  * @author: Jiang
@@ -83,6 +87,18 @@ public class RightClickHandler {
                     if (value.equals(EventType.SEP)) {
                         hp.addSeparator();
                     } else {
+                        String filterKey = LangMgr2.getValue(AbsTreeMr.class.getName(), "filter");
+                        if (key.equals(filterKey)) {
+                            String filterVal = null;
+                            try {
+                                filterVal = StartUtil.getLoginBean().getFilterData().get(treeNode.getType());
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                            if (StringUtils.isNotBlank(filterVal)) {
+                                key += ("(" + filterVal + ")");
+                            }
+                        }
                         HMenuItem item = new HMenuItem(key) {
                             @Override
                             protected void onAction() {

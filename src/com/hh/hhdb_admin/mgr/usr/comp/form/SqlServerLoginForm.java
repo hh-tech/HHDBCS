@@ -15,6 +15,7 @@ import com.hh.frame.swingui.view.layout.HDivLayout;
 import com.hh.frame.swingui.view.tab.HTabRowBean;
 import com.hh.frame.swingui.view.tab.HTable;
 import com.hh.frame.swingui.view.tab.RowStatus;
+import com.hh.frame.swingui.view.tab.SearchToolBar;
 import com.hh.frame.swingui.view.tab.col.DataCol;
 import com.hh.frame.swingui.view.tab.col.bool.BoolCol;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
@@ -96,6 +97,8 @@ public class SqlServerLoginForm extends UsrBaseForm {
             HPanel panelRole = new HPanel();
             LastPanel LastRole = new LastPanel();
             initSysRoleTable();
+            SearchToolBar searchToolBar = new SearchToolBar(sysRoleTable);
+            LastRole.setHead(searchToolBar.getComp());
             LastRole.setWithScroll(sysRoleTable.getComp());
             panelRole.setLastPanel(LastRole);
             panelRole.getComp().setPreferredSize(new Dimension(panelRole.getComp().getWidth(), 300));

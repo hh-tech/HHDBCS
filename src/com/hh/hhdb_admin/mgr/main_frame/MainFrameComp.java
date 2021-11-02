@@ -1,22 +1,23 @@
 package com.hh.hhdb_admin.mgr.main_frame;
 
 import com.hh.frame.json.JsonObject;
-import com.hh.frame.lang.LangMgr;
-import com.hh.frame.lang.LangUtil;
+import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.frame.swingui.view.abs.AbsHComp;
 import com.hh.frame.swingui.view.container.*;
 import com.hh.frame.swingui.view.hmenu.HMenuBar;
-import com.hh.frame.swingui.view.test.images.ImageUtil;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
 import com.hh.hhdb_admin.CsMgrEnum;
+import com.hh.hhdb_admin.common.icon.IconBean;
+import com.hh.hhdb_admin.common.icon.IconFileUtil;
+import com.hh.hhdb_admin.common.icon.IconSizeEnum;
 import com.hh.hhdb_admin.common.util.StartUtil;
-import com.hh.hhdb_admin.mgr.monitor.MonitorComp;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,10 +28,14 @@ import java.util.Map;
 
 public class MainFrameComp extends HFrame {
 
-	private static final String DOMAIN_NAME = MonitorComp.class.getName();
+	private static final String DOMAIN_NAME = MainFrameComp.class.getName();
 
 	static {
-		LangMgr.merge(DOMAIN_NAME, LangUtil.loadLangRes(MainFrameComp.class));
+		try {
+			LangMgr2.loadMerge(MainFrameComp.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private final Map<String, CsMgrEnum> tabMap = new HashMap<>();
@@ -44,7 +49,7 @@ public class MainFrameComp extends HFrame {
 
 	public MainFrameComp() {
 		setWindowTitle(getLang("windowTitle"));
-		setIconImage(ImageUtil.getImage("manage.png"));
+		setIconImage(IconFileUtil.getLogo());
 		window.setPreferredSize(getPreSize());
 		window.pack();
 		window.setLocationRelativeTo(null);
@@ -210,8 +215,12 @@ public class MainFrameComp extends HFrame {
 	}
 
 	public String getLang(String key) {
-		LangMgr.setDefaultLang(StartUtil.default_language);
-		return LangMgr.getValue(DOMAIN_NAME, key);
+		LangMgr2.setDefaultLang(StartUtil.default_language);
+		return LangMgr2.getValue(DOMAIN_NAME, key);
+	}
+
+	private ImageIcon getIcon() {
+		return IconFileUtil.getIcon(new IconBean(CsMgrEnum.MENUBAR.name(), "logo", IconSizeEnum.SIZE_16));
 	}
 
 	/**

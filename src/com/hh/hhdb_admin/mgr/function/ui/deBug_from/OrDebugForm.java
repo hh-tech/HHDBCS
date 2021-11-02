@@ -1,20 +1,16 @@
 package com.hh.hhdb_admin.mgr.function.ui.deBug_from;
 
-import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.common.base.JdbcBean;
+import com.hh.frame.common.util.db.ConnUtil;
 import com.hh.frame.create_dbobj.function.debug.DebugTool;
 import com.hh.frame.create_dbobj.function.debug.OraDebug;
-import com.hh.frame.create_dbobj.treeMr.base.TreeMrNode;
+import com.hh.frame.create_dbobj.function.mr.AbsFunMr;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
-import com.hh.frame.swingui.view.container.HBarPanel;
 import com.hh.frame.swingui.view.container.HSplitPanel;
 import com.hh.frame.swingui.view.container.HTabPane;
 import com.hh.frame.swingui.view.container.LastPanel;
-import com.hh.frame.swingui.view.ctrl.HButton;
-import com.hh.frame.swingui.view.layout.bar.HBarLayout;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
-import com.hh.hhdb_admin.common.util.logUtil;
 import com.hh.hhdb_admin.common.util.textEditor.QueryEditorTextArea;
 import com.hh.hhdb_admin.mgr.function.FunctionMgr;
 import com.hh.hhdb_admin.mgr.function.util.DebugUtil;
@@ -22,30 +18,27 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
 import javax.swing.text.DefaultHighlighter;
-import javax.swing.text.Highlighter;
 import java.awt.*;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class OrDebugForm extends DebugBaseForm {
-    private static String logName = OrDebugForm.class.getSimpleName();
-
-    private HButton xyddBut, xyhBut, enterBut, stopBut,tsBut,restartBut;
     private HTabPane hTabPane;
 
     private Map<String, QueryEditorTextArea> editorMap;     //编辑器集合
-    private Map<String, Highlighter> highMap;               //高亮显示对象集合
     private Map<String, Map<Integer, int[]>> linMap;        //行号sql对应关系集合 key：编辑面板对象名称  map：函数内容与行号位置对应关系,大小代表函数行数
     private Map<String, List<Integer>> pointMap;            //断点集合
 
     private String debugTitle = "Script";                   //当前调试对象名称,默认Script
     private String titleAt = "Script";                      //当前选择的Tab页名称,默认Script
 
-    private List<String> resList = new LinkedList<>();      //调试返回值和输出参数名称集合
+    private Map<String,String> resMap = new LinkedHashMap<>(); //调试返回值和输出参数名称集合
     private List<Map<String,String>> stackList = new LinkedList<>();  //保存所有出现过的对象信息集合
 
+    //调试模版sql
     private String titleSql = "declare \n" +
             "  -- Local variables here\n" +
             "  i integer;\n" +
@@ -53,169 +46,44 @@ public class OrDebugForm extends DebugBaseForm {
             "  -- Test statements here\n" +
             "  \n" +
             "end;";
-
-    /**
-     * 初始化函数调试页面
-     *
-     * @param treeNode
-     * @param jdbcBean
-     * @param sql
-     * @param pars
-     */
-    public OrDebugForm(TreeMrNode treeNode, JdbcBean jdbcBean, String sql, List<Map<String, String>> pars) {
-        super(treeNode, jdbcBean, pars);
-        if (DebugUtil.funVerify(jdbcBean,treeNode.getName(),treeNode.getType().name())) {
-            PopPaneUtil.error(StartUtil.parentFrame.getWindow(), treeNode.getName() + "无效");
-            return;
-        }
-        startDebug(sql);
-    }
-
+    
     /**
      * 初始化调试面板
-     *
      * @param jdbcBean
-     * @param pars
      */
-    public OrDebugForm(JdbcBean jdbcBean,String sql) {
-        super(jdbcBean);
-        editorMap.get(debugTitle).setText(StringUtils.isNotEmpty(sql) ? sql : titleSql);
-        editorMap.get(debugTitle).getTextArea().setEditable(true);
-        editorMap.get(debugTitle).hTextArea.showBookMask(false);
-        restartBut.setEnabled(false);
-        finish();
-        show();
+    public OrDebugForm(JdbcBean jdbcBean) {
+        this(null,jdbcBean);
     }
-
+    
     /**
-     *  启动调试程序
-     * @param sql
+     * 初始化函数调试页面
+     * @param funMr
+     * @param jdbcBean
      */
-    private void startDebug(String sql){
+    public OrDebugForm(AbsFunMr funMr, JdbcBean jdbcBean) {
+        super(funMr, jdbcBean);
         try {
-            debug = new DebugTool(jdbcBean, null == treeNode ? null : treeNode.getId());
-            debug.runProc(sql);
-
-            Map<Integer, int[]> map = new LinkedHashMap<>();
-            String str = editText(debug.getSource(),map);
-            linMap.put(debugTitle,map);
-            editorMap.get(debugTitle).setText(str);
-            currentline = ((OraDebug) debug.getDebug()).stepInto();
-
-            if (null == treeNode) {
-                editorMap.get(debugTitle).getTextArea().setEditable(false);
-                editorMap.get(debugTitle).hTextArea.showBookMask(true);
-                xyhBut.setEnabled(true);
-                stopBut.setEnabled(true);
-                xyddBut.setEnabled(true);
-                enterBut.setEnabled(true);
-                tsBut.setEnabled(false);
-                restartBut.setEnabled(true);
-            } else {
-                resList = DebugUtil.getOutPara(treeNode,jdbcBean);
-                if (treeNode.getType() == TreeMrType.FUNCTION) resList.add("RESULT");
-                show();
+            if (null != funMr && DebugUtil.funVerify(jdbcBean,funMr.treeNode.getName(),funMr.treeNode.getType().name())) {
+                PopPaneUtil.error(StartUtil.parentFrame.getWindow(), funMr.treeNode.getName() + "无效");
+                return;
             }
-            getCurrentLine();
-        } catch (Exception e) {
+            editorMap.get(debugTitle).setText(null != funMr ? getSql(new HashMap<>()) : titleSql );
+            editorMap.get(debugTitle).getTextArea().setEditable(null == funMr);
+            xyhBut.setEnabled(false);
+            stopBut.setEnabled(false);
+            xyddBut.setEnabled(false);
+            enterBut.setEnabled(false);
+            show();
+        }catch (Exception e){
             e.printStackTrace();
-            if (null != debug) debug.close();
-            debug = null;
-
-            if (e instanceof SQLException) return;
-            JOptionPane.showMessageDialog(null,StringUtils.isNotBlank(e.getMessage()) ? e.getMessage() : FunctionMgr.getLang("invalid"), FunctionMgr.getLang("error"), JOptionPane.ERROR_MESSAGE);
-            logUtil.error(logName, e);
+            PopPaneUtil.error(StartUtil.parentFrame .getWindow(), FunctionMgr.getLang("error")+":"+e.getMessage());
         }
-    }
-
-    @Override
-    protected HBarPanel getHBarPanel() {
-        HBarLayout l = new HBarLayout();
-        l.setAlign(AlignEnum.LEFT);
-        HBarPanel toolBarPane = new HBarPanel(l);
-        //调试
-        if (null == treeNode) {
-            tsBut = new HButton(FunctionMgr.getLang("debug")) {
-                @Override
-                public void onClick() {
-                    String sql = editorMap.get(debugTitle).getText();
-                    if (StringUtils.isBlank(sql) || sql.equals(titleSql)) {
-                        JOptionPane.showMessageDialog(null,"请输入正确语句！", FunctionMgr.getLang("hint"), JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-                    startDebug(sql);
-                }
-            };
-            tsBut.setIcon(FunctionMgr.getIcon("formatsql"));
-            //重新开始
-            restartBut = new HButton("重新开始") {
-                @Override
-                public void onClick() {
-                    try {
-                        if (currentline != -1 && currentline != 0) debug.stop();
-                        finish();
-                        dialog.dispose();
-                        new OrDebugForm(jdbcBean,editorMap.get("Script").getText());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        logUtil.error(logName, e);
-                        JOptionPane.showMessageDialog(null, e.getMessage(), FunctionMgr.getLang("hint"), JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            };
-            restartBut.setIcon(FunctionMgr.getIcon("reflash"));
-            toolBarPane.add(tsBut,restartBut);
-        }
-        //下一行
-        xyhBut = new HButton(FunctionMgr.getLang("xyh")) {
-            @Override
-            public void onClick() {
-                run("row");
-            }
-        };
-        xyhBut.setIcon(FunctionMgr.getIcon("dnext"));
-        //下一断点
-        xyddBut = new HButton(FunctionMgr.getLang("xydd")) {
-            @Override
-            public void onClick() {
-                run("dot");
-            }
-        };
-        xyddBut.setIcon(FunctionMgr.getIcon("debugstart"));
-        //进入
-        enterBut = new HButton(FunctionMgr.getLang("enter")) {
-            @Override
-            public void onClick() {
-                run("enter");
-            }
-        };
-        enterBut.setIcon(FunctionMgr.getIcon("load"));
-        //停止
-        stopBut = new HButton(FunctionMgr.getLang("stop")) {
-            @Override
-            public void onClick() {
-                try {
-                    if (currentline != -1 && currentline != 0) debug.stop();
-                    if (null == treeNode) editorMap.get(debugTitle).getTextArea().setEditable(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    logUtil.error(logName, e);
-                    JOptionPane.showMessageDialog(null, e.getMessage(), FunctionMgr.getLang("hint"), JOptionPane.ERROR_MESSAGE);
-                } finally {
-                    finish();
-                }
-            }
-        };
-        stopBut.setIcon(FunctionMgr.getIcon("debugstop"));
-        toolBarPane.add(xyhBut, xyddBut, enterBut, stopBut);
-
-        return toolBarPane;
+        
     }
 
     @Override
     protected HSplitPanel getHSplitPanel() {
         editorMap = new LinkedHashMap<>();
-        highMap = new LinkedHashMap<>();
         linMap  = new LinkedHashMap<>();
         pointMap = new LinkedHashMap<>();
         hTabPane = new HTabPane() {
@@ -225,9 +93,10 @@ public class OrDebugForm extends DebugBaseForm {
                 titleAt = tab.getTitleAt(tab.getSelectedIndex());
             }
         };
-        debugTitle = "Script";
+        hTabPane.setCloseBtn(false);
 
-        addTextArea(debugTitle);
+        addTextArea(debugTitle = "Script");
+        qed = editorMap.get("Script");
 
         LastPanel lastPanel = new LastPanel(false);
         lastPanel.set(hTabPane.getComp());
@@ -236,10 +105,176 @@ public class OrDebugForm extends DebugBaseForm {
         splitPane.setSplitWeight(0.5);
         JSplitPane jsp = splitPane.getComp();
         jsp.setLeftComponent(lastPanel.getComp());
-        jsp.setRightComponent(dparameter.lastPanel.getComp());
         return splitPane;
     }
-
+    
+    @Override
+    protected void startDebug() {
+        try {
+            //初始化页面信息
+            if (currentline == -1) {
+                //从新开始
+                finish();
+                for (Map.Entry<String, QueryEditorTextArea> entry : editorMap.entrySet()) {
+                    String key = entry.getKey();
+                    if (!key.equals("Script")) {
+                        hTabPane.closeTabPanel(key);
+                        editorMap.remove(key);
+                    }
+                }
+                linMap  = new LinkedHashMap<>();
+                pointMap.put("Script",new LinkedList<>());
+                currentline = 0;
+                debugTitle = "Script";
+                titleAt = "Script";
+                ((JTabbedPane)hTabPane.getComp()).updateUI();
+            }
+            //删除编辑器上所有书签
+            editorMap.get(debugTitle).hTextArea.getArea().getScrollPane().getGutter().removeAllTrackingIcons();
+        
+            if (null != funMr) {
+                //函数调试时关闭参数输入，获取调试函数的输出值
+                dparameter.setParamEdit(false);
+                resMap = DebugUtil.getOutPara(funMr.treeNode,jdbcBean);
+                if (funMr.treeNode.getType() == TreeMrType.FUNCTION) resMap.put("RESULT","");
+            }
+        
+            String sql = editorMap.get(debugTitle).getText();
+            if (StringUtils.isBlank(sql) || sql.equals(titleSql)) {
+                PopPaneUtil.info(StartUtil.parentFrame.getWindow(),FunctionMgr.getLang("correctStatement"));
+                return;
+            }
+            editorMap.get(debugTitle).getTextArea().setEditable(false);
+            xyhBut.setEnabled(true);
+            stopBut.setEnabled(true);
+            xyddBut.setEnabled(true);
+            enterBut.setEnabled(true);
+            tsBut.setEnabled(false);
+    
+            debug = new DebugTool(jdbcBean, null == funMr ? null : funMr.treeNode.getId());
+            debug.runProc(sql);
+    
+            Map<Integer, int[]> map = new LinkedHashMap<>();
+            editorMap.get(debugTitle).setText(editText(debug.getSource(),map));
+            linMap.put(debugTitle,map);
+            currentline = ((OraDebug) debug.getDebug()).stepInto();
+    
+            getCurrentLine();
+            dparameter.setTabVariables();
+        }catch (Exception e){
+            e.printStackTrace();
+            finish();
+            if (e instanceof SQLException) return;
+            PopPaneUtil.error(StartUtil.parentFrame.getWindow(),StringUtils.isNotBlank(e.getMessage()) ? e.getMessage() : FunctionMgr.getLang("invalid"));
+        }
+    }
+    
+    @Override
+    synchronized protected void runDebug(String type) {
+        if (currentline == -1) return;
+        try {
+            if (type.equals("stop")) {
+                try {
+                    if (currentline != 0) debug.stop();
+                    if (null == funMr) editorMap.get(debugTitle).getTextArea().setEditable(true);
+                    return;
+                }finally {
+                    finish();
+                }
+            } else if (type.equals("dot")) {
+                currentline = debug.contineGo();
+            } else if (type.equals("row")) {
+                currentline = debug.stepOver();
+            } else {
+                currentline = ((OraDebug) debug.getDebug()).stepInto();
+            }
+            Thread.sleep(300);
+        
+            if (currentline == 0) {    //当返回为0时表示调试结束
+                finish();
+            } else {
+                List<Map<String,String>> vl = DebugUtil.stackAnalysis(((OraDebug) debug.getDebug()).showStack());
+                String name  = vl.get(vl.size() - 1).get("name");
+                debugTitle = StringUtils.isNotBlank(name) ? name:"Script";
+                if (!titleAt.equals(debugTitle)) {
+                    editorMap.get(titleAt).getTextArea().getHighlighter().removeAllHighlights();    //清除编辑器高亮显示
+                }
+            
+                if (type.equals("enter") && !editorMap.containsKey(debugTitle)) {
+                    //新建一个编辑页面
+                    addTextArea(debugTitle);
+                    //获取进入对象的sql在编辑页面显示
+                    Map<Integer, int[]> map = new LinkedHashMap<>();
+                    String sql = DebugUtil.getCreateSql(jdbcBean, debugTitle, null != funMr ? funMr.treeNode.getSchemaName() : jdbcBean.getSchema());
+                    sql = editText(sql,map);
+                    linMap.put(debugTitle,map);
+                    editorMap.get(debugTitle).setText(sql);
+                
+                    stackList = vl;
+                }
+            
+                getCurrentLine();
+                dparameter.setTabVariables();
+                dparameter.setTabResult(resMap);
+            }
+            hTabPane.selectPanel(debugTitle);
+        } catch (Exception e) {
+            e.printStackTrace();
+            PopPaneUtil.error(StartUtil.parentFrame.getWindow(),e.getMessage());
+        }
+    }
+    
+    @Override
+    protected String getSql(Map<String, List<String>> valMap) throws Exception {
+        Connection con = null;
+        String runsql = "";
+        try {
+            con = ConnUtil.getConn(jdbcBean);
+            StringBuffer variate = new StringBuffer();
+            StringBuffer param = new StringBuffer();
+            List<Map<String, Object>> jsList = funMr.getFunParameter(con);
+            if (null != jsList) {
+                for (Map<String, Object> map : jsList) {
+                    String type = map.get("DATA_TYPE")+"";
+                    String name = map.get("ARGUMENT_NAME")+"";
+                    String in_out = map.get("IN_OUT")+"";
+                    if (map.get("ARGUMENT_NAME") == null) {
+                        //添加函数返回值
+                        if ( funMr.treeNode.getType() == TreeMrType.FUNCTION ) variate.append("\tRESULT " + ( type.equals("VARCHAR2") ? "VARCHAR2 ( 4000 )" : type)).append(";\n");
+                        continue;
+                    }
+                    
+                    //变量
+                    String str = type.equals("VARCHAR2") ? "VARCHAR2 ( 4000 )" : type;
+                    str = "\""+ name + "\" " + str;
+                    if (!valMap.isEmpty() && ("IN".equals(in_out) || "IN/OUT".equals(in_out))) {
+                        List<String> li = valMap.get(name);
+                        if (StringUtils.isNotBlank(li.get(1)))  str += " := '" + li.get(1) +"'";
+                    }
+                    variate.append("\t"+str+";\n");
+                    //参数
+                    param.append(param.length()>1 ? "," : "").append("\""+name+"\" => \""+name+"\"");
+                }
+            }
+        
+            StringBuffer sql = new StringBuffer();
+            if (variate.length() >0) {
+                sql.append("DECLARE\n").append(variate);
+            }
+            sql.append("BEGIN\n");
+        
+            //调用函数
+            sql.append( funMr.treeNode.getType() == TreeMrType.FUNCTION ? "\tRESULT :=" : "");
+            sql.append( funMr.treeNode.getType() == TreeMrType.FUNCTION ? " " : "\t");
+            sql.append("\""+ funMr.treeNode.getName() +"\"(");
+            sql.append(param).append(");\n");
+            runsql = sql.append("END;\n").toString();
+        }finally {
+            ConnUtil.close(con);
+        }
+        return runsql;
+    }
+    
     /**
      * 获取当前堆栈信息
      * @throws Exception
@@ -260,10 +295,10 @@ public class OrDebugForm extends DebugBaseForm {
             dparameter.setTabStack(list);
 
             //设置高亮显示调试行
-            highMap.get(debugTitle).removeAllHighlights();
+            editorMap.get(debugTitle).getTextArea().getHighlighter().removeAllHighlights();
             int[] attr = linMap.get(debugTitle).get(currentline);
             if (attr != null && attr.length > 0) {
-                highMap.get(debugTitle).addHighlight(attr[0], attr[1], new DefaultHighlighter.DefaultHighlightPainter(new Color(172, 192, 253)));
+                editorMap.get(debugTitle).getTextArea().getHighlighter().addHighlight(attr[0], attr[1], new DefaultHighlighter.DefaultHighlightPainter(new Color(172, 192, 253)));
             }
         }
     }
@@ -316,7 +351,7 @@ public class OrDebugForm extends DebugBaseForm {
                         e1.printStackTrace();
                     }
                     e.printStackTrace();
-                    JOptionPane.showMessageDialog(null, FunctionMgr.getLang("Errorbreakpoint"), FunctionMgr.getLang("hint"), JOptionPane.ERROR_MESSAGE);
+                    PopPaneUtil.error(StartUtil.parentFrame.getWindow(),FunctionMgr.getLang("Errorbreakpoint"));
                 } finally {
                     if (null != debug) pointMap.put(titleAt,getbookmaskLines());
                 }
@@ -325,75 +360,31 @@ public class OrDebugForm extends DebugBaseForm {
         qed.getTextArea().setRows(15);
         qed.hTextArea.showBookMask(true);
 
-        hTabPane.addPanel(name, name, qed.getComp(), false);
+        hTabPane.addPanel(name, name, qed.getComp(), true);
         editorMap.put(name, qed);
-        highMap.put(name, qed.getTextArea().getHighlighter());
         pointMap.put(name,new LinkedList<>());
-    }
-
-    /**
-     * 执行操作
-     *
-     * @param bool
-     */
-    synchronized private void run(String type) {
-        if (currentline == -1) return;
-        try {
-            if (type.equals("dot")) {
-                currentline = debug.contineGo();
-            } else if (type.equals("row")) {
-                currentline = debug.stepOver();
-            } else {
-                currentline = ((OraDebug) debug.getDebug()).stepInto();
-            }
-            Thread.sleep(300);
-
-            if (currentline == 0) {    //当返回为0时表示调试结束
-                finish();
-            } else {
-                List<Map<String,String>> vl = DebugUtil.stackAnalysis(((OraDebug) debug.getDebug()).showStack());
-                String name  = vl.get(vl.size() - 1).get("name");
-                debugTitle = StringUtils.isNotBlank(name) ? name:"Script";
-                if (!titleAt.equals(debugTitle))  highMap.get(titleAt).removeAllHighlights();  //清除编辑器高亮显示
-
-
-                if (type.equals("enter") && !editorMap.containsKey(debugTitle)) {
-                    //新建一个编辑页面
-                    addTextArea(debugTitle);
-                    //获取进入对象的sql在编辑页面显示
-                    Map<Integer, int[]> map = new LinkedHashMap<>();
-                    String sql = DebugUtil.getCreateSql(jdbcBean, debugTitle, null != treeNode ? treeNode.getSchemaName() : jdbcBean.getSchema());
-                    sql = editText(sql,map);
-                    linMap.put(debugTitle,map);
-                    editorMap.get(debugTitle).setText(sql);
-
-                    stackList = vl;
-                }
-
-                getCurrentLine();
-                dparameter.setTabVariables();
-                dparameter.setTabResult(resList);
-            }
-            hTabPane.selectPanel(debugTitle);
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, e.getMessage(), FunctionMgr.getLang("hint"), JOptionPane.ERROR_MESSAGE);
-        }
     }
 
     /**
      * 调试结束后续操作
      */
     private void finish() {
-        //清除编辑器高亮显示
-        highMap.get(debugTitle).removeAllHighlights();
-        currentline = -1;
-        if (null != debug) debug.close();
-        debug = null;
-        //禁用按钮
-        xyhBut.setEnabled(false);
-        stopBut.setEnabled(false);
-        xyddBut.setEnabled(false);
-        enterBut.setEnabled(false);
+        try {
+            //清除编辑器高亮显示
+            editorMap.get(debugTitle).getTextArea().getHighlighter().removeAllHighlights();
+            currentline = -1;
+            if (null != debug) debug.close();
+            debug = null;
+            //禁用按钮
+            xyhBut.setEnabled(false);
+            stopBut.setEnabled(false);
+            xyddBut.setEnabled(false);
+            enterBut.setEnabled(false);
+            tsBut.setEnabled(true);
+            if (null != funMr) dparameter.setParamEdit(true);
+        }catch (Exception e){
+            e.printStackTrace();
+            PopPaneUtil.error(StartUtil.parentFrame.getWindow(),e.getMessage());
+        }
     }
 }

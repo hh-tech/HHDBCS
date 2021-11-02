@@ -47,9 +47,9 @@ public class GenTabDataCfgDig extends AbsCfgDig {
         initPanel();
         setJdbcPanel();
         rootPanel.add(panel);
-        rootPanel.add(super.getToolBar());
+        rootPanel.add(getToolBar());
         dialog.setRootPanel(rootPanel);
-        super.setSize(rootPanel.getHeight());
+        setSize(rootPanel.getHeight());
         if (config != null) {
             String schemaName = config.get(StartUtil.PARAM_SCHEMA);
             String tableName = config.get(StartUtil.PARAM_TABLE);
@@ -147,7 +147,7 @@ public class GenTabDataCfgDig extends AbsCfgDig {
                 if (StringUtils.isBlank(template)) {
                     return;
                 }
-
+                
                 new TempEdit(templateInput.getValue(),template,"注：可以使用表达式改变__N的值,如从100开始计数set( ${__N} = ${__N}+ 100 )",dialog){
                     public void save(String sql) {
                         templateInput.setValue(sql);
