@@ -2,6 +2,9 @@ package com.hh.hhdb_admin.common.util.textEditor.base;
 
 
 import javax.swing.*;
+
+import com.hh.frame.swingui.view.ui.HHSwingUi;
+
 import java.awt.*;
 
 /**
@@ -22,7 +25,11 @@ public class IconListCellRenderer implements ListCellRenderer<Object> {
 		
 		// 设置选取与取消选取的前景与背景颜色.
 		if (isSelected) {
-			jPanel.setBackground(new Color(255, 255, 170));
+			if(HHSwingUi.isDarkSkin()) {
+				jPanel.setBackground(new Color(10, 10, 100));
+			}else {
+				jPanel.setBackground(new Color(255, 255, 170));				
+			}
 			jPanel.setForeground(list.getSelectionForeground());
 		} else {
 			jPanel.setBackground(list.getBackground());

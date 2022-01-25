@@ -5,7 +5,6 @@ import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.util.db.SqlExeUtil;
 import com.hh.frame.create_dbobj.column.AbsColumn;
 import com.hh.frame.lang.LangMgr2;
-import com.hh.frame.swingui.view.HeightComp;
 import com.hh.frame.swingui.view.abs.AbsInput;
 import com.hh.frame.swingui.view.container.*;
 import com.hh.frame.swingui.view.ctrl.HButton;
@@ -245,7 +244,7 @@ public abstract class ColumnComp {
     }
 
     public void renameColumn(String tabName, String colName) {
-        HDialog dialog = new HDialog(StartUtil.parentFrame, 400, 120);
+        HDialog dialog = new HDialog(StartUtil.parentFrame, 400, 130);
         dialog.setIconImage(IconFileUtil.getLogo());
         dialog.setWindowTitle(getLang("RENAME_TITLE"));
         TextInput nameInput = new TextInput("newName", colName);
@@ -291,7 +290,6 @@ public abstract class ColumnComp {
         lastPanel.set(getWithLabelInput(getLang("COL_NAME"), nameInput).getComp());
         lastPanel.setFoot(barPanel.getComp());
         HPanel panel = new HPanel();
-        panel.add(new HeightComp(5));
         panel.setLastPanel(lastPanel);
         dialog.setRootPanel(panel);
         dialog.show();

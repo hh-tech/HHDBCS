@@ -4,6 +4,8 @@ import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.swingui.view.abs.AbsInput;
 import com.hh.frame.swingui.view.container.*;
+import com.hh.frame.swingui.view.container.tab_panel.HTabPanel;
+import com.hh.frame.swingui.view.container.tab_panel.HeaderConfig;
 import com.hh.frame.swingui.view.ctrl.HButton;
 import com.hh.frame.swingui.view.input.LabelInput;
 import com.hh.frame.swingui.view.input.PasswordInput;
@@ -133,10 +135,7 @@ public abstract class SystemMonitorComp extends MonitorComp {
         barLayout.setAlign(AlignEnum.CENTER);
         HBarPanel barPanel = new HBarPanel(barLayout);
         barPanel.add(submitBtn, cancelBtn);
-        HDivLayout divLayout = new HDivLayout(GridSplitEnum.C12);
-        divLayout.setyGap(10);
-        divLayout.setTopHeight(20);
-        HPanel panel = new HPanel(divLayout);
+        HPanel panel = new HPanel();
         dialog.setWindowTitle(getLang("connectType"));
         dialog.setIconImage(IconFileUtil.getLogo(IconSizeEnum.SIZE_16).getImage());
         if (MonitorUtil.isHhOrPg(dbTypeEnum)) {
@@ -165,20 +164,19 @@ public abstract class SystemMonitorComp extends MonitorComp {
 
     private void initPanel() {
         openTab = true;
-        HTabPane tabPane = new HTabPane();
-        tabPane.setCloseBtn(false);
+        HTabPanel tabPane = new HTabPanel();
         // cpu监控
         cpuMonitor = new CpuMonitor(this, conn);
-        tabPane.addPanel("cpu", getLang("cpuMonitor"), cpuMonitor.getPanel().getComp(), false);
+        tabPane.addPanel("cpu",  cpuMonitor.getPanel(), new HeaderConfig(getLang("cpuMonitor")).setFixTab(true));
         // 内存监控
         memMonitor = new MemMonitor(this, conn);
-        tabPane.addPanel("memory", getLang("memMonitor"), memMonitor.getPanel().getComp(), false);
+        tabPane.addPanel("memory", memMonitor.getPanel(), new HeaderConfig(getLang("memMonitor")).setFixTab(true));
         // 硬盘监控
         DiskMonitor diskMonitor = new DiskMonitor(this, conn);
-        tabPane.addPanel("disk", getLang("diskMonitor"), diskMonitor.getPanel().getComp(), false);
+        tabPane.addPanel("disk", diskMonitor.getPanel(), new HeaderConfig( getLang("diskMonitor")).setFixTab(true));
         // 网络监控
         NetMonitor netMonitor = new NetMonitor(this, conn);
-        tabPane.addPanel("network", getLang("networkMonitor"), netMonitor.getPanel().getComp(), false);
+        tabPane.addPanel("network", netMonitor.getPanel(), new HeaderConfig(getLang("networkMonitor")).setFixTab(true));
         LastPanel lastPanel = new LastPanel(false);
         lastPanel.set(tabPane.getComp());
         panel.setLastPanel(lastPanel);

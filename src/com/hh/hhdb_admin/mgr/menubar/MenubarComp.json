@@ -22,16 +22,23 @@
       }
     },
     {
+      "key": "navigate",
+      "value": {
+        "zh": "导航(N)",
+        "en": "Navigate(N)"
+      }
+    },
+    {
       "key": "viewToolbar",
       "value": {
-        "zh": "显示工具栏",
+        "zh": "显示导航栏",
         "en": "Show Toolbar"
       }
     },
     {
       "key": "hideToolbar",
       "value": {
-        "zh": "隐藏工具栏",
+        "zh": "隐藏导航栏",
         "en": "Hide Toolbar"
       }
     },
@@ -400,27 +407,6 @@
       }
     },
     {
-      "key": "sql_Conversion",
-      "value": {
-        "zh": "SQL转换",
-        "en": "SQL Conversion"
-      }
-    },
-    {
-      "key": "clear",
-      "value": {
-        "zh": "清空",
-        "en": "clear"
-      }
-    },
-    {
-      "key": "convSuccess",
-      "value": {
-        "zh": "转换成功",
-        "en": "Conversion success"
-      }
-    },
-    {
       "key": "rowsnumber",
       "value": {
         "zh": "结果显示行",
@@ -491,10 +477,31 @@
       }
     },
     {
+      "key": "query_display_setting",
+      "value": {
+        "zh": "查询器显示设置",
+        "en": "query display setting"
+      }
+    },
+    {
       "key": "general_setting",
       "value": {
         "zh": "一般设置",
         "en": "general setting"
+      }
+    },
+    {
+      "key": "sql_format_setting",
+      "value": {
+        "zh": "SQL格式化设置",
+        "en": "sql format setting"
+      }
+    },
+    {
+      "key": "sql_format_break_width",
+      "value": {
+        "zh": "格式化宽度",
+        "en": "break width"
       }
     },
     {
@@ -578,7 +585,7 @@
       "key": "copySuccess",
       "value": {
         "zh": "复制成功",
-        "en": "Copy sss"
+        "en": "Copy Success"
       }
     },
     {

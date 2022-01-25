@@ -10,20 +10,16 @@ import com.hh.frame.swingui.view.container.HPanel;
 import com.hh.frame.swingui.view.container.LastPanel;
 import com.hh.frame.swingui.view.input.SelectBox;
 import com.hh.frame.swingui.view.input.TextInput;
-import com.hh.frame.swingui.view.layout.GridSplitEnum;
-import com.hh.frame.swingui.view.layout.HDivLayout;
 import com.hh.hhdb_admin.common.util.DbCmdStrUtil;
 import com.hh.hhdb_admin.mgr.function.FunctionMgr;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
-import java.awt.event.ItemEvent;
 import java.sql.Connection;
 import java.util.ArrayList;
 
 public class OrFunForm extends FunBaseForm {
     protected SelectBox fh;
-    protected SelectBox yy;
     protected TextInput name;
 
     public OrFunForm(AbsFunMr funMr, Connection conn, JdbcBean jdbcBean, boolean isEdit)throws Exception {
@@ -34,28 +30,20 @@ public class OrFunForm extends FunBaseForm {
     @Override
     public LastPanel getParaPanel() throws Exception {
         HPanel hPanel = new HPanel();
-        hPanel.add(getPanel("",null,null));
+        hPanel.add(getPanel("",null));
 
         //名称
         name = new TextInput("name");
-        hPanel.add(getPanel(FunctionMgr.getLang("name")+"：",name,new HDivLayout(10, 15, GridSplitEnum.C2,GridSplitEnum.C5)));
-        //返回值
-        fh = new SelectBox();
-        for (String s : funMr.getDataType()) {
-            fh.addOption(s,s);
-        }
-        hPanel.add(getPanel(FunctionMgr.getLang("returned")+"：",fh,new HDivLayout(10, 15, GridSplitEnum.C2,GridSplitEnum.C5)));
-
-        //语言或者类型
-        yy = new SelectBox(){
-            @Override
-            public void onItemChange(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) fh.setEnabled(getValue().equals("FUNCTION"));
+        hPanel.add(getPanel(FunctionMgr.getLang("name")+"：",name));
+        
+        if(funMr.treeNode.getType() == TreeMrType.FUNCTION) {
+            //返回值
+            fh = new SelectBox();
+            for (String s : funMr.getDataType()) {
+                fh.addOption(s,s);
             }
-        };
-        yy.addOption(FunctionMgr.getLang("process"),"PROCEDURE");
-        yy.addOption(FunctionMgr.getLang("function"),"FUNCTION");
-        hPanel.add(getPanel(FunctionMgr.getLang("dbType"),yy,new HDivLayout(10, 15, GridSplitEnum.C2,GridSplitEnum.C5)));
+            hPanel.add(getPanel(FunctionMgr.getLang("returned")+"：",fh));
+        }
 
         //参数
         hPanel.add(getTablePanel());
@@ -77,11 +65,11 @@ public class OrFunForm extends FunBaseForm {
             int rows = table.getRowCount();
             
             String funName = "";
-            if (dbType.equals(DBTypeEnum.dm)) {
+            if (dbType == DBTypeEnum.dm) {
                 funName = funMr.treeNode.getSchemaName()+".";
             }
             funName += StringUtils.isNotBlank(name.getValue()) ? name.getValue() : "new";
-            sqlText.append("CREATE OR REPLACE ").append(yy.getValue()).append(" " + funName);
+            sqlText.append("CREATE OR REPLACE ").append(funMr.treeNode.getType().name()).append(" " + funName);
             
             if (rows>0) sqlText.append("(");
             for (int i = 0; i < rows; i++) {
@@ -95,11 +83,11 @@ public class OrFunForm extends FunBaseForm {
             }
             if (rows>0) sqlText.append(")");
             //函数才有返回值
-            if(yy.getValue().equals("FUNCTION"))  sqlText.append(" RETURN ").append(fh.getValue());
+            if(funMr.treeNode.getType() == TreeMrType.FUNCTION)  sqlText.append(" RETURN ").append(fh.getValue());
             sqlText.append(" AS ").append("\n").append("BEGIN\n")
                     .append("\t-- routine body goes here, e.g.\n")
                     .append("\t-- DBMS_OUTPUT.PUT_LINE('HHDBCS for Oracle');\n");
-            if(yy.getValue().equals("FUNCTION")) sqlText.append("\tRETURN NULL;\n");
+            if(funMr.treeNode.getType() == TreeMrType.FUNCTION) sqlText.append("\tRETURN NULL;\n");
             sqlText.append("END").append(";");
         }
         return sqlText.toString();
@@ -112,11 +100,16 @@ public class OrFunForm extends FunBaseForm {
 
     @Override
     public void delete() throws Exception {
-        SqlExeUtil.executeUpdate(conn, "DROP "+ (funMr.treeNode.getType() == TreeMrType.FUNCTION ? "FUNCTION " : "PROCEDURE ") +
-                funMr.treeNode.getSchemaName()+"."+ DbCmdStrUtil.toDbCmdStr(funMr.treeNode.getName(), DriverUtil.getDbType(conn)));
+        SqlExeUtil.executeUpdate(conn, getDelSql());
     }
     
     @Override
     public void examineFun() {
     }
+
+	@Override
+	public String getDelSql() throws Exception {
+		return "DROP "+ (funMr.treeNode.getType() == TreeMrType.FUNCTION ? "FUNCTION " : "PROCEDURE ") +
+                funMr.treeNode.getSchemaName()+"."+ DbCmdStrUtil.toDbCmdStr(funMr.treeNode.getName(), DriverUtil.getDbType(conn));
+	}
 }

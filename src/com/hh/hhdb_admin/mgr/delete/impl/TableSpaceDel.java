@@ -1,6 +1,4 @@
 package com.hh.hhdb_admin.mgr.delete.impl;
-
-import com.hh.frame.common.util.db.SqlExeUtil;
 import com.hh.hhdb_admin.mgr.delete.AbsDel;
 import com.hh.hhdb_admin.mgr.delete.NodeInfo;
 
@@ -18,10 +16,10 @@ public class TableSpaceDel extends AbsDel {
             case pgsql:
             case mysql:
             case db2:
-                SqlExeUtil.executeUpdate(conn, String.format("DROP TABLESPACE \"%s\"", name));
+                execute(String.format("DROP TABLESPACE \"%s\"", name));
                 break;
             case oracle:
-                SqlExeUtil.executeUpdate(conn, String.format("drop tablespace \"%s\" including contents and datafiles" +
+                execute(String.format("drop tablespace \"%s\" including contents and datafiles" +
                         " cascade constraint", name));
                 break;
             default:

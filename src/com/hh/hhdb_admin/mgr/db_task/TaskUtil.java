@@ -22,24 +22,24 @@ public class TaskUtil {
     private static final HTextArea hArea = new HTextArea(false, false);
 
     static {
-        taskMap.put(TaskType.SQL_FILE.name(), "添加SQL文件");
-        taskMap.put(TaskType.CLEAN.name(), "清除数据库/模式");
-        taskMap.put(TaskType.RESTORE.name(), "恢复数据库/模式");
-        taskMap.put(TaskType.BACKUP.name(), "备份数据库/模式");
-        taskMap.put(TaskType.GEN_TAB_DATA.name(), "生成表格数据");
-        taskMap.put(TaskType.EXP_QUERY_AS_XLS.name(), "导出查询数据");
-        taskMap.put(TaskType.GEN_TEST_DATA.name(), "生成测试数据");
+        taskMap.put(TaskType.SQL_FILE.name(), TaskMgr.getLang("addSqlFile"));
+        taskMap.put(TaskType.CLEAN.name(), TaskMgr.getLang("clear"));
+        taskMap.put(TaskType.RESTORE.name(), TaskMgr.getLang("restore"));
+        taskMap.put(TaskType.BACKUP.name(), TaskMgr.getLang("backup"));
+        taskMap.put(TaskType.GEN_TAB_DATA.name(), TaskMgr.getLang("generateTableData"));
+        taskMap.put(TaskType.EXP_QUERY_AS_XLS.name(), TaskMgr.getLang("export"));
+        taskMap.put(TaskType.GEN_TEST_DATA.name(), TaskMgr.getLang("generateTestData"));
         HPanel rootPanel = new HPanel();
         LastPanel lastPanel = new LastPanel();
         lastPanel.setWithScroll(hArea.getComp());
         rootPanel.setLastPanel(lastPanel);
         HBarPanel toolbar = new HBarPanel();
-        HButton refreshBtn = new HButton("刷新") {
+        HButton refreshBtn = new HButton(TaskMgr.getLang("refresh")) {
             public void onClick() {
                 hArea.setText(task.getInfo());
             }
         };
-        HButton closeBtn = new HButton("关闭") {
+        HButton closeBtn = new HButton(TaskMgr.getLang("close")) {
             public void onClick() {
                 dig.hide();
                 TaskComp.refresh();

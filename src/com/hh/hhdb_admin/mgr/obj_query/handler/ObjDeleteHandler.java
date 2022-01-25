@@ -1,51 +1,68 @@
 package com.hh.hhdb_admin.mgr.obj_query.handler;
 
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
-import com.hh.frame.swingui.engine.GuiJsonUtil;
+import com.hh.frame.swingui.view.container.HDialog;
+import com.hh.frame.swingui.view.tab.HTabRowBean;
+import com.hh.frame.swingui.view.tab.HTable;
 import com.hh.frame.swingui.view.tree.HTreeNode;
-import com.hh.hhdb_admin.CsMgrEnum;
-import com.hh.hhdb_admin.common.util.StartUtil;
+import com.hh.frame.swingui.view.util.PopPaneUtil;
+import com.hh.hhdb_admin.mgr.delete.DeleteComp;
+import com.hh.hhdb_admin.mgr.delete.NodeInfo;
+import com.hh.hhdb_admin.mgr.delete.OperateType;
 import com.hh.hhdb_admin.mgr.obj_query.ObjQueryComp;
-import com.hh.hhdb_admin.mgr.tree.TreeComp;
-import com.hh.hhdb_admin.mgr.tree.TreeMgr;
-import com.hh.hhdb_admin.mgr.tree.handler.action.DeleteHandler;
+import com.hh.hhdb_admin.mgr.tree.handler.action.MultiChooseHandler;
 
-import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author ouyangxu
  * @date 2021-07-29 0029 14:17:36
  */
-public class ObjDeleteHandler extends DeleteHandler {
-	protected ObjQueryComp queryComp;
+public class ObjDeleteHandler extends MultiChooseHandler {
+    protected ObjQueryComp queryComp;
+    protected HTreeNode[] treeNodes;
+    protected HTable table;
+    protected HDialog parent;
 
-	public ObjDeleteHandler(ObjQueryComp queryComp) {
-		this.queryComp = queryComp;
-	}
+    public ObjDeleteHandler(ObjQueryComp queryComp, HTable table, HDialog parent, HTreeNode... treeNodes) {
+        super(treeNodes);
+        this.queryComp = queryComp;
+        this.table = table;
+        this.parent = parent;
+        this.treeNodes = treeNodes;
+    }
 
-	@Override
-	public void resolve(HTreeNode treeNode) throws Exception {
-		if (!isMulti) {
-			int res = JOptionPane.showConfirmDialog(null, TreeComp.getLang("sure_delete"), getLang("hint"), JOptionPane.YES_NO_OPTION);
-			if (res != 0) {
-				return;
-			}
-		}
-		doDel(treeNode);
-		if (queryComp != null) {
-			queryComp.search();
-			//刷新树节点
-			StartUtil.eng.doPush(CsMgrEnum.TREE, GuiJsonUtil.toJsonCmd(TreeMgr.CMD_REFRESH)
-					.add(TreeMgr.PARAM_NODE_TYPE, TreeMrType.TABLE_GROUP.name())
-					.add(StartUtil.PARAM_SCHEMA, getSchemaName()));
-		}
-	}
+    @Override
+    public void resolve(HTreeNode treeNode) throws Exception {
+        if (PopPaneUtil.confirm(parent.getWindow(), ObjQueryComp.getLang("sure_delete"))) {
+            List<NodeInfo> nodeInfos = new ArrayList<>();
+            for (HTabRowBean rowBean : table.getSelectedRowBeans()) {
+                Map<String, String> map = rowBean.getOldRow();
+                NodeInfo nodeInfo = new NodeInfo();
+                nodeInfo.setName(map.get("name"));
+                nodeInfo.setId(map.get("object_name"));
+                nodeInfo.setTableName(map.get("object_name"));
+                nodeInfo.setSchemaName(schemaName);
+                nodeInfo.setTreeMrType(TreeMrType.valueOf(map.get("type")));
+                nodeInfo.setOperType(OperateType.DEL);
+                nodeInfos.add(nodeInfo);
+            }
+            new DeleteComp(nodeInfos, loginBean, parent) {
+                @Override
+                public void refresh() {
+                    queryComp.search();
+                }
+            };
+        }
+    }
 
-	public ObjQueryComp getQueryComp() {
-		return queryComp;
-	}
+    public ObjQueryComp getQueryComp() {
+        return queryComp;
+    }
 
-	public void setQueryComp(ObjQueryComp queryComp) {
-		this.queryComp = queryComp;
-	}
+    public void setQueryComp(ObjQueryComp queryComp) {
+        this.queryComp = queryComp;
+    }
 }

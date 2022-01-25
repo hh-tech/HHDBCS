@@ -15,21 +15,20 @@ import com.hh.frame.swingui.view.tab.HTabRowBean;
 import com.hh.frame.swingui.view.tab.HTable;
 import com.hh.frame.swingui.view.tab.col.DataCol;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
+import com.hh.hhdb_admin.common.csTabPanel.CSTablePanel;
 import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.common.icon.IconSizeEnum;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.common.util.textEditor.QueryEditorTextArea;
 import com.hh.hhdb_admin.mgr.function.FunctionMgr;
 import com.hh.hhdb_admin.mgr.function.run.*;
+import com.hh.hhdb_admin.mgr.function.util.DebugUtil;
 
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.sql.Connection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class RunBaseForm extends LastPanel {
     protected TreeMrType type;
@@ -38,12 +37,13 @@ public abstract class RunBaseForm extends LastPanel {
     protected Connection conn;      //运行连接
     protected RunTool runTool;
     protected Run run;
-
+    
+    protected HDialog dialog;
     protected HButton stopBut, runBut;
     protected QueryEditorTextArea textArea = new QueryEditorTextArea(false);
     protected TextAreaInput messageText = new TextAreaInput("messageText");
     protected HTable paTable;
-    protected HTabPane hTabPane = new HTabPane();
+    protected CSTablePanel hTabPane = new CSTablePanel();
     
     protected String packName;        //包名
     protected List<Map<String, String>> parMap = new LinkedList<>();     //参数集合
@@ -82,7 +82,7 @@ public abstract class RunBaseForm extends LastPanel {
      * 获取运行sql
      * @param valMap    参数
      */
-    protected abstract String getSql(Map<String, String> valMap) throws Exception;
+    protected abstract String getSql(Map<String, List<String>> valMap) throws Exception;
     
     /**
      * 运行
@@ -91,7 +91,7 @@ public abstract class RunBaseForm extends LastPanel {
 
 
     protected void show() {
-        HDialog dialog = new HDialog(StartUtil.parentFrame,1000, 800) {
+        dialog = new HDialog(StartUtil.parentFrame,1000, 800) {
             @Override
             protected void closeEvent() {
                 finish();
@@ -120,12 +120,14 @@ public abstract class RunBaseForm extends LastPanel {
             @Override
             public void onClick() {
                 try {
-                    if (!ConnUtil.isConnected(conn)) conn = ConnUtil.getConn(jdbcBean);
-                    stopBut.setEnabled(true);
-                    runBut.setEnabled(false);
                     if (paTable.getComp().isEditing()) paTable.getComp().getCellEditor().stopCellEditing();
-                    runFun();
-                    hTabPane.selectPanel("information");
+                    if (DebugUtil.verify(paTable.getRowBeans(null),dialog.getWindow(),DriverUtil.getDbType(jdbcBean))) {
+                        if (!ConnUtil.isConnected(conn)) conn = ConnUtil.getConn(jdbcBean);
+                        stopBut.setEnabled(true);
+                        runBut.setEnabled(false);
+                        runFun();
+                        hTabPane.selectPanel("information");
+                    }
                 }catch (Exception e){
                     e.printStackTrace();
                     messageText.setValue(e.getMessage());
@@ -153,15 +155,14 @@ public abstract class RunBaseForm extends LastPanel {
      * 获取信息下方Tab
      * @return
      */
-    private HTabPane getTabPane() throws Exception{
-        hTabPane.setCloseBtn(false);
+    private CSTablePanel getTabPane() throws Exception{
         //添加参数表格
         paTable = new HTable();
         paTable.setRowHeight(25);
         paTable.hideSeqCol();
-        DataCol dc = new DataCol("parameter", FunctionMgr.getLang("parameter"));
+        DataCol dc = new DataCol("name", FunctionMgr.getLang("parameter"));
         dc.setCellEditable(false);
-        DataCol dcType = new DataCol("dbType",FunctionMgr.getLang("type"));
+        DataCol dcType = new DataCol("type",FunctionMgr.getLang("type"));
         dcType.setCellEditable(false);
         paTable.addCols(dc,dcType,new DataCol("value", FunctionMgr.getLang("value")));
         //根据用户输入参数值更新sql
@@ -170,9 +171,12 @@ public abstract class RunBaseForm extends LastPanel {
             public void propertyChange(PropertyChangeEvent evt) {
                 try {
                     if ("tableCellEditor".equalsIgnoreCase(evt.getPropertyName().trim())) {
-                        Map<String, String> valMap = new HashMap<>();
+                        Map<String, List<String>> valMap = new LinkedHashMap<>();
                         for(int i=0;i<paTable.getComp().getRowCount();i++){
-                            valMap.put(paTable.getComp().getValueAt(i, 0)+"",paTable.getComp().getValueAt(i,2)+"");
+                            List<String> list = new LinkedList<>();
+                            list.add(paTable.getComp().getValueAt(i, 1)+"");
+                            list.add(paTable.getComp().getValueAt(i, 2)+"");
+                            valMap.put(paTable.getComp().getValueAt(i, 0)+"",list);
                         }
                         if (!valMap.isEmpty()) textArea.setText(getSql(valMap));
                     }
@@ -186,13 +190,13 @@ public abstract class RunBaseForm extends LastPanel {
         LastPanel lastPanel = new LastPanel(false);
         lastPanel.setWithScroll(paTable.getComp());
         paTable.load(new LinkedList<>(), 1);
-        hTabPane.addPanel("localVariable", FunctionMgr.getLang("parameter"), lastPanel.getComp(), true);
+        hTabPane.addPanel("localVariable", FunctionMgr.getLang("parameter"), lastPanel.getComp());
 
         //添加消息面板
         messageText.setLineWrap(true);
         LastPanel lasp = new LastPanel(false);
         lasp.set(messageText.getComp());
-        hTabPane.addPanel("information", FunctionMgr.getLang("information"), lasp.getComp(), true);
+        hTabPane.addPanel("information", FunctionMgr.getLang("information"), lasp.getComp());
         return hTabPane;
     }
     

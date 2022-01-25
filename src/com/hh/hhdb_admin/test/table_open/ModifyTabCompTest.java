@@ -51,7 +51,7 @@ class OpenTable implements Runnable {
 			JdbcBean jdbcBean = MgrTestUtil.getJdbcBean();
 			connection = ConnUtil.getConn(jdbcBean);
 			try {
-				HHSwingUi.init();
+				HHSwingUi.newSkin();
 				IconFileUtil.setIconBaseDir(new File("etc/icon/"));
 			} catch (Exception e) {
 				e.printStackTrace();

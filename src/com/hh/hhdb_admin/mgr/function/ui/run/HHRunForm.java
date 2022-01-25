@@ -2,6 +2,8 @@ package com.hh.hhdb_admin.mgr.function.ui.run;
 
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.create_dbobj.function.mr.AbsFunMr;
+import com.hh.frame.create_dbobj.table.hh.HhDataTypeEnum;
+import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
 import com.hh.frame.swingui.view.container.LastPanel;
 import com.hh.frame.swingui.view.tab.HTable;
 import com.hh.frame.swingui.view.tab.col.DataCol;
@@ -38,8 +40,8 @@ public class HHRunForm extends RunBaseForm {
                 if ("IN".equals(map.get("in_out")) || "INOUT".equals(map.get("in_out"))) {
                     if (map.get("parameter") == null) continue;
                     Map<String, String> dparma = new HashMap<String, String>();
-                    dparma.put("parameter", map.get("parameter"));
-                    dparma.put("dbType", map.get("type"));
+                    dparma.put("name", map.get("parameter"));
+                    dparma.put("type", map.get("type"));
                     dparma.put("value", "");
                     list.add(dparma);
                 }
@@ -49,18 +51,20 @@ public class HHRunForm extends RunBaseForm {
     }
 
     @Override
-    protected String getSql(Map<String, String> valMap) throws Exception {
-        StringBuffer finalParms = new StringBuffer();
-        for (String str : valMap.keySet()) {   //设置参数
-            if (null != str)
-                finalParms.append(finalParms.length() == 0 ? "" : ",").append("'" + valMap.get(str) + "'");
-        }
-        
-        if (type.name().equals("FUNCTION")) {
-            return "select \"" + funMr.treeNode.getSchemaName() + "\".\"" + funMr.treeNode.getName() + "\"(" + finalParms + ");";
-        } else {
-            return "CALL \"" + funMr.treeNode.getSchemaName() + "\".\"" + funMr.treeNode.getName() + "\"(" + finalParms + ");";
-        }
+    protected String getSql(Map<String, List<String>> valMap) throws Exception {
+        StringBuffer sql = new StringBuffer();
+        valMap.keySet().forEach(a -> {
+            String type = valMap.get(a).get(0);
+            String val = valMap.get(a).get(1);
+            if (type.toUpperCase().equals(HhDataTypeEnum.CHAR.name()) || type.toUpperCase().equals(HhDataTypeEnum.VARCHAR.name())
+                    ||type.toUpperCase().equals(HhDataTypeEnum.CHARACTER_VARYING.name())||type.toUpperCase().equals("CHARACTER VARYING")) {
+                val = "'"+val+"'";
+            }
+            sql.append(sql.length()>0 ? "," : "").append(val + "::" + type);
+        });
+        sql.append(");");
+        String st = funMr.treeNode.getType() == TreeMrType.FUNCTION ? "select " : "CALL ";
+        return st + "\"" + funMr.treeNode.getSchemaName() + "\".\"" + funMr.treeNode.getName() + "\"(" + sql;
     }
     
     @Override
@@ -86,7 +90,7 @@ public class HHRunForm extends RunBaseForm {
                             map.keySet().forEach(a -> resTable.addCols(new DataCol(a, a)));
                             LastPanel lastPanel = new LastPanel(false);
                             lastPanel.setWithScroll(resTable.getComp());
-                            hTabPane.addPanel("result", FunctionMgr.getLang("result"), lastPanel.getComp(), true);
+                            hTabPane.addPanel("result", FunctionMgr.getLang("result"), lastPanel.getComp());
                         }
                         List<Map<String, String>> valist = new ArrayList<Map<String, String>>();
                         Map<String, String> dparma = new HashMap<String, String>();

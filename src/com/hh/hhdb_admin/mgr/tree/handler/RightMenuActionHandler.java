@@ -52,11 +52,11 @@ public class RightMenuActionHandler {
 	public void resolve(String actionCmd, LoginBean loginBean, CsTree tree, HTreeNode... treeNodes) {
 		try {
 			AbsHandler handler;
-			String schemaName = TreeUtil.getSchemaName(treeNodes[0], DriverUtil.getDbType(loginBean.getConn()));
+			String schemaName = TreeUtil.getSchemaName(treeNodes[0], DriverUtil.getDbType(loginBean.getJdbc()));
 			String tableName = TreeUtil.getTableName(treeNodes[0]);
 
 			if (treeNodes.length > 1) {
-				handler = new MultiChooseHandler(treeNodes, actionCmd);
+				handler = new MultiChooseHandler(treeNodes);
 				handler.setLoginBean(loginBean).setCsTree(tree);
 			} else {
 				handler = getInstance(actionCmd);

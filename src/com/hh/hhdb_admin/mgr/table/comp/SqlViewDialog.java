@@ -1,10 +1,5 @@
 package com.hh.hhdb_admin.mgr.table.comp;
 
-import java.awt.Component;
-import java.io.IOException;
-
-import javax.swing.JDialog;
-
 import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
@@ -16,11 +11,17 @@ import com.hh.frame.swingui.view.ctrl.HButton;
 import com.hh.frame.swingui.view.layout.bar.HBarLayout;
 import com.hh.frame.swingui.view.textEditor.HTextArea;
 import com.hh.frame.swingui.view.textEditor.base.ConstantsEnum;
+import com.hh.frame.swingui.view.textEditor.base.ThemesEnum;
+import com.hh.frame.swingui.view.ui.HHSwingUi;
 import com.hh.hhdb_admin.CsMgrEnum;
 import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.query.QueryMgr;
 import com.hh.hhdb_admin.mgr.table.TableComp;
+
+import javax.swing.*;
+import java.awt.*;
+import java.io.IOException;
 
 /**
  * @author oyx
@@ -33,15 +34,15 @@ public class SqlViewDialog {
 	private final static String LK_TO_QUERY = "TO_QUERY";
 	private final static String LK_CANCEL = "CANCEL";
 	private static final String DOMAIN_NAME = SqlViewDialog.class.getName();
-//	private final Component p;
+	//	private final Component p;
 	private HBarPanel barPanel;
 
 	static {
 		try {
-            LangMgr2.loadMerge(SqlViewDialog.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+			LangMgr2.loadMerge(SqlViewDialog.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public SqlViewDialog(Component p) {
@@ -51,6 +52,9 @@ public class SqlViewDialog {
 
 	private void init() {
 		textArea = new HTextArea(false, true);
+		if (HHSwingUi.isDarkSkin()) {
+			textArea.setTheme(ThemesEnum.monokai);
+		}
 		dialog = new HDialog(TableComp.dialog, 700, 580);
 		HBarLayout barLayout = new HBarLayout();
 		barLayout.setAlign(AlignEnum.RIGHT);

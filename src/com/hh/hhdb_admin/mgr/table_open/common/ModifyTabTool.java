@@ -3,6 +3,7 @@ package com.hh.hhdb_admin.mgr.table_open.common;
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.db.ConnUtil;
+import com.hh.frame.common.util.db.SelectTableSqlUtil;
 import com.hh.frame.common.util.db.SqlExeUtil;
 import com.hh.frame.common.util.db.SqlStrUtil;
 import com.hh.frame.common.util.db.lob.LobUtil;
@@ -26,20 +27,28 @@ import com.hh.frame.swingui.view.tab.RowStatus;
 import com.hh.frame.swingui.view.tab.col.DataCol;
 import com.hh.frame.swingui.view.tab.col.abs.AbsCol;
 import com.hh.frame.swingui.view.tab.col.bigtext.BigTextCol;
+import com.hh.frame.swingui.view.tab.col.json.JsonCol;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
+import com.hh.hhdb_admin.CsMgrEnum;
+import com.hh.hhdb_admin.common.icon.IconBean;
+import com.hh.hhdb_admin.common.icon.IconFileUtil;
+import com.hh.hhdb_admin.common.icon.IconSizeEnum;
 import com.hh.hhdb_admin.common.lob_panel.LobViewer;
 import com.hh.hhdb_admin.common.util.logUtil;
 import com.hh.hhdb_admin.mgr.table_open.ModifyTabDataComp;
-import com.hh.hhdb_admin.mgr.table_open.ui.LobJsonCol;
+import com.hh.hhdb_admin.mgr.table_open.comp.LobJsonCol;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -55,7 +64,6 @@ public class ModifyTabTool {
 	private HTable table;
 	private DBTypeEnum dbTypeEnum;
 	private Map<String, Enum<?>> lobMap;
-	private ModifyTabDataComp dataComp;
 	private boolean readOnly = false;
 	private AbsTableObjFun tableObjFun;
 	private VersionBean dbVersion;
@@ -69,11 +77,6 @@ public class ModifyTabTool {
 		this.lobMap = new LinkedHashMap<>();
 		this.tableObjFun = CreateTableUtil.getDateType(dbTypeEnum);
 		addLobNumMap = new LinkedHashMap<>();
-	}
-
-	public ModifyTabTool(DBTypeEnum dbTypeEnum, HTable table, ModifyTabDataComp dataComp) {
-		this(dbTypeEnum, table);
-		this.dataComp = dataComp;
 	}
 
 	/**
@@ -109,10 +112,10 @@ public class ModifyTabTool {
 		if (StringUtils.isBlank(value) || "____null".equals(value)) {
 			return null;
 		}
-		if (ModifyTabDataUtil.isLob(dbTypeEnum, selType) && !ModifyTabDataUtil.getHideColNames().contains(colName)) {
-			return ModifyTabDataUtil.getLobJson(selType, value, lobFilePath).toString();
+		if (SelectTableSqlUtil.isLob(dbTypeEnum, selType) && !SelectTableSqlUtil.getHideColNames().contains(colName)) {
+			return getLobJsonObj(selType, value, lobFilePath).toString();
 		}
-		value = ModifyTabDataUtil.formatVal(dbTypeEnum, selType, colName, value, lobFilePath);
+		value = SelectTableSqlUtil.formatVal(dbTypeEnum, selType, colName, value, lobFilePath);
 		return value;
 	}
 
@@ -144,18 +147,18 @@ public class ModifyTabTool {
 			if (!readOnly) {
 				typeName = nameTypeMap.get(colName);
 			}
-			if (ModifyTabDataUtil.isLob(dbTypeEnum, type) && !ModifyTabDataUtil.getHideColNames().contains(colName)) {
+			if (SelectTableSqlUtil.isLob(dbTypeEnum, type) && !SelectTableSqlUtil.getHideColNames().contains(colName)) {
 				lobMap.put(colNames.get(i), selTypes.get(i));
 				col = new LobJsonCol(dbTypeEnum, rowMap.containsKey(colName) ? colName + i : colName, colName, type);
 				((LobJsonCol) col).setReadOnly(isReadOnly());
 				((LobJsonCol) col).setCleanListener(new CleanListener());
 				SaveLobListener lobListener = new SaveLobListener(queryTool, jdbc, ((LobJsonCol) col), schemaName, tableName, colName, type) {
 					@Override
-					protected void callBack(boolean isAdd) throws Exception {
+					protected void callBack(boolean isAdd) {
 						((LobJsonCol) col).dispose();
 						if (!isAdd) {
-							PopPaneUtil.info("保存成功");
-							dataComp.refreshTab();
+							SaveLobCallBack();
+							//dataComp.refreshTab();
 						}
 					}
 				};
@@ -166,13 +169,17 @@ public class ModifyTabTool {
 				col = new DataCol(rowMap.containsKey(colName) ? colName + i : colName, colName);
 			}
 			if (typeName != null) {
-				col.setCellEditable(ModifyTabDataUtil.isCellEditable(dbTypeEnum, typeName));
+				col.setCellEditable(SelectTableSqlUtil.isCellEditable(dbTypeEnum, typeName));
 			}
 
 			cols.add(col);
 			rowMap.put(colName, colName);
 		}
 		return cols;
+	}
+
+	protected void SaveLobCallBack() {
+		PopPaneUtil.info("保存成功");
 	}
 
 	private StringBuilder buildUpdateSql(QueryTool queryTool, Connection conn, String schemaName, String tableName, boolean isUpdate, LinkedHashSet<String> pks, HTabRowBean rowBean, Map<String, String> nameType) throws SQLException, IOException {
@@ -183,7 +190,7 @@ public class ModifyTabTool {
 		}
 		String name = tableName;
 		if (StringUtils.isNoneBlank(schemaName)) {
-			name = ModifyTabDataUtil.getTabFullName(dbTypeEnum, schemaName, tableName);
+			name = SelectTableSqlUtil.getTabFullName(dbTypeEnum, schemaName, tableName);
 		}
 		if (isUpdate) {
 			String setColNames = getSetColNames(nameType, rowBean);
@@ -261,7 +268,7 @@ public class ModifyTabTool {
 				boolean flag = true;
 				StringBuilder values = new StringBuilder();
 				if (value != null) {
-					sqlBean.addColNames(ModifyTabDataUtil.getTabFullName(dbTypeEnum, null, key));
+					sqlBean.addColNames(SelectTableSqlUtil.getTabFullName(dbTypeEnum, null, key));
 					String type = nameTypeMap.get(key);
 					boolean isMssqlText = dbTypeEnum == DBTypeEnum.sqlserver && type != null && tableObjFun.getCharacterStringType().contains(type.toUpperCase());
 					if (isMssqlText) {
@@ -360,8 +367,8 @@ public class ModifyTabTool {
 				buffer.append(SqlStrUtil.dealDoubleQuote(dbTypeEnum, str));
 			}
 			String type = nameType.get(str);
-			if (ModifyTabDataUtil.isOraTime(dbTypeEnum, type)) {
-				val = ModifyTabDataUtil.valToOraDate(type, val);
+			if (SelectTableSqlUtil.isOraTime(dbTypeEnum, type)) {
+				val = SelectTableSqlUtil.valToOraDate(type, val);
 				buffer.append(" = ").append(val);
 			} else if (dbTypeEnum == DBTypeEnum.sqlserver) {
 				type = nameTypeMap.get(str);
@@ -386,25 +393,26 @@ public class ModifyTabTool {
 		switch (dbTypeEnum) {
 			case hhdb:
 			case pgsql:
-				name = value = ModifyTabDataUtil.PG_HIDE_C_TID;
+				name = value = SelectTableSqlUtil.PG_HIDE_C_TID;
 				break;
 			case oracle:
-				name = value = ModifyTabDataUtil.ORA_HIDE_ROW_ID;
+				name = SelectTableSqlUtil.ORA_HIDE_ROW_ID_SHOW;
+				value = SelectTableSqlUtil.ORA_HIDE_ROW_ID;
 				break;
 			case sqlserver:
-				value = ModifyTabDataUtil.SQLSERVER_HIDE_ID_SHOW;
+				value = SelectTableSqlUtil.SQLSERVER_HIDE_ID_SHOW;
 				value = oldRow.get(value);
 				if (dbVersion != null && dbVersion.getBigVer() <= 9) {
-					name = ModifyTabDataUtil.SQLSERVER_HIDE_LOCKRES_ID;
+					name = SelectTableSqlUtil.SQLSERVER_HIDE_LOCKRES_ID;
 					value = "'" + value + "'";
 				} else {
-					name = ModifyTabDataUtil.SQLSERVER_HIDE_PHY_ID;
+					name = SelectTableSqlUtil.SQLSERVER_HIDE_PHY_ID;
 				}
 				sql.append(name).append(" = ").append(value);
 				return sql.toString();
 			case db2:
-				value = ModifyTabDataUtil.DB2_HIDE_ID_SHOW;
-				name = ModifyTabDataUtil.DB2_HIDE_ID;
+				value = SelectTableSqlUtil.DB2_HIDE_ID_SHOW;
+				name = SelectTableSqlUtil.DB2_HIDE_ID;
 			default:
 				break;
 		}
@@ -422,7 +430,7 @@ public class ModifyTabTool {
 			for (String pk : pks) {
 				List<String> columns = sqlPk.getBindColumNames(pk);
 				for (String column : columns) {
-					String pkName = ModifyTabDataUtil.getTabFullName(dbTypeEnum, "", column);
+					String pkName = SelectTableSqlUtil.getTabFullName(dbTypeEnum, "", column);
 					sql.append(pkName).append(" ='").append(oldRow.get(column)).append("'").append(",");
 				}
 			}
@@ -465,7 +473,7 @@ public class ModifyTabTool {
 			if (selTypes != null) {
 				//如果没有主键 判断是否为blob
 				Enum<?> type = selTypes.get(i);
-				isLob = ModifyTabDataUtil.isLob(dbTypeEnum, type);
+				isLob = SelectTableSqlUtil.isLob(dbTypeEnum, type);
 			}
 			String cellValue = rowValues.get(colName);
 			if (where.length() > 0) {
@@ -488,7 +496,7 @@ public class ModifyTabTool {
 					} else {
 						try (InputStream is = queryTool.getBinary(offset.asString() + "_" + len.asString())) {
 							byte[] bytes = IOUtils.toByteArray(is);
-							String hexString = ModifyTabDataUtil.bytesToHexString(bytes);
+							String hexString = SelectTableSqlUtil.bytesToHexString(bytes);
 							where.append(" `").append(colName);
 							if (hexString != null) {
 								where.append("`=Concat(0x").append(hexString.replaceAll(" ", "").toUpperCase());
@@ -587,7 +595,7 @@ public class ModifyTabTool {
 
 				HTabRowBean addBean = table.getSelectedRowBeans().get(0);
 				boolean isAdd = addBean.getOldRow() == null;
-				boolean isBlob = ModifyTabDataUtil.isBlob(dbTypeEnum, type, tableObjFun);
+				boolean isBlob = SelectTableSqlUtil.isBlob(dbTypeEnum, type, tableObjFun);
 				int selectedColumn = table.getComp().getSelectedColumn();
 				int selectedRow = table.getComp().getSelectedRow();
 				if (isAdd) {
@@ -606,7 +614,7 @@ public class ModifyTabTool {
 								Reader reader = new InputStreamReader(is);
 								length = LobUtil.reader2File(reader, tmpData, 0).split("_")[1];
 							}
-							lobJson = ModifyTabDataUtil.getLobJson(type, 0 + "_" + length, tmpData.getAbsolutePath());
+							lobJson = getLobJsonObj(type, 0 + "_" + length, tmpData.getAbsolutePath());
 							AddLobBean addLobBean = new AddLobBean(selectedRow, selectedColumn, colName, isBlob, data);
 							List<AddLobBean> addLobBeans = addLobNumMap.get(selectedRow);
 							if (addLobBeans == null) {
@@ -651,7 +659,7 @@ public class ModifyTabTool {
 		public void saveLob(boolean isBlob, int row, int column, byte[] data) throws Exception {
 			HTabRowBean rowBean = table.getSelectedRowBeans().get(0);
 			String sql;
-			String tabFullName = ModifyTabDataUtil.getTabFullName(dbTypeEnum, schemaName, tableName);
+			String tabFullName = SelectTableSqlUtil.getTabFullName(dbTypeEnum, schemaName, tableName);
 			//boolean isOra = dbTypeEnum == DBTypeEnum.oracle;
 			boolean isMsSqlText = dbTypeEnum == DBTypeEnum.sqlserver && (type.name().equalsIgnoreCase(SqlserverSelType.CLOB.name()));
 			//更新
@@ -675,7 +683,7 @@ public class ModifyTabTool {
 
 
 		private String getSetName(String colName) {
-			return ModifyTabDataUtil.getTabFullName(dbTypeEnum, null, colName);
+			return SelectTableSqlUtil.getTabFullName(dbTypeEnum, null, colName);
 		}
 
 		private String getWhere(HTabRowBean rowBean) throws Exception {
@@ -728,7 +736,7 @@ public class ModifyTabTool {
 	 */
 	public Map<String, String> initColumnTypeMap(Connection conn, String schemaName, String tableName) {
 		try {
-			return nameTypeMap = ModifyTabDataUtil.getNameTypeMap(dbTypeEnum, conn, schemaName, tableName);
+			return nameTypeMap = SelectTableSqlUtil.getNameTypeMap(dbTypeEnum, conn, schemaName, tableName);
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}
@@ -781,5 +789,43 @@ public class ModifyTabTool {
 
 	public void setDbVersion(VersionBean dbVersion) {
 		this.dbVersion = dbVersion;
+	}
+
+	public static void requestFocus(HTable tab, int column, ModifyTabDataComp.ColListSelectionListener selectionListener) {
+		JTable jTable = tab.getComp();
+		if (selectionListener == null) {
+			selectionListener = new ModifyTabDataComp.ColListSelectionListener(jTable);
+		}
+		jTable.getColumnModel().getSelectionModel().addListSelectionListener(selectionListener);
+		int n = jTable.getRowCount() - 1;
+		jTable.setRowSelectionInterval(n, n);
+		jTable.changeSelection(n, column, false, false);
+//		jTable.editCellAt(n, column);
+		Component component = jTable.getEditorComponent();
+		if (component instanceof JTextField) {
+			component.requestFocus();
+			((JTextField) component).selectAll();
+		}
+	}
+
+	private JsonObject getLobJsonObj(Enum<?> selType, String value, String lobFilePath) {
+		JsonObject jObj = new JsonObject();
+		jObj.set(JsonCol.__TEXT, selType.name());
+		String[] split = value.split("_");
+		if (split.length > 0) {
+			jObj.set(ModifyTabTool.OFFSET, split[0]);
+			jObj.set(ModifyTabTool.LEN, split[1]);
+		}
+		jObj.set(ModifyTabTool.FILE_PATH, lobFilePath);
+		jObj.set(ModifyTabTool.TYPE, selType.name());
+		return jObj;
+	}
+
+	/**
+	 * @param name
+	 * @return
+	 */
+	public static ImageIcon getIcon(String name) {
+		return IconFileUtil.getIcon(new IconBean(CsMgrEnum.TABLE_OPEN.name(), name, IconSizeEnum.SIZE_16));
 	}
 }

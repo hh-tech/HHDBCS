@@ -11,6 +11,7 @@ import com.hh.frame.swingui.view.container.HPanel;
 import com.hh.frame.swingui.view.ctrl.HButton;
 import com.hh.frame.swingui.view.input.CheckBoxInput;
 import com.hh.frame.swingui.view.input.LabelInput;
+import com.hh.frame.swingui.view.input.PasswordInput;
 import com.hh.frame.swingui.view.input.TextInput;
 import com.hh.frame.swingui.view.layout.GridSplitEnum;
 import com.hh.frame.swingui.view.layout.HDivLayout;
@@ -45,10 +46,10 @@ public abstract class DblinkComp {
     private CheckBoxInput shareInput;
     private CheckBoxInput publicInput;
     private TextInput usernameInput;
-    private TextInput userPassInput;
+    private PasswordInput userPassInput;
     private TextInput databaseInput;
     private TextInput authNameInput;
-    private TextInput authPassInput;
+    private PasswordInput authPassInput;
     private Map<String, String> map = new HashMap<>();
 
     static {
@@ -63,7 +64,7 @@ public abstract class DblinkComp {
         this.conn = conn;
         this.schema = schema;
         this.dblinkName = dblinkName;
-        dialog = new HDialog(StartUtil.parentFrame, 550, 500);
+        dialog = new HDialog(StartUtil.parentFrame, 550, 550);
         dialog.setWindowTitle(getLang(StringUtils.isEmpty(dblinkName) ? "add" : "edit"));
         dialog.setIconImage(IconFileUtil.getLogo());
     }
@@ -101,7 +102,7 @@ public abstract class DblinkComp {
         HPanel connPanel = new HPanel(new HDivLayout(0, 10));
         connPanel.setTitle(getLang("connection_to"));
         usernameInput = new TextInput("username");
-        userPassInput = new TextInput("userPass");
+        userPassInput = new PasswordInput("userPass");
         databaseInput = new TextInput("database");
         connPanel.add(getWithPanelInput(getLang("username"), usernameInput));
         connPanel.add(getWithPanelInput(getLang("password"), userPassInput));
@@ -110,7 +111,7 @@ public abstract class DblinkComp {
         HPanel authPanel = new HPanel(new HDivLayout(0, 10));
         authPanel.setTitle(getLang("certifier"));
         authNameInput = new TextInput("authName");
-        authPassInput = new TextInput("authPass");
+        authPassInput = new PasswordInput("authPass");
         authPanel.add(getWithPanelInput(getLang("username"), authNameInput));
         authPanel.add(getWithPanelInput(getLang("password"), authPassInput));
 

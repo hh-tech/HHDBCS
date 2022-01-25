@@ -118,6 +118,62 @@
         "zh": "忽略大小写",
         "en": "Ignore case"
       }
+    },
+    {
+      "key": "BTN_QD",
+      "value": {
+        "zh": "确定",
+        "en": "Confirm"
+      }
+    },
+    {
+      "key": "BTN_QX",
+      "value": {
+        "zh": "取消",
+        "en": "Cancel"
+      }
+    },
+    {
+      "key": "INPUT_NEW_NAME",
+      "value": {
+        "zh": "请输入新的名称!",
+        "en": "Please input a new name!"
+      }
+    },
+    {
+      "key": "NAME_EQUAL_ERROR",
+      "value": {
+        "zh": "与原表名相同！",
+        "en": "The new table name is the same as the original table name!"
+      }
+    },
+    {
+      "key": "sure_delete",
+      "value": {
+        "zh": "确定删除？",
+        "en": "Sure delete?"
+      }
+    },
+    {
+      "key": "rename",
+      "value": {
+        "zh": "重命名",
+        "en": "Rename"
+      }
+    },
+    {
+      "key": "attribute",
+      "value": {
+        "zh": "属性",
+        "en": "Attribute"
+      }
+    },
+    {
+      "key": "delete",
+      "value": {
+        "zh": "删除",
+        "en": "Delete"
+      }
     }
   ]
 }

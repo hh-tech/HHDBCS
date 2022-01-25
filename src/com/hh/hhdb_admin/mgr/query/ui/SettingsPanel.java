@@ -13,6 +13,7 @@ import com.hh.frame.swingui.view.layout.GridSplitEnum;
 import com.hh.frame.swingui.view.layout.HDivLayout;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
 import com.hh.frame.swingui.view.util.VerifyUtil;
+import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.query.QueryMgr;
 
@@ -35,10 +36,12 @@ public class SettingsPanel {
             rowInput = new TextInput("varPageSize", row + "");
             rowInput.setInputVerifier(VerifyUtil.getTextIntVerifier(QueryMgr.getLang("rowsnumber"), 1, 2147483647));
             nullInput = new TextInput("null",nullSign);
-            dialog = new HDialog(500, 200);
-            dialog.setRootPanel(init());
-            dialog.setIconImage(QueryMgr.getIcon("key"));
+            dialog = new HDialog(StartUtil.parentFrame,500);
+            dialog.setIconImage(IconFileUtil.getLogo());
             dialog.setWindowTitle(QueryMgr.getLang("current-settings"));
+            HPanel hPanel = init();
+            dialog.setRootPanel(hPanel);
+            dialog.setSize(500,hPanel.getHeight()+50);      //根据实际大小设置弹出框大小
             dialog.show();
         } catch (Exception e) {
             e.printStackTrace();

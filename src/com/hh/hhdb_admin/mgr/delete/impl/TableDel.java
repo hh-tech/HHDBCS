@@ -1,6 +1,5 @@
 package com.hh.hhdb_admin.mgr.delete.impl;
 
-import com.hh.frame.common.util.db.SqlExeUtil;
 import com.hh.frame.common.util.db.SqlStrUtil;
 import com.hh.hhdb_admin.mgr.delete.AbsDel;
 import com.hh.hhdb_admin.mgr.delete.NodeInfo;
@@ -18,6 +17,7 @@ public class TableDel extends AbsDel {
         String sql;
         switch (dbType) {
             case oracle:
+            case dm:
                 sql = String.format("DROP TABLE %s.%s CASCADE CONSTRAINTS", SqlStrUtil.dealDoubleQuote(dbType, schemaName),
                         SqlStrUtil.dealDoubleQuote(dbType, nodeName));
                 break;
@@ -40,7 +40,7 @@ public class TableDel extends AbsDel {
             default:
                 throw new Exception("暂不支持该数据库");
         }
-        SqlExeUtil.executeUpdate(conn, sql);
+        execute(sql);
     }
 
 }

@@ -8,7 +8,8 @@ import com.hh.frame.create_dbobj.sequenceMr.SeqItem;
 import com.hh.frame.swingui.view.container.HBarPanel;
 import com.hh.frame.swingui.view.container.HDialog;
 import com.hh.frame.swingui.view.container.HPanel;
-import com.hh.frame.swingui.view.container.HTabPane;
+import com.hh.frame.swingui.view.container.tab_panel.HTabPanel;
+import com.hh.frame.swingui.view.container.tab_panel.HeaderConfig;
 import com.hh.frame.swingui.view.ctrl.HButton;
 import com.hh.frame.swingui.view.layout.bar.HBarLayout;
 import com.hh.hhdb_admin.CsMgrEnum;
@@ -31,7 +32,7 @@ import java.sql.SQLException;
  */
 public abstract class SeqComp extends HPanel {
 
-	 	private	HTabPane htab;
+	 	private	HTabPanel htab;
 	 	HBarPanel toolBar ;
 	    private AbsSeqComp seqComp;
 	    private PreviewComp previewComp;
@@ -47,8 +48,7 @@ public abstract class SeqComp extends HPanel {
 		l.setAlign(AlignEnum.LEFT);
 		l.setxGap(2);
 		toolBar = new HBarPanel(l);
-    	htab  = new HTabPane();
-    	htab.setCloseBtn(false);
+    	htab  = new HTabPanel();
     	initComp();
 	}
 
@@ -81,8 +81,8 @@ public abstract class SeqComp extends HPanel {
 	    	toolBar.add(save);
 
 
-	    	htab.addPanel("id_seqGen", SequenceMgr.getLang("norm"),seqComp);
-	    	htab.addPanel("id_seqPreview", SequenceMgr.getLang("preview"), previewComp);
+	    	htab.addPanel("id_seqGen", seqComp,new HeaderConfig(SequenceMgr.getLang("norm")).setFixTab(true));
+	    	htab.addPanel("id_seqPreview",  previewComp,new HeaderConfig(SequenceMgr.getLang("preview")).setFixTab(true));
 
 	    	((JTabbedPane)htab.getComp()).addChangeListener(new ChangeListener() {
 

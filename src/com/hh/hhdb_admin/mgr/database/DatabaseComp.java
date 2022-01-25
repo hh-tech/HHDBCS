@@ -95,8 +95,8 @@ public abstract class DatabaseComp {
                 DatabaseUtil.save(data);
                 databaseForm.reset();
                 dialog.dispose();
-                PopPaneUtil.info(StartUtil.parentFrame.getWindow(), getLang("addSuccess"));
                 refreshTree();
+                PopPaneUtil.info(StartUtil.parentFrame.getWindow(), getLang("addSuccess"));
             } catch (SQLException e) {
                 e.printStackTrace();
                 logUtil.error(LOG_NAME, e);

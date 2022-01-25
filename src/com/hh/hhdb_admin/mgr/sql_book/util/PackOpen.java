@@ -1,5 +1,6 @@
 package com.hh.hhdb_admin.mgr.sql_book.util;
 
+import com.hh.frame.chardet.ChardetUtil;
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.DriverUtil;
@@ -25,7 +26,7 @@ import java.util.Arrays;
 public class PackOpen extends WayAbsTool {
 
     @Override
-    public void openFile(File file, String charset) throws Exception {
+    public void openFile(File file) throws Exception {
         if (file != null) {
             LoginBean loginBean = LoginComp.loginBean;
             if (loginBean != null) {
@@ -36,7 +37,7 @@ public class PackOpen extends WayAbsTool {
                         if (FileUtils.sizeOf(file) > SqlBookMgr.maxFileSize) {
                             throw new Exception(String.format(LangMgr2.getValue(SqlBookComp.class.getName(), "SIZE_TIP"),SqlBookMgr.maxM));
                         }
-                        String text = FileUtils.readFileToString(file, charset);
+                        String text = FileUtils.readFileToString(file, ChardetUtil.detectCharset(file));
                         StartUtil.eng.doPush(CsMgrEnum.PACKAGE, GuiJsonUtil.toJsonCmd(PackageMgr.CMD_OPEN_AS_DESIGN)
                                 .add(StartUtil.PARAM_SCHEMA, LoginComp.loginBean.getJdbc().getSchema())
                                 .add("text", text)

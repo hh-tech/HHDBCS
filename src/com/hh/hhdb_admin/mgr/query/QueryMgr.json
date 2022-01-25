@@ -425,6 +425,34 @@
         "zh": "刷新中...",
         "en": "The refresh..."
       }
+    },
+    {
+      "key": "reset",
+      "value": {
+        "zh": "重置",
+        "en": "reset"
+      }
+    },
+    {
+      "key": "template",
+      "value": {
+        "zh": "模版",
+        "en": "template"
+      }
+    },
+    {
+      "key": "fmt_failed",
+      "value": {
+        "zh": "格式化失败！",
+        "en": "Formatting failed!"
+      }
+    },
+    {
+      "key": "switchFailed",
+      "value": {
+        "zh": "切换失败！\n模式[%s]不属于当前用户！",
+        "en": "Switching failed!\nMode [%s] does not belong to the current user!"
+      }
     }
   ]
 }

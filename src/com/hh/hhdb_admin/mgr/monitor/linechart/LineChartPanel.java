@@ -17,7 +17,6 @@ import org.jfree.ui.RectangleInsets;
 
 import java.awt.*;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,7 +45,7 @@ public class LineChartPanel extends HPanel implements Runnable {
 
     private List<TimeData> list = new ArrayList<>();
 
-    public LineChartPanel(String sql, Connection connection, String title) {
+    public LineChartPanel(String sql, Connection connection, String title)throws Exception {
         this.sql = sql;
         this.connection = connection;
         JFreeChart chart = ChartFactory.createTimeSeriesChart(title, "",
@@ -80,7 +79,7 @@ public class LineChartPanel extends HPanel implements Runnable {
         this.section = section;
     }
 
-    private void configFont(JFreeChart chart) {
+    private void configFont(JFreeChart chart)throws Exception {
         // 配置字体
         Font yFontY = new Font("宋体", Font.PLAIN, 12);// Y轴
         Font kFont = new Font("宋体", Font.PLAIN, 12);// 底部
@@ -133,7 +132,7 @@ public class LineChartPanel extends HPanel implements Runnable {
     /**
      * 调用执行
      */
-    public void execute() {
+    public void execute()throws Exception {
         run();
         executor = Executors.newScheduledThreadPool(seriesList.size());
         executor.scheduleAtFixedRate(this, 1000, 1000, TimeUnit.MILLISECONDS);
@@ -168,10 +167,10 @@ public class LineChartPanel extends HPanel implements Runnable {
                 for (int i = 0; i < dataSet.getSeriesCount(); i++) {
                     TimeSeries timeSeries = dataSet.getSeries(i);
                     String name = seriesList.get(i).getName();
-                    timeSeries.addOrUpdate(d.getSecond(), Integer.parseInt(d.getValue().get(name).toString()));
+                    timeSeries.addOrUpdate(d.getSecond(), Double.parseDouble(d.getValue().get(name).toString()));
                 }
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             if (list.size() >= this.section) {
                 list = list.subList(list.size() - this.section, list.size());

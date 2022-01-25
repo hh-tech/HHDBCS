@@ -26,6 +26,7 @@ import com.hh.hhdb_admin.mgr.trigger.TriggerUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -83,22 +84,23 @@ public class HhPgForm extends TriggerForm {
         funcGrid.setComp(3, functionBox);
         eventsPanel = new HPanel(new HDivLayout(GridSplitEnum.C2, GridSplitEnum.C3, GridSplitEnum.C3, GridSplitEnum.C3));
         eventsPanel.add(new LabelInput(getLang("action") + " : "));
-        CheckBoxInput checkBoxInput;
+
         for (TriggerEvent triggerEvent : TriggerEvent.values()) {
-            checkBoxInput = new CheckBoxInput(triggerEvent.name());
+        	CheckBoxInput checkBoxInput = new CheckBoxInput(triggerEvent.name()) {
+				@Override
+				protected void onClick(ActionEvent e) {
+					if (Arrays.asList(DBTypeEnum.hhdb, DBTypeEnum.pgsql).contains(dbType)) {
+	                    if (this.getId().equals(TriggerEvent.UPDATE.name())) {
+	                        if (this.isChecked()) {
+	                            eventPanel.set(getTablePanel().getComp());
+	                        } else {
+	                            eventPanel.set(new LabelInput().getComp());
+	                        }
+	                    }
+	                }
+				}          	
+            };
             checkBoxInput.setId(triggerEvent.name());
-            CheckBoxInput finalCheckBoxInput = checkBoxInput;
-            checkBoxInput.addListen(e -> {
-                if (Arrays.asList(DBTypeEnum.hhdb, DBTypeEnum.pgsql).contains(dbType)) {
-                    if (finalCheckBoxInput.getId().equals(TriggerEvent.UPDATE.name())) {
-                        if (finalCheckBoxInput.isChecked()) {
-                            eventPanel.set(getTablePanel().getComp());
-                        } else {
-                            eventPanel.set(new LabelInput().getComp());
-                        }
-                    }
-                }
-            });
             checkBoxInput.setText(triggerEvent.name());
             eventsPanel.add(checkBoxInput);
         }

@@ -33,7 +33,7 @@ public class SqlFileCfgDig extends AbsCfgDig {
 
     public SqlFileCfgDig(JdbcBean jdbc, Map<String, String> config) {
         super(jdbc);
-        dialog.setWindowTitle(getLang("sql_file_import"));
+        dialog.setWindowTitle(getLang("addSqlFile"));
         initSqlFilePanel();
         setJdbcPanel();
         rootPanel.add(panel);
@@ -69,7 +69,7 @@ public class SqlFileCfgDig extends AbsCfgDig {
         }
         String v = encodeSelectBox.getValue();
         if (StringUtils.isBlank(v)) {
-            PopPaneUtil.error(dialog.getWindow(), "SQL文件不能为空");
+            PopPaneUtil.error(dialog.getWindow(), getLang("sqlFileNotEmpty"));
             return true;
         }
         return false;
@@ -77,27 +77,26 @@ public class SqlFileCfgDig extends AbsCfgDig {
 
     private void initSqlFilePanel() {
         panel = new HPanel();
-        panel.setTitle("SQL文件配置");
-        HGridPanel gridPanel = new HGridPanel(new HGridLayout(GridSplitEnum.C3, GridSplitEnum.C6));
+        panel.setTitle(getLang("sqlFileConfig"));
+        HGridPanel gridPanel = new HGridPanel(new HGridLayout(GridSplitEnum.C3, GridSplitEnum.C8));
         splitInput = new TextInput();
         HGridPanel gPanel = getWithLabelInput(splitInput);
         SelectBox selectBox = new SelectBox() {
             @Override
             protected void onItemChange(ItemEvent e) {
                 splitInput.setValue("");
-                gPanel.getComp().setVisible("自定义".equals(this.getValue()));
+                gPanel.getComp().setVisible("custom".equals(this.getValue()));
             }
         };
-        selectBox.addOption(getLang("regular"), "常规");
-        selectBox.addOption(getLang("custom"), "自定义");
+        selectBox.addOption(getLang("regular"), "regular");
+        selectBox.addOption(getLang("custom"), "custom");
         gridPanel.setComp(1, selectBox);
         gridPanel.setComp(2, gPanel);
         gridPanel.setComp(3, new LabelInput());
         gPanel.getComp().setVisible(false);
         panel.add(gridPanel);
 
-        HPanel filePanel = new HPanel();
-        filePanel.add(new HeightComp(10));
+        panel.add(new HeightComp(10));
         HGridPanel sqlFilePanel = new HGridPanel(new HGridLayout(GridSplitEnum.C3));
         encodeSelectBox = new SelectBox();
         encodeSelectBox.setId(ENCODING_TEXT_ID);
@@ -109,8 +108,7 @@ public class SqlFileCfgDig extends AbsCfgDig {
 
         sqlFilePanel.setComp(1, encodeSelectBox);
         sqlFilePanel.setComp(2, sqlFileChoose);
-        filePanel.add(sqlFilePanel);
-        panel.add(filePanel);
+        panel.add(sqlFilePanel);
     }
 
     HGridPanel getWithLabelInput(AbsInput input) {

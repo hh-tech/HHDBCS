@@ -1,6 +1,5 @@
 package com.hh.hhdb_admin.mgr.delete.impl;
 
-import com.hh.frame.common.util.db.SqlExeUtil;
 import com.hh.frame.common.util.db.SqlStrUtil;
 import com.hh.hhdb_admin.mgr.delete.AbsDel;
 import com.hh.hhdb_admin.mgr.delete.NodeInfo;
@@ -19,6 +18,7 @@ public class MViewDel extends AbsDel {
         switch (dbType) {
             case oracle:
             case sqlserver:
+            case dm:
                 sql = String.format("DROP MATERIALIZED VIEW %s.%s", SqlStrUtil.dealDoubleQuote(dbType, schemaName),
                         SqlStrUtil.dealDoubleQuote(dbType, nodeName));
                 break;
@@ -34,6 +34,6 @@ public class MViewDel extends AbsDel {
             default:
                 throw new Exception("暂不支持该数据库");
         }
-        SqlExeUtil.executeUpdate(conn, sql);
+        execute(sql);
     }
 }

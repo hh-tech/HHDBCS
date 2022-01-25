@@ -32,12 +32,16 @@ public class MonitorUtil {
                 column = columnStrResults.split("\\u007C");
                 columns.addAll(Arrays.asList(column));
             } else if (!separated[i].contains("-------")) {
-                String[] valueList = separated[i].split("\\u007C");
+            	String[] valueList = StringUtils.split(separated[i], '|');
+//                String[] valueList = separated[i].split("\\u007C");
                 List<String> valueListStr = Arrays.asList(valueList);
                 Map<String, String> valueMap = new HashMap<>();
                 for (int j = 0; j < columns.size(); j++) {
                     String columnStr = columns.get(j);
-                    String valueStr = valueListStr.get(j);
+                    String valueStr = "";
+                    if(j<valueListStr.size()) {
+                    	valueStr = valueListStr.get(j);
+                    }
                     valueMap.put(columnStr, valueStr);
                 }
                 columnValues.add(valueMap);

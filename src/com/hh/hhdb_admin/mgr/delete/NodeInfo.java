@@ -13,19 +13,21 @@ public class NodeInfo {
     private String schemaName;
     private String tableName;
     private TreeMrType treeMrType;
+    private OperateType operType;    //操作类型
 
     public NodeInfo() {
     }
 
-    public NodeInfo(String name, String schemaName, String tableName, TreeMrType treeMrType) {
+    public NodeInfo(String name, String schemaName, String tableName, TreeMrType treeMrType,OperateType operType) {
         this.name = name;
         this.schemaName = schemaName;
         this.tableName = tableName;
         this.treeMrType = treeMrType;
+        this.operType = operType;
     }
 
-    public NodeInfo(String id, String name, String schemaName, String tableName, TreeMrType treeMrType) {
-        this(name, schemaName, tableName, treeMrType);
+    public NodeInfo(String id, String name, String schemaName, String tableName, TreeMrType treeMrType,OperateType operType) {
+        this(name, schemaName, tableName, treeMrType,operType);
         this.id = id;
     }
 
@@ -36,7 +38,8 @@ public class NodeInfo {
                 ", name='" + name + '\'' +
                 ", schemaName='" + schemaName + '\'' +
                 ", tableName='" + tableName + '\'' +
-                ", treeMrType=" + treeMrType +
+                ", treeMrType='" + treeMrType + '\'' +
+                ", operType=" + operType +
                 '}';
     }
 
@@ -78,5 +81,13 @@ public class NodeInfo {
 
     public void setTreeMrType(TreeMrType treeMrType) {
         this.treeMrType = treeMrType;
+    }
+    
+    public OperateType getOperType() {
+        return operType;
+    }
+    
+    public void setOperType(OperateType operType) {
+        this.operType = operType;
     }
 }

@@ -37,7 +37,7 @@ public class FunctionComp {
     private FunBaseForm funForm;
 
     private HDialog dlog,dialog;
-    HButton sqlBut,compileBut,upBut,saveBut,formatBut;
+    HButton compileBut,upBut,saveBut,formatBut;
 
     private boolean isEdit;				//true 修改
     private final String schemaName;		//模式名
@@ -64,7 +64,7 @@ public class FunctionComp {
             HBarLayout l = new HBarLayout();
             l.setAlign(AlignEnum.LEFT);
             HBarPanel toolBarPane = new HBarPanel(l);
-            sqlBut = new HButton(FunctionMgr.getLang("next")) {
+            HButton sqlBut = new HButton(FunctionMgr.getLang("next")) {
                 @Override
                 public void onClick() {
                     dlog.hide();
@@ -77,7 +77,7 @@ public class FunctionComp {
             LastPanel lastPanel = funForm.getParaPanel();
             lastPanel.setHead(toolBarPane.getComp());
 
-            dlog = new HDialog(StartUtil.parentFrame,700, 480){
+            dlog = new HDialog(StartUtil.parentFrame,700){
                 @Override
                 protected void closeEvent() {
                     ConnUtil.close(conn);
@@ -85,9 +85,8 @@ public class FunctionComp {
             };
             dlog.setIconImage(IconFileUtil.getLogo(IconSizeEnum.SIZE_16).getImage());
             dlog.setWindowTitle(FunctionMgr.getLang("add"));
-            HPanel hPanel = new HPanel();
-            hPanel.setLastPanel(lastPanel);
-            dlog.setRootPanel(hPanel);
+            dlog.setRootPanel(lastPanel);
+            dlog.setSize(700,lastPanel.getHeight()+60);
             dlog.show();
         }catch (Exception e){
             e.printStackTrace();
@@ -264,7 +263,7 @@ public class FunctionComp {
         formatBut = new HButton(FunctionMgr.getLang("format")) {
             @Override
             public void onClick() {
-                QuerUtil.formatSql(funForm.queryUi);
+                QuerUtil.formatSql(DriverUtil.getDbType(jdbcBean),funForm.queryUi);
             }
         };
         formatBut.setIcon(FunctionMgr.getIcon("format"));

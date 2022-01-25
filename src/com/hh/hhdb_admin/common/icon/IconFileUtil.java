@@ -1,27 +1,30 @@
 package com.hh.hhdb_admin.common.icon;
 
+import com.hh.frame.common.base.DBTypeEnum;
+import com.hh.frame.common.base.JobStatus;
+import com.hh.frame.swingui.view.ui.HHSwingUi;
+import com.hh.frame.swingui.view.ui.other.HFlatSVGIcon;
+import com.hh.frame.swingui.view.util.ImgUtil;
+
+import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.hh.frame.common.base.JobStatus;
-
-import javax.swing.ImageIcon;
-
-import com.hh.frame.common.base.DBTypeEnum;
-import com.hh.frame.swingui.view.util.ImgUtil;
 
 public class IconFileUtil {
-	private static File iconBaseDir = null;
-	private static final Map<IconBean, ImageIcon> iconMap = new HashMap<>();
-	public static final String LOGO_CONTEXT="shared/logo";
-	public static final String DB_TYPE_CONTEXT="shared/dbtype";
-	public static final String STATUS_CONTEXT="shared/status";
-	public static final String ERROR_CONTEXT="shared/has_error";
+	public static File iconBaseDir = null;
+	private static Map<IconBean, ImageIcon> iconMap = new HashMap<>();
+	public static final String LOGO_CONTEXT = "shared/logo";
+	public static final String DB_TYPE_CONTEXT = "shared/dbtype";
+	public static final String STATUS_CONTEXT = "shared/status";
+	public static final String ERROR_CONTEXT = "shared/has_error";
+
 	public static void setIconBaseDir(File dir) {
 		iconBaseDir = dir;
 	}
+
 
 	public static ImageIcon getIcon(IconBean iconBean) {
 		// 如果map中已经存在直接从map中返回
@@ -29,8 +32,25 @@ public class IconFileUtil {
 			return iconMap.get(iconBean);
 		}
 		File iconFile = new File(iconBaseDir, iconBean.toString());
+		if (!iconFile.exists()) {
+			iconBean.setIconType(ImgUtil.ImgType.PNG);
+			iconFile = new File(iconBaseDir, iconBean.toString());
+		}
+		if (HHSwingUi.isDarkSkin()) {
+			iconBean.setDark(true);
+			iconFile = new File(iconBaseDir, iconBean.toString());
+			if (!iconFile.exists()) {
+				iconBean.setDark(false);
+				iconFile = new File(iconBaseDir, iconBean.toString());
+			}
+		}
 		if (iconFile.exists()) {
-			ImageIcon icon = ImgUtil.readImgIcon(iconFile);
+			ImageIcon icon;
+			if (iconFile.getName().endsWith(ImgUtil.ImgType.SVG.name().toLowerCase())) {
+				icon = new HFlatSVGIcon(iconFile.getAbsolutePath());
+			} else {
+				icon = ImgUtil.readImgIcon(iconFile);
+			}
 			iconMap.put(iconBean, icon);
 			return icon;
 		}
@@ -54,40 +74,44 @@ public class IconFileUtil {
 		File contextFile = new File(iconBaseDir, iconBean.getContext());
 		return contextFile.exists() && contextFile.isDirectory();
 	}
-	
+
 	public static ImageIcon getLogo(IconSizeEnum size) {
-		IconBean iconBean=new IconBean(LOGO_CONTEXT,"logo");
+		IconBean iconBean = new IconBean(LOGO_CONTEXT, "logo");
 		iconBean.setSize(size);
 		return getIcon(iconBean);
 	}
-	
-	public static ImageIcon getDbIcon(DBTypeEnum dbtype,IconSizeEnum size) {
-		IconBean iconBean=new IconBean(DB_TYPE_CONTEXT,dbtype.name());
+
+	public static ImageIcon getDbIcon(DBTypeEnum dbtype, IconSizeEnum size) {
+		IconBean iconBean = new IconBean(DB_TYPE_CONTEXT, dbtype.name());
 		iconBean.setSize(size);
 		return getIcon(iconBean);
 	}
-	
+
 	public static ImageIcon getDbIcon(DBTypeEnum dbtype) {
-		IconBean iconBean=new IconBean(DB_TYPE_CONTEXT,dbtype.name());
+		IconBean iconBean = new IconBean(DB_TYPE_CONTEXT, dbtype.name());
 		return getIcon(iconBean);
 	}
-	
+
 	public static ImageIcon getStatusIcon(JobStatus jobStatus) {
-		IconBean iconBean=new IconBean(STATUS_CONTEXT,jobStatus.name().toLowerCase());
+		IconBean iconBean = new IconBean(STATUS_CONTEXT, jobStatus.name().toLowerCase());
 		return getIcon(iconBean);
 	}
-	
+
 	public static ImageIcon hasError(boolean hasErr) {
-		IconBean iconBean=new IconBean(ERROR_CONTEXT,String.valueOf(hasErr));
+		IconBean iconBean = new IconBean(ERROR_CONTEXT, String.valueOf(hasErr));
 		return getIcon(iconBean);
 	}
-		
+
 	public static ImageIcon getLogo() {
 		return getLogo(IconSizeEnum.SIZE_16);
 	}
-	
+
+	public static void reset() {
+		iconMap = new HashMap<>();
+	}
+
 	public static void main(String[] args) {
-		iconBaseDir=new File("etc/icon");
+		iconBaseDir = new File("etc/icon");
 		System.out.println(hasError(true));
 	}
 

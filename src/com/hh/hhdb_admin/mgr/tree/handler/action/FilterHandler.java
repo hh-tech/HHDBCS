@@ -2,7 +2,6 @@ package com.hh.hhdb_admin.mgr.tree.handler.action;
 
 import com.hh.frame.swingui.view.container.HDialog;
 import com.hh.frame.swingui.view.container.HPanel;
-import com.hh.frame.swingui.view.container.LastPanel;
 import com.hh.frame.swingui.view.input.TextInput;
 import com.hh.frame.swingui.view.tree.HTreeNode;
 import com.hh.hhdb_admin.common.icon.IconFileUtil;
@@ -23,7 +22,7 @@ public class FilterHandler extends AbsHandler {
         if (value != null) {
             textInput.setValue(value);
         }
-        HDialog dialog = new HDialog() {
+        HDialog dialog = new HDialog(StartUtil.parentFrame, 300, 120) {
             @Override
             protected void onConfirm() {
                 try {
@@ -34,17 +33,12 @@ public class FilterHandler extends AbsHandler {
                 }
             }
         };
-        dialog.setSize(300, 130);
         dialog.setIconImage(IconFileUtil.getLogo());
         HPanel panel = new HPanel();
-        LastPanel lastPanel = new LastPanel();
-
+        panel.add(textInput);
         dialog.setOption();
-        lastPanel.set(textInput.getComp());
-
-        panel.setLastPanel(lastPanel);
         dialog.setRootPanel(panel);
-        dialog.setTitle("筛选关键字");
+        dialog.setWindowTitle(getLang("filterKeywords"));
         dialog.show();
     }
 }

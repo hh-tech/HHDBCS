@@ -1,6 +1,5 @@
 package com.hh.hhdb_admin.mgr.function;
 
-import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.create_dbobj.function.mr.AbsFunMr;
@@ -18,8 +17,6 @@ import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.function.ui.deBug_from.OrDebugForm;
 import com.hh.hhdb_admin.mgr.function.util.DebugUtil;
 import com.hh.hhdb_admin.mgr.function.util.FunUtil;
-import com.hh.hhdb_admin.mgr.login.LoginBean;
-import com.hh.hhdb_admin.mgr.login.LoginMgr;
 import com.hh.hhdb_admin.mgr.tree.TreeMgr;
 
 import javax.swing.*;
@@ -61,19 +58,15 @@ public class FunctionMgr extends AbsGuiMgr {
 
     @Override
     public void doPush(JsonObject msg) throws Exception {
-        JsonObject sharedIdObj = StartUtil.eng.doCall(CsMgrEnum.LOGIN, GuiJsonUtil.genGetShareIdMsg(LoginMgr.ObjType.LOGIN_BEAN));
-        LoginBean lb = (LoginBean)StartUtil.eng.getSharedObj(GuiJsonUtil.toStrSharedId(sharedIdObj));
-        jdbcBean = lb.getJdbc();
+        jdbcBean = StartUtil.getLoginBean().getJdbc();
 
         FunctionComp fun = null;
         if(!GuiJsonUtil.toStrCmd(msg).equals(CMD_DEBUG_FUNCTION) && !GuiJsonUtil.toStrCmd(msg).equals(RUN_FUNCTION) && !GuiJsonUtil.toStrCmd(msg).equals(DEBUG)){
             fun = new FunctionComp(jdbcBean,GuiJsonUtil.toPropValue(msg, StartUtil.PARAM_SCHEMA)){
                 @Override
                 protected void refresh() {
-                    String ty = TreeMrType.FUNCTION_GROUP.name();
-                    if (DriverUtil.getDbType(jdbcBean)==DBTypeEnum.mysql || DriverUtil.getDbType(jdbcBean)==DBTypeEnum.sqlserver) ty = GuiJsonUtil.toPropValue(msg,TYPE).equals(TreeMrType.FUNCTION.name()) ? TreeMrType.FUNCTION_GROUP.name() : TreeMrType.PROCEDURE_GROUP.name();
                     StartUtil.eng.doPush(CsMgrEnum.TREE, GuiJsonUtil.toJsonCmd(TreeMgr.CMD_REFRESH)
-                            .add(TreeMgr.PARAM_NODE_TYPE, ty)
+                            .add(TreeMgr.PARAM_NODE_TYPE, GuiJsonUtil.toPropValue(msg,TYPE).equals(TreeMrType.FUNCTION.name()) ? TreeMrType.FUNCTION_GROUP.name() : TreeMrType.PROCEDURE_GROUP.name())
                             .add(StartUtil.PARAM_SCHEMA, GuiJsonUtil.toPropValue(msg, StartUtil.PARAM_SCHEMA)));
                 }
             };

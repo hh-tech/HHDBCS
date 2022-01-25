@@ -349,6 +349,34 @@
         "zh": "分区类型",
         "en": "Partition type"
       }
+    },
+    {
+      "key": "BTN_QD",
+      "value": {
+        "zh": "确定",
+        "en": "Confirm"
+      }
+    },
+    {
+      "key": "BTN_QX",
+      "value": {
+        "zh": "取消",
+        "en": "Cancel"
+      }
+    },
+    {
+      "key": "INPUT_NEW_NAME",
+      "value": {
+        "zh": "请输入新的表名!",
+        "en": "Please input a new table name!"
+      }
+    },
+    {
+      "key": "NAME_EQUAL_ERROR",
+      "value": {
+        "zh": "与原表名相同！",
+        "en": "The new table name is the same as the original table name!"
+      }
     }
   ]
 }

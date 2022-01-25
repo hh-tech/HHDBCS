@@ -43,8 +43,8 @@ public class MysqlRunForm extends RunBaseForm {
             } else {
                 for (String str : parms.keySet()) {
                     Map<String, String> dparma = new HashMap<String, String>();
-                    dparma.put("parameter", str);
-                    dparma.put("dbType", parms.get(str));
+                    dparma.put("name", str);
+                    dparma.put("type", parms.get(str));
                     dparma.put("value", "");
                     list.add(dparma);
                 }
@@ -58,21 +58,21 @@ public class MysqlRunForm extends RunBaseForm {
     }
 
     @Override
-    protected String getSql(Map<String, String> valMap) throws Exception {
+    protected String getSql(Map<String, List<String>> valMap) throws Exception {
         Connection con = null;
         try {
             con = ConnUtil.getConn(jdbcBean);
             StringBuffer finalParms = new StringBuffer();
             if (type.name().equals("FUNCTION")) {
                 for (String str : valMap.keySet()) {   //设置参数
-                    if (null != str) finalParms.append(finalParms.length() == 0 ? "" : ",").append("'" + valMap.get(str) + "'");
+                    if (null != str) finalParms.append(finalParms.length() == 0 ? "" : ",").append("'" + valMap.get(str).get(1) + "'");
                 }
                 return "select `"+funMr.treeNode.getSchemaName()+"`.`"+funMr.treeNode.getName()+"`("+finalParms+");";
             } else {
                 outSql = new StringBuffer();
                 parList = new LinkedList<>();
                 for (String str : valMap.keySet()) {   //设置参数
-                    if (null != str) parList.add("SET @`"+str+"` = '"+valMap.get(str)+"'");
+                    if (null != str) parList.add("SET @`"+str+"` = '"+valMap.get(str).get(1)+"'");
                 }
                 Map<String, JsonObject> mapPar = funMr.getFunAllPar(con);
                 for (String str : mapPar.keySet()) {
@@ -109,7 +109,7 @@ public class MysqlRunForm extends RunBaseForm {
                             map.keySet().forEach(a -> resTable.addCols(new DataCol(a, a)));
                             LastPanel lastPanel = new LastPanel(false);
                             lastPanel.setWithScroll(resTable.getComp());
-                            hTabPane.addPanel("result", FunctionMgr.getLang("result"), lastPanel.getComp(), true);
+                            hTabPane.addPanel("result", FunctionMgr.getLang("result"), lastPanel.getComp());
                         }
                         List<Map<String, String>> valist = new ArrayList<Map<String, String>>();
                         Map<String, String> dparma = new HashMap<String, String>();

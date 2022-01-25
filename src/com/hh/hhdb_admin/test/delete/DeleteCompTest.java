@@ -3,9 +3,11 @@ package com.hh.hhdb_admin.test.delete;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
+import com.hh.frame.swingui.view.container.HFrame;
 import com.hh.frame.swingui.view.ui.HHSwingUi;
 import com.hh.hhdb_admin.mgr.delete.DeleteComp;
 import com.hh.hhdb_admin.mgr.delete.NodeInfo;
+import com.hh.hhdb_admin.mgr.delete.OperateType;
 import com.hh.hhdb_admin.mgr.login.LoginBean;
 
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ public class DeleteCompTest {
 
     public static void main(String[] args) throws Exception {
         HHSwingUi.init();
-        NodeInfo nodeInfo = new NodeInfo("aaa", "test", null, TreeMrType.TABLE);
+        NodeInfo nodeInfo = new NodeInfo("aaa", "test", null, TreeMrType.TABLE, OperateType.DEL);
 
         LoginBean loginBean = new LoginBean();
         JdbcBean jdbcBean = new JdbcBean();
@@ -34,7 +36,7 @@ public class DeleteCompTest {
 
 		{
             add(nodeInfo);
-        }}, loginBean);
+        }}, loginBean, new HFrame());
 
     }
 }

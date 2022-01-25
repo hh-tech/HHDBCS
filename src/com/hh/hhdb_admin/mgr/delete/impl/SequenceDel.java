@@ -1,6 +1,4 @@
 package com.hh.hhdb_admin.mgr.delete.impl;
-
-import com.hh.frame.common.util.db.SqlExeUtil;
 import com.hh.hhdb_admin.mgr.delete.AbsDel;
 import com.hh.hhdb_admin.mgr.delete.NodeInfo;
 
@@ -29,6 +27,6 @@ public class SequenceDel extends AbsDel {
             default:
                 throw new Exception("暂不支持该数据库");
         }
-        SqlExeUtil.executeUpdate(conn, sql);
+        execute(sql);
     }
 }

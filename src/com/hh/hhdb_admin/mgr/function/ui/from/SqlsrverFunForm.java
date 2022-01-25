@@ -9,9 +9,8 @@ import com.hh.frame.json.JsonObject;
 import com.hh.frame.swingui.view.container.HPanel;
 import com.hh.frame.swingui.view.container.LastPanel;
 import com.hh.frame.swingui.view.input.SelectBox;
+import com.hh.frame.swingui.view.input.TextAreaInput;
 import com.hh.frame.swingui.view.input.TextInput;
-import com.hh.frame.swingui.view.layout.GridSplitEnum;
-import com.hh.frame.swingui.view.layout.HDivLayout;
 import com.hh.frame.swingui.view.util.VerifyUtil;
 import com.hh.hhdb_admin.mgr.function.FunctionMgr;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +23,7 @@ import java.util.ArrayList;
 public class SqlsrverFunForm extends FunBaseForm {
     private SelectBox fh;
     private TextInput name,lengthField,scaleField;
+    private TextAreaInput commentInput;
 
     public SqlsrverFunForm(AbsFunMr funMr, Connection conn, JdbcBean jdbcBean, boolean isEdit)throws Exception {
         super(funMr,conn,jdbcBean);
@@ -33,11 +33,11 @@ public class SqlsrverFunForm extends FunBaseForm {
     @Override
     public LastPanel getParaPanel() throws Exception {
         HPanel hPanel = new HPanel();
-        hPanel.add(getPanel("",null,null));
+        hPanel.add(getPanel("",null));
 
         //名称
         name = new TextInput("name");
-        hPanel.add(getPanel(FunctionMgr.getLang("name")+"：",name,new HDivLayout(10, 15, GridSplitEnum.C2,GridSplitEnum.C5)));
+        hPanel.add(getPanel(FunctionMgr.getLang("name")+"：",name));
 
         //返回值
         if(funMr.treeNode.getType() == TreeMrType.FUNCTION){
@@ -57,12 +57,14 @@ public class SqlsrverFunForm extends FunBaseForm {
                 fh.addOption(s,s);
             }
             fh.getComp().setSelectedItem("varchar");
-            hPanel.add(getPanel(FunctionMgr.getLang("returned")+"：",fh,new HDivLayout(10, 15, GridSplitEnum.C2,GridSplitEnum.C5)));
+            hPanel.add(getPanel(FunctionMgr.getLang("returned")+"：",fh));
     
-            hPanel.add(getPanel("长度：",lengthField,new HDivLayout(10, 15, GridSplitEnum.C2,GridSplitEnum.C5)));
-            hPanel.add(getPanel("精度：",scaleField,new HDivLayout(10, 15, GridSplitEnum.C2,GridSplitEnum.C5)));
+            hPanel.add(getPanel("长度：",lengthField));
+            hPanel.add(getPanel("精度：",scaleField));
         }
-
+        //注释
+        commentInput = new TextAreaInput("comment", "",4);
+        hPanel.add(getPanel(FunctionMgr.getLang("comment")+ "：",commentInput));
         //参数
         hPanel.add(getTablePanel());
 
@@ -122,13 +124,21 @@ public class SqlsrverFunForm extends FunBaseForm {
 
     @Override
     public void save() throws Exception {
-        SqlExeUtil.executeUpdate(conn, queryUi.getText());
+        int i = SqlExeUtil.executeUpdate(conn, queryUi.getText());
+        if (i != -1) {
+            //添加注释
+            StringBuffer sqlText = new StringBuffer();
+            boolean bool = funMr.treeNode.getType() == TreeMrType.FUNCTION;
+            sqlText.append("exec sp_addextendedproperty 'MS_Description', N'"+commentInput.getValue()+"', 'SCHEMA',")
+                    .append("N'"+funMr.treeNode.getSchemaName()+"',").append("'"+(bool ? "FUNCTION" : "PROCEDURE")+"',")
+                    .append("N'"+(StringUtils.isNotBlank(name.getValue()) ? name.getValue() : "new")+"';");
+            SqlExeUtil.executeUpdate(conn, sqlText.toString());
+        }
     }
 
     @Override
     public void delete() throws Exception {
-        SqlExeUtil.executeUpdate(conn, "DROP "+ (funMr.treeNode.getType() == TreeMrType.FUNCTION ? "FUNCTION " : "PROCEDURE ") +
-                funMr.treeNode.getSchemaName()+"."+funMr.treeNode.getName() );
+        SqlExeUtil.executeUpdate(conn, getDelSql());
     }
     
     @Override
@@ -147,4 +157,10 @@ public class SqlsrverFunForm extends FunBaseForm {
         
         return type + (null != len ? "(" + len + (null != sca ? "," + sca : "") + ")" : "");
     }
+
+	@Override
+	public String getDelSql() throws Exception {
+		return "DROP "+ (funMr.treeNode.getType() == TreeMrType.FUNCTION ? "FUNCTION " : "PROCEDURE ") +
+                funMr.treeNode.getSchemaName()+"."+funMr.treeNode.getName() ;
+	}
 }

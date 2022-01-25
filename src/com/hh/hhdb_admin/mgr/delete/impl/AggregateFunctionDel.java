@@ -1,11 +1,12 @@
 package com.hh.hhdb_admin.mgr.delete.impl;
 
-import com.hh.frame.common.util.db.SqlExeUtil;
+import com.hh.frame.common.util.db.ConnUtil;
 import com.hh.frame.common.util.db.SqlQueryUtil;
 import com.hh.hhdb_admin.mgr.delete.AbsDel;
 import com.hh.hhdb_admin.mgr.delete.NodeInfo;
 import org.apache.commons.lang3.StringUtils;
 
+import java.sql.Connection;
 import java.util.Map;
 
 /**
@@ -23,10 +24,12 @@ public class AggregateFunctionDel extends AbsDel {
         String getParamTypeSql = "SELECT COALESCE(hh_catalog.hh_get_function_identity_arguments(oid)) as arguments " +
                 "FROM hh_proc " +
                 "WHERE oid = %s";
+        Connection conn = ConnUtil.getConn(jdbcBean);
         Map<String, String> paramTypeData = SqlQueryUtil.selectOneStrMap(conn, String.format(getParamTypeSql, id));
+        conn.close();
         if (StringUtils.isBlank(paramTypeData.get("arguments"))) {
             return;
         }
-        SqlExeUtil.executeUpdate(conn, String.format(sql, schemaName, name, paramTypeData.get("arguments")));
+        execute(String.format(sql, schemaName, name, paramTypeData.get("arguments")));
     }
 }

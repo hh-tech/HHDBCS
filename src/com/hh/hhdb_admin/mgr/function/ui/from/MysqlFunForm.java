@@ -9,9 +9,8 @@ import com.hh.frame.json.JsonObject;
 import com.hh.frame.swingui.view.container.HPanel;
 import com.hh.frame.swingui.view.container.LastPanel;
 import com.hh.frame.swingui.view.input.SelectBox;
+import com.hh.frame.swingui.view.input.TextAreaInput;
 import com.hh.frame.swingui.view.input.TextInput;
-import com.hh.frame.swingui.view.layout.GridSplitEnum;
-import com.hh.frame.swingui.view.layout.HDivLayout;
 import com.hh.frame.swingui.view.util.VerifyUtil;
 import com.hh.hhdb_admin.mgr.function.FunctionMgr;
 import org.apache.commons.lang3.StringUtils;
@@ -23,6 +22,8 @@ import java.sql.Connection;
 public class MysqlFunForm extends FunBaseForm {
     private SelectBox fh;
     private TextInput name,lengthField,scaleField;
+    private TextAreaInput commentInput;
+    private String originalSql; //修改函数时，函数本身的sql
 
     public MysqlFunForm(AbsFunMr funMr, Connection conn, JdbcBean jdbcBean, boolean isEdit)throws Exception {
         super(funMr,conn,jdbcBean);
@@ -32,11 +33,11 @@ public class MysqlFunForm extends FunBaseForm {
     @Override
     public LastPanel getParaPanel() throws Exception {
         HPanel hPanel = new HPanel();
-        hPanel.add(getPanel("",null,null));
+        hPanel.add(getPanel("",null));
 
         //名称
         name = new TextInput("name");
-        hPanel.add(getPanel(FunctionMgr.getLang("name")+"：",name,new HDivLayout(10, 15, GridSplitEnum.C2,GridSplitEnum.C5)));
+        hPanel.add(getPanel(FunctionMgr.getLang("name")+"：",name));
 
         //返回值
         if(funMr.treeNode.getType() == TreeMrType.FUNCTION){
@@ -56,12 +57,14 @@ public class MysqlFunForm extends FunBaseForm {
                 fh.addOption(s,s);
             }
             fh.getComp().setSelectedItem("varchar");
-            hPanel.add(getPanel(FunctionMgr.getLang("returned")+"：",fh,new HDivLayout(10, 15, GridSplitEnum.C2,GridSplitEnum.C5)));
+            hPanel.add(getPanel(FunctionMgr.getLang("returned")+"：",fh));
     
-            hPanel.add(getPanel("长度：",lengthField,new HDivLayout(10, 15, GridSplitEnum.C2,GridSplitEnum.C5)));
-            hPanel.add(getPanel("精度：",scaleField,new HDivLayout(10, 15, GridSplitEnum.C2,GridSplitEnum.C5)));
+            hPanel.add(getPanel("长度：",lengthField));
+            hPanel.add(getPanel("精度：",scaleField));
         }
-
+        //注释
+        commentInput = new TextAreaInput("comment", "",4);
+        hPanel.add(getPanel(FunctionMgr.getLang("comment")+ "：",commentInput));
         //参数
         hPanel.add(getTablePanel());
 
@@ -75,6 +78,7 @@ public class MysqlFunForm extends FunBaseForm {
         StringBuffer sqlText = new StringBuffer();
         if (isEdit) {  //修改时获取的函数创建sql
             sqlText.append(funMr.getCreateSql(conn));
+            originalSql = sqlText.toString();
         }else {
             JTable table = hTable.getComp();
             boolean bool = funMr.treeNode.getType() == TreeMrType.FUNCTION;
@@ -96,6 +100,8 @@ public class MysqlFunForm extends FunBaseForm {
                 String type = getType(fh.getValue(),lengthField.getValue(),scaleField.getComp().isEnabled() ? scaleField.getValue() : null);
                 sqlText.append(" RETURNS ").append(type);
             }
+            //注释
+            sqlText.append("\nCOMMENT '"+commentInput.getValue()+"'");
             sqlText.append("\n").append("BEGIN\n")
                     .append("\t#Routine body goes here...\n")
                     .append("\n");
@@ -110,14 +116,21 @@ public class MysqlFunForm extends FunBaseForm {
         if (isEdit) {
             SqlExeUtil.executeUpdate(conn,"DROP "+ (funMr.treeNode.getType() == TreeMrType.FUNCTION ? "FUNCTION" : "PROCEDURE") +
                     " IF EXISTS `"+funMr.treeNode.getSchemaName()+"`.`"+funMr.treeNode.getName()+"`");
+            try {
+                SqlExeUtil.executeUpdate(conn, queryUi.getText());
+            }catch (Exception e){
+                //如果报错，则抛出异常还原之前删除的函数
+                SqlExeUtil.executeUpdate(conn, originalSql);
+                throw e;
+            }
+        } else {
+            SqlExeUtil.executeUpdate(conn, queryUi.getText());
         }
-        SqlExeUtil.executeUpdate(conn, queryUi.getText());
     }
 
     @Override
     public void delete() throws Exception {
-        SqlExeUtil.executeUpdate(conn, "DROP "+ (funMr.treeNode.getType() == TreeMrType.FUNCTION ? "FUNCTION " : "PROCEDURE ") +
-                " IF EXISTS `"+funMr.treeNode.getSchemaName()+"`.`"+funMr.treeNode.getName()+"`");
+        SqlExeUtil.executeUpdate(conn, getDelSql());
     }
     
     @Override
@@ -136,5 +149,11 @@ public class MysqlFunForm extends FunBaseForm {
         
         return type + (null != len ? "(" + len + (null != sca ? "," + sca : "") + ")" : "");
     }
+
+	@Override
+	public String getDelSql() throws Exception {
+		return "DROP "+ (funMr.treeNode.getType() == TreeMrType.FUNCTION ? "FUNCTION " : "PROCEDURE ") +
+                " IF EXISTS `"+funMr.treeNode.getSchemaName()+"`.`"+funMr.treeNode.getName()+"`";
+	}
     
 }

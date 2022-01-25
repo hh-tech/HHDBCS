@@ -50,7 +50,25 @@ public class HHdbSeqComp extends AbsSeqComp {
 	@Override
 	public void initPanel() {
 		checkCycle = new CheckBoxInput(SequenceMgr.getLang("loop"));
-		checkOwner = new CheckBoxInput(SequenceMgr.getLang("listOwner"));
+		checkOwner = new CheckBoxInput(SequenceMgr.getLang("listOwner")) {
+
+			@Override
+			protected void onClick(ActionEvent e) {
+				if(checkOwner.isChecked()) {
+					tableOwner.setEnabled(true);
+					columnOwner.setEnabled(true);
+					tableOwnerSet();
+					if(StringUtils.isBlank(columnOwner.getValue())){
+					  setColumn();
+					}
+					columnOwnerSet();
+				}else {
+					tableOwner.setEnabled(false);
+					columnOwner.setEnabled(false);	
+				}
+			}
+			
+		};
 		tableOwner = new SelectBox();
 		columnOwner = new SelectBox();	
 		aonotation = new TextAreaInput(null,null,2);
@@ -74,7 +92,6 @@ public class HHdbSeqComp extends AbsSeqComp {
 
 	@Override
 	public void setStartVal(boolean isEdit) {
-		setTableOwner();
 		if(isEdit) {
 			setEditVal();
 		}else {
@@ -192,27 +209,16 @@ public class HHdbSeqComp extends AbsSeqComp {
 	 * void
 	 *
 	 */
-	private void setTableOwner() {
-		checkOwner.addListen(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(checkOwner.isChecked()) {
-					tableOwner.setEnabled(true);
-					columnOwner.setEnabled(true);
-					tableOwnerSet();
-					if(StringUtils.isBlank(columnOwner.getValue())){
-					  setColumn();
-					}
-					columnOwnerSet();
-				}else {
-					tableOwner.setEnabled(false);
-					columnOwner.setEnabled(false);	
-				}
-				
-			}
-
-		});
-	}
+//	private void setTableOwner() {
+//		checkOwner.addListen(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				
+//				
+//			}
+//
+//		});
+//	}
 
 	@Override
 	public String getCreateSql() {

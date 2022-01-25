@@ -1,25 +1,40 @@
 package com.hh.hhdb_admin.mgr.main_frame;
 
+import com.alee.laf.combobox.WebComboBox;
+import com.alee.managers.notification.NotificationManager;
+import com.alee.managers.style.Skin;
+import com.alee.managers.style.StyleManager;
+import com.alee.utils.CoreSwingUtils;
 import com.hh.frame.json.JsonObject;
 import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.frame.swingui.view.abs.AbsHComp;
 import com.hh.frame.swingui.view.container.*;
+import com.hh.frame.swingui.view.container.tab_panel.HSplitTabPanel;
+import com.hh.frame.swingui.view.container.tab_panel.HeaderConfig;
 import com.hh.frame.swingui.view.hmenu.HMenuBar;
+import com.hh.frame.swingui.view.ui.HHSwingUi;
+import com.hh.frame.swingui.view.ui.other.BottomStatusBar;
+import com.hh.frame.swingui.view.ui.skin.AbstractHhSkin;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
 import com.hh.hhdb_admin.CsMgrEnum;
-import com.hh.hhdb_admin.common.icon.IconBean;
 import com.hh.hhdb_admin.common.icon.IconFileUtil;
-import com.hh.hhdb_admin.common.icon.IconSizeEnum;
 import com.hh.hhdb_admin.common.util.StartUtil;
+import com.hh.hhdb_admin.mgr.query.QueryComp;
+import com.hh.hhdb_admin.mgr.query.util.QuerUtil;
+import com.hh.hhdb_admin.mgr.table_open.TableOpenMgr;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
 
 /**
  * @author Jiang
@@ -29,6 +44,7 @@ import java.util.Map;
 public class MainFrameComp extends HFrame {
 
 	private static final String DOMAIN_NAME = MainFrameComp.class.getName();
+	private AbsHComp statusBar;
 
 	static {
 		try {
@@ -59,6 +75,9 @@ public class MainFrameComp extends HFrame {
 			public void windowClosing(WindowEvent e) {
 				if (PopPaneUtil.confirm(getLang("exit"))) {
 					window.dispose();
+					if (TableOpenMgr.threadPool != null && !TableOpenMgr.threadPool.isShutdown()) {
+						TableOpenMgr.threadPool.shutdownNow();
+					}
 					System.exit(0);
 				}
 			}
@@ -103,17 +122,66 @@ public class MainFrameComp extends HFrame {
 		splitPanel.setLastComp4Two(rightPanel);
 		this.splitPanel = splitPanel;
 		this.tabPane = tabPane;
-		super.setRootPanel(splitPanel);
+		setRootPanel(splitPanel);
+
+		if (statusBar != null) {
+			window.remove(statusBar.getComp());
+		}
+		statusBar = new BottomStatusBar(new SwitchListener());
+		window.add(statusBar.getComp(), BorderLayout.SOUTH);
+
+		// Custom status bar margin for notification manager
+		NotificationManager.setMargin(0, 0, statusBar.getComp().getPreferredSize().height, 0);
+
+
+	}
+
+
+	public class SwitchListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			CoreSwingUtils.invokeLater(() -> {
+				WebComboBox comboBox = (WebComboBox) e.getSource();
+				Skin skin = (Skin) comboBox.getSelectedItem();
+				Skin oldSkin = StyleManager.getSkin();
+				if (skin != null && oldSkin != skin) {
+					//HHSwingUi.switchSkin((AbstractHhSkin) skin);
+					//System.out.println(UIManager.get("MenuBar.background"));
+					boolean confirm = PopPaneUtil.confirm(window, "切换主题需要重新加载!");
+					if (confirm) {
+						try {
+							HHSwingUi.switchSkin((AbstractHhSkin) skin);
+							StartUtil.writeSkinToFile((AbstractHhSkin) skin);
+						} catch (IOException ioException) {
+							System.out.println("写入主题文件失败");
+						}
+						showNewComp();
+					} else {
+						comboBox.setSelectedItem(oldSkin);
+					}
+				}
+			});
+		}
+
+	}
+
+	protected void showNewComp() {
+		closeAllTab();
+		window.dispose();
+		StartUtil.init();
+		IconFileUtil.reset();
+		StartUtil.eng.doPush(CsMgrEnum.MAIN_FRAME, GuiJsonUtil.toJsonCmd(MainFrameMgr.CMD_SHOW));
 	}
 
 	/**
 	 * 设置shu
 	 *
-	 * @param tree    树插件
+	 * @param tree 树插件
 	 */
 	public void setTree(HPanel tree) {
 		this.splitPanel.setPanelOne(tree);
-		super.setRootPanel(splitPanel);
+		setRootPanel(splitPanel);
 		PopPaneUtil.info(StartUtil.parentFrame.getWindow(), getLang("switchSchemaSuccess"));
 	}
 
@@ -124,7 +192,7 @@ public class MainFrameComp extends HFrame {
 	 */
 	public void setStatusPanel(HBarPanel statusPanel) {
 		this.statusPanel = statusPanel;
-		super.setStatusBar(statusPanel);
+		setStatusBar(statusPanel);
 	}
 
 	/**
@@ -179,6 +247,7 @@ public class MainFrameComp extends HFrame {
 		window.validate();
 		window.repaint();
 	}
+
 	/**
 	 * 新增一个tab页
 	 *
@@ -190,10 +259,20 @@ public class MainFrameComp extends HFrame {
 		String mgrType = jsonObject.getString(MainFrameMgr.PARAM_MGR_TYPE);
 		Object obj = StartUtil.eng.getSharedObj(id);
 		if (!tabMap.containsKey(id)) {
+			HeaderConfig config = new HeaderConfig(title);
+			config.setTitleEditable(true);
+			config.setDetachEnabled(true);
+			
 			if (obj instanceof LastPanel) {
-				tabPane.addPanel(id, title, ((LastPanel) obj).getComp(), true);
+				tabPane.addPanel(id, ((LastPanel) obj), config);
+			} else if (obj instanceof HBasePanel) {
+				tabPane.addPanel(id, ((HBasePanel) obj), config);
+			} else if (obj instanceof HSplitPanel) {
+				tabPane.addPanel(id, ((HSplitPanel) obj), config);
 			} else {
-				tabPane.addPanel(id, title, ((AbsHComp) obj).getComp(), true);
+				LastPanel lastPanel = new LastPanel();
+				lastPanel.set(((AbsHComp) obj).getComp());
+				tabPane.addPanel(id, lastPanel, config);
 			}
 			tabMap.put(id, CsMgrEnum.valueOf(mgrType));
 		}
@@ -213,21 +292,46 @@ public class MainFrameComp extends HFrame {
 		StartUtil.eng.doPush(target, GuiJsonUtil.toJsonCmd(StartUtil.CMD_CLOSE).add(StartUtil.CMD_ID, id));
 		tabMap.remove(id);
 	}
-
+	
+	/**
+	 * 查询器关闭前处理
+	 * @param id
+	 */
+	public boolean quTabPaneClose(String id) {
+		CsMgrEnum target = tabMap.get(id);
+		if (target == null) return true;
+		
+		if (target == CsMgrEnum.QUERY) {
+			QueryComp query = (QueryComp)StartUtil.eng.getSharedObj(id);
+			if (!StringUtils.isNotBlank(query.getTextArea().getText())) return true;
+			Object[] options = {getLang("yes"),getLang("no"),getLang("cancel")};
+			int result= JOptionPane.showOptionDialog(StartUtil.parentFrame.getWindow(),getLang("saveSQL"),getLang("hint"),JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[0]);
+			if (result == 0){
+				QuerUtil.saveSqlBook(query.getTextArea().getText(),false);
+				return true;
+			} else if (result == 1){
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return true;
+		}
+	}
+	
 	public String getLang(String key) {
 		LangMgr2.setDefaultLang(StartUtil.default_language);
 		return LangMgr2.getValue(DOMAIN_NAME, key);
-	}
-
-	private ImageIcon getIcon() {
-		return IconFileUtil.getIcon(new IconBean(CsMgrEnum.MENUBAR.name(), "logo", IconSizeEnum.SIZE_16));
 	}
 
 	/**
 	 * 关闭所有tab
 	 */
 	public void closeAllTab() {
-		tabMap.forEach((id, csMgrEnum) -> StartUtil.eng.doPush(csMgrEnum, GuiJsonUtil.toJsonCmd(StartUtil.CMD_CLOSE).add(StartUtil.CMD_ID, id)));
+		tabMap.forEach((id, csMgrEnum) -> {
+			quTabPaneClose(id);
+			StartUtil.eng.doPush(csMgrEnum, GuiJsonUtil.toJsonCmd(StartUtil.CMD_CLOSE).add(StartUtil.CMD_ID, id));
+		});
 		tabMap.clear();
 	}
 

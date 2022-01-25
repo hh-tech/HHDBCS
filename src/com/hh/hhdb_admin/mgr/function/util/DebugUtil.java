@@ -1,6 +1,7 @@
 package com.hh.hhdb_admin.mgr.function.util;
 
 import com.hh.frame.common.base.DBTypeEnum;
+import com.hh.frame.common.base.HHdbPgsqlPrefixEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.ClassLoadUtil;
 import com.hh.frame.common.util.DriverUtil;
@@ -8,13 +9,19 @@ import com.hh.frame.common.util.db.ConnUtil;
 import com.hh.frame.common.util.db.SqlExeUtil;
 import com.hh.frame.common.util.db.SqlQueryUtil;
 import com.hh.frame.create_dbobj.function.mr.AbsFunMr;
+import com.hh.frame.create_dbobj.table.hh.HhDataTypeEnum;
+import com.hh.frame.create_dbobj.table.sqlserver.SqlServerDataTypeEnum;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrNode;
 import com.hh.frame.json.JsonObject;
+import com.hh.frame.swingui.view.tab.HTabRowBean;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.function.FunctionMgr;
+import org.apache.commons.lang3.StringUtils;
 
+import java.awt.*;
 import java.sql.Connection;
+import java.util.List;
 import java.util.*;
 
 public class DebugUtil {
@@ -29,17 +36,17 @@ public class DebugUtil {
     public static String getCreateSql(JdbcBean jdbcBean,String name,String schema) throws Exception {
         Connection conn = ConnUtil.getConn(jdbcBean);
         try {
-            String result = "";
+            StringBuilder result = new StringBuilder();
             String sql = "SELECT  A.TEXT FROM ALL_SOURCE  A WHERE  A.TYPE IN ( 'PROCEDURE', 'FUNCTION' ) AND A.name='"
                     + name + "' and A.owner ='" + schema + "' ORDER BY A.NAME, A.LINE";
             List<Map<String, Object>> mapList = SqlQueryUtil.select(true, conn, sql);
             if (mapList != null && mapList.size() > 0) {
-                result = "CREATE OR REPLACE ";
+                result = new StringBuilder("CREATE OR REPLACE ");
                 for (Map<String, Object> map : mapList) {
-                    result = result + map.get("TEXT").toString();
+                    result.append(map.get("TEXT"));
                 }
             }
-            return result;
+            return result.toString();
         }finally {
             ConnUtil.close(conn);
         }
@@ -52,7 +59,8 @@ public class DebugUtil {
         Connection conn = null;
         try {
             conn = ConnUtil.getConn(jdbcBean);
-            if (DriverUtil.getDbType(jdbcBean) == DBTypeEnum.oracle){
+            DBTypeEnum db = DriverUtil.getDbType(jdbcBean);
+            if (db == DBTypeEnum.oracle){
                 //安装调试所需包
                 String str = "SELECT OWNER, OBJECT_NAME, OBJECT_TYPE FROM ALL_OBJECTS " +
                         "WHERE OBJECT_TYPE = 'PACKAGE'  AND OWNER = '"+ schemaName +"'" +
@@ -65,6 +73,11 @@ public class DebugUtil {
                 //添加调试权限
                 SqlExeUtil.executeUpdate(conn,"grant DEBUG CONNECT SESSION to " + jdbcBean.getUser());
                 SqlExeUtil.executeUpdate(conn,"grant DEBUG ANY PROCEDURE to " + jdbcBean.getUser());
+            } else if (db == DBTypeEnum.hhdb || db == DBTypeEnum.pgsql){
+                //判断是否安装调试扩展
+                HHdbPgsqlPrefixEnum prefix = db == DBTypeEnum.pgsql ? HHdbPgsqlPrefixEnum.pg : HHdbPgsqlPrefixEnum.hh;
+                List<Map<String, String>> list = SqlQueryUtil.selectStrMapList(conn, "select extname as name from "+ prefix +"_extension WHERE extname = 'pldbgapi'");
+                if (list.isEmpty()) throw new Exception("请安装调试扩展pldbgapi！");
             }
         }finally {
             ConnUtil.close(conn);
@@ -118,13 +131,13 @@ public class DebugUtil {
      * 获取函数参数信息
      * @return
      */
-    public static List<Map<String, String>> getParam(AbsFunMr funMr, JdbcBean jdbcBean) {
+    public static List<Map<String, String>> getParam(AbsFunMr funMr, JdbcBean jdbcBean)throws Exception {
         Connection con = null;
-        List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+        List<Map<String, String>> list = new LinkedList<>();
         try {
             con = ConnUtil.getConn(jdbcBean);
             DBTypeEnum dbType = DriverUtil.getDbType(con);
-            if (dbType.equals(DBTypeEnum.hhdb) || dbType.equals(DBTypeEnum.pgsql)) {
+            if (dbType == DBTypeEnum.hhdb || dbType == DBTypeEnum.pgsql) {
                 if (verifyFun(funMr.getFunParameter(con).get(0).get("prosrc").toString()).length() < 1) {
                     throw new Exception(FunctionMgr.getLang("debugHint") + "!");
                 }
@@ -134,16 +147,13 @@ public class DebugUtil {
                 return new ArrayList<Map<String, String>>();
             } else {
                 for (String str : parms.keySet()) {
-                    Map<String, String> dparma = new HashMap<String, String>();
+                    Map<String, String> dparma = new LinkedHashMap<>();
                     dparma.put("name", str);
                     dparma.put("type", parms.get(str));
                     dparma.put("value", "");
                     list.add(dparma);
                 }
             }
-        }catch (Exception e){
-            e.printStackTrace();
-            PopPaneUtil.error(StartUtil.parentFrame .getWindow(),e.getMessage());
         }finally {
             ConnUtil.close(con);
         }
@@ -174,7 +184,45 @@ public class DebugUtil {
             ConnUtil.close(conn);
         }
     }
-
+    
+    /**
+     * 验证调试/运行函数，输入参数合法性
+     * @param list  输入参数
+     * @param win   父窗口
+     * @return
+     */
+    public static Boolean verify(List<HTabRowBean> list, Window win,DBTypeEnum dbType){
+        String name = "";
+        try {
+            for (HTabRowBean rowBean : list) {
+                Map<String, String> oldRow = rowBean.getOldRow();
+                Map<String, String> rowMap = rowBean.getCurrRow();
+                
+                name = oldRow.get("name");
+                if (StringUtils.isNotBlank(name)) {
+                    if (dbType == DBTypeEnum.hhdb || dbType == DBTypeEnum.pgsql || dbType == DBTypeEnum.sqlserver) {
+                        String type = oldRow.get("type");
+                        String value = null == rowMap ? oldRow.get("value") : rowMap.get("value");
+                        if (type.toUpperCase().equals(HhDataTypeEnum.INET.name()) ||
+                                type.toUpperCase().equals(HhDataTypeEnum.INTEGER.name())||
+                                type.toUpperCase().equals(HhDataTypeEnum.INTERVAL.name())||
+                                type.toUpperCase().equals(SqlServerDataTypeEnum.INT.name())
+                        ) {
+                            Integer.valueOf(value);
+                        } else if (type.toUpperCase().equals(HhDataTypeEnum.NUMERIC.name())) {
+                            Double.parseDouble(value);
+                        }
+                    }
+                }
+            }
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            PopPaneUtil.error(win, "参数"+name+",输入的值不正确！");
+            return false;
+        }
+    }
+    
     /**
      * 验证函数是否有内容
      * @param str

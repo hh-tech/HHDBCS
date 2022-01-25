@@ -5,6 +5,9 @@ import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.common.util.db.ConnUtil;
+import com.hh.frame.create_dbobj.function.debug.AbsDebug;
+import com.hh.frame.create_dbobj.function.debug.HHdbDebug;
+import com.hh.frame.create_dbobj.function.debug.OraDebug;
 import com.hh.frame.create_dbobj.function.mr.AbsFunMr;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrNode;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
@@ -85,6 +88,17 @@ public class FunUtil {
             new SqlsrverRunForm(funMr,jdbcBean);
         }else if (typeEnum==DBTypeEnum.db2) {
         
+        }
+    }
+    
+    public static AbsDebug getDebug(JdbcBean jdbcBean, String procId) throws Exception{
+        DBTypeEnum dbType = DriverUtil.getDbType(jdbcBean);
+        if (dbType == DBTypeEnum.hhdb || dbType == DBTypeEnum.pgsql) {
+            return new HHdbDebug(jdbcBean, procId);
+        } else if (dbType == DBTypeEnum.oracle) {
+            return new OraDebug(jdbcBean);
+        } else {
+            throw new Exception("此类数据库暂时不支持调试功能");
         }
     }
 }

@@ -50,8 +50,7 @@ public class QueryMgr extends AbsGuiMgr {
 				StartUtil.eng.rmFromSharedMap(id);
 				break;
 			case CMD_SHOW_QUERY:
-				JsonObject jsonObj= StartUtil.eng.doCall(CsMgrEnum.LOGIN, GuiJsonUtil.genGetShareIdMsg(null));
-				LoginBean logBean=(LoginBean)StartUtil.eng.getSharedObj(GuiJsonUtil.toStrSharedId(jsonObj));
+				LoginBean logBean=StartUtil.getLoginBean();
 				JdbcBean jdbc = JdbcBean.toJdbc(logBean.getJdbc().toJson());
 
 				QueryComp queryPanel = new QueryComp(jdbc,GuiJsonUtil.toPropValue(msg,"text"));

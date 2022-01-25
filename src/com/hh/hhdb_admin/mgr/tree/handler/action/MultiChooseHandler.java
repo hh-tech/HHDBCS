@@ -1,6 +1,7 @@
 package com.hh.hhdb_admin.mgr.tree.handler.action;
 
 import com.hh.frame.json.JsonArray;
+import com.hh.frame.json.JsonObject;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.frame.swingui.view.tree.HTreeNode;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
@@ -12,7 +13,7 @@ public class MultiChooseHandler extends AbsHandler {
 
     private final HTreeNode[] treeNodes;
 
-    public MultiChooseHandler(HTreeNode[] treeNodes, String actionCmd) {
+    public MultiChooseHandler(HTreeNode[] treeNodes) {
         this.treeNodes = treeNodes;
     }
 
@@ -26,7 +27,9 @@ public class MultiChooseHandler extends AbsHandler {
         }
         JsonArray jsonArray = new JsonArray();
         for (HTreeNode item : treeNodes) {
-            jsonArray.add(item.getName());
+            JsonObject json = new JsonObject();
+            json.add("id", item.getId()).add("name", item.getName());
+            jsonArray.add(json);
         }
         String tableName = getTableName();
         String schemaName = getSchemaName();

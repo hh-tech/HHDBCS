@@ -1,6 +1,4 @@
 package com.hh.hhdb_admin.mgr.delete.impl;
-
-import com.hh.frame.common.util.db.SqlExeUtil;
 import com.hh.hhdb_admin.mgr.delete.AbsDel;
 import com.hh.hhdb_admin.mgr.delete.NodeInfo;
 
@@ -14,6 +12,6 @@ public class SynonymDel extends AbsDel {
     public void del(NodeInfo nodeInfo) throws Exception {
         String schemaName = nodeInfo.getSchemaName();
         String name = nodeInfo.getName();
-        SqlExeUtil.executeUpdate(conn, String.format("drop synonym %s.%s", schemaName, name));
+        execute(String.format("drop synonym %s.%s", schemaName, name));
     }
 }

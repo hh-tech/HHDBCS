@@ -2,18 +2,19 @@ package com.hh.hhdb_admin.mgr.function.ui.deBug_from;
 
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.db.ConnUtil;
-import com.hh.frame.create_dbobj.function.debug.DebugTool;
 import com.hh.frame.create_dbobj.function.debug.OraDebug;
 import com.hh.frame.create_dbobj.function.mr.AbsFunMr;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
 import com.hh.frame.swingui.view.container.HSplitPanel;
-import com.hh.frame.swingui.view.container.HTabPane;
 import com.hh.frame.swingui.view.container.LastPanel;
+import com.hh.frame.swingui.view.container.tab_panel.HTabPanel;
+import com.hh.frame.swingui.view.container.tab_panel.HeaderConfig;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.common.util.textEditor.QueryEditorTextArea;
 import com.hh.hhdb_admin.mgr.function.FunctionMgr;
 import com.hh.hhdb_admin.mgr.function.util.DebugUtil;
+import com.hh.hhdb_admin.mgr.function.util.FunUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
@@ -26,17 +27,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class OrDebugForm extends DebugBaseForm {
-    private HTabPane hTabPane;
-
-    private Map<String, QueryEditorTextArea> editorMap;     //编辑器集合
-    private Map<String, Map<Integer, int[]>> linMap;        //行号sql对应关系集合 key：编辑面板对象名称  map：函数内容与行号位置对应关系,大小代表函数行数
-    private Map<String, List<Integer>> pointMap;            //断点集合
-
-    private String debugTitle = "Script";                   //当前调试对象名称,默认Script
-    private String titleAt = "Script";                      //当前选择的Tab页名称,默认Script
+    private HTabPanel hTabPane;
 
     private Map<String,String> resMap = new LinkedHashMap<>(); //调试返回值和输出参数名称集合
-    private List<Map<String,String>> stackList = new LinkedList<>();  //保存所有出现过的对象信息集合
 
     //调试模版sql
     private String titleSql = "declare \n" +
@@ -67,6 +60,7 @@ public class OrDebugForm extends DebugBaseForm {
                 PopPaneUtil.error(StartUtil.parentFrame.getWindow(), funMr.treeNode.getName() + "无效");
                 return;
             }
+            if (null != funMr) dparameter.setTabParas(DebugUtil.getParam(funMr,jdbcBean));
             editorMap.get(debugTitle).setText(null != funMr ? getSql(new HashMap<>()) : titleSql );
             editorMap.get(debugTitle).getTextArea().setEditable(null == funMr);
             xyhBut.setEnabled(false);
@@ -86,15 +80,13 @@ public class OrDebugForm extends DebugBaseForm {
         editorMap = new LinkedHashMap<>();
         linMap  = new LinkedHashMap<>();
         pointMap = new LinkedHashMap<>();
-        hTabPane = new HTabPane() {
+        hTabPane = new HTabPanel() {
             @Override
-            public void onTabChange(String id) {
+            public void onSelected(String id) {
                 JTabbedPane tab = (JTabbedPane)getComp();
                 titleAt = tab.getTitleAt(tab.getSelectedIndex());
             }
         };
-        hTabPane.setCloseBtn(false);
-
         addTextArea(debugTitle = "Script");
         qed = editorMap.get("Script");
 
@@ -115,11 +107,12 @@ public class OrDebugForm extends DebugBaseForm {
             if (currentline == -1) {
                 //从新开始
                 finish();
-                for (Map.Entry<String, QueryEditorTextArea> entry : editorMap.entrySet()) {
-                    String key = entry.getKey();
-                    if (!key.equals("Script")) {
-                        hTabPane.closeTabPanel(key);
-                        editorMap.remove(key);
+                Iterator<Map.Entry<String, QueryEditorTextArea>> it = editorMap.entrySet().iterator();
+                while(it.hasNext()){
+                    Map.Entry<String, QueryEditorTextArea> entry = it.next();
+                    if(!entry.getKey().equals("Script")) {
+                        hTabPane.close(entry.getKey());
+                        it.remove();
                     }
                 }
                 linMap  = new LinkedHashMap<>();
@@ -127,7 +120,6 @@ public class OrDebugForm extends DebugBaseForm {
                 currentline = 0;
                 debugTitle = "Script";
                 titleAt = "Script";
-                ((JTabbedPane)hTabPane.getComp()).updateUI();
             }
             //删除编辑器上所有书签
             editorMap.get(debugTitle).hTextArea.getArea().getScrollPane().getGutter().removeAllTrackingIcons();
@@ -151,13 +143,13 @@ public class OrDebugForm extends DebugBaseForm {
             enterBut.setEnabled(true);
             tsBut.setEnabled(false);
     
-            debug = new DebugTool(jdbcBean, null == funMr ? null : funMr.treeNode.getId());
+            debug = FunUtil.getDebug(jdbcBean, null == funMr ? null : funMr.treeNode.getId());
             debug.runProc(sql);
     
             Map<Integer, int[]> map = new LinkedHashMap<>();
             editorMap.get(debugTitle).setText(editText(debug.getSource(),map));
             linMap.put(debugTitle,map);
-            currentline = ((OraDebug) debug.getDebug()).stepInto();
+            currentline = debug.stepInto();
     
             getCurrentLine();
             dparameter.setTabVariables();
@@ -170,7 +162,7 @@ public class OrDebugForm extends DebugBaseForm {
     }
     
     @Override
-    synchronized protected void runDebug(String type) {
+    protected synchronized void runDebug(String type) {
         if (currentline == -1) return;
         try {
             if (type.equals("stop")) {
@@ -186,21 +178,18 @@ public class OrDebugForm extends DebugBaseForm {
             } else if (type.equals("row")) {
                 currentline = debug.stepOver();
             } else {
-                currentline = ((OraDebug) debug.getDebug()).stepInto();
+                currentline = debug.stepInto();
             }
             Thread.sleep(300);
         
             if (currentline == 0) {    //当返回为0时表示调试结束
                 finish();
             } else {
-                List<Map<String,String>> vl = DebugUtil.stackAnalysis(((OraDebug) debug.getDebug()).showStack());
+                List<Map<String,String>> vl = DebugUtil.stackAnalysis(((OraDebug) debug).showStack());
                 String name  = vl.get(vl.size() - 1).get("name");
                 debugTitle = StringUtils.isNotBlank(name) ? name:"Script";
-                if (!titleAt.equals(debugTitle)) {
-                    editorMap.get(titleAt).getTextArea().getHighlighter().removeAllHighlights();    //清除编辑器高亮显示
-                }
             
-                if (type.equals("enter") && !editorMap.containsKey(debugTitle)) {
+                if (type.equals("into") && !editorMap.containsKey(debugTitle)) {
                     //新建一个编辑页面
                     addTextArea(debugTitle);
                     //获取进入对象的sql在编辑页面显示
@@ -235,7 +224,7 @@ public class OrDebugForm extends DebugBaseForm {
             List<Map<String, Object>> jsList = funMr.getFunParameter(con);
             if (null != jsList) {
                 for (Map<String, Object> map : jsList) {
-                    String type = map.get("DATA_TYPE")+"";
+                    String type = map.get("PLS_TYPE")+"";
                     String name = map.get("ARGUMENT_NAME")+"";
                     String in_out = map.get("IN_OUT")+"";
                     if (map.get("ARGUMENT_NAME") == null) {
@@ -283,19 +272,20 @@ public class OrDebugForm extends DebugBaseForm {
         if (currentline != -1) {
             List<Map<String, String>> list = new LinkedList<>();
 
-            String val = ((OraDebug) debug.getDebug()).showStack();
+            String val = ((OraDebug) debug).showStack();
             List<Map<String,String>> vl = DebugUtil.stackAnalysis(val);
-            for (int i = 0; i < vl.size(); i++) {
+            for (Map<String, String> map1 : vl) {
                 Map<String, String> map = new HashMap<>();
-                map.put("row", i+1+"");
-                map.put("value", vl.get(i).toString().replace("{","").replace("}",""));
+                map.put("row", map1.get("line"));
+                map.put("name", map1.get("name"));
+                map.put("value", map1.toString().replace("{", "").replace("}", ""));
                 list.add(map);
             }
-
             dparameter.setTabStack(list);
-
-            //设置高亮显示调试行
-            editorMap.get(debugTitle).getTextArea().getHighlighter().removeAllHighlights();
+    
+            //清除所有页面编辑器高亮显示
+            editorMap.keySet().forEach(a -> editorMap.get(a).getTextArea().getHighlighter().removeAllHighlights());
+            //设置当前调试行高亮显示
             int[] attr = linMap.get(debugTitle).get(currentline);
             if (attr != null && attr.length > 0) {
                 editorMap.get(debugTitle).getTextArea().getHighlighter().addHighlight(attr[0], attr[1], new DefaultHighlighter.DefaultHighlightPainter(new Color(172, 192, 253)));
@@ -309,7 +299,7 @@ public class OrDebugForm extends DebugBaseForm {
     private void addTextArea(String name) {
         QueryEditorTextArea qed = new QueryEditorTextArea(false) {
             @Override
-            synchronized public void bookmarksAc() {
+            public synchronized void bookmarksAc() {
                 //添加或取消断点
                 List<Integer> list = getbookmaskLines();
                 try {
@@ -330,13 +320,13 @@ public class OrDebugForm extends DebugBaseForm {
                             }
 
                             List<Integer> reduce1 = pointMap.get(titleAt).stream().filter(item -> !list.contains(item)).collect(Collectors.toList());
-                            if (!reduce1.isEmpty()) ((OraDebug) debug.getDebug()).rmBreakPoints(titleAt,reduce1.get(0));
+                            if (!reduce1.isEmpty()) ((OraDebug) debug).rmBreakPoints(titleAt,reduce1.get(0));
 
                             List<Integer> reduce2 = list.stream().filter(item -> !pointMap.get(titleAt).contains(item)).collect(Collectors.toList());
                             if (!reduce2.isEmpty()) {
                                 String type = map.get("type");
                                 String ns =  type.contains("PACKAGE") ?  "PACKAGE_BODY" : "TOP_LEVEL";
-                                ((OraDebug) debug.getDebug()).setBreakPoints(reduce2,titleAt,jdbcBean.getUser(),type,ns);
+                                ((OraDebug) debug).setBreakPoints(reduce2,titleAt,jdbcBean.getUser(),type,ns);
                             }
                         }
                     }
@@ -359,8 +349,11 @@ public class OrDebugForm extends DebugBaseForm {
         };
         qed.getTextArea().setRows(15);
         qed.hTextArea.showBookMask(true);
-
-        hTabPane.addPanel(name, name, qed.getComp(), true);
+    
+        HeaderConfig hec = new HeaderConfig(name);
+        hec.setFixTab(true);
+        hec.setTitleEditable(false);
+        hTabPane.addPanel(name, qed, hec);
         editorMap.put(name, qed);
         pointMap.put(name,new LinkedList<>());
     }

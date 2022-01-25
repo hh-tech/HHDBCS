@@ -5,6 +5,8 @@ import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.create_dbobj.monitor.AbsDbMonitor;
 import com.hh.frame.swingui.view.container.*;
+import com.hh.frame.swingui.view.container.tab_panel.HeaderConfig;
+import com.hh.frame.swingui.view.container.tab_panel.HTabPanel;
 import com.hh.frame.swingui.view.ctrl.HButton;
 import com.hh.frame.swingui.view.layout.GridSplitEnum;
 import com.hh.frame.swingui.view.layout.HDivLayout;
@@ -48,16 +50,15 @@ public class DbMonitorComp extends MonitorComp {
         this.jdbcBean = jdbcBean;
         dbMonitor = AbsDbMonitor.getDbMonitor(dbTypeEnum);
         if (null != dbMonitor) {
-            HTabPane tabPane = new HTabPane();
-            tabPane.setCloseBtn(false);
-            tabPane.addPanel("connMonitor", getLang("connMonitor"), initDbMonitor(true, true, dbMonitor.getColumns(true)).getComp(), false);
+            HTabPanel tabPane = new HTabPanel();
+            tabPane.addPanel("connMonitor", initDbMonitor(true, true, dbMonitor.getColumns(true)), new HeaderConfig(getLang("connMonitor")).setFixTab(true));
             if (MonitorUtil.isHhOrPg(dbTypeEnum)) {
-                tabPane.addPanel("transMonitor", getLang("transMonitor"), initDbMonitor(false, true, dbMonitor.getColumns(false)).getComp(), false);
+                tabPane.addPanel("transMonitor", initDbMonitor(false, true, dbMonitor.getColumns(false)), new HeaderConfig(getLang("transMonitor")).setFixTab(true));
             }
-            tabPane.addPanel("lockMonitor", getLang("lockMonitor"), initDbMonitor(true, false, dbMonitor.getLockColumns()).getComp(), false);
+            tabPane.addPanel("lockMonitor",  initDbMonitor(true, false, dbMonitor.getLockColumns()), new HeaderConfig(getLang("lockMonitor")).setFixTab(true));
             if (MonitorUtil.isHhOrPg(dbTypeEnum)) {
                 chartMonitorComp = new DbChartMonitorComp(conn, dbTypeEnum);
-                tabPane.addPanel("chartMonitor", getLang("chartMonitor"), chartMonitorComp.getPanel().getComp(), false);
+                tabPane.addPanel("chartMonitor", chartMonitorComp.getPanel(), new HeaderConfig(getLang("chartMonitor")).setFixTab(true));
             }
             tabPane.selectPanel("connMonitor");
             LastPanel lastPanel = new LastPanel();

@@ -26,10 +26,7 @@ import com.hh.hhdb_admin.mgr.db_task.dig.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.awt.event.ItemEvent;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 
 
@@ -191,9 +188,9 @@ public class TaskComp {
             map.put(COL_SPEND, "");
         } else {
             if (t.getEnd() == null) {
-                map.put(COL_SPEND, (System.currentTimeMillis() - t.getBegin().getTime()) / 1000 + "秒");
+                map.put(COL_SPEND, (System.currentTimeMillis() - t.getBegin().getTime()) / 1000 + TaskMgr.getLang("second"));
             } else {
-                map.put(COL_SPEND, (t.getEnd().getTime() - t.getBegin().getTime()) / 1000 + "秒");
+                map.put(COL_SPEND, (t.getEnd().getTime() - t.getBegin().getTime()) / 1000 + TaskMgr.getLang("second"));
             }
         }
         map.put(COL_BAR, t.getStatus().name());
@@ -321,7 +318,7 @@ public class TaskComp {
             }
         };
 
-        ColButton configBtn = new ColButton("查看") {
+        ColButton configBtn = new ColButton(TaskMgr.getLang("view")) {
             @Override
             protected void init(String value) {
 

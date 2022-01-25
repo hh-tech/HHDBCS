@@ -1,5 +1,6 @@
 {
   "language": "ZH",
+  "autoSave": true,
   "null": "<NULL>",
   "varPageSize": 30,
   "textpane": {
@@ -30,5 +31,8 @@
   ],
   "findHistory": [
     
-  ]
+  ],
+  "ui": {
+    "skin_class": "com.hh.frame.swingui.view.ui.skin.dark.DarkSkin"
+  }
 }

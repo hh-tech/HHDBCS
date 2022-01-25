@@ -1,6 +1,5 @@
 package com.hh.hhdb_admin.mgr.delete.impl;
 
-import com.hh.frame.common.util.db.SqlExeUtil;
 import com.hh.frame.common.util.db.SqlStrUtil;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
@@ -24,14 +23,14 @@ public class SchemaDel extends AbsDel {
                     PopPaneUtil.error(StartUtil.parentFrame.getWindow(), "Public模式无法删除");
                     return;
                 }
-                SqlExeUtil.executeUpdate(conn, String.format("DROP SCHEMA %s cascade", name));
+                execute(String.format("DROP SCHEMA %s cascade", name));
                 break;
             case sqlserver:
-                SqlExeUtil.executeUpdate(conn, String.format("DROP SCHEMA %s", name));
+                execute(String.format("DROP SCHEMA %s", name));
                 break;
             case db2:
                 try {
-                    SqlExeUtil.executeUpdate(conn, String.format("drop schema %s restrict", name));
+                    execute(String.format("drop schema %s restrict", name));
                 } catch (Exception e) {
                     if (e.getMessage().toUpperCase().contains("SQLCODE=-478, SQLSTATE=42893, SQLERRMC=SCHEMA")) {
                         throw new Exception(SchemaComp.getLang("del_exp"));
@@ -41,7 +40,7 @@ public class SchemaDel extends AbsDel {
                 }
                 break;
             case dm:
-                SqlExeUtil.executeUpdate(conn, String.format("DROP SCHEMA %s CASCADE", name));
+                execute(String.format("DROP SCHEMA %s CASCADE", name));
                 break;
             default:
         }

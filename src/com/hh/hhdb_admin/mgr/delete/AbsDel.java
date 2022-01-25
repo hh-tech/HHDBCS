@@ -3,11 +3,10 @@ package com.hh.hhdb_admin.mgr.delete;
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.DriverUtil;
-import com.hh.frame.common.util.db.ConnUtil;
 import com.hh.hhdb_admin.mgr.login.LoginBean;
-
-import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
 
 /**
  * @Author: Jiang
@@ -15,31 +14,25 @@ import java.sql.SQLException;
  */
 public abstract class AbsDel {
 
-    public Connection conn;
+    Statement stat;
     public DBTypeEnum dbType;
-    public JdbcBean jdbcBean;
+    protected JdbcBean jdbcBean;
 
-    public void init(LoginBean loginBean){
-        try {
-            if (loginBean == null) {
-                return;
-            }
-            this.jdbcBean = loginBean.getJdbc();
-            conn = ConnUtil.getConn(jdbcBean);
-            dbType = DriverUtil.getDbType(conn);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void init(LoginBean loginBean,Statement stat){
+        this .stat = stat;
+        this.jdbcBean = loginBean.getJdbc();
+        dbType = DriverUtil.getDbType(jdbcBean);
     }
-
-    public void close() {
-        try {
-            if (conn != null) conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
+    
     public abstract void del(NodeInfo nodeInfo) throws Exception;
 
+    public void execute(String formatSql) throws SQLException{
+		stat.executeUpdate(formatSql);		
+    }
+    protected void batchExecute(List<String> sqlList) throws SQLException {
+    	for (String sql : sqlList) {
+			stat.addBatch(sql);
+		}
+    	stat.executeBatch();
+    }
 }

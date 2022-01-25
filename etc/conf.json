@@ -217,6 +217,12 @@
       "type": "CMD",
       "config": {
       }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.tool.ToolMgr",
+      "type": "TOOL",
+      "config": {
+      }
     }
   ]
 }

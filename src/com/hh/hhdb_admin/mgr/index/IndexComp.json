@@ -118,6 +118,13 @@
         "zh": "删除成功",
         "en": "Delete Success"
       }
+    },
+    {
+      "key": "comment",
+      "value": {
+        "zh": "注释：",
+        "en": "Comment: "
+      }
     }
   ]
 }

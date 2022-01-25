@@ -10,7 +10,7 @@ public class WsTool {
     public synchronized File takeIt() throws Exception {
     	File wsDirFile=file.getParentFile();
     	try {
-    		if(isTaken()) {
+    		if(isTaken(file)) {
         		throw new Exception(WorkSpaceComp.getLang("workspaceOccupied"));
         	}else {
         		if (!wsDirFile.exists()) {
@@ -34,25 +34,24 @@ public class WsTool {
     	return wsDirFile;
     }
     
-
-    
-    private  boolean isTaken() {
-         if (!file.exists()) {
-             return false;
-         }
-         try {
-             Thread.sleep(1000);
-             String timekey = FileUtils.readFileToString(file, "utf-8");
-             long oldtimekey;
-             try {
-                 oldtimekey = Long.parseLong(timekey);
-             } catch (Exception e) {
-                 return false;
-             }
-             return System.currentTimeMillis() - oldtimekey < 1000;
-         } catch (Exception e) {
-             return true;
-         }
+    public static boolean isTaken(File wsDirFile) {
+        File  file = new File(wsDirFile,"csadmin.pid");
+        if (!file.exists()) {
+            return false;
+        }
+        try {
+            Thread.sleep(1000);
+            String timekey = FileUtils.readFileToString(file, "utf-8");
+            long oldtimekey;
+            try {
+                oldtimekey = Long.parseLong(timekey);
+            } catch (Exception e) {
+                return false;
+            }
+            return System.currentTimeMillis() - oldtimekey < 1000;
+        } catch (Exception e) {
+            return true;
+        }
     }
-    
+
 }

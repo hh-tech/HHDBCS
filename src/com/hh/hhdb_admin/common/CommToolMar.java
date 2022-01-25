@@ -17,7 +17,6 @@ import com.hh.hhdb_admin.mgr.function.FunctionMgr;
 import com.hh.hhdb_admin.mgr.gis.GisMgr;
 import com.hh.hhdb_admin.mgr.login.LoginBean;
 import com.hh.hhdb_admin.mgr.login.LoginMgr;
-import com.hh.hhdb_admin.mgr.menubar.MenubarMgr;
 import com.hh.hhdb_admin.mgr.monitor.MonitorMgr;
 import com.hh.hhdb_admin.mgr.obj_query.ObjQueryMgr;
 import com.hh.hhdb_admin.mgr.query.QueryMgr;
@@ -86,7 +85,6 @@ public class CommToolMar {
         }
         if (lb.getViewType() == ViewType.USER &&
                 (dbtype == DBTypeEnum.hhdb || dbtype == DBTypeEnum.pgsql || dbtype == DBTypeEnum.mysql) ) {
-            toolInfolist.add(SQL_CONVERSION);
             toolInfolist.add(GIS);
         }
         toolInfolist.add(OBJ_QUERY);
@@ -133,9 +131,9 @@ public class CommToolMar {
             case DEBUG:
                 sendMsg(CsMgrEnum.FUNCTION, GuiJsonUtil.toJsonCmd(FunctionMgr.DEBUG));
                 break;
-            case SQL_CONVERSION:
-                sendMsg(CsMgrEnum.MENUBAR, GuiJsonUtil.toJsonCmd(MenubarMgr.CMD_SHOW_CONVERSION));
-                break;
+//            case SQL_CONVERSION:
+//                sendMsg(CsMgrEnum.MENUBAR, GuiJsonUtil.toJsonCmd(MenubarMgr.CMD_SHOW_CONVERSION));
+//                break;
             case OBJ_QUERY:
                 sendMsg(CsMgrEnum.OBJ_QUERY, GuiJsonUtil.toJsonCmd(ObjQueryMgr.SHOW_QUERY));
                 break;

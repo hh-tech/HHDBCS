@@ -4,7 +4,7 @@ import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.DriverUtil;
-import com.hh.frame.create_dbobj.function.debug.DebugTool;
+import com.hh.frame.create_dbobj.function.debug.AbsDebug;
 import com.hh.frame.create_dbobj.function.mr.AbsFunMr;
 import com.hh.frame.swingui.view.container.*;
 import com.hh.frame.swingui.view.ctrl.HButton;
@@ -17,19 +17,26 @@ import com.hh.hhdb_admin.mgr.function.FunctionMgr;
 import com.hh.hhdb_admin.mgr.function.util.DebugUtil;
 
 import javax.swing.*;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public abstract class DebugBaseForm extends LastPanel {
     protected JdbcBean jdbcBean;
     protected DBTypeEnum dbType;
-    protected DebugTool debug;
+    protected AbsDebug debug;
     protected AbsFunMr funMr;
-    
     protected QueryEditorTextArea qed;          //主编辑器
     protected HDialog dialog;
     protected DebugTab dparameter;            //调试结果集选项卡面板
     protected HButton xyddBut, xyhBut, enterBut, stopBut,tsBut;
+    
+    protected Map<String, QueryEditorTextArea> editorMap;               //编辑器集合
+    protected Map<String, Map<Integer, int[]>> linMap;                  //行号sql对应关系集合 key：编辑面板对象名称  map：函数内容与行号位置对应关系,大小代表函数行数
+    protected Map<String, List<Integer>> pointMap;                      //断点集合
+    protected List<Map<String,String>> stackList = new LinkedList<>();  //栈堆信息集合
+    protected String debugTitle = "Script";                             //当前调试对象名称,默认Script
+    protected String titleAt = "Script";                                //当前选择的Tab页名称,默认Script
     
     protected int currentline = 0;            //当前行
     
@@ -45,11 +52,8 @@ public abstract class DebugBaseForm extends LastPanel {
         this.jdbcBean = jdbcBean;
         dbType = DriverUtil.getDbType(jdbcBean);
         dparameter = new DebugTab(this);
-        if (null != funMr) dparameter.setTabParas(DebugUtil.getParam(funMr,jdbcBean));
-    
         JSplitPane jsp = getHSplitPanel().getComp();
-        jsp.setRightComponent(dparameter.getLastPanel().getComp());
-        
+        jsp.setRightComponent(dparameter.getComp());
         setHead(getHBarPanel().getComp());
         set(jsp);
     }
@@ -108,7 +112,7 @@ public abstract class DebugBaseForm extends LastPanel {
         for (int i = 0; i < ss.length; i++) {
             int s = text.indexOf(ss[i], js);
             js = s + ss[i].length();
-            int[] posi = new int[]{s, js};
+            int[] posi = {s, js};
             map.put((i + 1), posi);   //保存行号，以及起始结束位置
         }
         return ("A" + text).trim().substring(1);
@@ -126,7 +130,14 @@ public abstract class DebugBaseForm extends LastPanel {
         tsBut = new HButton(FunctionMgr.getLang("debug")) {
             @Override
             public void onClick() {
-                startDebug();
+                if (null == funMr) {
+                    startDebug();
+                } else {
+                    if (dparameter.getParameter().getComp().isEditing()) dparameter.getParameter().getComp().getCellEditor().stopCellEditing();
+                    if (DebugUtil.verify(dparameter.getParameter().getRowBeans(null),dialog.getWindow(),dbType)) {
+                        startDebug();
+                    }
+                }
             }
         };
         tsBut.setIcon(FunctionMgr.getIcon("formatsql"));
@@ -150,7 +161,7 @@ public abstract class DebugBaseForm extends LastPanel {
         enterBut = new HButton(FunctionMgr.getLang("enter")) {
             @Override
             public void onClick() {
-                runDebug("enter");
+                runDebug("into");
             }
         };
         enterBut.setIcon(FunctionMgr.getIcon("load"));
@@ -162,11 +173,7 @@ public abstract class DebugBaseForm extends LastPanel {
             }
         };
         stopBut.setIcon(FunctionMgr.getIcon("debugstop"));
-        if (dbType == DBTypeEnum.oracle) {
-            toolBarPane.add(tsBut,xyhBut, xyddBut, enterBut, stopBut);
-        } else {
-            toolBarPane.add(tsBut,xyhBut, xyddBut, stopBut);
-        }
+        toolBarPane.add(tsBut,xyhBut, xyddBut, enterBut, stopBut);
         return toolBarPane;
     }
 }

@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.Enumeration;
 
 /**
@@ -56,7 +57,27 @@ public class ChooseParamPanel extends JsonCol {
         noRadio.setName("noLimit");
         HDialog dialog = new HDialog(DatabaseComp.dialog, 400, 320);
         HPanel panel = new HPanel();
-        CheckBoxInput checkBoxInput = new CheckBoxInput("xxx", DatabaseComp.getLang("enableAutoGrowth"));
+        CheckBoxInput checkBoxInput = new CheckBoxInput("xxx", DatabaseComp.getLang("enableAutoGrowth")) {
+			@Override
+			protected void onClick(ActionEvent e) {
+				if (this.isChecked()) {
+	                stateChange(true);
+	                stateChange(false);
+	                bfbRadio.setEnabled(true);
+	                mbRadio.setEnabled(true);
+	                zzRadio.setEnabled(true);
+	                noRadio.setEnabled(true);
+	            } else {
+	                bfbInput.setEnabled(false);
+	                mbInput.setEnabled(false);
+	                zzInput.setEnabled(false);
+	                bfbRadio.setEnabled(false);
+	                mbRadio.setEnabled(false);
+	                zzRadio.setEnabled(false);
+	                noRadio.setEnabled(false);
+	            }
+			}       	
+        };
         checkBoxInput.setValue("true");
         panel.add(checkBoxInput);
         HPanel incrementPanel = new HPanel();
@@ -70,24 +91,6 @@ public class ChooseParamPanel extends JsonCol {
         maxFileSizePanel.add(getGridPanel(noRadio, new LabelInput(), buttonGroup2, true, false));
         panel.add(maxFileSizePanel);
         JsonObject res = new JsonObject();
-        checkBoxInput.addListen(e -> {
-            if (checkBoxInput.isChecked()) {
-                stateChange(true);
-                stateChange(false);
-                bfbRadio.setEnabled(true);
-                mbRadio.setEnabled(true);
-                zzRadio.setEnabled(true);
-                noRadio.setEnabled(true);
-            } else {
-                bfbInput.setEnabled(false);
-                mbInput.setEnabled(false);
-                zzInput.setEnabled(false);
-                bfbRadio.setEnabled(false);
-                mbRadio.setEnabled(false);
-                zzRadio.setEnabled(false);
-                noRadio.setEnabled(false);
-            }
-        });
         HButton saveBtn = new HButton(DatabaseComp.getLang("submit")) {
             @Override
             public void onClick() {

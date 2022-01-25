@@ -526,6 +526,55 @@
       }
     },
     {
+      "key": "filterKeywords",
+      "value": {
+        "zh": "筛选关键字",
+        "en": "Filter keywords"
+      }
+    },
+    {
+      "key": "installationSucceeded",
+      "value": {
+        "zh": "安装成功！",
+        "en": "Installation succeeded!"
+      }
+    },
+    {
+      "key": "uninstallSucceeded",
+      "value": {
+        "zh": "卸载成功！",
+        "en": "Uninstall succeeded!"
+      }
+    },
+    {
+      "key": "update",
+      "value": {
+        "zh": "是否更新？",
+        "en": "Update?"
+      }
+    },
+    {
+      "key": "updateSucceeded",
+      "value": {
+        "zh": "更新成功！",
+        "en": "Update succeeded!"
+      }
+    },
+    {
+      "key": "cleanTableData",
+      "value": {
+        "zh": "是否清空表数据？",
+        "en": "Clean table data?"
+      }
+    },
+    {
+      "key": "cleanSucceeded",
+      "value": {
+        "zh": "清空表数据成功！",
+        "en": "Clean table data succeeded!"
+      }
+    },
+    {
       "key": "sure_change",
       "value": {
         "zh": "是否切换模式",

@@ -80,7 +80,7 @@ public abstract class SynonymComp {
         this.jdbcBean = jdbcBean;
         this.schema = jdbcBean.getSchema();
         this.synonymName = synonymName;
-        dialog = new HDialog(StartUtil.parentFrame, 550, 350);
+        dialog = new HDialog(StartUtil.parentFrame, 550, 400);
         dialog.setWindowTitle(getLang(StringUtils.isEmpty(synonymName) ? "add" : "edit"));
         dialog.setIconImage(IconFileUtil.getLogo());
     }
@@ -93,6 +93,7 @@ public abstract class SynonymComp {
             Map<String, String> map = getSynonym();
             ownerBox.setValue(map.get("owner"));
             nameInput.setValue(map.get("synonym_name"));
+            nameInput.setEnabled(false);
             publicInput.setValue(String.valueOf("PUBLIC".equals(map.get("owner"))));
             objectOwnerBox.setValue(map.get("table_owner"));
             objectNameInput.setValue(map.get("table_name"));

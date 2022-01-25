@@ -1,12 +1,6 @@
 package com.hh.hhdb_admin.mgr.db_task.dig;
 
 
-import java.awt.event.ItemEvent;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
@@ -21,12 +15,7 @@ import com.hh.frame.swingui.view.container.HGridPanel;
 import com.hh.frame.swingui.view.container.HPanel;
 import com.hh.frame.swingui.view.ctrl.HButton;
 import com.hh.frame.swingui.view.ctrl.HImage;
-import com.hh.frame.swingui.view.input.CheckBoxInput;
-import com.hh.frame.swingui.view.input.LabelInput;
-import com.hh.frame.swingui.view.input.PasswordInput;
-import com.hh.frame.swingui.view.input.SelectBox;
-import com.hh.frame.swingui.view.input.TextInput;
-import com.hh.frame.swingui.view.input.WithLabelInput;
+import com.hh.frame.swingui.view.input.*;
 import com.hh.frame.swingui.view.layout.GridSplitEnum;
 import com.hh.frame.swingui.view.layout.HDivLayout;
 import com.hh.frame.swingui.view.layout.HGridLayout;
@@ -38,6 +27,13 @@ import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.db_task.TaskComp;
 import com.hh.hhdb_admin.mgr.db_task.TaskMgr;
 import com.hh.hhdb_admin.mgr.login.LoginUtil;
+import org.apache.commons.lang3.StringUtils;
+
+import javax.swing.*;
+import java.awt.event.ItemEvent;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
 
 abstract public class AbsCfgDig {
     protected static final Map<String, String> jdbcMap = new LinkedHashMap<>();
@@ -66,12 +62,12 @@ abstract public class AbsCfgDig {
 
 
     static {
-        jdbcMap.put(TASK_NAME, "任务名称*");
-        jdbcMap.put(JDBC_DBTYPE, "数据库类型*:");
-        jdbcMap.put(JDBC_URL, "连接*:");
-        jdbcMap.put(JDBC_USER, "用户*:");
-        jdbcMap.put(JDBC_PASS, "密码*:");
-        jdbcMap.put(JDBC_SCHEMA, "模式*:");
+        jdbcMap.put(TASK_NAME, getLang("taskName"));
+        jdbcMap.put(JDBC_DBTYPE, getLang("database"));
+        jdbcMap.put(JDBC_URL, getLang("connect"));
+        jdbcMap.put(JDBC_USER, getLang("username"));
+        jdbcMap.put(JDBC_PASS, getLang("password"));
+        jdbcMap.put(JDBC_SCHEMA, getLang("schema"));
     }
 
     public AbsCfgDig(JdbcBean jdbc) {
@@ -113,7 +109,7 @@ abstract public class AbsCfgDig {
         lPanel.add(jdbcIcon);
         gridPanel.setComp(1, lPanel);
         gridPanel.setComp(2, jdbcPanel);
-        gridPanel.setTitle("数据库配置");
+        gridPanel.setTitle(getLang("databaseConfig"));
         SelectBox typeBox = new SelectBox(JDBC_DBTYPE) {
             @Override
             protected void onItemChange(ItemEvent e) {
@@ -125,7 +121,7 @@ abstract public class AbsCfgDig {
                 }
             }
         };
-        typeBox.addOption("恒辉数据库", DBTypeEnum.hhdb.name());
+        typeBox.addOption(getLang("hhdb"), DBTypeEnum.hhdb.name());
         typeBox.addOption("PostgreSQL", DBTypeEnum.pgsql.name());
         typeBox.addOption("Oracle", DBTypeEnum.oracle.name());
         typeBox.addOption("Mysql", DBTypeEnum.mysql.name());
@@ -140,7 +136,9 @@ abstract public class AbsCfgDig {
         jdbcPanel.add(getWithLabelInput(TASK_NAME, taskNameInput));
         jdbcPanel.add(getWithLabelInput(JDBC_DBTYPE, typeBox));
         jdbcPanel.add(getWithLabelInput(JDBC_USER, new TextInput(null, jdbc.getUser())));
-        jdbcPanel.add(getWithLabelInput(JDBC_PASS, new PasswordInput(null, jdbc.getPassword())));
+        PasswordInput passwordInput = new PasswordInput(null, jdbc.getPassword());
+        passwordInput.setShowEye(false);
+        jdbcPanel.add(getWithLabelInput(JDBC_PASS, passwordInput));
         jdbcPanel.add(getWithLabelInput(JDBC_URL, new TextInput(null, jdbc.getDbUrl())));
         jdbcPanel.add(getWithLabelInput(JDBC_SCHEMA, new TextInput(null, jdbc.getSchema().replaceAll("`", ""))));
 
@@ -159,13 +157,13 @@ abstract public class AbsCfgDig {
     }
 
     protected HBarPanel getToolBar() {
-        okBtn = new HButton("确定") {
+        okBtn = new HButton(getLang("confirm")) {
             @Override
             public void onClick() {
                 okClick();
             }
         };
-        resetBtn = new HButton("重填") {
+        resetBtn = new HButton(getLang("refill")) {
             @Override
             public void onClick() {
                 resetForm();
@@ -215,7 +213,7 @@ abstract public class AbsCfgDig {
 
     protected void resetForm() {
         ((WithLabelInput) jdbcPanel.getHComp(TASK_NAME)).setValue("");
-        ((WithLabelInput) jdbcPanel.getHComp(JDBC_DBTYPE)).setValue(DriverUtil.getDbType(jdbc).name());
+        ((WithLabelInput) jdbcPanel.getHComp(JDBC_DBTYPE)).setValue(Objects.requireNonNull(DriverUtil.getDbType(jdbc)).name());
         ((WithLabelInput) jdbcPanel.getHComp(JDBC_URL)).setValue(jdbc.getDbUrl());
         ((WithLabelInput) jdbcPanel.getHComp(JDBC_PASS)).setValue(jdbcEditable ? "" : jdbc.getPassword());
         ((WithLabelInput) jdbcPanel.getHComp(JDBC_USER)).setValue(jdbcEditable ? "" : jdbc.getUser());
@@ -229,7 +227,7 @@ abstract public class AbsCfgDig {
             if (v.contains("*")) {
                 String value = jdbcPanel.getInputValue(key);
                 if (StringUtils.isBlank(value)) {
-                    PopPaneUtil.error(dialog.getWindow(), v + "不能为空");
+                    PopPaneUtil.error(dialog.getWindow(), v + getLang("notEmpty"));
                     return true;
                 }
             }
@@ -249,12 +247,12 @@ abstract public class AbsCfgDig {
      *
      */
     public void setJdbcUnEditable() {
-        ((WithLabelInput) jdbcPanel.getHComp(JDBC_DBTYPE)).setEnabled(false);
-        ((WithLabelInput) jdbcPanel.getHComp(JDBC_USER)).setEnabled(false);
-        ((WithLabelInput) jdbcPanel.getHComp(JDBC_PASS)).setEnabled(false);
-        ((WithLabelInput) jdbcPanel.getHComp(JDBC_URL)).setEnabled(false);
-        ((WithLabelInput) jdbcPanel.getHComp(JDBC_URL)).setEnabled(false);
-        ((WithLabelInput) jdbcPanel.getHComp(JDBC_SCHEMA)).setEnabled(false);
+        ((WithLabelInput) jdbcPanel.getHComp(JDBC_DBTYPE)).setEnabled(jdbcEditable);
+        ((WithLabelInput) jdbcPanel.getHComp(JDBC_USER)).setEnabled(jdbcEditable);
+        ((WithLabelInput) jdbcPanel.getHComp(JDBC_PASS)).setEnabled(jdbcEditable);
+        ((WithLabelInput) jdbcPanel.getHComp(JDBC_URL)).setEnabled(jdbcEditable);
+        ((WithLabelInput) jdbcPanel.getHComp(JDBC_URL)).setEnabled(jdbcEditable);
+        ((WithLabelInput) jdbcPanel.getHComp(JDBC_SCHEMA)).setEnabled(jdbcEditable);
     }
 
     public void setSchema(String schema) {
@@ -283,7 +281,8 @@ abstract public class AbsCfgDig {
     }
 
     protected void setSize(int height) {
-        dialog.setSize(800, height + 40);
+        dialog.setSize(800, height + 60);
+        ((JDialog) dialog.getWindow()).setResizable(true);
     }
 
 }

@@ -3,6 +3,7 @@ package com.hh.hhdb_admin.mgr.table.common;
 import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
+import com.hh.frame.swingui.view.container.tab_panel.HeaderConfig;
 import com.hh.frame.swingui.view.layout.bar.HBarLayout;
 import com.hh.frame.swingui.view.tab.HTable;
 import com.hh.hhdb_admin.CsMgrEnum;
@@ -87,5 +88,13 @@ public class TableUtil {
 		hBarLayout.setTopHeight(5);
 		hBarLayout.setBottomHeight(5);
 		return hBarLayout;
+	}
+
+	public static HeaderConfig newHeaderConfig(String name){
+		HeaderConfig headerConfig = new HeaderConfig(name);
+		headerConfig.setTitleEditable(false);
+		headerConfig.setFixTab(true);
+		headerConfig.setDetachEnabled(false);
+		return headerConfig;
 	}
 }

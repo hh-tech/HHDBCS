@@ -17,7 +17,6 @@ import com.hh.frame.sqlwin.WinMgr;
 import com.hh.frame.sqlwin.rs.WinRs;
 import com.hh.frame.sqlwin.rs.WinRsBean;
 import com.hh.frame.sqlwin.util.SqlWinUtil;
-import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.frame.swingui.view.abs.AbsHComp;
 import com.hh.frame.swingui.view.container.HBarPanel;
 import com.hh.frame.swingui.view.container.HSplitPanel;
@@ -26,8 +25,8 @@ import com.hh.frame.swingui.view.ctrl.HButton;
 import com.hh.frame.swingui.view.input.LabelInput;
 import com.hh.frame.swingui.view.input.SelectBox;
 import com.hh.frame.swingui.view.layout.bar.HBarLayout;
+import com.hh.frame.swingui.view.ui.HHSwingUi;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
-import com.hh.hhdb_admin.CsMgrEnum;
 import com.hh.hhdb_admin.common.util.DbCmdStrUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.common.util.logUtil;
@@ -38,17 +37,12 @@ import com.hh.hhdb_admin.mgr.query.ui.ObjRefreshPanel;
 import com.hh.hhdb_admin.mgr.query.ui.OutputTabPanel;
 import com.hh.hhdb_admin.mgr.query.ui.SettingsPanel;
 import com.hh.hhdb_admin.mgr.query.util.QuerUtil;
-import com.hh.hhdb_admin.mgr.sql_book.SqlBookMgr;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.util.HashMap;
@@ -129,11 +123,16 @@ public class QueryComp extends AbsHComp{
     public LastPanel getLastPanel() throws Exception {
         return lastPanel;
     }
-
+    
+    public QueryEditorTextArea getTextArea() {
+        return textArea;
+    }
+    
     public void close() {
         try {
             WinMgr.closeWin(absSqlWinId);
             ConnUtil.close(conns);
+            tip.close();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -263,27 +262,26 @@ public class QueryComp extends AbsHComp{
             jdbc.setSchema(schemabox.getValue());
             hTool.add(schemabox);
 
-            schemabox.getComp().addItemListener(new ItemListener() {
-                @Override
-                public void itemStateChanged(ItemEvent e) {
-                    if (e.getStateChange() == ItemEvent.SELECTED) {
-                        try {
-                            jdbc.setSchema(schemabox.getValue());
-                            jdbc.setCurSessionSchema(DbCmdStrUtil.toDbCmdStr(schemabox.getValue(),DriverUtil.getDbType(jdbc)));
-                            sqlwin.getJdbc().setSchema(schemabox.getValue());
-
-                            ConnUtil.setCurrentSchema(sqlwin.getConn(),jdbc.getCurSessionSchema() );
-                            sqlwin.commit();
-
-                            if(!currSchame.equals(schemabox.getValue())){ //设置关键词
-                                setKeyWord();
-                            }
-                            currSchame = schemabox.getValue();
-                            tip.setJdbc(jdbc);
-                        } catch (Exception e1) {
-                            e1.printStackTrace();
-                            logUtil.error(logName, e1);
+            schemabox.getComp().addItemListener(e -> {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    try {
+                        jdbc.setSchema(schemabox.getValue());
+                        jdbc.setCurSessionSchema(DbCmdStrUtil.toDbCmdStr(schemabox.getValue(),DriverUtil.getDbType(jdbc)));
+                        sqlwin.getJdbc().setSchema(schemabox.getValue());
+                        ConnUtil.setCurrentSchema(sqlwin.getConn(),jdbc.getCurSessionSchema());
+                        sqlwin.commit();
+                        if(!currSchame.equals(schemabox.getValue())){ //设置关键词
+                            setKeyWord();
                         }
+                        currSchame = schemabox.getValue();
+                        tip.setJdbc(jdbc);
+                    } catch (Exception e1) {
+                        jdbc.setSchema(currSchame);
+                        jdbc.setCurSessionSchema(DbCmdStrUtil.toDbCmdStr(currSchame,DriverUtil.getDbType(jdbc)));
+                        sqlwin.getJdbc().setSchema(currSchame);
+                        schemabox.setValue(currSchame);
+                        e1.printStackTrace();
+                        PopPaneUtil.error(StartUtil.parentFrame.getWindow(), String.format(QueryMgr.getLang("switchFailed"), schemabox.getValue()));
                     }
                 }
             });
@@ -294,7 +292,7 @@ public class QueryComp extends AbsHComp{
         HButton formatBut = new HButton(QueryMgr.getLang("format")) {
             @Override
             public void onClick() {
-                QuerUtil.formatSql(textArea);
+                QuerUtil.formatSql(DriverUtil.getDbType(jdbc),textArea);
             }
         };
         formatBut.setIcon(QueryMgr.getIcon("format"));
@@ -322,7 +320,9 @@ public class QueryComp extends AbsHComp{
                 		bean = ExplainUtil.getExplain(sqlwin.getConn(), selectedSql);
                 	}else {
                 		bean = ExplainUtil.getExplain(sqlwin.getConn(), selectedSql);
-                		sqlwin.getConn().rollback();
+                		if (sqlwin.hasCommit()) {
+                			sqlwin.getConn().rollback();
+                		}
                 	}
 					outputTabPanel.setMessage(selectedSql+"\n"+bean.getText());
                 } catch (Exception e) {
@@ -345,29 +345,12 @@ public class QueryComp extends AbsHComp{
                 };
             }
         };
-        hotkeysBut.setIcon(QueryMgr.getIcon("key"));
+        hotkeysBut.setIcon(QueryMgr.getIcon("setting"));
         //保存到sql宝典
         HButton saveSqlBook = new HButton(QueryMgr.getLang("saveSqlBook")) {
             @Override
             public void onClick() {
-                try {
-                    JsonObject o = StartUtil.eng.doCall(CsMgrEnum.SQL_BOOK, GuiJsonUtil.genGetShareIdMsg(SqlBookMgr.ObjType.SHARE_PATH));
-                    JFileChooser chooser = new JFileChooser();
-                    if (null != o) chooser.setCurrentDirectory(new File(GuiJsonUtil.toStrSharedId(o)));
-                    chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-                    FileFilter fileFilter = new FileNameExtensionFilter("SQL文件(*.sql)","sql");
-                    chooser.setFileFilter(fileFilter);
-                    if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-                        String url = chooser.getSelectedFile().getCanonicalPath();
-                        url = url.endsWith(".sql") ? url : url+".sql";
-                        File file = new File(url);
-                        FileUtils.writeStringToFile(file, textArea.getText(), "utf-8");
-                        PopPaneUtil.info(StartUtil.parentFrame.getWindow(), QueryMgr.getLang("success"));
-                    }
-                }catch (Exception e){
-                    e.printStackTrace();
-                    PopPaneUtil.error(StartUtil.parentFrame.getWindow(), e);
-                }
+                QuerUtil.saveSqlBook(textArea.getText(),true);
             }
         };
         saveSqlBook.setIcon(QueryMgr.getIcon("book"));
@@ -484,18 +467,15 @@ public class QueryComp extends AbsHComp{
                                 rollBut.setEnabled(true);
                                 schemabox.setEnabled(false);
                                 executeTypeBox.setEnabled(false);
-//                            }else {
-                                //手动提交模式下处理当执行select等不用提交的语句时，被操作表连接挂起问题
-//                                commit();
                             }
                         } catch (Exception e) {
-                        	e.printStackTrace();
-                            PopPaneUtil.error(StartUtil.parentFrame.getWindow(), e.getMessage());
-                            try {
-                                sqlwin.rollback();
-                            }catch (Exception e1){
-                               e1.printStackTrace();
-                            }
+                        	logUtil.error(logName, e);
+                        	// 判断是否有提交失败，判断不出，提交按钮需要开放出来
+                        	autocommitbox.setEnabled(false);
+                            submitBut.setEnabled(true);
+                            rollBut.setEnabled(true);
+                            schemabox.setEnabled(false);
+                            executeTypeBox.setEnabled(false);
                         }
                     }
                 }
@@ -550,14 +530,19 @@ public class QueryComp extends AbsHComp{
     private OutputTabPanel createOTabPanel() {
     	return new OutputTabPanel(jdbc){
             @Override
-            protected void highlighted(ChangeEvent e, Map<String, List<Integer>> resultMap) {
+            protected void highlighted(String title, Map<String, List<Integer>> resultMap) {
                 try {
                     textArea.getTextArea().removeAllLineHighlights();
-                    JTabbedPane jtab = (JTabbedPane) e.getSource();
-                    List<Integer> li = resultMap.get(jtab.getTitleAt(jtab.getSelectedIndex()));
+                    List<Integer> li = resultMap.get(title);
                     if (null != li) {
                         for (Integer integer : li) {
-                            textArea.getTextArea().addLineHighlight(integer, new Color(255, 255, 170));
+                            if (textArea.getTextArea().getLineCount()-1 >= integer){
+                            	if(HHSwingUi.isDarkSkin()) {
+                    				textArea.getTextArea().addLineHighlight(integer, new Color(10, 10, 100));
+                    			}else {
+                    				textArea.getTextArea().addLineHighlight(integer, new Color(255, 255, 170));
+                    			}
+                            }
                         }
                     }
                 } catch (Exception e1) {

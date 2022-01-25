@@ -9,8 +9,6 @@ import com.hh.frame.swingui.view.container.HPanel;
 import com.hh.frame.swingui.view.container.LastPanel;
 import com.hh.frame.swingui.view.input.SelectBox;
 import com.hh.frame.swingui.view.input.TextInput;
-import com.hh.frame.swingui.view.layout.GridSplitEnum;
-import com.hh.frame.swingui.view.layout.HDivLayout;
 import com.hh.hhdb_admin.mgr.function.FunctionMgr;
 import org.apache.commons.lang3.StringUtils;
 
@@ -31,11 +29,11 @@ public class Db2FunForm extends FunBaseForm {
     @Override
     public LastPanel getParaPanel() throws Exception {
         HPanel hPanel = new HPanel();
-        hPanel.add(getPanel("",null,null));
+        hPanel.add(getPanel("",null));
 
         //名称
         name = new TextInput("name");
-        hPanel.add(getPanel(FunctionMgr.getLang("name")+"：",name,new HDivLayout(10, 15, GridSplitEnum.C2,GridSplitEnum.C5)));
+        hPanel.add(getPanel(FunctionMgr.getLang("name")+"：",name));
 
         //返回值
         if(funMr.treeNode.getType() == TreeMrType.FUNCTION){
@@ -43,7 +41,7 @@ public class Db2FunForm extends FunBaseForm {
             for (String s : funMr.getDataType()) {
                 fh.addOption(s,s);
             }
-            hPanel.add(getPanel(FunctionMgr.getLang("returned")+"：",fh,new HDivLayout(10, 15, GridSplitEnum.C2,GridSplitEnum.C5)));
+            hPanel.add(getPanel(FunctionMgr.getLang("returned")+"：",fh));
         }
 
         //参数
@@ -103,16 +101,8 @@ public class Db2FunForm extends FunBaseForm {
     }
 
     @Override
-    public void delete() throws Exception {
-        StringBuffer finalParms = new StringBuffer();
-        Map<String, JsonObject> map=funMr.getFunAllPar(conn);
-        for (String str : map.keySet()) {
-            JsonObject jsb =  map.get(str);
-            finalParms.append(finalParms.length() == 0 ? "" : ",");
-            finalParms.append(jsb.getString("type"));
-        }
-        SqlExeUtil.executeUpdate(conn, "DROP "+ (funMr.treeNode.getType() == TreeMrType.FUNCTION ? "FUNCTION " : "PROCEDURE ") +
-                "\""+funMr.treeNode.getSchemaName()+"\".\""+funMr.treeNode.getName()+"\"("+finalParms.toString()+")");
+    public void delete() throws Exception {        
+        SqlExeUtil.executeUpdate(conn, getDelSql());
     }
     
     @Override
@@ -126,4 +116,18 @@ public class Db2FunForm extends FunBaseForm {
             return type;
         }
     }
+
+	@Override
+	public String getDelSql() throws Exception {
+		StringBuffer finalParms = new StringBuffer();
+        Map<String, JsonObject> map=funMr.getFunAllPar(conn);
+        for (String str : map.keySet()) {
+            JsonObject jsb =  map.get(str);
+            finalParms.append(finalParms.length() == 0 ? "" : ",");
+            finalParms.append(jsb.getString("type"));
+        }
+        return "DROP "+ (funMr.treeNode.getType() == TreeMrType.FUNCTION ? "FUNCTION " : "PROCEDURE ") +
+                "\""+funMr.treeNode.getSchemaName()+"\".\""+funMr.treeNode.getName()+"\"("+finalParms.toString()+")";
+    
+	}
 }

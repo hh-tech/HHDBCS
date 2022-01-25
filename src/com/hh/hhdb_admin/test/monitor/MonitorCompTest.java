@@ -6,8 +6,9 @@ import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.common.util.db.ConnUtil;
 import com.hh.frame.swingui.view.container.HFrame;
 import com.hh.frame.swingui.view.container.HPanel;
-import com.hh.frame.swingui.view.container.HTabPane;
 import com.hh.frame.swingui.view.container.LastPanel;
+import com.hh.frame.swingui.view.container.tab_panel.HTabPanel;
+import com.hh.frame.swingui.view.container.tab_panel.HeaderConfig;
 import com.hh.frame.swingui.view.ui.HHSwingUi;
 import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.mgr.monitor.comp.DbMonitorComp;
@@ -31,7 +32,7 @@ public class MonitorCompTest {
         JdbcBean jdbcBean = MgrTestUtil.getJdbcBean();
         Connection conn = ConnUtil.getConn(jdbcBean);
         DBTypeEnum dbTypeEnum = DriverUtil.getDbType(conn);
-        HTabPane tabPane = new HTabPane() {
+        HTabPanel tabPane = new HTabPanel() {
             @Override
             protected void onClose(String id) {
                 if ("systemMonitor".equals(id)) {
@@ -39,16 +40,15 @@ public class MonitorCompTest {
                 }
             }
         };
-        tabPane.setCloseBtn(false);
         DbMonitorComp dbMonitorComp = new DbMonitorComp(conn, jdbcBean, dbTypeEnum);
-        tabPane.addPanel("dbMonitor", "数据库监控", dbMonitorComp.getPanel());
+        tabPane.addPanel("dbMonitor", dbMonitorComp.getPanel(),new HeaderConfig("数据库监控"));
         tabPane.selectPanel("dbMonitor");
 
         if (DBTypeEnum.hhdb.equals(dbTypeEnum)) {
             sysComp = new SystemMonitorComp(conn, dbTypeEnum) {
                 @Override
                 public void repaint() {
-                    tabPane.addPanel("systemMonitor", "系统监控", sysComp.getPanel());
+                    tabPane.addPanel("systemMonitor", sysComp.getPanel(),new HeaderConfig("系统监控"));
                     tabPane.selectPanel("systemMonitor");
                 }
             };

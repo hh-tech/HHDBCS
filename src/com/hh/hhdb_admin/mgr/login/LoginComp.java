@@ -1,9 +1,14 @@
 package com.hh.hhdb_admin.mgr.login;
 
+import com.alee.extended.button.SplitButtonAdapter;
+import com.alee.extended.language.LanguageChooser;
+import com.alee.managers.language.LanguageManager;
+import com.alee.managers.style.Skin;
+import com.alee.managers.style.StyleManager;
+import com.alee.painter.PainterSupport;
 import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.db.ConnUtil;
-import com.hh.frame.common.util.db.JdbcUrlIpUtil;
 import com.hh.frame.common.util.db.SshSessionTool;
 import com.hh.frame.create_dbobj.treeMr.base.ViewType;
 import com.hh.frame.json.Json;
@@ -11,386 +16,104 @@ import com.hh.frame.json.JsonObject;
 import com.hh.frame.lang.LangEnum;
 import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
+import com.hh.frame.swingui.view.connMgr.base.ConnMgrUtil;
+import com.hh.frame.swingui.view.connMgr.base.ConnTreeNode;
 import com.hh.frame.swingui.view.container.*;
 import com.hh.frame.swingui.view.ctrl.HButton;
 import com.hh.frame.swingui.view.layout.GridSplitEnum;
 import com.hh.frame.swingui.view.layout.HDivLayout;
 import com.hh.frame.swingui.view.layout.bar.HBarLayout;
-import com.hh.frame.swingui.view.ui.button.ButtonUI;
+import com.hh.frame.swingui.view.ui.HHSwingUi;
+import com.hh.frame.swingui.view.ui.skin.AbstractHhSkin;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
 import com.hh.hhdb_admin.CsMgrEnum;
-import com.hh.hhdb_admin.common.icon.IconBean;
 import com.hh.hhdb_admin.common.icon.IconFileUtil;
-import com.hh.hhdb_admin.common.icon.IconSizeEnum;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.common.util.logUtil;
+import com.hh.hhdb_admin.mgr.login.base.LoginConnMsg;
+import com.hh.hhdb_admin.mgr.login.base.LoginToolBar;
+import com.hh.hhdb_admin.mgr.login.comp.CommonComp;
+import com.hh.hhdb_admin.mgr.login.comp.ConnMgrComp;
 import com.hh.hhdb_admin.mgr.main_frame.MainFrameMgr;
 import com.hh.hhdb_admin.mgr.table_open.TableOpenMgr;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.util.Date;
-import java.util.regex.Pattern;
+import java.util.Locale;
 
-public abstract class LoginComp {
-    private final int width = 700;
-    private final int height = 630;
-    private final HFrame frame;
+public abstract class LoginComp extends CommonComp {
+    private final int width = 850;
+    private final int height = 635;
     private HDialog dialog;
+    private final HFrame frame;
+
     private HButton loginBtn;
-    private HButton cancelBtn;
     private HButton testConnBtn;
-    private HButton saveBtn;
-    private HButton resetBtn;
-    private HButton chooseBtn;
+    private HButton cancelBtn;
     public static LoginBean loginBean = new LoginBean();
-    private final LoginForm loginForm;
-    private final SshLoginComp sshLoginComp;
-    private SshSessionTool sessionTool;
-    private final SelectConnComp connComp;
-    private HTabPane tabPane;
-    public static final String DOMAIN_NAME = LoginComp.class.getName();
     public static final String LOG_NAME = LoginComp.class.getSimpleName();
-    public static final Pattern pattern = Pattern.compile("[0-9]*");
+    private SshSessionTool sessionTool;
+    private ConnMgrComp connMgrComp;
+    private final String filePath;
+    private HSplitPanel splitPanel;
 
-    static {
-        try {
-            LangMgr2.loadMerge(LoginComp.class);
-        } catch (IOException e) {
-            e.printStackTrace();
+    private LoginToolBar loginToolBar;
+
+    public LoginComp() {
+        File file = new File(StartUtil.getEtcFile(), "login");
+        if (!file.exists()) {
+            file.mkdirs();
         }
-    }
-
-    private HPanel loginFormPanel;
-
-    protected LoginComp() {
+        this.filePath = file.getAbsolutePath();
         frame = new HFrame(width, height);
-        frame.setIconImage(IconFileUtil.getLogo(IconSizeEnum.SIZE_16).getImage());
+        frame.setIconImage(IconFileUtil.getLogo());
         frame.setCloseType(true);
         frame.getWindow().setLocationRelativeTo(null);
-
-        EnterEventAction enterEventAction = new EnterEventAction();
-        sshLoginComp = new SshLoginComp(LoginUtil.sshLoginBen);
-        sshLoginComp.setAction(enterEventAction);
-        loginForm = new LoginForm() {
-            @Override
-            public void changeBtnStatus() {
-                boolean enabled = StringUtils.isNotEmpty(nameLabelInput.getValue()) && StringUtils.isNotEmpty(connLabelInput.getValue())
-                        && StringUtils.isNotEmpty(userLabelInput.getValue()) && StringUtils.isNotEmpty(passLabelInput.getValue());
-                loginBtn.setEnabled(enabled);
-                loginBtn.setIcon(getIcon(enabled ? "login2" : "login"));
-                saveBtn.setEnabled(enabled);
-                testConnBtn.setEnabled(enabled);
-                resetBtn.setEnabled(StringUtils.isNotEmpty(nameLabelInput.getValue()) || StringUtils.isNotEmpty(connLabelInput.getValue())
-                        || StringUtils.isNotEmpty(userLabelInput.getValue()) || StringUtils.isNotEmpty(passLabelInput.getValue()));
-
-            }
-
-            @Override
-            public void setLang() {
-                loginBtn.setText(getLang("login"));
-                cancelBtn.setText(getLang("cancel"));
-                testConnBtn.setText(getLang("test_conn"));
-                saveBtn.setText(getLang("save"));
-                resetBtn.setText(getLang("reset"));
-                chooseBtn.setText(getLang("choose"));
-                loginFormPanel.setTitle(getLang("general") + getLang(SshLoginComp.SSH_CONFIG));
-                sshLoginComp.resLang();
-                frame.setWindowTitle(getLang("login"));
-                tabPane.updateTabName("general", getLang("general"));
-                resetLang();
-                if (dialog != null) {
-                    dialog.setWindowTitle(getLang("switch"));
-                }
-            }
-        };
-        loginForm.addInputsEvents(enterEventAction);
-        connComp = new SelectConnComp(loginForm, sshLoginComp) {
-            @Override
-            protected void selectCallback() {
-                loginForm.getConnNameInput().getComp().requestFocus();
-            }
-        };
-    }
-
-    public static String getLang(String key) {
-        LangMgr2.setDefaultLang(StartUtil.default_language);
-        return LangMgr2.getValue(DOMAIN_NAME, key);
     }
 
     public void showLogin() {
+        loginToolBar = initMenuBar(true);
         frame.setWindowTitle(getLang("login"));
-        frame.setRootPanel(getRootPanel(frame, null, false));
+        frame.setRootPanel(getRootPanel());
+        ((JFrame) frame.getWindow()).setJMenuBar(loginToolBar.getComp());
         frame.show();
-        sshLoginComp.addInputsEvents(new EnterEventAction());
-        loginForm.getConnNameInput().getComp().requestFocus();
+        nameInputFocus();
     }
 
-    private HPanel getRootPanel(HFrame frame, HDialog dialog, boolean isSwitch) {
-        loginFormPanel = loginForm.getFormPanel();
-        loginFormPanel.setTitle(getLang("general") + getLang(SshLoginComp.SSH_CONFIG));
-        LastPanel lastPanel = new LastPanel();
-        LastPanel formLastPanel = new LastPanel();
-        formLastPanel.setHead(initBtnPanel(frame, dialog, isSwitch).getComp());
-        formLastPanel.set(loginFormPanel.getComp());
-        HPanel formPanel = new HPanel();
-        formPanel.setLastPanel(formLastPanel);
-
-        HPanel rootPanel = new HPanel();
-        tabPane = new HTabPane();
-        tabPane.setCloseBtn(false);
-        tabPane.addPanel("general", getLang("general"), formPanel);
-        tabPane.addPanel("ssh", "SSH", sshLoginComp);
-        HPanel footBtnPanel = initFootBtnPanel();
-        lastPanel.set(tabPane.getComp());
-        lastPanel.setFoot(footBtnPanel.getComp());
-        rootPanel.setLastPanel(lastPanel);
-        return rootPanel;
-    }
-
-    private HPanel initFootBtnPanel() {
-        HDivLayout divLayout = new HDivLayout(GridSplitEnum.C6);
-        divLayout.setBottomHeight(10);
-        divLayout.setTopHeight(10);
-        HPanel footPanel = new HPanel(divLayout);
-        HBarLayout rightLayout = new HBarLayout();
-        rightLayout.setAlign(AlignEnum.RIGHT);
-        rightLayout.setxGap(10);
-
-        HBarLayout leftLayout = new HBarLayout();
-        leftLayout.setAlign(AlignEnum.LEFT);
-
-        HBarPanel leftPanel = new HBarPanel(leftLayout);
-        testConnBtn = new HButton(getLang("test_conn"));
-        testConnBtn.setEnabled(false);
-        testConnBtn.setIcon(getIcon("test_conn"));
-        testConnBtn.addActionListener(new TestConnListener());
-        leftPanel.add(testConnBtn);
-
-        HBarPanel rightPanel = new HBarPanel(rightLayout);
-        loginBtn = new HButton(getLang("login"));
-        loginBtn.addActionListener(e -> login());
-        loginBtn.getComp().setUI(new ButtonUI().setNormalColor(ButtonUI.NormalColor.blue));
-        loginBtn.getComp().setForeground(Color.white);
-        loginBtn.setEnabled(false);
-        loginBtn.setIcon(getIcon("login"));
-
-        cancelBtn = new HButton(getLang("cancel")) {
-            @Override
-            protected void onClick() {
-                if (dialog != null) {
-                    dialog.hide();
-                } else {
-                    frame.dispose();
-                    System.exit(0);
-                }
-            }
-        };
-        cancelBtn.setIcon(getIcon("cancel"));
-        rightPanel.add(loginBtn, cancelBtn);
-        footPanel.add(leftPanel, rightPanel);
-        return footPanel;
-    }
-
-    private HBarPanel initBtnPanel(HFrame frame, HDialog dialog, boolean isSwitch) {
-        HBarLayout barLayout = new HBarLayout();
-        barLayout.setAlign(AlignEnum.LEFT);
-        barLayout.setTopHeight(10);
-        barLayout.setBottomHeight(15);
-        HBarPanel barPanel = new HBarPanel(barLayout);
-        chooseBtn = new HButton(getLang("choose")) {
-            @Override
-            protected void onClick() {
-                connComp.show(frame, dialog, isSwitch);
-            }
-        };
-        chooseBtn.setIcon(getIcon("list"));
-        resetBtn = new HButton(getLang("reset")) {
-            @Override
-            protected void onClick() {
-                loginForm.reset();
-                sshLoginComp.reset();
-            }
-        };
-        resetBtn.setEnabled(false);
-        resetBtn.setIcon(getIcon("reset"));
-        saveBtn = new HButton(getLang("save")) {
-            @Override
-            protected void onClick() {
-                save(true);
-            }
-        };
-        saveBtn.setEnabled(false);
-        saveBtn.setIcon(getIcon("save"));
-        barPanel.add(loginBtn);
-        barPanel.add(chooseBtn);
-        barPanel.add(resetBtn);
-        barPanel.add(saveBtn);
-        return barPanel;
-    }
-
-    void switchLogin() {
-        dialog = new HDialog(StartUtil.parentFrame, width, height) {
+    public void switchLogin() {
+        dialog = new HDialog(StartUtil.parentFrame, width, height, true) {
             @Override
             protected void closeEvent() {
-                StartUtil.default_language = loginForm.oldLang;
-                LangMgr2.setDefaultLang(loginForm.oldLang);
-                StartUtil.setLocale(loginForm.oldLang);
+                StartUtil.default_language = connMgrComp.oldLang;
+                LangMgr2.setDefaultLang(connMgrComp.oldLang);
+                StartUtil.setLocale(connMgrComp.oldLang);
             }
         };
+        loginToolBar = initMenuBar(false);
         dialog.setIconImage(IconFileUtil.getLogo());
-        dialog.setRootPanel(getRootPanel(null, dialog, true));
+        dialog.setRootPanel(getRootPanel());
         dialog.setWindowTitle(getLang("switch"));
-        dialog.getWindow().addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowOpened(WindowEvent e) {
-                loginForm.getConnNameInput().getComp().requestFocus();
-            }
-        });
-        loginForm.updateFormData(LoginUtil.currConnInfo);
+        ((JDialog) dialog.getWindow()).setJMenuBar(loginToolBar.getComp());
+        ((JDialog) dialog.getWindow()).setResizable(true);
+        LoginConnMsg connMsg = new LoginConnMsg();
+        connMsg.setJson(LoginUtil.currConnInfo);
+        ConnMgrUtil.PATH = LoginUtil.currConnInfo.getString("path");
+        ConnMgrUtil.NAME = LoginUtil.currConnInfo.getString("name");
+        connMgrComp.setValues(connMsg);
         dialog.show();
+        nameInputFocus();
     }
-
-    private void save(boolean isPopInfo) {
-        JsonObject connInfo = loginForm.getData(true);
-        JsonObject sshJsonData = sshLoginComp.getJsonData();
-        if (sshJsonData != null) {
-            connInfo.set("ssh", sshJsonData);
-        }
-        connComp.loginData.set(connInfo.getString("conn_name"), connInfo);
-        LoginUtil.saveConnFile(connComp.loginData);
-        if (isPopInfo) {
-            if (dialog != null) {
-                PopPaneUtil.info(dialog.getWindow(), getLang("saveSuccess"));
-            } else {
-                PopPaneUtil.info(frame.getWindow(), getLang("saveSuccess"));
-            }
-        }
-    }
-
-    private void login() {
-        loginBean.initFilterData();
-        JsonObject connInfo = loginForm.getData(false);
-        JdbcBean jdbcBean = LoginUtil.json2JdbcBean(connInfo);
-        try {
-            reConn(jdbcBean);
-            loginBean.setConnName(connInfo.getString("conn_name"));
-            ViewType viewType = ViewType.valueOf(connInfo.getString("db_view"));
-            loginBean.setViewType(viewType);
-            loginBean.setLoginDate(new Date());
-            if (viewType == ViewType.DBA && !LoginUtil.isDba(loginBean.getConn(), jdbcBean.getUser())) {
-                throw new Exception(getLang("not_dba"));
-            }
-            LoginUtil.currConnInfo = loginForm.getData(true);
-            if (dialog != null) {
-                dialog.dispose();
-                StartUtil.eng.doPush(CsMgrEnum.MAIN_FRAME, GuiJsonUtil.toJsonCmd(MainFrameMgr.CMD_CLOSE_ALL_TAB));
-            } else {
-                frame.hide();
-            }
-            try {
-                if (Boolean.parseBoolean(connInfo.getString("is_save"))) save(false);
-                JsonObject json = Json.parse(FileUtils.readFileToString(StartUtil.defaultJsonFile, StandardCharsets.UTF_8)).asObject();
-                json.set("language", loginForm.langLabelInput.getValue());
-                FileUtils.writeStringToFile(StartUtil.defaultJsonFile, json.toPrettyString(), StandardCharsets.UTF_8);
-                StartUtil.default_language = LangEnum.valueOf(loginForm.langLabelInput.getValue());
-                LangMgr2.setDefaultLang(StartUtil.default_language);
-                StartUtil.setLocale(StartUtil.default_language);
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-            inform(loginBean);
-        } catch (Exception e) {
-            e.printStackTrace();
-            logUtil.error(LOG_NAME, e);
-            if (dialog != null) {
-                PopPaneUtil.error(dialog.getWindow(), e);
-            } else {
-                PopPaneUtil.error(frame.getWindow(), e);
-            }
-        }
-        File tmpFile = new File(StartUtil.workspace, TableOpenMgr.OPEN_TMP);
-        try {
-            if (tmpFile.exists()) {
-                FileUtils.cleanDirectory(tmpFile);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void reConn(JdbcBean jdbcBean) throws Exception {
-        SshLoginBen sshLoginBen = sshLoginComp.getSshLoginBen();
-        Connection conn;
-        ConnUtil.close(loginBean.getConn());
-        if (sessionTool != null) {
-            sessionTool.close();
-        }
-        sessionTool = new SshSessionTool();
-        loginBean.setOriginalJdbc(jdbcBean);
-        jdbcBean = buildJdbcBean(sessionTool, jdbcBean, sshLoginBen);
-        LoginUtil.sshLoginBen = sshLoginBen;
-        conn = ConnUtil.getConn(jdbcBean);
-        LoginUtil.setLockTimeOut(conn);
-        loginBean.setJdbc(jdbcBean);
-        loginBean.setConn(conn);
-    }
-
-    private JdbcBean buildJdbcBean(SshSessionTool sessionTool, JdbcBean jdbcBean, SshLoginBen sshLoginBen) throws Exception {
-        if (sshLoginBen != null && sshLoginBen.isEnabled()) {
-            String dbUrl = jdbcBean.getDbUrl();
-            sessionTool.setRemoteDbHost(JdbcUrlIpUtil.getHostFromUrl(dbUrl));
-            sessionTool.setRemoteDbPort(JdbcUrlIpUtil.getPortFromUrl(dbUrl));
-            boolean isPassword = sshLoginBen.getType() == SshLoginBen.SshType.PASSWORD;
-            try {
-                int port = sshLoginBen.getPort();
-                String host = sshLoginBen.getHost();
-                if (!pattern.matcher(String.valueOf(port)).matches() || port > 65535) {
-                    throw new NumberFormatException(port + " Port Incorrect");
-                }
-                if (StringUtils.isBlank(host)) {
-                    throw new NullPointerException("Host Not Be Null");
-                }
-                if (isPassword) {
-                    sessionTool.connect(sshLoginBen.getHost(), sshLoginBen.getPort(), sshLoginBen.getUser(), sshLoginBen.getPassword());
-                } else {
-                    File keyFile = new File(sshLoginBen.getPrivateKey());
-                    if (!keyFile.exists()) {
-                        throw new FileNotFoundException(sshLoginBen.getPrivateKey() + " PrivateKey File Not Found");
-                    }
-                    sessionTool.connect(sshLoginBen.getHost(), sshLoginBen.getPort(), sshLoginBen.getUser(), keyFile, sshLoginBen.getKeyPassphrase());
-                }
-            } catch (Exception e) {
-                loginBean.setSshAuth(false);
-                throw e;
-            }
-            jdbcBean = sessionTool.getSshJdbcBean(jdbcBean);
-            loginBean.setSshAuth(true);
-        }
-        return jdbcBean;
-    }
-
-    protected static ImageIcon getIcon(String name) {
-        return IconFileUtil.getIcon(new IconBean(CsMgrEnum.LOGIN.name(), name, IconSizeEnum.SIZE_16));
-    }
-
-    /**
-     * 登录成功之后做的操作
-     *
-     * @param loginBean 连接bean
-     */
-    public abstract void inform(LoginBean loginBean);
 
     public void switchSchema(String schemaName) {
         LoginUtil.switchSchema(loginBean.getJdbc(), schemaName);
@@ -403,6 +126,211 @@ public abstract class LoginComp {
         }
     }
 
+    private HSplitPanel getRootPanel() {
+        LastPanel lastPanel = new LastPanel();
+        HPanel footBtnPanel = initFootBtnPanel();
+        connMgrComp = new ConnMgrComp(dialog != null ? dialog : frame, filePath, LoginConnMsg.class.getName(), true) {
+
+            @Override
+            public void updateBtnStatus(boolean enabled) {
+                loginToolBar.getSaveItem().setEnabled(enabled);
+                testConnBtn.setEnabled(enabled);
+                loginBtn.setEnabled(enabled);
+            }
+
+            @Override
+            public void select(ConnTreeNode node) {
+                super.select(node);
+                tabComp.nameInput.getInput().getComp().requestFocus();
+            }
+
+            @Override
+            public void dbLogin(ConnTreeNode node) {
+                LoginConnMsg connMsg = (LoginConnMsg) node.getConnMsg();
+                connMsg.setUsername(LoginUtil.getRealName(connMsg.getUsername(), connMsg.getType()));
+                connMsg.setSchema(LoginUtil.getRealName(connMsg.getSchema(), connMsg.getType()));
+                login(connMsg);
+            }
+        };
+
+        lastPanel.set(connMgrComp.getTabPanel().getComp());
+        lastPanel.setFoot(footBtnPanel.getComp());
+        splitPanel = new HSplitPanel();
+        splitPanel.setSplitWeight(0.27);
+        splitPanel.setPanelOne(connMgrComp.getTreePanel());
+        splitPanel.setLastComp4Two(lastPanel);
+        setSplitUi();
+        connMgrComp.addUndoableEvent();
+        connMgrComp.addEnterEvent(e -> {
+            if (connMgrComp.tabComp.isBtnEnabled()) {
+                login(connMgrComp.getLoginConnMsg(false));
+            }
+        });
+        return splitPanel;
+    }
+
+    private void setSplitUi() {
+        BasicSplitPaneUI basicSplitPaneUi = new BasicSplitPaneUI();
+        splitPanel.getComp().setUI(basicSplitPaneUi);
+        splitPanel.getComp().setBorder(BorderFactory.createEmptyBorder());
+        basicSplitPaneUi.getDivider().setBorder(BorderFactory.createLineBorder(HHSwingUi.isDarkSkin() ? Color.gray : Color.lightGray));
+    }
+
+    /**
+     * 初始化顶部状态栏
+     *
+     * @return ToolBar
+     */
+    private LoginToolBar initMenuBar(boolean showTool) {
+        LoginToolBar loginToolBar = new LoginToolBar(this::switchSkinActionEvent);
+        loginToolBar.getLanguageChooser().addActionListener(this::localeActionEvent);
+        loginToolBar.getSaveItem().addActionListener(e -> save(true));
+        loginToolBar.getAutoSaveItem().addItemListener(event -> {
+            try {
+                JMenuItem item = (JMenuItem) event.getItem();
+                JsonObject json = Json.parse(FileUtils.readFileToString(StartUtil.defaultJsonFile, StandardCharsets.UTF_8)).asObject();
+                json.set("autoSave", item.isSelected());
+                StartUtil.autoSave = item.isSelected();
+                FileUtils.writeStringToFile(StartUtil.defaultJsonFile, json.toPrettyString(), StandardCharsets.UTF_8);
+            } catch (Exception e) {
+                e.printStackTrace();
+                PopPaneUtil.error(dialog != null ? dialog.getWindow() : frame.getWindow(), e);
+            }
+        });
+        loginToolBar.getResetButton().addSplitButtonListener(new SplitButtonAdapter() {
+            @Override
+            public void buttonClicked(final ActionEvent e) {
+                connMgrComp.reset();
+                loginBtn.setEnabled(false);
+            }
+        });
+        loginToolBar.setShowToolSplitButton(showTool);
+        return loginToolBar;
+    }
+
+    private void switchSkinActionEvent(ActionEvent e) {
+        JComboBox<?> comboBox = (JComboBox<?>) e.getSource();
+        final Skin skin = (Skin) comboBox.getSelectedItem();
+        Skin oldSkin = StyleManager.getSkin();
+        if (skin != null && oldSkin != skin) {
+            HHSwingUi.switchSkin((AbstractHhSkin) skin);
+            setSplitUi();
+            nameInputFocus();
+            try {
+                StartUtil.writeSkinToFile((AbstractHhSkin) skin);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
+    }
+
+    private void localeActionEvent(ActionEvent e) {
+        Locale locale = (Locale) ((LanguageChooser) e.getSource()).getSelectedItem();
+        if (locale != null && LanguageManager.getLocale() != locale) {
+            boolean validEnum = EnumUtils.isValidEnum(LangEnum.class, locale.getLanguage().toUpperCase());
+            if (!validEnum) {
+                return;
+            }
+            LangEnum langEnum = LangEnum.valueOf(locale.getLanguage().toUpperCase());
+            if (StartUtil.default_language == langEnum) {
+                return;
+            }
+            LanguageManager.setLocale(locale);
+            System.out.println("当前语言" + langEnum);
+            StartUtil.default_language = langEnum;
+            LangMgr2.setDefaultLang(langEnum);
+            StartUtil.setLocale(langEnum);
+            setLocal();
+        }
+    }
+
+    private void save(boolean isPop) {
+        LoginConnMsg connMsg = connMgrComp.getLoginConnMsg(true);
+        if (StringUtils.isNotEmpty(connMsg.getPort())) {
+            if (!LoginUtil.pattern.matcher(connMsg.getPort()).matches() || Integer.parseInt(connMsg.getPort()) > 65535) {
+                PopPaneUtil.error(dialog == null ? frame.getWindow() : dialog.getWindow(), connMsg.getPort() + " " + getLang("portIncorrect"));
+                return;
+            }
+        }
+        connMgrComp.save(connMsg);
+        if (isPop) {
+            ConnMgrUtil.NAME = connMsg.getConnName();
+            PopPaneUtil.info(dialog == null ? frame.getWindow() : dialog.getWindow(), getLang("saveSuccessful"));
+        }
+    }
+
+    protected void nameInputFocus() {
+        connMgrComp.tabComp.nameInput.getInput().getComp().requestFocus();
+    }
+
+    private HPanel initFootBtnPanel() {
+        HDivLayout divLayout = new HDivLayout(GridSplitEnum.C6);
+        divLayout.setBottomHeight(10);
+        divLayout.setTopHeight(10);
+        HPanel footPanel = new HPanel(divLayout);
+        HBarLayout rightLayout = new HBarLayout();
+        rightLayout.setAlign(AlignEnum.RIGHT);
+        rightLayout.setxGap(10);
+        HBarLayout leftLayout = new HBarLayout();
+        leftLayout.setAlign(AlignEnum.LEFT);
+        HBarPanel leftPanel = new HBarPanel(leftLayout);
+        testConnBtn = new HButton(getLang("test_conn")) {
+            @Override
+            protected void onClick() {
+                super.onClick();
+            }
+        };
+        testConnBtn.setEnabled(false);
+        testConnBtn.setIcon(getIcon("test_conn"));
+        testConnBtn.addActionListener(new TestConnListener());
+        leftPanel.add(testConnBtn);
+        HBarPanel rightPanel = new HBarPanel(rightLayout);
+        loginBtn = new HButton(getLang("login"));
+        loginBtn.addActionListener(e -> {
+            loginBean.initFilterData();
+            login(connMgrComp.getLoginConnMsg(false));
+        });
+        loginBtn.setEnabled(false);
+        loginBtn.setIcon(getIcon("login"));
+        cancelBtn = new HButton(getLang("cancel")) {
+            @Override
+            protected void onClick() {
+                if (dialog != null) {
+                    StartUtil.default_language = connMgrComp.oldLang;
+                    LangMgr2.setDefaultLang(connMgrComp.oldLang);
+                    StartUtil.setLocale(connMgrComp.oldLang);
+                    dialog.hide();
+                } else {
+                    frame.dispose();
+                    System.exit(0);
+                }
+            }
+        };
+        cancelBtn.setIcon(getIcon("cancel"));
+        rightPanel.add(loginBtn, cancelBtn);
+        footPanel.add(leftPanel, rightPanel);
+        PainterSupport.setPadding(loginBtn.getComp(), 5);
+        PainterSupport.setPadding(cancelBtn.getComp(), 5);
+        PainterSupport.setPadding(testConnBtn.getComp(), 5);
+        return footPanel;
+    }
+
+    private void setLocal() {
+        HHSwingUi.setFileChooserText();
+        loginBtn.setText(getLang("login"));
+        cancelBtn.setText(getLang("cancel"));
+        testConnBtn.setText(getLang("test_conn"));
+        frame.setWindowTitle(getLang("login"));
+        if (dialog != null) {
+            dialog.setWindowTitle(getLang("switch"));
+        }
+        loginToolBar.setLocal();
+        if (connMgrComp != null) {
+            connMgrComp.resetLabel();
+        }
+    }
+
+
     /**
      * 测试连接
      */
@@ -410,41 +338,31 @@ public abstract class LoginComp {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            frame.setWindowTitle(getLang("testing"));
+            testConnBtn.setEnabled(false);
             if (dialog != null) {
                 dialog.setWindowTitle(getLang("testing"));
+            } else {
+                frame.setWindowTitle(getLang("testing"));
             }
-            SwingUtilities.invokeLater(() -> {
+            new Thread(() -> {
                 Connection conn = null;
                 SshSessionTool testSessionTool = null;
                 try {
                     testSessionTool = new SshSessionTool();
-                    JsonObject connInfo = loginForm.getData(false);
-                    SshLoginBen sshLoginBen = sshLoginComp.getSshLoginBen();
-                    JdbcBean jdbcBean = LoginUtil.json2JdbcBean(connInfo);
-                    jdbcBean = buildJdbcBean(testSessionTool, jdbcBean, sshLoginBen);
+                    LoginConnMsg connMsg = connMgrComp.getLoginConnMsg(false);
+                    JdbcBean jdbcBean = LoginUtil.json2JdbcBean(connMsg);
+                    jdbcBean = LoginUtil.buildJdbcBean(jdbcBean, connMsg, testSessionTool);
                     conn = ConnUtil.getConn(jdbcBean);
                     LoginUtil.setLockTimeOut(conn);
                     if (ConnUtil.isConnected(conn)) {
-                        if (dialog != null) {
-                            PopPaneUtil.info(dialog.getWindow(), getLang("conn_successful"));
-                        } else {
-                            PopPaneUtil.info(frame.getWindow(), getLang("conn_successful"));
-                        }
+                        PopPaneUtil.info(getLang("conn_successful"));
                     } else {
-                        if (dialog != null) {
-                            PopPaneUtil.error(dialog.getWindow(), getLang("conn_fail"));
-                        } else {
-                            PopPaneUtil.error(frame.getWindow(), getLang("conn_fail"));
-                        }
+                        PopPaneUtil.error(getLang("conn_fail"));
                     }
+                    nameInputFocus();
                 } catch (Exception exception) {
                     exception.printStackTrace();
-                    if (dialog != null) {
-                        PopPaneUtil.error(dialog.getWindow(), getLang("conn_fail") + " : " + exception.getMessage());
-                    } else {
-                        PopPaneUtil.error(frame.getWindow(), getLang("conn_fail") + " : " + exception.getMessage());
-                    }
+                    PopPaneUtil.error(getLang("conn_fail") + " : " + exception.getMessage());
                 } finally {
                     frame.setWindowTitle(getLang("login"));
                     if (dialog != null) {
@@ -454,21 +372,103 @@ public abstract class LoginComp {
                     if (testSessionTool != null) {
                         testSessionTool.close();
                     }
+                    testConnBtn.setEnabled(true);
                 }
-            });
+            }).start();
         }
+    }
+
+    private void login(LoginConnMsg connMsg) {
+        loginBtn.setEnabled(false);
+        if (dialog != null) {
+            dialog.setWindowTitle(getLang("connecting"));
+        } else {
+            frame.setWindowTitle(getLang("connecting"));
+        }
+        new Thread(() -> {
+            try {
+                JdbcBean jdbcBean = LoginUtil.json2JdbcBean(connMsg);
+                reConn(jdbcBean);
+                loginBean.setConnName(connMsg.getConnName());
+                ViewType viewType = ViewType.valueOf(connMsg.getView());
+                loginBean.setViewType(viewType);
+                loginBean.setLoginDate(new Date());
+                if (viewType == ViewType.DBA && !LoginUtil.isDba(loginBean.getConn(), jdbcBean.getUser())) {
+                    throw new Exception(getLang("not_dba"));
+                }
+                LoginUtil.currConnInfo = connMgrComp.getLoginConnMsg(true).toJson();
+                if (StringUtils.isEmpty(LoginUtil.PATH)) {
+                    LoginUtil.currConnInfo.set("path", new File(StartUtil.getEtcFile(), "login").getAbsolutePath());
+                } else {
+                    LoginUtil.currConnInfo.set("path", LoginUtil.PATH);
+                }
+                if (dialog != null) {
+                    dialog.dispose();
+                    StartUtil.eng.doPush(CsMgrEnum.MAIN_FRAME, GuiJsonUtil.toJsonCmd(MainFrameMgr.CMD_CLOSE_ALL_TAB));
+                } else {
+                    frame.hide();
+                }
+                try {
+                    if (loginToolBar.getAutoSaveItem().isSelected()) {
+                        save(false);
+                    }
+                    JsonObject json = Json.parse(FileUtils.readFileToString(StartUtil.defaultJsonFile, StandardCharsets.UTF_8)).asObject();
+                    json.set("language", StartUtil.default_language.name());
+                    FileUtils.writeStringToFile(StartUtil.defaultJsonFile, json.toPrettyString(), StandardCharsets.UTF_8);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                inform(loginBean);
+            } catch (Exception e) {
+                e.printStackTrace();
+                logUtil.error(LOG_NAME, e);
+                PopPaneUtil.error(e);
+            } finally {
+                frame.setWindowTitle(getLang("login"));
+                if (dialog != null) {
+                    dialog.setWindowTitle(getLang("switch"));
+                }
+                loginBtn.setEnabled(true);
+            }
+        }).start();
+
+        File tmpFile = new File(StartUtil.workspace, TableOpenMgr.OPEN_TMP);
+        try {
+            if (tmpFile.exists()) {
+                FileUtils.cleanDirectory(tmpFile);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void reConn(JdbcBean jdbcBean) throws Exception {
+        Connection conn;
+        ConnUtil.close(loginBean.getConn());
+        if (sessionTool != null) {
+            sessionTool.close();
+        }
+        sessionTool = new SshSessionTool();
+        loginBean.setOriginalJdbc(jdbcBean);
+        LoginConnMsg connMsg = new LoginConnMsg();
+        ;
+        if (connMgrComp == null) {
+            connMsg.setJson(LoginUtil.currConnInfo);
+        } else {
+            connMsg = connMgrComp.getLoginConnMsg(false);
+        }
+        jdbcBean = LoginUtil.buildJdbcBean(jdbcBean, connMsg, sessionTool);
+        conn = ConnUtil.getConn(jdbcBean);
+        LoginUtil.setLockTimeOut(conn);
+        loginBean.setJdbc(jdbcBean);
+        loginBean.setConn(conn);
     }
 
     /**
-     * 回车按钮监听
+     * 登录成功之后做的操作
+     *
+     * @param loginBean 连接bean
      */
-    class EnterEventAction extends AbstractAction {
+    public abstract void inform(LoginBean loginBean);
 
-        private static final long serialVersionUID = -5578066054062128882L;
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            login();
-        }
-    }
 }

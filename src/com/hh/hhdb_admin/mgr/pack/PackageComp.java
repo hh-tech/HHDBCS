@@ -5,6 +5,8 @@ import com.hh.frame.dbobj2.ora.OraSessionEnum;
 import com.hh.frame.dbobj2.ora.pack.PackParserTool;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.frame.swingui.view.container.*;
+import com.hh.frame.swingui.view.container.tab_panel.HTabPanel;
+import com.hh.frame.swingui.view.container.tab_panel.HeaderConfig;
 import com.hh.frame.swingui.view.ctrl.HButton;
 import com.hh.frame.swingui.view.input.TextInput;
 import com.hh.frame.swingui.view.layout.GridSplitEnum;
@@ -27,7 +29,7 @@ public class PackageComp extends CommonComp {
 
     private final Connection conn;
     private final String schema;
-    private HTabPane tabPane;
+    private HTabPanel tabPane;
     private String selectedItem;
     private DesignComp headComp;
     private DesignComp bodyComp;
@@ -38,17 +40,16 @@ public class PackageComp extends CommonComp {
     }
 
     public HPanel getAddPanel(String packName) throws Exception {
-        tabPane = new HTabPane() {
+        tabPane = new HTabPanel() {
             @Override
-            protected void onTabChange(String id) {
+            protected void onSelected(String id) {
                 selectedItem = id;
             }
         };
-        tabPane.setCloseBtn(false);
         headComp = new DesignComp(conn, schema, packName, OraSessionEnum.pack, false);
         bodyComp = new DesignComp(conn, schema, packName, OraSessionEnum.packbody, false);
-        tabPane.addPanel("head", getLang("packageHead"), headComp.getPanel());
-        tabPane.addPanel("body", getLang("packageBody"), bodyComp.getPanel());
+        tabPane.addPanel("head", headComp.getPanel(), new HeaderConfig(getLang("packageHead")));
+        tabPane.addPanel("body", bodyComp.getPanel(), new HeaderConfig(getLang("packageBody")));
         LastPanel lastPanel = new LastPanel();
         lastPanel.setHead(getBarPanel().getComp());
         lastPanel.set(tabPane.getComp());
@@ -59,13 +60,10 @@ public class PackageComp extends CommonComp {
 
     protected void addPackage() {
         TextInput nameInput = new TextInput("packageName");
-        HDialog dialog = new HDialog(StartUtil.parentFrame, 400, 120);
+        HDialog dialog = new HDialog(StartUtil.parentFrame, 400, 140);
         dialog.setWindowTitle(getLang("addPackage"));
         dialog.setIconImage(IconFileUtil.getLogo(IconSizeEnum.SIZE_16).getImage());
-        HDivLayout divLayout = new HDivLayout(GridSplitEnum.C12);
-        divLayout.setyGap(10);
-        divLayout.setTopHeight(10);
-        HPanel panel = new HPanel(divLayout);
+        HPanel panel = new HPanel(new HDivLayout(0, 10, GridSplitEnum.C12));
         panel.add(getWithLabelInput(getLang("packName"), nameInput));
         HBarLayout barLayout = new HBarLayout();
         barLayout.setAlign(AlignEnum.CENTER);

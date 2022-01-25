@@ -18,6 +18,7 @@ import java.util.List;
 public class DeleteMgr extends AbsGuiMgr {
 
     public static final String SHOW = "show";
+    public static final String TRUNCATE = "truncate";   //清空表数据
 
     @Override
     public void init(JsonObject jObj) {
@@ -36,19 +37,20 @@ public class DeleteMgr extends AbsGuiMgr {
 
     @Override
     public void doPush(JsonObject msg) throws Exception {
+        TreeMrType treeMrType = TreeMrType.valueOf(msg.getString("nodeType"));
         if (SHOW.equals(GuiJsonUtil.toStrCmd(msg))) {
             List<NodeInfo> nodeInfoList = new ArrayList<>();
-            TreeMrType treeMrType = TreeMrType.valueOf(msg.getString("nodeType"));
             for (JsonValue value : msg.get("names").asArray()) {
                 NodeInfo nodeInfo = new NodeInfo();
-                nodeInfo.setName(value.asString());
+                nodeInfo.setName(value.asObject().getString("name"));
                 switch (treeMrType) {
                     case FUNCTION:
                     case PROCEDURE:
                     case TRIGGER_FUNCTION:
-                        nodeInfo.setId(msg.getString("id"));
+                        nodeInfo.setId(value.asObject().getString("id"));
                         break;
                     case COLUMN:
+                    case INDEX:
                     case CHECK_KEY:
                     case PRIMARY_KEY:
                     case UNIQUE_KEY:
@@ -60,9 +62,20 @@ public class DeleteMgr extends AbsGuiMgr {
                 }
                 nodeInfo.setSchemaName(msg.getString("schemaName"));
                 nodeInfo.setTreeMrType(treeMrType);
+                nodeInfo.setOperType(OperateType.DEL);
                 nodeInfoList.add(nodeInfo);
             }
-            new DeleteComp(nodeInfoList, StartUtil.getLoginBean());
+            new DeleteComp(nodeInfoList, StartUtil.getLoginBean(), StartUtil.parentFrame);
+        } else  if (TRUNCATE.equals(GuiJsonUtil.toStrCmd(msg))) {
+            List<NodeInfo> nodeInfoList = new ArrayList<>();
+            NodeInfo nodeInfo = new NodeInfo();
+            nodeInfo.setName(msg.getString("tableName"));
+            nodeInfo.setSchemaName(msg.getString("schemaName"));
+            nodeInfo.setTreeMrType(treeMrType);
+            nodeInfo.setOperType(OperateType.TRUN);
+            nodeInfoList.add(nodeInfo);
+    
+            new DeleteComp(nodeInfoList, StartUtil.getLoginBean(), StartUtil.parentFrame);
         }
     }
 

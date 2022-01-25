@@ -134,4 +134,13 @@ public class TypeColumn extends JsonCol {
 		}
 		return flag;
 	}
+	
+	public static JsonObject getDefType() {
+		AbsTableObjFun tableObjFun = FunBaseForm.createTabTool.getTableObjFun();
+		JsonObject object = new JsonObject();
+		object.add(__TEXT, (tableObjFun.getDefaultType()));
+		Enum<?> anEnum = tableObjFun.typeToEnum(tableObjFun.getDefaultType());
+		object.add(JSON_LENGTH, String.valueOf(tableObjFun.getTypeDefaultLength(anEnum)));
+		return object;
+	}
 }

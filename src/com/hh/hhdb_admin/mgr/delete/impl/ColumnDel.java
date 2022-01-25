@@ -1,6 +1,4 @@
 package com.hh.hhdb_admin.mgr.delete.impl;
-
-import com.hh.frame.common.util.db.SqlExeUtil;
 import com.hh.hhdb_admin.mgr.delete.AbsDel;
 import com.hh.hhdb_admin.mgr.delete.NodeInfo;
 
@@ -21,11 +19,11 @@ public class ColumnDel extends AbsDel {
             case oracle:
             case sqlserver:
             case db2:
-                SqlExeUtil.executeUpdate(conn, String.format("ALTER TABLE \"%s\".\"%s\" DROP COLUMN \"%s\"",
+                execute(String.format("ALTER TABLE \"%s\".\"%s\" DROP COLUMN \"%s\"",
                         schemaName, tableName, name));
                 break;
             case mysql:
-                SqlExeUtil.executeUpdate(conn, String.format("ALTER TABLE `%s`.`%s` DROP COLUMN %s",
+                execute(String.format("ALTER TABLE `%s`.`%s` DROP COLUMN %s",
                         schemaName, tableName, name));
                 break;
             default:

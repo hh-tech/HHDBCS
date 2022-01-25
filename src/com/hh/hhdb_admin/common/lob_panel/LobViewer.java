@@ -1,5 +1,6 @@
 package com.hh.hhdb_admin.common.lob_panel;
 
+import com.hh.frame.chardet.ChardetUtil;
 import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.swingui.view.abs.AbsHComp;
 import com.hh.frame.swingui.view.container.HBarPanel;
@@ -12,7 +13,7 @@ import com.hh.hhdb_admin.common.icon.IconBean;
 import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.common.icon.IconSizeEnum;
 import com.hh.hhdb_admin.mgr.table_open.common.EncodingDetect;
-import com.hh.hhdb_admin.mgr.table_open.common.ModifyTabDataUtil;
+import com.hh.frame.common.util.db.SelectTableSqlUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -26,7 +27,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class LobViewer extends AbsHComp {
@@ -73,6 +76,8 @@ public class LobViewer extends AbsHComp {
 	 * Adobe Acrobat (pdf)，文件头：255044462D312E
 	 */
 	public static final String TYPE_PDF = "pdf";
+
+	public static List<String> usedCode = Arrays.asList("UTF-8", "GB18030", "GB2312", "US-ASCII", "EUC-JP", "EUC-TW");
 
 
 	protected HTextArea textArea;
@@ -127,7 +132,7 @@ public class LobViewer extends AbsHComp {
 			type = NULL;
 		}
 		changeType(type);
-		labelStatus.setText("大小:" + ModifyTabDataUtil.formatSize(getSize(data)) + " | 类型(编码) :" + (encode == null ? type : encode));
+		labelStatus.setText("大小:" + SelectTableSqlUtil.formatSize(getSize(data)) + " | 类型(编码) :" + (encode == null ? type : encode));
 		panel.updateUI();
 	}
 
@@ -200,8 +205,12 @@ public class LobViewer extends AbsHComp {
 			default:
 				break;
 		}
-		code = EncodingDetect.getFileEncode(data);
-		boolean contains = EncodingDetect.getUsedCode().contains(code);
+		try (ByteArrayInputStream arrayInputStream = new ByteArrayInputStream(data)) {
+			code = ChardetUtil.detectCharset(arrayInputStream);
+		} catch (IOException e) {
+			return UNKNOWN;
+		}
+		boolean contains = usedCode.contains(code);
 		if (contains) {
 			edit = true;
 			return TEXT;
@@ -250,7 +259,7 @@ public class LobViewer extends AbsHComp {
 		int min = Math.min(data.length, 6);
 		byte[] b = new byte[min];
 		System.arraycopy(data, 0, b, 0, min);
-		String s = ModifyTabDataUtil.bytesToHexString(b);
+		String s = SelectTableSqlUtil.bytesToHexString(b);
 		if (StringUtils.isBlank(s)) {
 			return UNKNOWN;
 		}

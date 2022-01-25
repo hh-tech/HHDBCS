@@ -1,6 +1,4 @@
 package com.hh.hhdb_admin.mgr.delete.impl;
-
-import com.hh.frame.common.util.db.SqlExeUtil;
 import com.hh.hhdb_admin.common.util.DbCmdStrUtil;
 import com.hh.hhdb_admin.mgr.delete.AbsDel;
 import com.hh.hhdb_admin.mgr.delete.NodeInfo;
@@ -21,7 +19,7 @@ public class TriggerDel extends AbsDel {
         switch (dbType) {
             case pgsql:
             case hhdb:
-                SqlExeUtil.executeUpdate(conn, String.format("DROP TRIGGER %s ON %s.%s",
+                execute(String.format("DROP TRIGGER %s ON %s.%s",
                         realTriggerName,
                         realSchemaName,
                         DbCmdStrUtil.toDbCmdStr(tableName, dbType)));
@@ -30,10 +28,10 @@ public class TriggerDel extends AbsDel {
             case oracle:
             case db2:
             case dm:
-                SqlExeUtil.executeUpdate(conn, String.format("DROP TRIGGER %s.%s", realSchemaName, realTriggerName));
+                execute(String.format("DROP TRIGGER %s.%s", realSchemaName, realTriggerName));
                 break;
             case mysql:
-                SqlExeUtil.executeUpdate(conn, String.format("DROP TRIGGER %s.%s",
+                execute(String.format("DROP TRIGGER %s.%s",
                         realSchemaName,
                         DbCmdStrUtil.toDbCmdStr(realTriggerName, dbType)));
                 break;

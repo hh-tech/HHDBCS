@@ -5,7 +5,6 @@ import com.hh.frame.json.JsonObject;
 import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.engine.AbsGuiMgr;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
-import com.hh.frame.swingui.view.ui.HHSwingUi;
 import com.hh.hhdb_admin.CsMgrEnum;
 import com.hh.hhdb_admin.common.icon.IconBean;
 import com.hh.hhdb_admin.common.icon.IconFileUtil;
@@ -48,8 +47,8 @@ public class GisMgr extends AbsGuiMgr {
             case StartUtil.CMD_CLOSE:
                 StartUtil.eng.rmFromSharedMap(GuiJsonUtil.toPropValue(msg,StartUtil.CMD_ID));
                 //还原设置图层样式弹出窗口临时设置的字体
-                UIManager.put("Label.font",new JPanel().getFont());
-                UIManager.setLookAndFeel(HHSwingUi.getBeautyEyeLNFStrWindowsPlatform());
+//                UIManager.put("Label.font",new JPanel().getFont());
+//                UIManager.setLookAndFeel(HHSwingUi.getBeautyEyeLNFStrWindowsPlatform());
                 break;
             case CMD_SHOW_GIS:
                 JsonObject jsonObj= StartUtil.eng.doCall(CsMgrEnum.LOGIN, GuiJsonUtil.genGetShareIdMsg(LoginMgr.ObjType.LOGIN_BEAN));

@@ -1,6 +1,7 @@
 package com.hh.hhdb_admin.mgr.delete.impl;
 
-import com.hh.frame.common.util.DriverUtil;
+import java.sql.Connection;
+import com.hh.frame.common.util.db.ConnUtil;
 import com.hh.frame.create_dbobj.function.mr.AbsFunMr;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrNode;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
@@ -22,11 +23,14 @@ public class FunctionDel extends AbsDel {
         String id = nodeInfo.getId();
         TreeMrNode treeNode = new TreeMrNode(nodeName, id, TreeMrType.FUNCTION, "");
         treeNode.setSchemaName(schemaName);
-        AbsFunMr funMr = AbsFunMr.genFunMr(DriverUtil.getDbType(conn), treeNode);
+        AbsFunMr funMr = AbsFunMr.genFunMr(dbType, treeNode);
+        Connection conn = ConnUtil.getConn(jdbcBean);
         FunBaseForm funForm = FunUtil.getFunBaseForm(funMr, conn, jdbcBean, true);
         if (funForm == null) {
             throw new Exception("删除失败");
         }
-        funForm.delete();
+        String sql = funForm.getDelSql();
+        conn.close();
+        execute(sql);
     }
 }

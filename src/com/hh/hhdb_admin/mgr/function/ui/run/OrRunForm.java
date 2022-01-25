@@ -51,8 +51,8 @@ public class OrRunForm extends RunBaseForm {
                 if ("IN".equals(map.get("in_out")) || "IN/OUT".equals(map.get("in_out"))) {
                     if (map.get("parameter") == null) continue;
                     Map<String, String> dparma = new HashMap<String, String>();
-                    dparma.put("parameter", map.get("parameter"));
-                    dparma.put("dbType", map.get("type"));
+                    dparma.put("name", map.get("parameter"));
+                    dparma.put("type", map.get("type"));
                     dparma.put("value", "");
                     list.add(dparma);
                 }
@@ -62,7 +62,7 @@ public class OrRunForm extends RunBaseForm {
     }
 
     @Override
-    protected String getSql(Map<String, String> valMap) throws Exception {
+    protected String getSql(Map<String, List<String>> valMap) throws Exception {
         String runsql = "";
         StringBuffer variate = new StringBuffer();
         StringBuffer dbms_output = new StringBuffer();
@@ -74,8 +74,8 @@ public class OrRunForm extends RunBaseForm {
             String type = map.get("type").equals("VARCHAR2") ? "VARCHAR2 ( 4000 )" : map.get("type");
             String str = "\""+ map.get("parameter") + "\" " + type;
             if ("IN".equals(map.get("in_out")) || "IN/OUT".equals(map.get("in_out"))) {
-                if ( null != valMap && StringUtils.isNotBlank(valMap.get(map.get("parameter"))) ) {
-                    str += " := '" + valMap.get(map.get("parameter"))+"'";
+                if ( !valMap.isEmpty() && StringUtils.isNotBlank(valMap.get(map.get("parameter")).get(1)) ) {
+                    str += " := '" + valMap.get(map.get("parameter")).get(1)+"'";
                 }
             }
             variate.append("\t"+str+";\n");

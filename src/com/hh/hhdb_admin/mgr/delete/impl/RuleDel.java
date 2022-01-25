@@ -1,6 +1,4 @@
 package com.hh.hhdb_admin.mgr.delete.impl;
-
-import com.hh.frame.common.util.db.SqlExeUtil;
 import com.hh.hhdb_admin.mgr.delete.AbsDel;
 import com.hh.hhdb_admin.mgr.delete.NodeInfo;
 
@@ -17,6 +15,6 @@ public class RuleDel extends AbsDel {
         String schemaName = nodeInfo.getSchemaName();
         String tableName = nodeInfo.getTableName();
         String name = nodeInfo.getName();
-        SqlExeUtil.executeUpdate(conn, String.format(sql, name, schemaName, tableName));
+        execute(String.format(sql, name, schemaName, tableName));
     }
 }

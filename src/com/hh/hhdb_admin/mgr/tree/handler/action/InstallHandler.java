@@ -25,7 +25,7 @@ public class InstallHandler extends AbsHandler {
     public void resolve(HTreeNode treeNode) throws Exception {
         String extensionName = treeNode.getName();
         SqlExeUtil.executeUpdate(loginBean.getConn(), String.format(INSTALL_EXTENSION, extensionName));
-        PopPaneUtil.info(StartUtil.parentFrame.getWindow(), "安装成功");
+        PopPaneUtil.info(StartUtil.parentFrame.getWindow(), getLang("installationSucceeded"));
 
 //        DBTypeEnum dbTypeEnum = DriverUtil.getDbTypeOp(loginBean.getJdbc()).orElse(DBTypeEnum.hhdb);
         String schemaName = getSchemaName();

@@ -32,7 +32,6 @@ public abstract class AbsTable {
         DataCol idCol = new DataCol("id", "id");
         idCol.setShow(false);
         table.addCols(idCol);
-        table.setRowHeight(25);
         table.hideSeqCol();
         table.setEvenBgColor(table.getOddBgColor());
         return table;

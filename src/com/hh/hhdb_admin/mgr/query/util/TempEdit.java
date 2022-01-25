@@ -11,8 +11,8 @@ import com.hh.frame.swingui.view.ctrl.HButton;
 import com.hh.frame.swingui.view.input.LabelInput;
 import com.hh.frame.swingui.view.textEditor.HTextArea;
 import com.hh.frame.swingui.view.textEditor.base.ConstantsEnum;
-import com.hh.frame.swingui.view.util.PopPaneUtil;
 import com.hh.hhdb_admin.common.icon.IconFileUtil;
+import com.hh.hhdb_admin.mgr.query.QueryMgr;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
@@ -54,44 +54,43 @@ public class TempEdit {
             string = sb.toString().trim();
         } catch (Exception e) {
             e.printStackTrace();
-            PopPaneUtil.error(parentDig.getWindow(),e.getMessage());
-        }finally {
-            HTextArea textArea = new HTextArea(false, true);
-            textArea.getArea().getTextArea().setLineWrap(true);
-            textArea.showBookMask(false);
-            textArea.setConstants(ConstantsEnum.SYNTAX_STYLE_SQL);
-            textArea.setText(StringUtils.isNotBlank(string) ? string : sql);
-    
-            dialog = new HDialog(parentDig,800){
-                @Override
-                protected void closeEvent() {
-                    dispose();
-                }
-            };
-            HBarPanel hTool = new HBarPanel();
-            hTool.add(new HButton("确定") {
-                @Override
-                public void onClick() {
-                    save(textArea.getArea().getTextArea().getText());
-                    dialog.dispose();
-                }
-            }, new HButton("重置") {
-                @Override
-                public void onClick() {
-                    textArea.setText(standardSql);
-                }
-            });
-    
-            HPanel hp = new HPanel();
-            hp.add(textArea);
-            hp.add(new LabelInput(hint, AlignEnum.LEFT),hTool);
-    
-            dialog.setIconImage(IconFileUtil.getLogo());
-            dialog.setWindowTitle("模版");
-            dialog.setRootPanel(hp);
-            dialog.setSize(800,hp.getHeight()+50);      //根据实际大小设置弹出框大小
-            dialog.show();
         }
+    
+        HTextArea textArea = new HTextArea(false, true);
+        textArea.getArea().getTextArea().setLineWrap(true);
+        textArea.showBookMask(false);
+        textArea.setConstants(ConstantsEnum.SYNTAX_STYLE_SQL);
+        textArea.setText(StringUtils.isNotBlank(string) ? string : sql);
+    
+        dialog = new HDialog(parentDig,800){
+            @Override
+            protected void closeEvent() {
+                dispose();
+            }
+        };
+        HBarPanel hTool = new HBarPanel();
+        hTool.add(new HButton(QueryMgr.getLang("determine")) {  //确定
+            @Override
+            public void onClick() {
+                save(textArea.getArea().getTextArea().getText());
+                dialog.dispose();
+            }
+        }, new HButton(QueryMgr.getLang("reset")) {  //重置
+            @Override
+            public void onClick() {
+                textArea.setText(standardSql);
+            }
+        });
+    
+        HPanel hp = new HPanel();
+        hp.add(textArea);
+        hp.add(new LabelInput(hint, AlignEnum.LEFT),hTool);
+    
+        dialog.setIconImage(IconFileUtil.getLogo());
+        dialog.setWindowTitle(QueryMgr.getLang("template"));
+        dialog.setRootPanel(hp);
+        dialog.setSize(800,hp.getHeight()+50);      //根据实际大小设置弹出框大小
+        dialog.show();
     }
     
     protected void save(String sql){

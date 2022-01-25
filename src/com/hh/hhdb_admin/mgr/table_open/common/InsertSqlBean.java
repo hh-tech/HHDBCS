@@ -1,6 +1,7 @@
 package com.hh.hhdb_admin.mgr.table_open.common;
 
 import com.hh.frame.common.base.DBTypeEnum;
+import com.hh.frame.common.util.db.SelectTableSqlUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -111,7 +112,7 @@ public class InsertSqlBean implements Serializable {
 				valuesStr.append(value).append(",");
 			}
 		}
-		sql.append("INSERT INTO ").append(ModifyTabDataUtil.getTabFullName(dbTypeEnum, schemaName, tableName));
+		sql.append("INSERT INTO ").append(SelectTableSqlUtil.getTabFullName(dbTypeEnum, schemaName, tableName));
 		sql.append(String.format("(%s) VALUES (%s) ", delSb(colNamesStr).toString(), delSb(valuesStr).toString()));
 
 		return sql.toString();

@@ -1,19 +1,25 @@
 package com.hh.hhdb_admin.mgr.vm_editor;
 
+import com.alee.extended.button.SplitButtonAdapter;
+import com.alee.extended.button.WebSplitButton;
+import com.alee.managers.style.StyleId;
 import com.hh.frame.common.base.AlignEnum;
+import com.hh.frame.common.util.ClassLoadUtil;
 import com.hh.frame.common.util.TemplateUtil;
 import com.hh.frame.json.JsonObject;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.frame.swingui.view.abs.AbsHComp;
-import com.hh.frame.swingui.view.container.HBarPanel;
-import com.hh.frame.swingui.view.container.HSplitPanel;
-import com.hh.frame.swingui.view.container.HTabPane;
-import com.hh.frame.swingui.view.container.LastPanel;
+import com.hh.frame.swingui.view.container.*;
+import com.hh.frame.swingui.view.container.tab_panel.HTabPanel;
+import com.hh.frame.swingui.view.container.tab_panel.HeaderConfig;
 import com.hh.frame.swingui.view.ctrl.HButton;
+import com.hh.frame.swingui.view.hmenu.HMenuItem;
+import com.hh.frame.swingui.view.hmenu.HPopMenu;
 import com.hh.frame.swingui.view.input.SelectBox;
 import com.hh.frame.swingui.view.input.TextAreaInput;
 import com.hh.frame.swingui.view.layout.bar.HBarLayout;
 import com.hh.hhdb_admin.CsMgrEnum;
+import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.common.util.textEditor.QueryEditUtil;
 import com.hh.hhdb_admin.common.util.textEditor.QueryEditorTextArea;
@@ -25,6 +31,7 @@ import org.apache.commons.lang3.StringUtils;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.HashMap;
 
@@ -73,7 +80,7 @@ public class VmComp extends AbsHComp {
         executeTypeBox.addOption(VmMgr.getLang("to_window"), VmMgr.getLang("to_window"));
         executeTypeBox.addOption(VmMgr.getLang("to_query"), VmMgr.getLang("to_query"));
         executeTypeBox.addOption(VmMgr.getLang("to_file"), VmMgr.getLang("to_file"));
-        executeTypeBox.setValue(QueryMgr.getLang("to_query"));
+        executeTypeBox.setValue(VmMgr.getLang("to_query"));
 
         //保存到sql宝典
         saveSqlBook = new HButton(VmMgr.getLang("saveSqlBook")) {
@@ -83,8 +90,8 @@ public class VmComp extends AbsHComp {
             }
         };
         saveSqlBook.setIcon(VmMgr.getIcon("book"));
-
-        toolBar.add(executeBut, executeTypeBox, saveSqlBook);
+    
+        toolBar.add(executeBut, executeTypeBox, saveSqlBook,new SplitButton());
         return toolBar;
     }
 
@@ -125,7 +132,7 @@ public class VmComp extends AbsHComp {
                             get();
                         } catch (Exception e) {
                             e.printStackTrace();
-                            setRightCom(VmMgr.getLang("error") + ":" + e.toString());
+                            setRightCom(VmMgr.getLang("error") + ":" + e);
                             FileUtils.deleteQuietly(file);
                         } finally {
                             setEnab(true);
@@ -192,8 +199,8 @@ public class VmComp extends AbsHComp {
         textAr.setValue(text);
         LastPanel lastPanel = new LastPanel(false);
         lastPanel.set(textAr.getComp());
-        HTabPane hTabPane = new HTabPane();
-        hTabPane.addPanel("1", VmMgr.getLang("result"), lastPanel.getComp(), false);
+        HTabPanel hTabPane = new HTabPanel();
+        hTabPane.addPanel("1", lastPanel, new HeaderConfig(VmMgr.getLang("result")).setFixTab(true));
 
         JSplitPane jsp = splitPane.getComp();
         jsp.setRightComponent(hTabPane.getComp());
@@ -202,6 +209,65 @@ public class VmComp extends AbsHComp {
             bool = false;
         } else {
             jsp.setDividerLocation(jsp.getDividerLocation());
+        }
+    }
+    
+    //分割按钮
+    private final class SplitButton extends AbsHComp {
+        private SplitButton(){
+            HPopMenu toolPopupMenu = new HPopMenu();
+            HMenuItem tpccItem = new HMenuItem(VmMgr.getLang("tpccVm"), VmMgr.getIcon("sql_format")){
+                @Override
+                protected void onAction() {
+                    try {
+                        executeTypeBox.setValue(VmMgr.getLang("to_file"));
+                        textArea.setText(ClassLoadUtil.loadTextRes(VmComp.class,"util/tpccVM.sql"));
+                        textArea.getTextArea().setCaretPosition(0);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            };
+            HMenuItem crTableItem = new HMenuItem(VmMgr.getLang("crTable"), VmMgr.getIcon("sql_format")){
+                @Override
+                protected void onAction() {
+                    try {
+                        executeTypeBox.setValue(VmMgr.getLang("to_file"));
+                        textArea.setText(ClassLoadUtil.loadTextRes(VmComp.class,"util/crTable.sql"));
+                        textArea.getTextArea().setCaretPosition(0);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            };
+            toolPopupMenu.addItem(tpccItem,crTableItem);
+    
+            WebSplitButton wb = new WebSplitButton(StyleId.splitbuttonIconHover, VmMgr.getIcon("help"));
+            wb.addSplitButtonListener(new SplitButtonAdapter() {
+                @Override
+                public void buttonClicked(ActionEvent e) {
+                    HDialog helpDialog = new HDialog(StartUtil.parentFrame, 500, 300);
+                    HPanel panel = new HPanel();
+                    TextAreaInput areaInput = new TextAreaInput();
+                    areaInput.setEnabled(true);
+                    areaInput.setValue("按alt+k可以弹出模版选择提示框，可以结合sql语句来使用。\n\n" +
+                            "例如使用for循环用来批量生成SQL语句：\n" +
+                            "#foreach( $item  in [1..10] )\n" +
+                            " create table tab$item (id number(10),name varchar2(100));\n" +
+                            "#end");
+                    LastPanel lastPanel = new LastPanel();
+                    lastPanel.set(areaInput.getComp());
+                    panel.setLastPanel(lastPanel);
+                    helpDialog.setRootPanel(panel);
+                    helpDialog.setIconImage(IconFileUtil.getLogo());
+                    helpDialog.setWindowTitle(VmMgr.getLang("help"));
+                    helpDialog.show();
+                }
+            });
+            wb.setText(VmMgr.getLang("help"));
+            wb.setPopupMenu(toolPopupMenu.getComp());
+            wb.setBorderPainted(false);
+            comp = wb;
         }
     }
 }

@@ -13,7 +13,6 @@ import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.function.FunctionMgr;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.swing.*;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,8 +44,8 @@ public class SqlsrverRunForm extends RunBaseForm {
             } else {
                 for (String str : parms.keySet()) {
                     Map<String, String> dparma = new HashMap<String, String>();
-                    dparma.put("parameter", str);
-                    dparma.put("dbType", parms.get(str));
+                    dparma.put("name", str);
+                    dparma.put("type", parms.get(str));
                     dparma.put("value", "");
                     list.add(dparma);
                 }
@@ -60,7 +59,7 @@ public class SqlsrverRunForm extends RunBaseForm {
     }
 
     @Override
-    protected String getSql(Map<String, String> valMap) throws Exception {
+    protected String getSql(Map<String, List<String>> valMap) throws Exception {
         String runsql = "";
         Connection con = null;
         try {
@@ -69,7 +68,7 @@ public class SqlsrverRunForm extends RunBaseForm {
                 StringBuffer finalParms = new StringBuffer();
                 //设置参数
                 for (String str : valMap.keySet()) {
-                    if (null != str) finalParms.append(finalParms.length() == 0 ? "" : ",").append("'"+valMap.get(str)+"'");
+                    if (null != str) finalParms.append(finalParms.length() == 0 ? "" : ",").append("'"+valMap.get(str).get(1)+"'");
                 }
                 runsql = "select * from "+funMr.treeNode.getSchemaName()+"."+funMr.treeNode.getName()+"("+finalParms+");";
             }else if (type == TreeMrType.PROCEDURE || funMr.ftype.equals("FN")){     //普通函数或者存储过程
@@ -78,7 +77,7 @@ public class SqlsrverRunForm extends RunBaseForm {
                 StringBuffer outParam = new StringBuffer();
                 List<Map<String, Object>> list = funMr.getFunParameter(con);
                 for (Map<String, Object> map : list) {
-                    String type = null == map.get("length") ? map.get("type").toString() : map.get("type").toString()+ "("+map.get("length").toString()+")";
+                    String type = null == map.get("length") ? map.get("type").toString() : map.get("type") + "("+ map.get("length") +")";
                     if (!StringUtils.isNotBlank(map.get("name").toString())) {
                         //添加函数的返回值
                         if ( this.type == TreeMrType.FUNCTION ) {
@@ -89,8 +88,8 @@ public class SqlsrverRunForm extends RunBaseForm {
                     }
                     //变量
                     String str = map.get("name") + " " + type;
-                    if ( null != valMap && StringUtils.isNotBlank(valMap.get(map.get("name").toString())) ) {
-                        str += " = '" + valMap.get(map.get("name").toString())+"'";
+                    if ( !valMap.isEmpty() && StringUtils.isNotBlank(valMap.get(map.get("name").toString()).get(1)) ) {
+                        str += " = '" + valMap.get(map.get("name").toString()).get(1)+"'";
                     }
                     variate.append(variate.length()>1 ? ",\n" : "").append("\t"+str+"");
                     //参数
@@ -131,11 +130,9 @@ public class SqlsrverRunForm extends RunBaseForm {
             public void run() {
                 StringBuffer sb = new StringBuffer();
                 try {
-                    JTabbedPane jtp = (JTabbedPane)hTabPane.getComp();
-                    while (jtp.getTabCount() > 2) {
-                        hTabPane.closeTabPanel("result" + (jtp.getTabCount()-2));
+                    while (hTabPane.getTabCount() > 2) {//清除之前运行的结果页
+                        hTabPane.closeTabPanel("result" + (hTabPane.getTabCount()-2));
                     }
-                    jtp.updateUI();
                     
                     runTool =  new RunTool(conn,textArea.getText());
                     MultiRsBean mr = runTool.sqlsrverRun();
@@ -152,7 +149,7 @@ public class SqlsrverRunForm extends RunBaseForm {
                             list.get(0).forEach(a -> resTable.addCols(new DataCol(a, a)));
                             LastPanel lastPanel = new LastPanel(false);
                             lastPanel.setWithScroll(resTable.getComp());
-                            hTabPane.addPanel("result" + s, FunctionMgr.getLang("result") + s, lastPanel.getComp(), true);
+                            hTabPane.addPanel("result" + s, FunctionMgr.getLang("result") + s, lastPanel.getComp());
     
                             List<Map<String, String>> valist = new ArrayList<Map<String, String>>();
                             for (int i = 1; i < list.size(); i++) {

@@ -1,13 +1,5 @@
 package com.hh.hhdb_admin.mgr.sql_book;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-
-import javax.swing.ImageIcon;
-
-import com.hh.frame.chardet.ChardetUtil;
 import com.hh.frame.file_client.HHFileUtil;
 import com.hh.frame.file_client.openWay.OpenMgrTool;
 import com.hh.frame.lang.LangEnum;
@@ -32,6 +24,12 @@ import com.hh.hhdb_admin.mgr.sql_book.util.PackOpen;
 import com.hh.hhdb_admin.mgr.sql_book.util.QueryOpen;
 import com.hh.hhdb_admin.mgr.sql_book.util.TypeOpen;
 import com.hh.hhdb_admin.mgr.sql_book.util.VMOpen;
+
+import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public abstract class SqlBookComp {
     private HPanel panel;
@@ -73,7 +71,7 @@ public abstract class SqlBookComp {
                 protected void openFile(String fileName) {
                     try {
                     	File f = new File(getCurrentDir() + File.separator + fileName);
-                        openMgrTool.getDefToos(fileName).openFile(f,ChardetUtil.detectCharset(f));
+                        openMgrTool.getDefToos(fileName).openFile(f);
                     } catch (Exception e) {
                         e.printStackTrace();
                         PopPaneUtil.error(StartUtil.parentFrame.getWindow(), e);
@@ -81,9 +79,10 @@ public abstract class SqlBookComp {
                 }
             };
             tfComp.setFileOpenOnDbClick(true);
-            TabFileRequires requires = new TabFileRequires(IconFileUtil.getLogo(), StartUtil.parentFrame);
+            TabFileRequires requires = new TabFileRequires(StartUtil.parentFrame);
+            requires.setConfigDir(StartUtil.getEtcFile());
             panel = tfComp.getPanel(requires);
-            fileMenu.addPopMenuItem(getTaskPopItem(fileMenu.getTable(),dPath));
+            fileMenu.addPopMenuItem(getTaskPopItem(fileMenu.getTable()));
             curLanguage = LangMgr2.getDefaultLang();
         }catch (Exception e){
             e.printStackTrace();
@@ -101,7 +100,7 @@ public abstract class SqlBookComp {
     /**
      * 打开任务
      */
-    private FmPopMenuItem getTaskPopItem(HTable table,String path) {
+    private FmPopMenuItem getTaskPopItem(HTable table) {
     	return new FmPopMenuItem(getLang(LK_OPEN_TASK),IconFileUtil.getIcon(new IconBean(CsMgrEnum.SQL_BOOK.name(), "task", IconSizeEnum.SIZE_16))) {
 			
 			@Override
@@ -117,7 +116,7 @@ public abstract class SqlBookComp {
 			@Override
 			protected void onAction() {
 				 try {
-		                File f = new File(path,FileTableUtil.getFileName(table.getSelectedRowBeans().get(0)));
+		                File f = new File(getCurrentDir(),FileTableUtil.getFileName(table.getSelectedRowBeans().get(0)));
 		                if (f != null) {
 	                        openTask(f.getAbsolutePath());
 	                        dialog.dispose();

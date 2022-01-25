@@ -214,7 +214,7 @@
       "key": "split_str",
       "value": {
         "zh": "拆分字段：",
-        "en": "Split Word:"
+        "en": "Split word:"
       }
     },
     {
@@ -256,7 +256,7 @@
       "key": "config",
       "value": {
         "zh": "配置",
-        "en": "Config"
+        "en": "configuration"
       }
     },
     {
@@ -474,6 +474,195 @@
       "value": {
         "zh": "自动执行:",
         "en": "Auto Start:"
+      }
+    },
+    {
+      "key": "hhdb",
+      "value": {
+        "zh": "恒辉数据库:",
+        "en": "Hhdb"
+      }
+    },
+    {
+      "key": "taskName",
+      "value": {
+        "zh": "任务名称* : ",
+        "en": "Task name* : "
+      }
+    },
+    {
+      "key": "database",
+      "value": {
+        "zh": "数据库类型* : ",
+        "en": "Database* : "
+      }
+    },
+    {
+      "key": "database",
+      "value": {
+        "zh": "数据库类型* : ",
+        "en": "Database* : "
+      }
+    },
+    {
+      "key": "connect",
+      "value": {
+        "zh": "连接* : ",
+        "en": "Connect* : "
+      }
+    },
+    {
+      "key": "username",
+      "value": {
+        "zh": "用户* : ",
+        "en": "Username* : "
+      }
+    },
+    {
+      "key": "password",
+      "value": {
+        "zh": "密码* : ",
+        "en": "Password* : "
+      }
+    },
+    {
+      "key": "schema",
+      "value": {
+        "zh": "模式* : ",
+        "en": "Schema* : "
+      }
+    },
+    {
+      "key": "databaseConfig",
+      "value": {
+        "zh": "数据库配置",
+        "en": "Database configuration"
+      }
+    },
+    {
+      "key": "refill",
+      "value": {
+        "zh": "重填",
+        "en": "Refill"
+      }
+    },
+    {
+      "key": "notEmpty",
+      "value": {
+        "zh": " 不能为空",
+        "en": " cannot be empty"
+      }
+    },
+    {
+      "key": "modifyParam",
+      "value": {
+        "zh": "*请根据选择的表修改值参数",
+        "en": "*Please modify the value parameter according to the selected table"
+      }
+    },
+    {
+      "key": "fillParam",
+      "value": {
+        "zh": "请先填写模式名和表名！",
+        "en": "Please fill in the mode name and table name first!"
+      }
+    },
+    {
+      "key": "dataGenerateConfig",
+      "value": {
+        "zh": "数据生成配置",
+        "en": "Data generation configuration"
+      }
+    },
+    {
+      "key": "note",
+      "value": {
+        "zh": "注：可以使用表达式改变__N的值,如从100开始计数",
+        "en": "Note: you can use expressions to change__ The value of N, such as counting from 100"
+      }
+    },
+    {
+      "key": "sqlFileNotEmpty",
+      "value": {
+        "zh": "SQL文件不能为空！",
+        "en": "SQL file cannot be empty!"
+      }
+    },
+    {
+      "key": "sqlFileConfig",
+      "value": {
+        "zh": "SQL文件配置",
+        "en": "SQL file configuration"
+      }
+    },
+    {
+      "key": "second",
+      "value": {
+        "zh": "秒",
+        "en": "seconds"
+      }
+    },
+    {
+      "key": "view",
+      "value": {
+        "zh": "查看",
+        "en": "View"
+      }
+    },
+    {
+      "key": "addSqlFile",
+      "value": {
+        "zh": "添加SQL文件",
+        "en": "Add SQL file"
+      }
+    },
+    {
+      "key": "clear",
+      "value": {
+        "zh": "清除数据库/模式",
+        "en": "Database / schema clean"
+      }
+    },
+    {
+      "key": "restore",
+      "value": {
+        "zh": "恢复数据库/模式",
+        "en": "Database / schema restore"
+      }
+    },
+    {
+      "key": "backup",
+      "value": {
+        "zh": "备份数据库/模式",
+        "en": "Database / schema backup"
+      }
+    },
+    {
+      "key": "generateTableData",
+      "value": {
+        "zh": "生成表格数据",
+        "en": "Table data generate"
+      }
+    },
+    {
+      "key": "generateTestData",
+      "value": {
+        "zh": "生成测试数据",
+        "en": "Test data generate"
+      }
+    },
+    {
+      "key": "export",
+      "value": {
+        "zh": "导出查询数据",
+        "en": "Query data export"
+      }
+    },
+    {
+      "key": "close",
+      "value": {
+        "zh": "关闭",
+        "en": "Close"
       }
     }
   ]

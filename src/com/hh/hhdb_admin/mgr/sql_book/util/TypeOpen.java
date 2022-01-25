@@ -1,5 +1,6 @@
 package com.hh.hhdb_admin.mgr.sql_book.util;
 
+import com.hh.frame.chardet.ChardetUtil;
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.DriverUtil;
@@ -26,7 +27,7 @@ import java.util.Objects;
 public class TypeOpen extends WayAbsTool {
 
     @Override
-    public void openFile(File file, String charset) throws Exception {
+    public void openFile(File file) throws Exception {
         if (file != null) {
             LoginBean loginBean = LoginComp.loginBean;
             if (loginBean != null) {
@@ -45,7 +46,7 @@ public class TypeOpen extends WayAbsTool {
                         } else {
                             sessionEnum = OraSessionEnum.typebody;
                         }
-                        String text = FileUtils.readFileToString(file, charset);
+                        String text = FileUtils.readFileToString(file, ChardetUtil.detectCharset(file));
                         StartUtil.eng.doPush(CsMgrEnum.TYPE, GuiJsonUtil.toJsonCmd(TypeMgr.CMD_OPEN_AS_DESIGN)
                                 .add(StartUtil.PARAM_SCHEMA, LoginComp.loginBean.getJdbc().getSchema())
                                 .add(TypeMgr.PARAM_TYPE, sessionEnum.name())

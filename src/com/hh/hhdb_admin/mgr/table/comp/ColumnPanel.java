@@ -18,7 +18,7 @@ import com.hh.hhdb_admin.mgr.table.TableComp;
 import com.hh.hhdb_admin.mgr.table.column.TypeColumn;
 import com.hh.hhdb_admin.mgr.table.common.TableCreatePanel;
 import com.hh.hhdb_admin.mgr.table_open.ModifyTabDataComp;
-import com.hh.hhdb_admin.mgr.table_open.common.ModifyTabDataUtil;
+import com.hh.hhdb_admin.mgr.table_open.common.ModifyTabTool;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
@@ -83,7 +83,7 @@ public class ColumnPanel extends TableCreatePanel {
 
 	@Override
 	protected void callBack() {
-		ModifyTabDataUtil.requestFocus(table, 0, colListSelectionListener);
+		ModifyTabTool.requestFocus(table, 0, colListSelectionListener);
 	}
 
 	@Override

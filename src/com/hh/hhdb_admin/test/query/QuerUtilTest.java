@@ -24,7 +24,8 @@ public class QuerUtilTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-		HHSwingUi.init();
+//		HHSwingUi.init();
+		HHSwingUi.newSkin();
 
 		HFrame frame = new HFrame();
 		HDivLayout layout = new HDivLayout(20, 30, GridSplitEnum.C12);

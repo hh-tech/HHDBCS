@@ -23,6 +23,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.util.LinkedList;
@@ -37,13 +38,18 @@ public class CmdToolBar {
     public int rowsum = 30;     //每页显示条数
     public String nullSign;     //空值显示标记
     
-    public CmdToolBar(CmdComp cmd)throws Exception {
+    public CmdToolBar(CmdComp cmd){
         this.cmdcomp = cmd;
         //设置每页显示数量
-        JsonObject fileJsonArr = Json.parse(FileUtils.readFileToString(StartUtil.defaultJsonFile, StandardCharsets.UTF_8)).asObject();
-        rowsum = fileJsonArr.get("varPageSize").asInt();
-        nullSign = fileJsonArr.get("null").asString();
-        
+        JsonObject fileJsonArr;
+		try {
+			fileJsonArr = Json.parse(FileUtils.readFileToString(StartUtil.defaultJsonFile, StandardCharsets.UTF_8)).asObject();
+			rowsum = fileJsonArr.get("varPageSize").asInt();
+	        nullSign = fileJsonArr.get("null").asString();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
         HBarLayout l = new HBarLayout();
         l.setAlign(AlignEnum.LEFT);
         hTool = new HBarPanel(l);
@@ -107,7 +113,7 @@ public class CmdToolBar {
                     public void save(int row,String nullSigns) {
                         rowsum = row;
                         nullSign = nullSigns;
-                        cmd.setSqlRunTool(row,nullSigns);
+                        cmd.setPars(row,nullSigns);
                     }
                 };
             }

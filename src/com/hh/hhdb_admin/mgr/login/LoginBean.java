@@ -1,11 +1,7 @@
 package com.hh.hhdb_admin.mgr.login;
 
-import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.DateUtil;
-import com.hh.frame.common.util.DriverUtil;
-import com.hh.frame.common.util.db.ConnUtil;
-import com.hh.frame.common.util.db.SqlQueryUtil;
 import com.hh.frame.create_dbobj.treeMr.base.ViewType;
 import com.hh.frame.json.JsonObject;
 
@@ -44,9 +40,9 @@ public class LoginBean {
     }
 
     public Connection getConn() {
-        if (conn != null) {
-            reConn();
-        }
+//        if (conn != null) {
+//            reConn();
+//        }
         return conn;
     }
 
@@ -100,7 +96,7 @@ public class LoginBean {
                 viewType.name() + "\n";
     }
 
-    private void reConn() {
+    /*private void reConn() {
         try {
             DBTypeEnum dbTypeEnum = DriverUtil.getDbType(jdbc);
             if (dbTypeEnum != null) {
@@ -135,5 +131,5 @@ public class LoginBean {
                 e.printStackTrace();
             }
         }
-    }
+    }*/
 }

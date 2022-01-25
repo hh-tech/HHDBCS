@@ -11,7 +11,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
-import java.awt.*;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -52,9 +51,9 @@ public class QueryEditUtil {
     public static QueryEditorTextArea getQueryEditor(Boolean bool)throws Exception {
         //初始化编辑器
         QueryEditorTextArea textArea = new QueryEditorTextArea(bool);
-        JsonObject fileJsonArr = Json.parse(FileUtils.readFileToString(StartUtil.defaultJsonFile, StandardCharsets.UTF_8)).asObject();
-        String[] colors = fileJsonArr.get("textpane").asObject().asObject().get("background").asString().split(",");
-        textArea.setBackground(new Color(Integer.parseInt(colors[0]), Integer.parseInt(colors[1]), Integer.parseInt(colors[2])));
+//        JsonObject fileJsonArr = Json.parse(FileUtils.readFileToString(StartUtil.defaultJsonFile, StandardCharsets.UTF_8)).asObject();
+//        String[] colors = fileJsonArr.get("textpane").asObject().asObject().get("background").asString().split(",");
+//        textArea.setBackground(new Color(Integer.parseInt(colors[0]), Integer.parseInt(colors[1]), Integer.parseInt(colors[2])));
         return textArea;
     }
     

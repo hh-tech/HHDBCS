@@ -1,5 +1,6 @@
 package com.hh.hhdb_admin.mgr.query.ui;
 
+import com.alee.painter.PainterSupport;
 import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
@@ -8,10 +9,13 @@ import com.hh.frame.dbquery.QueryTool;
 import com.hh.frame.dbtask.TaskType;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.frame.swingui.view.container.HBarPanel;
+import com.hh.frame.swingui.view.container.HPanel;
 import com.hh.frame.swingui.view.container.LastPanel;
 import com.hh.frame.swingui.view.ctrl.HButton;
 import com.hh.frame.swingui.view.input.LabelInput;
 import com.hh.frame.swingui.view.input.SelectBox;
+import com.hh.frame.swingui.view.layout.GridSplitEnum;
+import com.hh.frame.swingui.view.layout.HDivLayout;
 import com.hh.frame.swingui.view.layout.bar.HBarLayout;
 import com.hh.frame.swingui.view.tab.HTable;
 import com.hh.frame.swingui.view.tab.SearchToolBar;
@@ -23,9 +27,9 @@ import com.hh.hhdb_admin.common.util.logUtil;
 import com.hh.hhdb_admin.mgr.db_task.TaskMgr;
 import com.hh.hhdb_admin.mgr.query.QueryMgr;
 import com.hh.hhdb_admin.mgr.query.util.QuerUtil;
-import com.hh.hhdb_admin.mgr.table_open.common.ModifyTabDataUtil;
+import com.hh.frame.common.util.db.SelectTableSqlUtil;
 import com.hh.hhdb_admin.mgr.table_open.common.ModifyTabTool;
-import com.hh.hhdb_admin.mgr.table_open.ui.LobJsonCol;
+import com.hh.hhdb_admin.mgr.table_open.comp.LobJsonCol;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
@@ -46,6 +50,7 @@ public class DataTab extends LastPanel {
 	private LabelInput countlabel = new LabelInput();
 	private HButton upperBut,lowerBut;
 	private HTable tab;
+	private SearchToolBar stb;
 	//当前页
 	private int page = 1;
 	//已加载数据的最大页
@@ -59,6 +64,7 @@ public class DataTab extends LastPanel {
 	private QueryTool que;
 	private JdbcBean jdbc;
 
+	private SelectBox typeBox;
 
 	public DataTab(JdbcBean jdbc,QueryTool que,int rowsum,String nullSign,long runMills)throws Exception{
 		super(false);
@@ -121,7 +127,7 @@ public class DataTab extends LastPanel {
 		toolBar.add(lowerBut);
 
 		//显示形式
-		SelectBox typeBox = new SelectBox("schemabox"){
+		typeBox = new SelectBox("schemabox"){
 			@Override
 			public void onItemChange(ItemEvent e) {  //值改变事件
 				if ( e.getStateChange() == ItemEvent.SELECTED && null != tab) tab.setRowStyle(getValue().equals("transverse"));
@@ -158,13 +164,19 @@ public class DataTab extends LastPanel {
 		};
 		counlistBut.setIcon(QueryMgr.getIcon("zoom"));
 		toolBar.add(counlistBut);
-
-		setHead(toolBar.getComp());
+		
 		showTable(dbtype, que.getSelTypes(), que.getColNames(), que.first(),runMills);
+		
+		HPanel headPanel = new HPanel(new HDivLayout(GridSplitEnum.C9));
+		headPanel.add(toolBar, stb);
+		PainterSupport.setMargin(headPanel.getComp(), 5, 0, 5, 0);
+		setHead(headPanel.getComp());
 	}
 	private void loadData(List<Enum<?>> selTypes,List<String> colNames,File csv) throws Exception {
 		List<Map<String, String>> data = tabColTool.toDataMap(selTypes, colNames, csv);
+		tab.setRowStyle(true); //正常显示才能刷显示数据
 		tab.load(data, 1);
+		tab.setRowStyle(typeBox.getValue().equals("transverse"));
 		pagelabel.setValue(QueryMgr.getLang("page")+page+"  "+QueryMgr.getLang("timeSpent") + "：" + (System.currentTimeMillis() - beginMills) + "ms");
 		forbidden(data.size());
 	}
@@ -185,13 +197,14 @@ public class DataTab extends LastPanel {
 		cols.stream().filter(Objects::nonNull).forEach(absCol -> {
 			if (absCol instanceof LobJsonCol) {
 				absCol.setWidth(160);
-			} else if (ModifyTabDataUtil.getHideColNames().contains(absCol.getValue())) {
+			} else if (SelectTableSqlUtil.getHideColNames().contains(absCol.getValue())) {
 				absCol.setShow(false);
 			}
 			tab.addCols(absCol);
 		});
 		LastPanel lastPanel = new LastPanel(false);
-		lastPanel.setHead(new SearchToolBar(tab).getComp());
+		stb = new SearchToolBar(tab);
+		lastPanel.setHead(stb.getComp());
 		lastPanel.setWithScroll(tab.getComp());
 
 		set(lastPanel.getComp());

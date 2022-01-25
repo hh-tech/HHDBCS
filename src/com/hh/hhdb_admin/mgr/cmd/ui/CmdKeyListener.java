@@ -29,6 +29,9 @@ public class CmdKeyListener extends KeyAdapter {
 					e.consume();
 					cmdtext.keyCancel();
 				}
+				if (e.getKeyCode() == KeyEvent.VK_CONTROL || (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_D)) {
+					e.consume();
+				}
 			}
 		}
 		
@@ -75,6 +78,9 @@ public class CmdKeyListener extends KeyAdapter {
 			case KeyEvent.VK_RIGHT:
 
 //		case KeyEvent.VK_BACK_SPACE:
+				cmdtext.setCaretOffset(cmdtext.getTextArea().getCaretPosition());
+				break;
+			case KeyEvent.VK_BACK_SPACE:
 				cmdtext.setCaretOffset(cmdtext.getTextArea().getCaretPosition());
 				break;
 			default:

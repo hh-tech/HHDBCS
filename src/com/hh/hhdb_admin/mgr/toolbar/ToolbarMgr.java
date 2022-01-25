@@ -8,6 +8,9 @@ import com.hh.frame.swingui.view.layout.bar.HBarLayout;
 import com.hh.hhdb_admin.CsMgrEnum;
 import com.hh.hhdb_admin.common.util.StartUtil;
 
+import javax.swing.*;
+import java.awt.*;
+
 /**
  * @author: Jiang
  * @date: 2020/10/12
@@ -47,7 +50,10 @@ public class ToolbarMgr extends AbsGuiMgr {
 			}
 			HBarLayout layout = new HBarLayout();
 			layout.setAlign(AlignEnum.LEFT);
-			objId = StartUtil.eng.push2SharedMap(new ToolbarComp(layout));
+			layout.setBottomHeight(10);
+			ToolbarComp toolbarComp = new ToolbarComp(layout);
+			toolbarComp.getComp().setBorder(BorderFactory.createMatteBorder(0,0,1,0, Color.lightGray));
+			objId = StartUtil.eng.push2SharedMap(toolbarComp);
 			res.set("id", objId);
 		} else {
 			unknowMsg(msg.toPrettyString());

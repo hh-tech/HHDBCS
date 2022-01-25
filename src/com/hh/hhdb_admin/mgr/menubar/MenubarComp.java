@@ -3,10 +3,7 @@ package com.hh.hhdb_admin.mgr.menubar;
 import com.hh.frame.json.JsonObject;
 import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
-import com.hh.frame.swingui.view.hmenu.CheckMenuItem;
-import com.hh.frame.swingui.view.hmenu.HMenu;
-import com.hh.frame.swingui.view.hmenu.HMenuBar;
-import com.hh.frame.swingui.view.hmenu.HMenuItem;
+import com.hh.frame.swingui.view.hmenu.*;
 import com.hh.hhdb_admin.CsMgrEnum;
 import com.hh.hhdb_admin.common.CommToolMar;
 import com.hh.hhdb_admin.common.icon.IconBean;
@@ -14,6 +11,7 @@ import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.common.icon.IconSizeEnum;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.about.AboutMgr;
+import com.hh.hhdb_admin.mgr.login.base.ToolSplitButton;
 import com.hh.hhdb_admin.mgr.main_frame.MainFrameMgr;
 
 import javax.swing.*;
@@ -77,9 +75,8 @@ public class MenubarComp extends HMenuBar {
 		fileMenu.addItem(setItem);
 		fileMenu.addCheckedItem(checkedItem);
 		fileMenu.addItem(exitItem);
-		HMenu toolMenu = new HMenu(getLang("tool"));
-		toolMenu.setMnemonic('t');
-		toolMenu.setIcon(getIcon("tool"));
+		HMenu navigateMenu = new HMenu(getLang("navigate"), getIcon("navigate"));
+		navigateMenu.setMnemonic('n');
 		CommToolMar tm = new CommToolMar();
 		List<String> btnList = tm.genToolInfo();
 		for (String key : btnList) {
@@ -90,8 +87,13 @@ public class MenubarComp extends HMenuBar {
 				}
 			};
 			ditem.setIcon(tm.getIcon(key));
-			toolMenu.addItem(ditem);
+			navigateMenu.addItem(ditem);
 		}
+		ToolSplitButton toolSplitButton = new ToolSplitButton();
+		HMenu toolMenu = new HMenu(getLang("tool"), getIcon("tool"));
+		toolMenu.addItem(toolSplitButton.getMenuItems().toArray(new HMenuItem[0]));
+		toolMenu.setMnemonic('T');
+
 		HMenu helpMenu = new HMenu(getLang("help"));
 		helpMenu.setMnemonic('h');
 		helpMenu.setIcon(getIcon("help"));
@@ -117,32 +119,32 @@ public class MenubarComp extends HMenuBar {
 		};
 		versionItem.setIcon(getIcon("version"));
 		helpMenu.addItem(aboutItem, licenseItem, versionItem);
-		add(fileMenu, toolMenu, helpMenu);
+		add(fileMenu, navigateMenu, toolMenu, helpMenu);
 	}
 
 	private void onMenuItemClick(String action) {
 		switch (action) {
-		case EXIT:
-			int option = JOptionPane.showConfirmDialog(null, getLang("isExit"), getLang("tip"),
-					JOptionPane.OK_CANCEL_OPTION);
-			if (JOptionPane.OK_OPTION == option) {
-				System.exit(0);
-			}
-			break;
-		case ABOUT:
-			sendMsg(CsMgrEnum.ABOUT, GuiJsonUtil.toJsonCmd(AboutMgr.CMD_SHOW_ABOUT));
-			break;
-		case LICENSE:
-			sendMsg(CsMgrEnum.MENUBAR, GuiJsonUtil.toJsonCmd(MenubarMgr.CMD_SHOW_LICENSE));
-			break;
-		case VERSION:
-			sendMsg(CsMgrEnum.MENUBAR, GuiJsonUtil.toJsonCmd(MenubarMgr.CMD_SHOW_VERSION));
-			break;
-		case SETTING:
-			sendMsg(CsMgrEnum.MENUBAR, GuiJsonUtil.toJsonCmd(MenubarMgr.CMD_SHOW_SETTING));
-			break;
-		default:
-			throw new IllegalStateException("Unexpected value: " + action);
+			case EXIT:
+				int option = JOptionPane.showConfirmDialog(null, getLang("isExit"), getLang("tip"),
+						JOptionPane.OK_CANCEL_OPTION);
+				if (JOptionPane.OK_OPTION == option) {
+					System.exit(0);
+				}
+				break;
+			case ABOUT:
+				sendMsg(CsMgrEnum.ABOUT, GuiJsonUtil.toJsonCmd(AboutMgr.CMD_SHOW_ABOUT));
+				break;
+			case LICENSE:
+				sendMsg(CsMgrEnum.MENUBAR, GuiJsonUtil.toJsonCmd(MenubarMgr.CMD_SHOW_LICENSE));
+				break;
+			case VERSION:
+				sendMsg(CsMgrEnum.MENUBAR, GuiJsonUtil.toJsonCmd(MenubarMgr.CMD_SHOW_VERSION));
+				break;
+			case SETTING:
+				sendMsg(CsMgrEnum.MENUBAR, GuiJsonUtil.toJsonCmd(MenubarMgr.CMD_SHOW_SETTING));
+				break;
+			default:
+				throw new IllegalStateException("Unexpected value: " + action);
 		}
 	}
 

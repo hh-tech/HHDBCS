@@ -8,10 +8,7 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
-import javax.swing.event.ChangeEvent;
-
 import org.apache.commons.io.FileUtils;
-
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.db.ConnUtil;
 import com.hh.frame.dbquery.QueryTool;
@@ -44,7 +41,8 @@ public class QuerCompTest {
             e.printStackTrace();
         }
 		IconFileUtil.setIconBaseDir(new File("etc/icon/"));
-		HHSwingUi.init();
+//		HHSwingUi.init();
+		HHSwingUi.newSkin();
 
 		HFrame frame = new HFrame();
 		HDivLayout layout = new HDivLayout(20, 30, GridSplitEnum.C12);
@@ -88,7 +86,7 @@ public class QuerCompTest {
 
 					OutputTabPanel outputTab = new OutputTabPanel(sqlwin.getJdbc()) {
 						@Override
-						protected void highlighted(ChangeEvent e, Map<String, List<Integer>> resultMap) {
+						protected void highlighted(String title, Map<String, List<Integer>> resultMap) {
 							System.out.println("显示对应行sql");
 						}
 					};

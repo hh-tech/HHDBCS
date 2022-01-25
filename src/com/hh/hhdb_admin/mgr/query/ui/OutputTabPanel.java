@@ -4,13 +4,9 @@ import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.dbquery.QueryTool;
 import com.hh.frame.parser.PosBean;
 import com.hh.frame.sqlwin.rs.*;
-import com.hh.frame.swingui.view.container.HTabPane;
 import com.hh.frame.swingui.view.input.TextAreaInput;
+import com.hh.hhdb_admin.common.csTabPanel.CSTablePanel;
 import com.hh.hhdb_admin.mgr.query.QueryMgr;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -22,7 +18,7 @@ import java.util.Map;
  */
 public class OutputTabPanel {
 	private JdbcBean jdbc;
-	private HTabPane hTabPane;
+	private CSTablePanel hTabPane;
 
 	//错误信息显示面板
 	private TextAreaInput errorText;
@@ -35,22 +31,30 @@ public class OutputTabPanel {
 		this.jdbc = jdbc;
 		resultMap = new LinkedHashMap<String, QueryTool>();
 		resultMaps = new LinkedHashMap<String, List<Integer>>();
-		hTabPane = new HTabPane();
+		hTabPane = new CSTablePanel() {
+
+			@Override
+			public void stateChanged(String id, String title) {
+				super.stateChanged(id, title);
+				highlighted(title,resultMaps);
+			}
+			
+		};
 		errorText = new TextAreaInput("errorText");
 		errorText.setLineWrap(true);
 		errorText.setEnabled(false);
-		hTabPane.addPanel("errorPane", QueryMgr.getLang("info"),errorText.getComp(),false);
+		hTabPane.addPanel("errorPane", QueryMgr.getLang("info"),errorText.getComp());
 
 		// table页切换事件
-		((JTabbedPane)hTabPane.getComp()).addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				highlighted(e,resultMaps);
-			}
-		});
+//		((JTabbedPane)hTabPane.getComp()).addChangeListener(new ChangeListener() {
+//			@Override
+//			public void stateChanged(ChangeEvent e) {
+//				highlighted(e,resultMaps);
+//			}
+//		});
 	}
 
-	public HTabPane getHTabPane(){		
+	public CSTablePanel getHTabPane(){		
 		return hTabPane;
 	}
 	
@@ -90,7 +94,7 @@ public class OutputTabPanel {
 			if(rsBean instanceof QueryRsBean) {
 				QueryRsBean qb = (QueryRsBean) rsBean;
 				DataTab dataTab = new DataTab(jdbc,qb.getqTool(),rowsum,nullSign,rsBean.getRunMills());
-				hTabPane.addPanel(number+"", QueryMgr.getLang("result")+number,dataTab.getComp(),false);
+				hTabPane.addPanel(number+"", QueryMgr.getLang("result")+number,dataTab.getComp());
 
 				//保存结果集
 				List<Integer> list  = new ArrayList<>();
@@ -113,7 +117,7 @@ public class OutputTabPanel {
 					sbf.append(QueryMgr.getLang("line") + key.getBeginLine() + ""+QueryMgr.getLang("output")+":" + message + "\n");
 				}
 				MultiRsDataTab mrTab = new MultiRsDataTab(mb,rsBean.getRunMills());
-				hTabPane.addPanel(number+"", QueryMgr.getLang("result")+number,mrTab.getComp(),false);
+				hTabPane.addPanel(number+"", QueryMgr.getLang("result")+number,mrTab.getComp());
 
 				//保存结果集
 				List<Integer> list  = new ArrayList<>();
@@ -137,6 +141,6 @@ public class OutputTabPanel {
 	/**
 	 * 高亮显示对应行sql
 	 */
-	protected void highlighted(ChangeEvent e,Map<String, List<Integer>> resultMap){
+	protected void highlighted(String title,Map<String, List<Integer>> resultMap){
 	}
 }

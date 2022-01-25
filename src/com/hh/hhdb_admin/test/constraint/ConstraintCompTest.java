@@ -7,8 +7,9 @@ import com.hh.frame.common.util.db.ConnUtil;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
 import com.hh.frame.swingui.view.container.HFrame;
 import com.hh.frame.swingui.view.container.HPanel;
-import com.hh.frame.swingui.view.container.HTabPane;
 import com.hh.frame.swingui.view.container.LastPanel;
+import com.hh.frame.swingui.view.container.tab_panel.HTabPanel;
+import com.hh.frame.swingui.view.container.tab_panel.HeaderConfig;
 import com.hh.frame.swingui.view.ui.HHSwingUi;
 import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.mgr.constraint.ConstraintComp;
@@ -46,8 +47,7 @@ public class ConstraintCompTest {
             tableName = LoginUtil.getRealName(tableName, dbTypeEnum.name());
             TableComp.jdbcBean = jdbcBean;
             TableComp.schemaName = jdbcBean.getSchema();
-            HTabPane tabPane = new HTabPane();
-            tabPane.setCloseBtn(false);
+            HTabPanel tabPane = new HTabPanel();
             // 检查约束
             ConstraintComp ckComp = new ConstraintComp(TreeMrType.CHECK_KEY_GROUP, conn, dbTypeEnum, schema, tableName) {
                 @Override
@@ -55,7 +55,7 @@ public class ConstraintCompTest {
                     System.out.println("新增检查约束，保存成功");
                 }
             };
-            tabPane.addPanel("ck", "检查约束", ckComp.getOtherPanel());
+            tabPane.addPanel("ck", ckComp.getOtherPanel(),new HeaderConfig("检查约束").setFixTab(true));
             // 主键约束
             ConstraintComp pkComp = new ConstraintComp(TreeMrType.PRIMARY_KEY_GROUP, conn, dbTypeEnum, schema, tableName) {
                 @Override
@@ -63,7 +63,7 @@ public class ConstraintCompTest {
                     System.out.println("新增主键约束，保存成功");
                 }
             };
-            tabPane.addPanel("pk", "主键约束", pkComp.getOtherPanel());
+            tabPane.addPanel("pk", pkComp.getOtherPanel(),new HeaderConfig( "主键约束").setFixTab(true));
             // 唯一键约束
             ConstraintComp ukComp = new ConstraintComp(TreeMrType.UNIQUE_KEY_GROUP, conn, dbTypeEnum, schema, tableName) {
                 @Override
@@ -71,7 +71,7 @@ public class ConstraintCompTest {
                     System.out.println("新增唯一键约束，保存成功");
                 }
             };
-            tabPane.addPanel("uk", "唯一键约束", ukComp.getOtherPanel());
+            tabPane.addPanel("uk", ukComp.getOtherPanel(),new HeaderConfig("唯一键约束").setFixTab(true));
             // 外键约束
             ConstraintComp fkComp = new ConstraintComp(TreeMrType.FOREIGN_KEY_GROUP, conn, dbTypeEnum, schema, tableName) {
                 @Override
@@ -79,7 +79,7 @@ public class ConstraintCompTest {
                     System.out.println("新增外键约束，保存成功");
                 }
             };
-            tabPane.addPanel("fk", "外键约束", fkComp.getForePanel());
+            tabPane.addPanel("fk", fkComp.getForePanel(),new HeaderConfig("外键约束").setFixTab(true));
             LastPanel lastPanel = new LastPanel();
             lastPanel.set(tabPane.getComp());
             HPanel rootPanel = new HPanel();

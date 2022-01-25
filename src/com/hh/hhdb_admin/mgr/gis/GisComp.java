@@ -13,7 +13,6 @@ import com.hh.frame.swingui.view.container.HSplitPanel;
 import com.hh.frame.swingui.view.container.LastPanel;
 import com.hh.frame.swingui.view.ctrl.HButton;
 import com.hh.frame.swingui.view.layout.bar.HBarLayout;
-import com.hh.frame.swingui.view.ui.HHSwingUi;
 import com.hh.hhdb_admin.common.util.logUtil;
 import com.hh.hhdb_admin.mgr.gis.ui.MapContentPanel;
 import com.hh.hhdb_admin.mgr.gis.ui.MapInset;
@@ -23,7 +22,6 @@ import org.geotools.swing.MapLayerTable;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.*;
 import java.io.File;
 import java.sql.Connection;
 
@@ -77,8 +75,8 @@ public class GisComp extends AbsHComp {
             maplayertable.repaint();
             //设置图层样式弹出窗
             //临时设置小字体,用于解决gis自带弹出窗口面板上字体过大，导致按钮挤出显示区域问题
-            UIManager.put("Label.font", new Font("微软雅黑", Font.PLAIN, 12));
-            UIManager.setLookAndFeel(HHSwingUi.getBeautyEyeLNFStrWindowsPlatform());
+//            UIManager.put("Label.font", new Font("微软雅黑", Font.PLAIN, 12));
+//            UIManager.setLookAndFeel(HHSwingUi.getBeautyEyeLNFStrWindowsPlatform());
         } catch (Exception e) {
             LM.error(logName, e);
             JOptionPane.showMessageDialog(null, e, GisMgr.getLang("error"), JOptionPane.ERROR_MESSAGE);

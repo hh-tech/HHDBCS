@@ -1,7 +1,5 @@
 package com.hh.hhdb_admin.mgr.delete;
 
-import com.hh.frame.common.util.db.SqlExeUtil;
-
 import java.sql.SQLException;
 
 /**
@@ -28,9 +26,9 @@ public class DelUtil {
                     String column = name.replace("\"", "").split("\\.")[1];
                     sql = String.format("ALTER TABLE \"%s\".\"%s\" ALTER COLUMN \"%s\" DROP NOT NULL",
                             schemaName, tableName, column);
-                    SqlExeUtil.executeUpdate(absDel.conn, sql);
+                    absDel.execute(sql);
                     sql = String.format("CALL SYSPROC.ADMIN_CMD('reorg table \"%s\".\"%s\"')", schemaName, tableName);
-                    SqlExeUtil.executeUpdate(absDel.conn, sql);
+                    absDel.execute(sql);
                     return;
                 } else {
                     sql = String.format("ALTER TABLE \"%s\".\"%s\" DROP CONSTRAINT \"%s\"", schemaName, tableName, name);
@@ -53,6 +51,6 @@ public class DelUtil {
             default:
                 throw new IllegalStateException("Unexpected value: " + absDel.dbType);
         }
-        SqlExeUtil.executeUpdate(absDel.conn, sql);
+        absDel.execute(sql);
     }
 }

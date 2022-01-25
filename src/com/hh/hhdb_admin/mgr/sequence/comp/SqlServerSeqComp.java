@@ -1,7 +1,6 @@
 package com.hh.hhdb_admin.mgr.sequence.comp;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,7 +31,20 @@ public class SqlServerSeqComp extends AbsSeqComp {
 		this.seq=seq;
 		this.isEdit=flag;
 		type = new SelectBox();
-		is_cache= new CheckBoxInput("iscache");
+		is_cache= new CheckBoxInput("iscache") {
+
+			@Override
+			protected void onClick(ActionEvent e) {
+				if(this.isChecked()) {
+					cache.setValue("");
+					cache.setEnabled(false);
+				}else {
+					cache.setValue(oldData.get(SeqItem.cache));
+					cache.setEnabled(true);
+				}
+			}
+			
+		};
 		oldData = new HashMap<SeqItem, String>();
 		smr = new SqlServerSeqMr();
 		initPanel();
@@ -69,21 +81,6 @@ public class SqlServerSeqComp extends AbsSeqComp {
 			increase.setValue("1");
 			startValue.setValue("1");
 		}
-		is_cache.addListen(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(is_cache.isChecked()) {
-					cache.setValue("");
-					cache.setEnabled(false);
-				}else {
-					cache.setValue(oldData.get(SeqItem.cache));
-					cache.setEnabled(true);
-				}
-				
-			}
-		});
-
 	}
 
 	@Override

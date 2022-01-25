@@ -1,0 +1,88 @@
+{
+  "keys": [
+    {
+      "key": "sql_format",
+      "value": {
+        "zh": "SQL格式化",
+        "en": "SQL Format"
+      }
+    },
+    {
+      "key": "sql_conversion",
+      "value": {
+        "zh": "SQL转换",
+        "en": "SQL Conversion"
+      }
+    },
+    {
+      "key": "conversion",
+      "value": {
+        "zh": "转换",
+        "en": "Conversion"
+      }
+    },
+    {
+      "key": "clear",
+      "value": {
+        "zh": "清空结果",
+        "en": "clear"
+      }
+    },
+    {
+      "key": "conversion_success",
+      "value": {
+        "zh": "转换成功",
+        "en": "Conversion Success"
+      }
+    },
+    {
+      "key": "conversion_fail",
+      "value": {
+        "zh": "转换失败",
+        "en": "Conversion Fail"
+      }
+    },
+    {
+      "key": "source",
+      "value": {
+        "zh": "源",
+        "en": "source"
+      }
+    },
+    {
+      "key": "dest",
+      "value": {
+        "zh": "目标",
+        "en": "dest"
+      }
+    },
+    {
+      "key": "copy_value",
+      "value": {
+        "zh": "复制结果",
+        "en": "Copy Value"
+      }
+    },
+    {
+      "key": "copy_success",
+      "value": {
+        "zh": "复制成功",
+        "en": "Copy Success"
+      }
+    },
+    {
+      "key": "sql_format_break_width",
+      "value": {
+        "zh": "格式化宽度",
+        "en": "Break Width"
+      }
+    },
+    {
+      "key": "close_tips",
+      "value": {
+        "zh": "是否关闭窗口",
+        "en": "Close Window"
+      }
+    }
+  ]
+}

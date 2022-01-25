@@ -20,14 +20,15 @@ public class TestCmdComp {
 				LangMgr2.loadMerge(CmdMgr.class);
 				IconFileUtil.setIconBaseDir(new File("etc/icon/"));
 				// 初始化自定义UI
-				HHSwingUi.init();
+//				HHSwingUi.init();
+				HHSwingUi.newSkin();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			
 			HFrame hFrame = new HFrame(HFrame.MIDDLE_WIDTH);
 			LastPanel lp = new LastPanel();
-			lp.set(new CmdComp(MgrTestUtil.getJdbcBean(DBTypeEnum.hhdb)).getComp());
+			lp.set(new CmdComp(MgrTestUtil.getJdbcBean(DBTypeEnum.oracle)).getComp());
 			HPanel hp = new HPanel();
 			hp.setLastPanel(lp);
 			hFrame.setRootPanel(hp);

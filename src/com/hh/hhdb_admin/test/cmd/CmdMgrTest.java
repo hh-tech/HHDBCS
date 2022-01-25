@@ -24,7 +24,8 @@ public class CmdMgrTest {
 
 	public static void main(String[] args) throws Exception {
 		IconFileUtil.setIconBaseDir(new File("etc/icon/"));
-		HHSwingUi.init();
+//		HHSwingUi.init();
+		HHSwingUi.newSkin();
 		String jStr= ClassLoadUtil.loadTextRes(CmdMgrTest.class, "conf.json");
 		JsonObject jObj=Json.parse(jStr).asObject();
 		StartUtil.eng=new GuiEngine(CsMgrEnum.class,jObj);

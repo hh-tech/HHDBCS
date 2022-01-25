@@ -36,13 +36,10 @@ public class TypeComp extends CommonComp {
 
     public void add() {
         TextInput nameInput = new TextInput("name");
-        HDialog dialog = new HDialog(StartUtil.parentFrame, 400, 120);
+        HDialog dialog = new HDialog(StartUtil.parentFrame, 400, 140);
         dialog.setWindowTitle(getLang("add"));
         dialog.setIconImage(IconFileUtil.getLogo(IconSizeEnum.SIZE_16).getImage());
-        HDivLayout divLayout = new HDivLayout(GridSplitEnum.C12);
-        divLayout.setyGap(10);
-        divLayout.setTopHeight(10);
-        HPanel panel = new HPanel(divLayout);
+        HPanel panel = new HPanel(new HDivLayout(0, 10));
         panel.add(getWithLabelInput(getLang("name"), nameInput));
         HBarLayout barLayout = new HBarLayout();
         barLayout.setAlign(AlignEnum.CENTER);

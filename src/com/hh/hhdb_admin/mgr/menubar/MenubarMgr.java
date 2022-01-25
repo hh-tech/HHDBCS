@@ -5,7 +5,6 @@ import com.hh.frame.swingui.engine.AbsGuiMgr;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.hhdb_admin.CsMgrEnum;
 import com.hh.hhdb_admin.common.util.StartUtil;
-import com.hh.hhdb_admin.mgr.main_frame.MainFrameMgr;
 
 /**
  * @author: Jiang
@@ -43,12 +42,12 @@ public class MenubarMgr extends AbsGuiMgr {
             case CMD_SHOW_VERSION:
                 new VersionInfoComp();
                 break;
-            case CMD_SHOW_CONVERSION:
-                SqlConversionComp sql = new SqlConversionComp();
-                String id = StartUtil.eng.push2SharedMap(sql.getPanel());
-                StartUtil.eng.doPush(CsMgrEnum.MAIN_FRAME, GuiJsonUtil.toJsonCmd(MainFrameMgr.ADD_TAB_PANE_ITEM)
-                        .add(StartUtil.CMD_ID,id).add("title", MenubarComp.getLang("sql_Conversion")).add(MainFrameMgr.PARAM_MGR_TYPE, CsMgrEnum.MENUBAR.name()));
-                break;
+//            case CMD_SHOW_CONVERSION:
+//                SqlConversionComp sql = new SqlConversionComp();
+//                String id = StartUtil.eng.push2SharedMap(sql.getPanel());
+//                StartUtil.eng.doPush(CsMgrEnum.MAIN_FRAME, GuiJsonUtil.toJsonCmd(MainFrameMgr.ADD_TAB_PANE_ITEM)
+//                        .add(StartUtil.CMD_ID,id).add("title", MenubarComp.getLang("sql_conversion")).add(MainFrameMgr.PARAM_MGR_TYPE, CsMgrEnum.MENUBAR.name()));
+//                break;
             case CMD_SHOW_SETTING:
                 new SettingsComp();
                 break;

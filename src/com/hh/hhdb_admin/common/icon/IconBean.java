@@ -1,21 +1,39 @@
 package com.hh.hhdb_admin.common.icon;
 
+import com.hh.frame.swingui.view.util.ImgUtil;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Objects;
 
 public class IconBean {
 	private IconSizeEnum size = IconSizeEnum.SIZE_16;
 	private boolean disabled = false;
+	private boolean dark = false;
 	private String name;
 	private String context;
+	private ImgUtil.ImgType iconType = ImgUtil.ImgType.SVG;
+
 
 	public IconBean(String context, String name) {
 		setName(name);
 		setContext(context);
 	}
-	
-	public IconBean(String context, String name,IconSizeEnum size) {
-		this(context,name);
-		this.size=size;
+
+	public IconBean(String context, String name, ImgUtil.ImgType iconType) {
+		setName(name);
+		setContext(context);
+		this.iconType = iconType;
+	}
+
+	public IconBean(String context, String name, IconSizeEnum size) {
+		this(context, name);
+		this.size = size;
+	}
+
+	public IconBean(String context, String name, IconSizeEnum size, ImgUtil.ImgType iconType) {
+		this(context, name);
+		this.size = size;
+		this.iconType = iconType;
 	}
 
 	public IconSizeEnum getSize() {
@@ -39,12 +57,19 @@ public class IconBean {
 	}
 
 	public void setName(String name) {
-		name=name.toLowerCase();
-		if(name.endsWith(".png")) {
-			this.name=name.substring(0, name.length()-4);
-		}else {
-			this.name = name;
+		name = name.toLowerCase();
+		if (!name.endsWith(iconType.name().toLowerCase()) && name.lastIndexOf(".") > -1) {
+			name = name.substring(0, name.lastIndexOf("."));
 		}
+		this.name = name;
+	}
+
+	public boolean isDark() {
+		return dark;
+	}
+
+	public void setDark(boolean dark) {
+		this.dark = dark;
 	}
 
 	public String getContext() {
@@ -55,13 +80,24 @@ public class IconBean {
 		this.context = context.toLowerCase();
 	}
 
+	public ImgUtil.ImgType getIconType() {
+		return iconType;
+	}
+
+	public void setIconType(ImgUtil.ImgType iconType) {
+		this.iconType = iconType;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		if(!StringUtils.isBlank(context)) {
+		if (!StringUtils.isBlank(context)) {
 			sb.append(context).append("/");
 		}
 		sb.append(name);
+		if (isDark()) {
+			sb.append('_').append("dark");
+		}
 		if (size != IconSizeEnum.OTHER) {
 			String s = StringUtils.substringAfter(size.name(), "_");
 			sb.append('_').append(s);
@@ -69,20 +105,24 @@ public class IconBean {
 		if (disabled) {
 			sb.append('_').append("disabled");
 		}
-		sb.append(".png");
+		sb.append(".").append(iconType.name().toLowerCase());
 		return sb.toString();
 	}
+
 	@Override
 	public boolean equals(Object o) {
-		if(o instanceof IconBean) {
-			IconBean iconBean=(IconBean)o;
-			if(!iconBean.getName().equals(name))return false;
-			if(!iconBean.getSize().equals(size))return false;
-			if(iconBean.isDisabled()!=disabled)return false;
-            return iconBean.getName().equals(context);
-        }
-		return false;
-		
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		IconBean iconBean = (IconBean) o;
+		return disabled == iconBean.disabled && dark == iconBean.dark && size == iconBean.size && Objects.equals(name, iconBean.name) && Objects.equals(context, iconBean.context);
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(size, disabled, dark, name, context);
+	}
 }

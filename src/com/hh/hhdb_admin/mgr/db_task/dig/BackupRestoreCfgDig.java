@@ -123,7 +123,7 @@ public class BackupRestoreCfgDig extends AbsCfgDig {
         HGridPanel lineThree = new HGridPanel(new HGridLayout(GridSplitEnum.C3));
         lineThree.setComp(1, new HPanel());
         lineThree.setComp(2, isContinue);
-        isContinue.setValue("true");
+       // isContinue.setValue("true");
 
         panel.add(lineOne, lineTwo, lineThree);
     }

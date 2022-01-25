@@ -1,9 +1,6 @@
 package com.hh.hhdb_admin.mgr.tree.handler.action;
 
-import java.sql.SQLException;
-
 import org.apache.commons.lang3.StringUtils;
-
 import com.hh.frame.json.JsonArray;
 import com.hh.frame.json.JsonObject;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
@@ -36,13 +33,14 @@ public class DeleteHandler extends AbsHandler {
         }
     }
 
-    protected void doDel(HTreeNode treeNode) throws SQLException {
-        String nodeName = treeNode.getName();
+    protected void doDel(HTreeNode treeNode) {
         String tableName = getTableName();
         String schemaName = getSchemaName();
 
         JsonArray jsonArray = new JsonArray();
-        jsonArray.add(nodeName);
+        JsonObject json = new JsonObject();
+        json.add("id", StringUtils.isEmpty(treeNode.getId()) ? "" : treeNode.getId()).add("name", treeNode.getName());
+        jsonArray.add(json);
         sendMsg(CsMgrEnum.DELETE, GuiJsonUtil.toJsonCmd(DeleteMgr.SHOW)
                 .add("names", jsonArray)
                 .add("schemaName", schemaName)

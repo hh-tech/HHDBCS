@@ -1,6 +1,5 @@
 package com.hh.hhdb_admin.mgr.delete;
 
-import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
 import com.hh.frame.json.JsonObject;
 import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.hhdb_admin.CsMgrEnum;
@@ -38,15 +37,15 @@ public class DelThread implements Runnable {
             if (deleteComp.isStop) {
                 break;
             }
-            getDelHandler(nodeInfo.getTreeMrType()).ifPresent(delHandler -> {
+            getDelHandler(nodeInfo).ifPresent(delHandler -> {
                 String res;
                 try {
-                    delHandler.init(loginBean);
+                    delHandler.init(loginBean,deleteComp.stat);
                     delHandler.del(nodeInfo);
-                    res = "删除成功";
+                    res = "成功";
                 } catch (Exception e) {
                     e.printStackTrace();
-                    res = "删除失败：" + e.getMessage();
+                    res = "失败：" + e.getMessage();
                 }
                 for (Map<String, String> datum : deleteComp.data) {
                     if (datum.get("name").equals(nodeInfo.getName())) {
@@ -54,7 +53,6 @@ public class DelThread implements Runnable {
                     }
                 }
                 deleteComp.loadData();
-                delHandler.close();
             });
             deleteComp.progressBarInput.setValue(i + 1);
             if (i == nodeInfoList.size() - 1) {
@@ -72,11 +70,13 @@ public class DelThread implements Runnable {
             }
             StartUtil.eng.doPush(CsMgrEnum.TREE, res);
         }
+        afterDelete();
     }
 
 
-    private Optional<AbsDel> getDelHandler(TreeMrType treeMrType) {
-        String targetClass = this.getClass().getPackage().getName() + ".impl." + lineToHump(treeMrType) + "Del";
+    private Optional<AbsDel> getDelHandler(NodeInfo nodeInfo) {
+        String targetClass = this.getClass().getPackage().getName() + ".impl."
+                + lineToHump(nodeInfo.getTreeMrType().name()) + lineToHump(nodeInfo.getOperType().name());
         try {
             return Optional.of((AbsDel) Class.forName(targetClass).newInstance());
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
@@ -86,15 +86,18 @@ public class DelThread implements Runnable {
     }
 
 
-    public static String lineToHump(TreeMrType treeMrType) {
-        String str = treeMrType.name().toLowerCase();
-        Matcher matcher = LINE_PATTERN.matcher(str);
+    public static String lineToHump(String type) {
+        Matcher matcher = LINE_PATTERN.matcher(type.toLowerCase());
         StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
             matcher.appendReplacement(sb, matcher.group(1).toUpperCase());
         }
         matcher.appendTail(sb);
         return String.valueOf(sb.charAt(0)).toUpperCase() + sb.substring(1);
+    }
+
+    public void afterDelete() {
+
     }
 
 

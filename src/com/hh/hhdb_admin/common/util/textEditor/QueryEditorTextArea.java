@@ -4,7 +4,9 @@ import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.frame.swingui.view.container.HPanel;
 import com.hh.frame.swingui.view.textEditor.HTextArea;
 import com.hh.frame.swingui.view.textEditor.base.ConstantsEnum;
+import com.hh.frame.swingui.view.textEditor.base.ThemesEnum;
 import com.hh.frame.swingui.view.textEditor.rSyntaxTextArea.ui.rsyntaxtextarea.RSyntaxTextArea;
+import com.hh.frame.swingui.view.ui.HHSwingUi;
 import com.hh.hhdb_admin.CsMgrEnum;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.obj_query.ObjQueryMgr;
@@ -40,11 +42,13 @@ public class QueryEditorTextArea extends HPanel {
 			}
 		};
 		hTextArea.setConstants(ConstantsEnum.SYNTAX_STYLE_SQL);
+		if(HHSwingUi.isDarkSkin()) {
+			hTextArea.setTheme(ThemesEnum.monokai);
+		}
 		getComp().add(hTextArea.getArea(), BorderLayout.CENTER);
 		getComp().setBorder(null);
 		getTextArea().setHighlightCurrentLine(false);
-        getTextArea().setFont(new JButton().getFont());
-        
+  
 		//对象搜索
 		if (type.equals("q")){
 			JMenuItem queryItem = new JMenuItem("对象搜索");

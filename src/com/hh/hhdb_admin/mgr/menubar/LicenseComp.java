@@ -1,26 +1,9 @@
 package com.hh.hhdb_admin.mgr.menubar;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.swing.ImageIcon;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
-
 import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.lic.LicBean;
 import com.hh.frame.lic.VerifyLicTool;
-import com.hh.frame.swingui.view.container.HBarPanel;
-import com.hh.frame.swingui.view.container.HDialog;
-import com.hh.frame.swingui.view.container.HFrame;
-import com.hh.frame.swingui.view.container.HPanel;
-import com.hh.frame.swingui.view.container.HWindow;
-import com.hh.frame.swingui.view.container.LastPanel;
+import com.hh.frame.swingui.view.container.*;
 import com.hh.frame.swingui.view.ctrl.HButton;
 import com.hh.frame.swingui.view.input.fc.FileChooserInput;
 import com.hh.frame.swingui.view.layout.bar.HBarLayout;
@@ -32,6 +15,16 @@ import com.hh.hhdb_admin.common.icon.IconBean;
 import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.common.icon.IconSizeEnum;
 import com.hh.hhdb_admin.common.util.StartUtil;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author YuSai
@@ -101,6 +94,7 @@ public class LicenseComp {
                             return;
                         }
                         dialog.dispose();
+                        nextCallback();
                     } catch (Exception e) {
                         e.printStackTrace();
                         PopPaneUtil.error(dialog.getWindow(), e);
@@ -233,5 +227,7 @@ public class LicenseComp {
         return IconFileUtil.getIcon(new IconBean(CsMgrEnum.MENUBAR.name(), name, IconSizeEnum.SIZE_16));
     }
 
-  
+  protected void nextCallback(){
+
+  }
 }

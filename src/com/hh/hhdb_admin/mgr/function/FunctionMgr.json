@@ -328,6 +328,20 @@
         "zh": "请输入正确语句!",
         "en": "Please enter the correct statement!"
       }
+    },
+    {
+      "key": "comment",
+      "value": {
+        "zh": "注释",
+        "en": "Comment"
+      }
+    },
+    {
+      "key": "owner",
+      "value": {
+        "zh": "拥有者",
+        "en": "Owner"
+      }
     }
   ]
 }

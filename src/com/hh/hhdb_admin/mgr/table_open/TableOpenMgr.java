@@ -1,14 +1,5 @@
 package com.hh.hhdb_admin.mgr.table_open;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.swing.JDialog;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.hh.frame.json.JsonObject;
 import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.engine.AbsGuiMgr;
@@ -22,24 +13,38 @@ import com.hh.hhdb_admin.mgr.login.LoginBean;
 import com.hh.hhdb_admin.mgr.main_frame.MainFrameComp;
 import com.hh.hhdb_admin.mgr.main_frame.MainFrameMgr;
 import com.hh.hhdb_admin.mgr.table.TableMgr;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.concurrent.BasicThreadFactory;
+
+import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.*;
 
 public class TableOpenMgr extends AbsGuiMgr {
 	public static final String CMD_OPEN_TABLE = "OPEN_TABLE";        //打开表
 
 	private Map<String, ModifyTabDataComp> map = new HashMap<>();
 	private String loginId;
-	public static Boolean isTest = true;  //是否是正常启动还是测试模式
 	public static final String OPEN_TMP = "open_tmp";
-	private File tmpFile;
+	public static File tmpFile;
+	public static int maxPoolSize;
+
+	public static ExecutorService threadPool;
+
 
 	@Override
 	public void init(JsonObject jObj) {
 		try {
-            LangMgr2.loadMerge(TableOpenMgr.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-		tmpFile = new File(StartUtil.workspace, OPEN_TMP);
+			initPool();
+			LangMgr2.loadMerge(TableOpenMgr.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//启动时在MainFrameMgr中初始化
+//		tmpFile = new File(StartUtil.workspace, OPEN_TMP);
 	}
 
 	@Override
@@ -87,10 +92,14 @@ public class TableOpenMgr extends AbsGuiMgr {
 				}
 				if (bool) {
 					//打开新的
-					tablePanel = new ModifyTabDataComp();
-					openId = StartUtil.eng.push2SharedMap(tablePanel);
-					tablePanel.init(loginBean.getJdbc(), schemaName, table, tmpFile);
-					tablePanel.refreshTab();
+					try {
+						tablePanel = new ModifyTabDataComp();
+						openId = StartUtil.eng.push2SharedMap(tablePanel);
+						tablePanel.init(loginBean.getJdbc(), schemaName, table, tmpFile);
+						tablePanel.refreshTab();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 					map.put(openId + "", tablePanel);
 				}
 				if (((MainFrameComp) StartUtil.parentFrame).getTabPane() == null) {
@@ -160,6 +169,16 @@ public class TableOpenMgr extends AbsGuiMgr {
 				unknowMsg(msg.toPrettyString());
 		}
 		return res;
+	}
+
+	public static void initPool() {
+		int n = Runtime.getRuntime().availableProcessors();
+		maxPoolSize = (int) Math.ceil(n * 2 * ((1 - 0.9) * 100));
+		ThreadFactory namedThreadFactory = new BasicThreadFactory.Builder().namingPattern("table-open-pool-%d").daemon(true).build();
+		threadPool = new ThreadPoolExecutor(n, maxPoolSize,
+				0L, TimeUnit.MILLISECONDS,
+				new LinkedBlockingQueue<>(1024), namedThreadFactory,
+				new ThreadPoolExecutor.DiscardOldestPolicy());
 	}
 
 	/**

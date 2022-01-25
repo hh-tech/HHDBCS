@@ -6,15 +6,14 @@ import com.hh.frame.create_dbobj.treeMr.base.TreeMrNode;
 import com.hh.frame.create_dbobj.treeMr.base.TreeMrType;
 import com.hh.frame.create_dbobj.treeMr.mr.AbsTreeMr;
 import com.hh.frame.swingui.view.hmenu.HMenuItem;
+import com.hh.frame.swingui.view.tab.HTabRowBean;
 import com.hh.frame.swingui.view.tab.HTable;
 import com.hh.frame.swingui.view.tab.menu.body.AbsTabBodyPopMenu;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -50,6 +49,14 @@ public class ObjTabPopMenu extends AbsTabBodyPopMenu {
         public void mouseReleased(MouseEvent e) {
             JTable jTab = tab.getComp();
             if (e.isMetaDown()) {
+                List<HTabRowBean> rowBeans = tab.getSelectedRowBeans();
+                Set<String> typeSet = new HashSet<>();
+                for (HTabRowBean rowBean : rowBeans) {
+                    typeSet.add(rowBean.getOldRow().get("type"));
+                }
+                if (typeSet.size() > 1) {
+                    return;
+                }
                 List<Integer> ctrlList = tab.getHeaderRenderer().getCtrlList();
                 int column = jTab.columnAtPoint(e.getPoint());
                 if (ctrlList.size() > 0 && ctrlList.contains(column)) {
@@ -70,18 +77,27 @@ public class ObjTabPopMenu extends AbsTabBodyPopMenu {
                             TreeMrNode treeMrNode = new TreeMrNode("name", TreeMrType.valueOf(type), "");
                             Map<String, EventType> menuMap = absTreeMr.getRightMenu(treeMrNode);
                             if (menuMap.isEmpty()) {
-                                addItem(new HMenuItem("属性"));
+                                addItem(new HMenuItem(ObjQueryComp.getLang("attribute")));
                             } else {
-                                for (Map.Entry<String, EventType> menuEntry : menuMap.entrySet()) {
-                                    if (menuEntry.getValue() == EventType.SEP) {
-                                        addSeparator();
-                                    } else {
-                                        addItem(new HMenuItem(menuEntry.getKey()) {
-                                            @Override
-                                            protected void onAction() {
-                                                onItemClick(menuEntry.getValue(), rowData);
-                                            }
-                                        });
+                                if (rowBeans.size() > 1) {
+                                    addItem(new HMenuItem(ObjQueryComp.getLang("delete")) {
+                                        @Override
+                                        protected void onAction() {
+                                            onItemClick(EventType.DELETE, rowData);
+                                        }
+                                    });
+                                } else {
+                                    for (Map.Entry<String, EventType> menuEntry : menuMap.entrySet()) {
+                                        if (menuEntry.getValue() == EventType.SEP) {
+                                            addSeparator();
+                                        } else {
+                                            addItem(new HMenuItem(menuEntry.getKey()) {
+                                                @Override
+                                                protected void onAction() {
+                                                    onItemClick(menuEntry.getValue(), rowData);
+                                                }
+                                            });
+                                        }
                                     }
                                 }
                             }

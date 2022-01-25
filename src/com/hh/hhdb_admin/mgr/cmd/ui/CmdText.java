@@ -3,8 +3,11 @@ package com.hh.hhdb_admin.mgr.cmd.ui;
 import com.hh.frame.common.util.db.ConnUtil;
 import com.hh.frame.dbobj2.kword.KeyWordUtil;
 import com.hh.frame.json.JsonArray;
+import com.hh.frame.swingui.view.textEditor.base.BaseTextArea;
+import com.hh.frame.swingui.view.textEditor.base.ThemesEnum;
 import com.hh.frame.swingui.view.textEditor.rSyntaxTextArea.ui.rsyntaxtextarea.RSyntaxTextArea;
 import com.hh.frame.swingui.view.textEditor.rSyntaxTextArea.ui.rtextarea.RTextScrollPane;
+import com.hh.frame.swingui.view.ui.HHSwingUi;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.common.util.textEditor.QueryEditUtil;
@@ -37,11 +40,15 @@ public abstract class CmdText {
 	private JsonArray jsonValues;
 	private Connection conns; //查询提示词连接
 
-	public CmdText(CmdComp cmd) throws Exception {
+	public CmdText(CmdComp cmd){
 		this.cmdcomp = cmd;
-		textArea = new RSyntaxTextArea();
+		BaseTextArea bta = new BaseTextArea(false);
+		textArea = bta.getTextArea();
 		textArea.setSyntaxEditingStyle("text/plain");
 		textArea.getPopupMenu().removeAll();
+		if(HHSwingUi.isDarkSkin()) {
+			bta.setTheme(ThemesEnum.monokai.toString() + ".xml");
+        }
 		
 		JMenuItem copyItem = new JMenuItem(CmdMgr.getLang("copy"));
 		copyItem.addActionListener(new ActionListener() {
@@ -64,19 +71,26 @@ public abstract class CmdText {
 		doc = textArea.getDocument();//
 		scrollPane = new RTextScrollPane(textArea);
 		//添加提示框
-		tip = QueryEditUtil.getQueryTooltip(textArea,"q");
-		tip.setJdbc(cmdcomp.getJdbc());
-		setKeyWord();    //置常关键字
-		
-		
+		try {
+			tip = QueryEditUtil.getQueryTooltip(textArea,"q");
+			tip.setAutomatic(false);
+			tip.setJdbc(cmdcomp.getJdbc());
+			setKeyWord();    //置常关键字
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}		
 		doc.addDocumentListener(new DocumentListener() {
 			@Override
 			public void removeUpdate(DocumentEvent e) {
-				caretOffset -= e.getLength();
+				caretOffset = textArea.getCaretPosition();
 			}
 			@Override
 			public void insertUpdate(DocumentEvent e) {
-				if (fromInputMethod) caretOffset += e.getLength();
+				if (fromInputMethod) 
+				{
+					caretOffset += e.getLength();
+				}
 			}
 			@Override
 			public void changedUpdate(DocumentEvent e) {
@@ -87,8 +101,15 @@ public abstract class CmdText {
 		textArea.addInputMethodListener(new InputMethodListener() {
 			@Override
 			public void inputMethodTextChanged(InputMethodEvent event) {
-				if (null != event.getText()) fromInputMethod = false;
-				if (event.getCommittedCharacterCount() > 0) fromInputMethod = true;
+				if (null != event.getText()) {
+					fromInputMethod = false;
+				}
+				if (event.getCommittedCharacterCount() > 0) {
+					if (startOffset > textArea.getCaretPosition()) {
+						event.consume();
+					}
+					fromInputMethod = true;
+				}
 			}
 			@Override
 			public void caretPositionChanged(InputMethodEvent event) {
@@ -111,13 +132,12 @@ public abstract class CmdText {
 	 * 接收消息
 	 * 
 	 * @param str
-	 * @param enter 接收消息是否要先回车
 	 */
-	public void recv(String str, boolean enter) {		
+	public void recv(String str) {		
 		try {
-			if (enter) {
-				textArea.append("\n");
-			}
+//			if (enter) {
+//				textArea.append("\n");
+//			}
 			textArea.append(str);
 			textArea.setCaretPosition(doc.getLength());
 		} catch (Throwable t) {
@@ -131,11 +151,11 @@ public abstract class CmdText {
 	 * 
 	 * @param top
 	 */
-	public void recvTop(String top, boolean enter) {		
+	public void recvTop(String top) {		
 		try {
-			if (enter) {
-				textArea.append("\n");
-			}
+//			if (enter) {
+//				textArea.append("\n");
+//			}
 			textArea.append(top + " ");
 			textArea.setCaretPosition(doc.getLength());
 		} catch (Throwable t) {

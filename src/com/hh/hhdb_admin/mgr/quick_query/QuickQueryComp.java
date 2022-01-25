@@ -11,6 +11,8 @@ import com.hh.frame.swingui.view.input.TextInput;
 import com.hh.frame.swingui.view.layout.bar.HBarLayout;
 import com.hh.frame.swingui.view.textEditor.HTextArea;
 import com.hh.frame.swingui.view.textEditor.base.ConstantsEnum;
+import com.hh.frame.swingui.view.textEditor.base.ThemesEnum;
+import com.hh.frame.swingui.view.ui.HHSwingUi;
 import com.hh.frame.swingui.view.util.VerifyUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.common.util.logUtil;
@@ -53,6 +55,9 @@ public class QuickQueryComp {
             //初始化编辑器
             HPanel panel = new HPanel();
             textArea = new HTextArea(false, true);
+            if(HHSwingUi.isDarkSkin()) {
+            	textArea.setTheme(ThemesEnum.monokai);
+            }
 //            textArea.setTheme(ThemesEnum.quick_cmd);
             textArea.showBookMask(false);
             textArea.setConstants(ConstantsEnum.SYNTAX_STYLE_NONE);

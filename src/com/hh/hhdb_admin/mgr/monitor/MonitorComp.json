@@ -832,6 +832,13 @@
         "zh": "Hlck_ep",
         "en": "Hlck_ep"
       }
+    },
+    {
+      "key": "dataError",
+      "value": {
+        "zh": "数据错误表格无法显示!",
+        "en": "Data error table cannot be displayed!"
+      }
     }
   ]
 }

@@ -5,23 +5,29 @@ import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.DriverUtil;
 import com.hh.frame.common.util.db.ConnUtil;
 import com.hh.frame.common.util.db.SqlQueryUtil;
-import com.hh.frame.dbmg.exp.data.seltype.*;
-import com.hh.frame.parser.sql_fmt2.StmtFmtTool;
-import com.hh.frame.parser.sql_fmt2.base.AbsSqlCode;
-import com.hh.frame.parser.sql_fmt2.gen.SqlFmtParser;
+import com.hh.frame.json.JsonObject;
+import com.hh.frame.parser.AbsStmt;
+import com.hh.frame.parser.ParserUtil;
+import com.hh.frame.parser.sql_fmt2.SqlFmtUtil;
 import com.hh.frame.sqlwin.SqlWin;
 import com.hh.frame.sqlwin.util.SqlWinUtil;
+import com.hh.frame.swingui.engine.GuiJsonUtil;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
+import com.hh.hhdb_admin.CsMgrEnum;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.common.util.logUtil;
 import com.hh.hhdb_admin.common.util.textEditor.QueryEditorTextArea;
 import com.hh.hhdb_admin.mgr.query.QueryMgr;
+import com.hh.hhdb_admin.mgr.sql_book.SqlBookMgr;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hhdbsql.HHConnection;
 import org.hhdbsql.copy.CopyManager;
 import org.postgresql.PGConnection;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -171,50 +177,6 @@ public class QuerUtil {
 		}
 	}
 
-	public static String getVal(Enum<?> type,String val,JdbcBean jdbcBean) throws Exception {
-		if (!StringUtils.isNotBlank(val)) return "____null";
-
-		String value = val;
-		DBTypeEnum dbTypeEnum = DriverUtil.getDbType(jdbcBean);
-		if (dbTypeEnum == DBTypeEnum.oracle) {
-			if (type == OraSelType.BLOB || type == OraSelType.RAW || type == OraSelType.CLOB || type == OraSelType.NCLOB) {
-				value = "____null";
-			}
-		} else if (dbTypeEnum == DBTypeEnum.hhdb || dbTypeEnum == DBTypeEnum.pgsql) {
-			if (type == PgSelType.BYTEA || type == PgSelType.OID || type == PgSelType.REFCURSOR) {
-				value = "____null";
-			}
-		} else if (dbTypeEnum == DBTypeEnum.mysql) {
-			if (type == MysqlSelType.BLOB || type == MysqlSelType.GEOMETRY) {
-				value = "____null";
-			}
-		} else if (dbTypeEnum == DBTypeEnum.db2) {
-			if (type == Db2SelType.BLOB || type == Db2SelType.CLOB) {
-				value = "____null";
-			}
-		} else if (dbTypeEnum == DBTypeEnum.hive) {
-		} else if (dbTypeEnum == DBTypeEnum.sqlserver) {
-			if (type == SqlserverSelType.BLOB || type == SqlserverSelType.CLOB) {
-				value = "____null";
-			}
-		} else if (dbTypeEnum == DBTypeEnum.oscar) {
-			if (type == OscarSelType.BLOB || type == OscarSelType.CLOB || type == OscarSelType.BYTEA || type == OscarSelType.REFCURSOR) {
-				value = "____null";
-			}
-		} else if (dbTypeEnum == DBTypeEnum.dm) {
-			if (type == DmSelType.BLOB || type == DmSelType.CLOB) {
-				value = "____null";
-			}
-		} else if (dbTypeEnum == DBTypeEnum.kingbase) {
-			if (type == KingbaseSelType.BYTEA || type == KingbaseSelType.OID || type == KingbaseSelType.BLOB || type == KingbaseSelType.CLOB) {
-				value = "____null";
-			}
-		} else {
-			throw new IOException("未实现数据类型");
-		}
-		return value;
-	}
-
 	/**
 	 * 判断是否有提交
 	 */
@@ -233,29 +195,77 @@ public class QuerUtil {
 			return	sqlwin.hasCommit();
 		}
 	}
-
-	public static void formatSql(QueryEditorTextArea textArea) {
-		try {
-			StringBuffer sb = new StringBuffer();
-			String sql = StringUtils.isNotEmpty(textArea.getSelectedText()) ? textArea.getSelectedText() : textArea.getText();
-			if (!StringUtils.isNotBlank(sql)) return;
-			boolean bool = sql.trim().endsWith(";");
-
-			SqlFmtParser parser=new SqlFmtParser(bool ? sql.trim() : sql.trim() + ";");
-			List<AbsSqlCode> list=parser.allCodeList();
-			StmtFmtTool fmtTool=new StmtFmtTool(list);
-
-			fmtTool.fmt2Lines().forEach(a -> sb.append(a+"\n"));
-			String str = sb.toString().trim();
-			if (StringUtils.isNotEmpty(textArea.getSelectedText())) {
-				textArea.getTextArea().replaceRange(bool ? str : str.substring(0,str.length()-1),
-						textArea.getTextArea().getSelectionStart(),textArea.getTextArea().getSelectionEnd());
-			}else {
-				textArea.getTextArea().replaceRange(bool ? str : str.substring(0,str.length()-1),0,sql.length());
+	
+	/**
+	 * 格式化sql
+	 * @param dbType
+	 * @param textArea
+	 * @throws Exception
+	 */
+	public static void formatSql(DBTypeEnum dbType,QueryEditorTextArea textArea) {
+		StringBuffer sb = new StringBuffer();
+		if (StringUtils.isNotEmpty(textArea.getSelectedText())) {
+			try {
+				if (!StringUtils.isNotBlank(textArea.getSelectedText())) return;
+				sb.append(SqlFmtUtil.fmt2Str(textArea.getSelectedText()).trim());
+				textArea.getTextArea().replaceRange(sb.toString(),textArea.getTextArea().getSelectionStart(),textArea.getTextArea().getSelectionEnd());
+			} catch (Exception e) {
+				PopPaneUtil.error(StartUtil.parentFrame.getWindow(), QueryMgr.getLang("fmt_failed"));
 			}
-		} catch (Exception e) {
-			logUtil.error(logName, e);
+		}else {
+			String str = textArea.getText();
+			if (!StringUtils.isNotBlank(str)) return;
+			boolean bool = true;
+			List<AbsStmt> stmts = null;
+			try {
+				if (!StringUtils.endsWith(str.trim(), ";")) {
+					str += ";";
+					bool = false;
+				}
+				stmts = ParserUtil.getStmts(dbType, str);
+			} catch (Exception ignored) {}
+			
+			try {
+				if (null == stmts) {
+					sb.append(SqlFmtUtil.fmt2Str(str).trim());
+				} else {
+					for (AbsStmt stmt : stmts) {
+						sb.append(SqlFmtUtil.fmt2Str(ParserUtil.getSql(ParserUtil.toLines(str), stmt.getPos()).trim()));
+					}
+				}
+				String sql = sb.toString().trim();
+				textArea.getTextArea().replaceRange(bool ? sql : sql.substring(0,sql.length()-1),0,textArea.getText().length());
+			} catch (Exception e) {
+				PopPaneUtil.error(StartUtil.parentFrame.getWindow(), QueryMgr.getLang("fmt_failed"));
+			}
+		}
+	}
+	
+	/**
+	 * 保存sql到宝典
+	 * @param txt	保存内容
+	 * @param bool	是否提示
+	 */
+	public static void saveSqlBook(String txt,boolean bool){
+		try {
+			if (!StringUtils.isNotBlank(txt)) return;
+			
+			JsonObject o = StartUtil.eng.doCall(CsMgrEnum.SQL_BOOK, GuiJsonUtil.genGetShareIdMsg(SqlBookMgr.ObjType.SHARE_PATH));
+			JFileChooser chooser = new JFileChooser();
+			if (null != o) chooser.setCurrentDirectory(new File(GuiJsonUtil.toStrSharedId(o)));
+			chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+			FileFilter fileFilter = new FileNameExtensionFilter("SQL文件(*.sql)","sql");
+			chooser.setFileFilter(fileFilter);
+			if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+				String url = chooser.getSelectedFile().getCanonicalPath();
+				url = url.endsWith(".sql") ? url : url+".sql";
+				File file = new File(url);
+				FileUtils.writeStringToFile(file, txt, "utf-8");
+				if (bool) PopPaneUtil.info(StartUtil.parentFrame.getWindow(), QueryMgr.getLang("success"));
+			}
+		}catch (Exception e){
 			e.printStackTrace();
+			PopPaneUtil.error(StartUtil.parentFrame.getWindow(), e);
 		}
 	}
 }

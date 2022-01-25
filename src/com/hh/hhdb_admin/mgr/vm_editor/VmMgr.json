@@ -83,6 +83,27 @@
         "zh": "内容过多！",
         "en": "Too much content!"
       }
+    },
+    {
+      "key": "help",
+      "value": {
+        "zh": "使用帮助",
+        "en": "help"
+      }
+    },
+    {
+      "key": "tpccVm",
+      "value": {
+        "zh": "TPCC数据模版",
+        "en": "TPCC Template"
+      }
+    },
+    {
+      "key": "crTable",
+      "value": {
+        "zh": "简单生成数据",
+        "en": "Simple data generation"
+      }
     }
   ]
 }

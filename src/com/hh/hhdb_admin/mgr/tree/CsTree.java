@@ -19,6 +19,7 @@ public class CsTree extends HTree {
     private RightClickHandler rightHandler;
     private LeftDoubleClickHandler leftDoubleHandler;
     private boolean isSchemaChange;
+    private boolean schemaNodeClick = false;
 
     public CsTree(HTreeNode rootNode) {
         super(rootNode);
@@ -27,18 +28,23 @@ public class CsTree extends HTree {
     public static CsTree newSchemaChangeTree(HTreeNode rootNode) {
         CsTree csTree = new CsTree(rootNode);
         csTree.isSchemaChange = true;
+        csTree.schemaNodeClick = true;
         return csTree;
     }
 
     @Override
     protected void selectTreeNode(HTreeNode treeNode) {
-        if (!isSchemaChange || treeNode.getType().equals(TreeMrType.DATA_MODEL_SCHEMA_GROUP.name())) {
-            return;
+        if (!isSchemaChange || !schemaNodeClick || treeNode.getType().equals(TreeMrType.DATA_MODEL_SCHEMA_GROUP.name())) {
+        	if(!schemaNodeClick) {
+        		schemaNodeClick = true;
+        	}
+        	return;
         }
         boolean sure = PopPaneUtil.confirm(TreeComp.getLang("sure_change"));
         if (!sure) {
             return;
         }
+        schemaNodeClick = false;
         StartUtil.eng.doPush(CsMgrEnum.LOGIN, GuiJsonUtil.toJsonCmd(LoginMgr.CMD_SWITCH_SCHEMA)
                 .add("schemaName", treeNode.getName()));
     }

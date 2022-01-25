@@ -1,0 +1,410 @@
+{
+  "keys": [
+    {
+      "key": "user_view",
+      "value": {
+        "zh": "用户视图",
+        "en": "User view"
+      }
+    },
+    {
+      "key": "dba_view",
+      "value": {
+        "zh": "高级视图",
+        "en": "DBA view"
+      }
+    },
+    {
+      "key": "name",
+      "value": {
+        "zh": "名称* : ",
+        "en": "Name* : "
+      }
+    },
+    {
+      "key": "view",
+      "value": {
+        "zh": "视图* : ",
+        "en": "View* : "
+      }
+    },
+    {
+      "key": "type",
+      "value": {
+        "zh": "类型* : ",
+        "en": "Type* : "
+      }
+    },
+    {
+      "key": "sshType",
+      "value": {
+        "zh": "类型* : ",
+        "en": "Type* : "
+      }
+    },
+    {
+      "key": "hhdb",
+      "value": {
+        "zh": "恒辉数据库",
+        "en": "HHDB"
+      }
+    },
+    {
+      "key": "pgsql",
+      "value": {
+        "zh": "POSTGRESQL",
+        "en": "POSTGRESQL"
+      }
+    },
+    {
+      "key": "oracle",
+      "value": {
+        "zh": "ORACLE",
+        "en": "ORACLE"
+      }
+    },
+    {
+      "key": "mysql",
+      "value": {
+        "zh": "MYSQL",
+        "en": "MYSQL"
+      }
+    },
+    {
+      "key": "sqlserver",
+      "value": {
+        "zh": "SQLSERVER",
+        "en": "SQLSERVER"
+      }
+    },
+    {
+      "key": "db2",
+      "value": {
+        "zh": "DB2",
+        "en": "DB2"
+      }
+    },
+    {
+      "key": "dm",
+      "value": {
+        "zh": "达梦数据库",
+        "en": "DM"
+      }
+    },
+    {
+      "key": "connect",
+      "value": {
+        "zh": "连接* : ",
+        "en": "Connection* : "
+      }
+    },
+    {
+      "key": "template",
+      "value": {
+        "zh": "模板",
+        "en": "Template"
+      }
+    },
+    {
+      "key": "username",
+      "value": {
+        "zh": "用户* : ",
+        "en": "Username* : "
+      }
+    },
+    {
+      "key": "sshUsername",
+      "value": {
+        "zh": "用户* : ",
+        "en": "Username* : "
+      }
+    },
+    {
+      "key": "password",
+      "value": {
+        "zh": "密码* : ",
+        "en": "Password* : "
+      }
+    },
+    {
+      "key": "sshPassword",
+      "value": {
+        "zh": "密码* : ",
+        "en": "Password* : "
+      }
+    },
+    {
+      "key": "schema",
+      "value": {
+        "zh": "模式 : ",
+        "en": "Schema : "
+      }
+    },
+    {
+      "key": "userType",
+      "value": {
+        "zh": "用户类型 : ",
+        "en": "User type : "
+      }
+    },
+    {
+      "key": "userType",
+      "value": {
+        "zh": "用户类型 : ",
+        "en": "User type : "
+      }
+    },
+    {
+      "key": "sys_dba",
+      "value": {
+        "zh": "超级管理员",
+        "en": "SYSDBA"
+      }
+    },
+    {
+      "key": "publicKey",
+      "value": {
+        "zh": "公钥",
+        "en": "Public Key"
+      }
+    },
+    {
+      "key": "password2",
+      "value": {
+        "zh": "密码",
+        "en": "Password"
+      }
+    },
+    {
+      "key": "general",
+      "value": {
+        "zh": "常规",
+        "en": "General"
+      }
+    },
+    {
+      "key": "enabled",
+      "value": {
+        "zh": "是否启用 SSH 通道",
+        "en": "Use SSH tunnel"
+      }
+    },
+    {
+      "key": "host",
+      "value": {
+        "zh": "主机* : ",
+        "en": "Host* : "
+      }
+    },
+    {
+      "key": "port",
+      "value": {
+        "zh": "端口* : ",
+        "en": "Port* : "
+      }
+    },
+    {
+      "key": "ssh_type",
+      "value": {
+        "zh": "认证方式* : ",
+        "en": "Authentication Method* : "
+      }
+    },
+    {
+      "key": "publicKey",
+      "value": {
+        "zh": "公钥",
+        "en": "Public Key"
+      }
+    },
+    {
+      "key": "privateKey",
+      "value": {
+        "zh": "秘钥* : ",
+        "en": "Private Key* : "
+      }
+    },
+    {
+      "key": "privatePassword",
+      "value": {
+        "zh": "口令* : ",
+        "en": "Passphrase* : "
+      }
+    },
+    {
+      "key": "sshConfig",
+      "value": {
+        "zh": "SSH配置",
+        "en": "SSH Config"
+      }
+    },
+    {
+      "key": "generalConfig",
+      "value": {
+        "zh": "常规配置",
+        "en": "General Config"
+      }
+    },
+    {
+      "key": "save",
+      "value": {
+        "zh": "保存",
+        "en": "Save"
+      }
+    },
+    {
+      "key": "save_as",
+      "value": {
+        "zh": "保存为新的连接",
+        "en": "Save as new connection"
+      }
+    },
+    {
+      "key": "reset",
+      "value": {
+        "zh": "重置",
+        "en": "Reset"
+      }
+    },
+    {
+      "key": "saveSuccessful",
+      "value": {
+        "zh": "保存成功！",
+        "en": "Save successful!"
+      }
+    },
+    {
+      "key": "sshEncrypted",
+      "value": {
+        "zh": "加密",
+        "en": "Encrypted"
+      }
+    },
+    {
+      "key": "encrypted",
+      "value": {
+        "zh": "加密",
+        "en": "Encrypted"
+      }
+    },
+    {
+      "key": "unencrypted",
+      "value": {
+        "zh": "非加密",
+        "en": "Unencrypted"
+      }
+    },
+    {
+      "key": "cancel",
+      "value": {
+        "zh": "取消",
+        "en": "Cancel"
+      }
+    },
+    {
+      "key": "enterConnName",
+      "value": {
+        "zh": "请填写连接名称！",
+        "en": "Please fill in the connection name!"
+      }
+    },
+    {
+      "key": "connectExists",
+      "value": {
+        "zh": "连接已存在，请修改连接名称！",
+        "en": "Connection already exists, please modify the connection name!"
+      }
+    },
+    {
+      "key": "login",
+      "value": {
+        "zh": "登录",
+        "en": "Login"
+      }
+    },
+    {
+      "key": "defaultSave",
+      "value": {
+        "zh": "自动保存",
+        "en": "Auto Save"
+      }
+    },
+    {
+      "key": "language",
+      "value": {
+        "zh": "语言",
+        "en": "Language"
+      }
+    },
+    {
+      "key": "skin",
+      "value": {
+        "zh": "主题风格",
+        "en": "Skin"
+      }
+    },
+    {
+      "key": "test_conn",
+      "value": {
+        "zh": "测试连接",
+        "en": "Test Connection"
+      }
+    },
+    {
+      "key": "switch",
+      "value": {
+        "zh": "切换连接",
+        "en": "Switch Connection"
+      }
+    },
+    {
+      "key": "testing",
+      "value": {
+        "zh": "正在测试连接",
+        "en": "Testing connection"
+      }
+    },
+    {
+      "key": "connecting",
+      "value": {
+        "zh": "正在连接",
+        "en": "Connecting"
+      }
+    },
+    {
+      "key": "conn_successful",
+      "value": {
+        "zh": "连接成功",
+        "en": "Connection Successful"
+      }
+    },
+    {
+      "key": "conn_fail",
+      "value": {
+        "zh": "连接失败",
+        "en": "Connection Fail"
+      }
+    },
+    {
+      "key": "portIncorrect",
+      "value": {
+        "zh": "端口不正确！",
+        "en": "Port incorrect!"
+      }
+    },
+    {
+      "key": "tool",
+      "value": {
+        "zh": "工具",
+        "en": "tool"
+      }
+    },
+    {
+      "key": "not_dba",
+      "value": {
+        "zh": "用户没有dba权限",
+        "en": "The user does not have DBA rights"
+      }
+    }
+  ]
+}

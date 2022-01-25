@@ -157,9 +157,13 @@ public class DesignComp extends CommonComp {
     }
 
     protected void format() {
-        QuerUtil.formatSql(textArea);
-        rootNode.removeAllChildren();
-        tree.addHTreeNode(rootNode, getTreeNodes(), true);
+        try {
+            QuerUtil.formatSql(DriverUtil.getDbType(conn),textArea);
+            rootNode.removeAllChildren();
+            tree.addHTreeNode(rootNode, getTreeNodes(), true);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private HBarPanel getBarPanel() {

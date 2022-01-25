@@ -1,12 +1,13 @@
 package com.hh.hhdb_admin.mgr.query.ui;
+
 import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.sqlwin.rs.MultiRsBean;
-import com.hh.frame.swingui.view.container.HTabPane;
 import com.hh.frame.swingui.view.container.LastPanel;
 import com.hh.frame.swingui.view.input.LabelInput;
 import com.hh.frame.swingui.view.tab.HTable;
 import com.hh.frame.swingui.view.tab.SearchToolBar;
 import com.hh.frame.swingui.view.tab.col.DataCol;
+import com.hh.hhdb_admin.common.csTabPanel.CSTablePanel;
 import com.hh.hhdb_admin.mgr.query.QueryMgr;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import java.util.Map;
 public class MultiRsDataTab extends LastPanel {
 	//消耗时间
 	private LabelInput msglabel = new LabelInput();
-	HTabPane hTabPane = new HTabPane();
+	CSTablePanel hTabPane = new CSTablePanel();
 
 
 	public MultiRsDataTab(MultiRsBean mb,long runMills)throws Exception{
@@ -43,7 +44,7 @@ public class MultiRsDataTab extends LastPanel {
 	        LastPanel last = new LastPanel(false);// 无滚动条
 			last.setHead(sToolbar.getComp());
 			last.setWithScroll(table.getComp());
-	        hTabPane.addPanel(idnum+"", key, last.getComp(),false);
+			hTabPane.addPanel(idnum+"", key, last.getComp());
 	        table.load(gendata(list), 1);
 	        idnum++;
 		}

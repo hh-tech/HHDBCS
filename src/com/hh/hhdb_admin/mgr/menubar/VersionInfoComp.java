@@ -40,7 +40,7 @@ public class VersionInfoComp {
 	private final HDialog dialog;
 
 	public VersionInfoComp() {
-		dialog = new HDialog(StartUtil.parentFrame, HFrame.LARGE_WIDTH);
+		dialog = new HDialog(StartUtil.parentFrame, HFrame.LARGE_WIDTH,true);
 		File verFile = new File(StartUtil.getEtcFile(), CSProduct.VERSION_FILE_NAME);
 		HDivLayout divLayout = new HDivLayout();
 		divLayout.setyGap(20);

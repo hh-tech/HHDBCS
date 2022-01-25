@@ -46,7 +46,7 @@ public class MonitorMgr extends AbsGuiMgr {
 
     @Override
     public String getHelp() {
-        return GuiJsonUtil.genCmdHelp(CMD_SHOW_DB_MONITOR, "数据库监控(表)", GuiMsgType.RECE) +
+        return GuiJsonUtil.genCmdHelp(CMD_SHOW_DB_MONITOR, "系统监控(表)", GuiMsgType.RECE) +
                 GuiJsonUtil.genCmdHelp(CMD_SHOW_DB_LOCK_MONITOR, "数据库锁监控", GuiMsgType.RECE) +
                 GuiJsonUtil.genCmdHelp(CMD_SHOW_DB_CHART_MONITOR, "数据库监控(图)", GuiMsgType.RECE) +
                 GuiJsonUtil.genCmdHelp(CMD_SHOW_SYSTEM_MONITOR, "系统监控", GuiMsgType.RECE);

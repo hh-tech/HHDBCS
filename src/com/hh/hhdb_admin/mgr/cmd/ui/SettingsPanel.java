@@ -35,10 +35,12 @@ public class SettingsPanel {
             rowInput = new TextInput("varPageSize", row + "");
             rowInput.setInputVerifier(VerifyUtil.getTextIntVerifier(CmdMgr.getLang("rowsnumber"), 1, 2147483647));
             nullInput = new TextInput("null",nullSign);
-            dialog = new HDialog(500, 200);
-            dialog.setRootPanel(init());
+            dialog = new HDialog(StartUtil.parentFrame,500);
             dialog.setIconImage(CmdMgr.getIcon("key"));
             dialog.setWindowTitle(CmdMgr.getLang("current-settings"));
+            HPanel hPanel = init();
+            dialog.setRootPanel(hPanel);
+            dialog.setSize(500,hPanel.getHeight()+50);      //根据实际大小设置弹出框大小
             dialog.show();
         } catch (Exception e) {
             e.printStackTrace();

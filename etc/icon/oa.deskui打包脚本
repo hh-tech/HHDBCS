@@ -1,0 +1,73 @@
+#!/bin/bash
+start_time=`date +'%Y-%m-%d %H:%M:%S'`
+pro_git="v6_0"
+base_dir="/home/git"
+dist_dir="${base_dir}/dist"
+build_dir="hhdb_csadmin"
+cd ${base_dir}/${pro_git}
+echo "开始打包"
+
+if [[ $os_name.get(0) == windows ]];then
+ant
+else
+ant build_unix
+fi
+
+end_time=`date +'%Y-%m-%d %H:%M:%S'`
+start_seconds=$(date --date="$start_time" +%s);
+end_seconds=$(date --date="$end_time" +%s);
+echo "打包完成,耗时: "$((end_seconds-start_seconds))"秒"
+
+end_time=`date +'%Y-%m-%d_%H:%M:%S'`
+
+if [[ $os_name.get(0) == windows ]];then
+    dist_name=`echo hhdb_cs_*.zip`
+    if [[ $tag_name.get(0) == HHDBCS* ]];then
+    echo "只有版本名称"
+    final_name="$tag_name.get(0)_${end_time}.zip"
+    else
+    final_name="HHDBCS_$tag_name.get(0)_${end_time}.zip"
+    fi
+    
+    if [[ ! -d ${dist_dir} ]];then
+        mkdir ${dist_dir}
+        echo "创建文件夹:${dist_dir}"
+    else
+        cd ${dist_dir} 
+        rm -rf *
+        cd -
+    fi
+    
+    mv ${dist_name} ${dist_dir}/${final_name}
+    ls -l ${dist_dir}/${final_name}
+else
+    rm -rf ${build_dir}/jdk/*
+    if [[ $os_name.get(0) == macos ]];then
+        cp -r ../jre/jre_macos/jdk ${build_dir}/jdk
+    else
+        if [[ $tag_name.get(0) == HHDBCS* ]];then
+        top_name=""
+        else
+        top_name="HHDBCS_"
+        fi
+    
+        if [[ $os_name.get(0) == unix_x86 ]];then
+            final_name="${top_name}$tag_name.get(0)_x86_${end_time}.tar.gz"
+            cp -r ../jre/jre_unix_x86/jdk/* ${build_dir}/jdk
+        else
+            final_name="${top_name}$tag_name.get(0)_arm_${end_time}.tar.gz"
+            cp -r ../jre/jre_unix_arm/jdk/* ${build_dir}/jdk
+        fi
+        if [[ ! -d ${dist_dir} ]];then
+        mkdir ${dist_dir}
+        echo "创建文件夹:${dist_dir}"
+        else
+            cd ${dist_dir} 
+            rm -rf *
+            cd -
+        fi
+        
+        tar -zcvf ${dist_dir}/${final_name} ./${build_dir}
+        ls -l ${dist_dir}/${final_name}
+    fi
+fi

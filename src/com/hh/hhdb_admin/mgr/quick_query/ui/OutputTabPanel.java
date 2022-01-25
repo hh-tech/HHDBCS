@@ -1,12 +1,10 @@
 package com.hh.hhdb_admin.mgr.quick_query.ui;
 
-import com.hh.frame.common.base.JdbcBean;
-import com.hh.frame.swingui.view.container.HTabPane;
-import com.hh.hhdb_admin.mgr.quick_query.QuickQueryMgr;
-
-import javax.swing.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import com.hh.frame.common.base.JdbcBean;
+import com.hh.hhdb_admin.common.csTabPanel.CSTablePanel;
+import com.hh.hhdb_admin.mgr.quick_query.QuickQueryMgr;
 
 /**
  * 输出结果选项卡面板组件
@@ -14,7 +12,7 @@ import java.util.Map;
  * @author hexu
  */
 public class OutputTabPanel {
-    private final HTabPane hTabPane;
+    private final CSTablePanel hTabPane;
     private final JdbcBean jdbc;
     //保存查询结果集信息
     private final Map<String, Integer> resultMap;
@@ -23,12 +21,19 @@ public class OutputTabPanel {
     public OutputTabPanel(JdbcBean jdbc) {
         this.jdbc = jdbc;
         resultMap = new LinkedHashMap<>();
-        hTabPane = new HTabPane();
+        hTabPane = new CSTablePanel() {
+
+			@Override
+			public void selectPanel(String id) {
+				highlighted();
+			}
+        	
+        };
         // table页切换事件
-        ((JTabbedPane) hTabPane.getComp()).addChangeListener(e -> highlighted());
+//        ((JTabbedPane) hTabPane.getComp()).addChangeListener(e -> highlighted());
     }
 
-    public HTabPane getTabPane() {
+    public CSTablePanel getTabPane() {
         return hTabPane;
     }
 
@@ -39,7 +44,7 @@ public class OutputTabPanel {
             dataTab.showTable(map.get(i), maxRow, maxSet);
 
             resultMap.put(QuickQueryMgr.getLang("result") + number, i);
-            hTabPane.addPanel(number + "", QuickQueryMgr.getLang("result") + number, dataTab.getComp(), false);
+            hTabPane.addPanel(number + "", QuickQueryMgr.getLang("result") + number, dataTab.getComp());
             number++;
         }
         hTabPane.selectPanel(resultMap.size() + "");

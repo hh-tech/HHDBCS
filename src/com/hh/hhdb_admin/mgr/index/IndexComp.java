@@ -5,10 +5,14 @@ import java.awt.Dimension;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 
+import com.hh.frame.swingui.view.container.*;
+import com.hh.frame.swingui.view.input.TextAreaInput;
+import com.hh.frame.swingui.view.tab.SearchToolBar;
 import org.apache.commons.lang3.StringUtils;
 
 import com.hh.frame.common.base.AlignEnum;
@@ -19,10 +23,6 @@ import com.hh.frame.json.JsonObject;
 import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.abs.AbsHComp;
 import com.hh.frame.swingui.view.abs.AbsInput;
-import com.hh.frame.swingui.view.container.HBarPanel;
-import com.hh.frame.swingui.view.container.HDialog;
-import com.hh.frame.swingui.view.container.HGridPanel;
-import com.hh.frame.swingui.view.container.HPanel;
 import com.hh.frame.swingui.view.ctrl.HButton;
 import com.hh.frame.swingui.view.input.LabelInput;
 import com.hh.frame.swingui.view.input.SelectBox;
@@ -59,6 +59,7 @@ public abstract class IndexComp {
         }
     }
 
+    private final Connection conn;
     private final HDialog dialog;
     private final DBTypeEnum dbTypeEnum;
     private final String schema;
@@ -67,13 +68,15 @@ public abstract class IndexComp {
     private final HTable table;
     private TextInput nameInput;
     private SelectBox typeBox;
+    private TextAreaInput commentInput;
 
     public IndexComp(Connection conn, DBTypeEnum dbTypeEnum, String schema, String tableName) {
+        this.conn = conn;
         this.dbTypeEnum = dbTypeEnum;
         this.schema = schema;
         this.tableName = tableName;
         this.index = new Index(conn, dbTypeEnum);
-        this.dialog = new HDialog(StartUtil.parentFrame, 600, 550);
+        this.dialog = new HDialog(StartUtil.parentFrame, 700, 500);
         dialog.setIconImage(IconFileUtil.getLogo());
         dialog.setWindowTitle(getLang("ADD_TITLE"));
         table = new HTable();
@@ -81,7 +84,6 @@ public abstract class IndexComp {
         selected.setWidth(50);
         table.addCols(new DataCol("column_name", IndexComp.getLang("COLUMN")), selected);
         table.setRowHeight(25);
-        table.load(IndexUtil.getColumns(conn, schema, tableName), 1);
     }
 
     private HBarPanel getBarPanel() {
@@ -114,7 +116,7 @@ public abstract class IndexComp {
             if (null != index) {
                 try {
                     String columns = IndexUtil.getColumnsName(table, dbTypeEnum);
-                    index.addIndex(schema, indexName, tableName, columns, IndexEnum.valueOf(type));
+                    index.addIndex(schema, indexName, tableName, columns, IndexEnum.valueOf(type), commentInput.getValue());
                     refreshTree();
                     dialog.dispose();
                     PopPaneUtil.info(dialog.getWindow(), getLang("SAVE_SUCCESS"));
@@ -134,7 +136,7 @@ public abstract class IndexComp {
             String sql = "";
             if (null != index) {
                 String columns = IndexUtil.getColumnsName(table, dbTypeEnum);
-                sql = index.getSql(schema, indexName, tableName, columns, IndexEnum.valueOf(type));
+                sql = index.getSql(schema, indexName, tableName, columns, IndexEnum.valueOf(type), commentInput.getValue());
             }
             SqlViewDialog dialog = new SqlViewDialog();
             dialog.setSql(sql);
@@ -172,16 +174,27 @@ public abstract class IndexComp {
         panel.add(getWithLabelInput(getLang("INDEX_TYPE"), typeBox));
         HPanel tablePanel = new HPanel(new HDivLayout(GridSplitEnum.C3));
         tablePanel.add(new LabelInput(getLang("INDEX_COLUMN")));
-        JScrollPane scrollPane = new JScrollPane(table.getComp());
-        scrollPane.setPreferredSize(new Dimension(scrollPane.getWidth(), 250));
-        AbsHComp tableComp = new AbsHComp() {
+        SearchToolBar searchToolBar = new SearchToolBar(table);
+        HPanel panel1 = new HPanel();
+        LastPanel lastPanel = new LastPanel();
+        lastPanel.setHead(searchToolBar.getComp());
+        lastPanel.setWithScroll(table.getComp());
+        panel1.setLastPanel(lastPanel);
+        JScrollPane scrollPane = new JScrollPane(panel1.getComp());
+        scrollPane.setPreferredSize(new Dimension(scrollPane.getWidth(), 300));
+        AbsHComp absHComp = new AbsHComp() {
             @Override
             public Component getComp() {
                 return scrollPane;
             }
         };
-        tablePanel.add(tableComp);
+        tablePanel.add(absHComp);
         panel.add(tablePanel);
+        commentInput = new TextAreaInput("comment", "",5);
+        if (Arrays.asList(DBTypeEnum.hhdb, DBTypeEnum.pgsql, DBTypeEnum.mysql, DBTypeEnum.db2).contains(dbTypeEnum)) {
+            panel.add(getWithLabelInput(getLang("comment"), commentInput));
+            dialog.setSize(700, 650);
+        }
         return panel;
     }
 
@@ -197,6 +210,7 @@ public abstract class IndexComp {
     public void show() {
         dialog.setRootPanel(getPanel());
         dialog.show();
+        table.load(IndexUtil.getColumns(conn, schema, tableName), 1);
     }
 
     public static String getLang(String key) {

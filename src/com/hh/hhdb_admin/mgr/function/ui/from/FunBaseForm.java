@@ -16,6 +16,7 @@ import com.hh.frame.swingui.view.container.LastPanel;
 import com.hh.frame.swingui.view.ctrl.HButton;
 import com.hh.frame.swingui.view.input.LabelInput;
 import com.hh.frame.swingui.view.input.TextAreaInput;
+import com.hh.frame.swingui.view.layout.GridSplitEnum;
 import com.hh.frame.swingui.view.layout.HDivLayout;
 import com.hh.frame.swingui.view.layout.bar.HBarLayout;
 import com.hh.frame.swingui.view.tab.HTable;
@@ -79,6 +80,7 @@ public abstract class FunBaseForm extends AbsHComp {
      * @throws Exception
      */
     public abstract void delete() throws Exception;
+    public abstract String getDelSql() throws Exception;
     
     /**
      * 检查函数
@@ -123,23 +125,23 @@ public abstract class FunBaseForm extends AbsHComp {
         hTable = new HTable();
         hTable.hideSeqCol();
         hTable.addCols(new DataCol("name",FunctionMgr.getLang("name")));
-        if (dbType.equals(DBTypeEnum.mysql)){
+        if (dbType == DBTypeEnum.mysql){
             if(funMr.treeNode.getType() == TreeMrType.PROCEDURE) hTable.addCols(new ListCol("schema", FunctionMgr.getLang("schema"), Arrays.asList("IN", "OUT", "INOUT")));
-        }else if (dbType.equals(DBTypeEnum.sqlserver)){
+        }else if (dbType == DBTypeEnum.sqlserver){
             if(funMr.treeNode.getType() == TreeMrType.PROCEDURE) hTable.addCols(new ListCol("schema", FunctionMgr.getLang("schema"), Arrays.asList("IN","output")));
-        }else if (dbType.equals(DBTypeEnum.db2)){
+        }else if (dbType == DBTypeEnum.db2){
             if(funMr.treeNode.getType() == TreeMrType.PROCEDURE) hTable.addCols(new ListCol("schema", FunctionMgr.getLang("schema"), Arrays.asList("IN","OUT")));
         }else {
             hTable.addCols(new ListCol("schema",FunctionMgr.getLang("schema"), Arrays.asList("IN", "OUT", "INOUT")));
         }
-        if ( dbType.equals(DBTypeEnum.mysql) || dbType.equals(DBTypeEnum.sqlserver) ){
-            TypeColumn typeCol = new TypeColumn("dataType", FunctionMgr.getLang("type"));
+        if (dbType == DBTypeEnum.mysql || dbType == DBTypeEnum.sqlserver){
+            TypeColumn typeCol = new TypeColumn("type", FunctionMgr.getLang("type"));
             typeCol.setWidth(140);
             hTable.addCols(typeCol);
         } else {
             hTable.addCols(new ListCol("type",FunctionMgr.getLang("type"), funMr.getDataType()));
         }
-        hTable.setRowHeight(25);
+        hTable.setRowHeight(30);
         LastPanel lastPanel = new LastPanel(false);
         lastPanel.setWithScroll(hTable.getComp());
         hTable.load(new ArrayList<>(),1);
@@ -153,12 +155,18 @@ public abstract class FunBaseForm extends AbsHComp {
             public void onClick() {
                 Map<String, String> line = new HashMap<>();
                 line.put("name","");
-                if (dbType.equals(DBTypeEnum.mysql) || dbType.equals(DBTypeEnum.db2)){
+                if (dbType == DBTypeEnum.mysql || dbType == DBTypeEnum.db2){
                     if(funMr.treeNode.getType() == TreeMrType.PROCEDURE) line.put("schema","");
                 }else {
                     line.put("schema","IN");
                 }
-                line.put("type","");
+    
+                if (dbType == DBTypeEnum.mysql || dbType == DBTypeEnum.sqlserver){
+                    line.put("type", TypeColumn.getDefType().toString());
+                } else {
+                    line.put("type","");
+                }
+                
                 hTable.add(line);
             }
         };
@@ -182,8 +190,8 @@ public abstract class FunBaseForm extends AbsHComp {
         return hPanel;
     }
 
-    protected HPanel getPanel(String txt, AbsHComp abs, HDivLayout layout){
-        HPanel language = new HPanel(layout);
+    protected HPanel getPanel(String txt, AbsHComp abs){
+        HPanel language = new HPanel(new HDivLayout(10, 15, GridSplitEnum.C2,GridSplitEnum.C5));
         LabelInput label = new LabelInput(txt);
         label.setAlign(AlignEnum.RIGHT);
         language.add(label);

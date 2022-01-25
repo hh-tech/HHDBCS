@@ -55,7 +55,6 @@ public class AbsForeTable {
         table.addCols(idCol, new DataCol("foreignName", getLang("fkName")),
                 new SelectColumn("colName", column, selectColumn, conn, schema, tableName),
                 new ForeignTableColumn("foreignTableName", foreTableName, table, conn), foreignKeyColumn);
-        table.setRowHeight(25);
         table.hideSeqCol();
         table.setEvenBgColor(table.getOddBgColor());
         return table;

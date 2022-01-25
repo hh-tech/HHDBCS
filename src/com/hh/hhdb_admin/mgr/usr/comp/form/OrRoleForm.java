@@ -15,6 +15,8 @@ import com.hh.hhdb_admin.mgr.usr.comp.GrantTableComp;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
+
+import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,13 +54,22 @@ public class OrRoleForm extends UsrBaseForm {
         pwInput = new PasswordInput(UsrItem.usr_pwd.name());
         rePwInput = new PasswordInput(UsrItem.usr_rePwd.name());
         HPanel szPanel = new HPanel(getLayout());
-        cbi = new CheckBoxInput(UsrItem.password_authentication.name());
-        cbi.addListen(e -> {
-            JCheckBox checkBox = (JCheckBox) e.getSource();
-            pwInput.setEnabled(checkBox.isSelected());
-            rePwInput.setEnabled(checkBox.isSelected());
+        cbi = new CheckBoxInput(UsrItem.password_authentication.name()) {
 
-        });
+			@Override
+			protected void onClick(ActionEvent e) {
+				JCheckBox checkBox = (JCheckBox) e.getSource();
+	            pwInput.setEnabled(checkBox.isSelected());
+	            rePwInput.setEnabled(checkBox.isSelected());
+			}
+        	
+        };
+//        cbi.addListen(e -> {
+//            JCheckBox checkBox = (JCheckBox) e.getSource();
+//            pwInput.setEnabled(checkBox.isSelected());
+//            rePwInput.setEnabled(checkBox.isSelected());
+//
+//        });
         cbi.setText(getLang(LK_PASSWORD_AUTH));
         cbi.setValue("false");
         szPanel.add(new HeightComp(10));

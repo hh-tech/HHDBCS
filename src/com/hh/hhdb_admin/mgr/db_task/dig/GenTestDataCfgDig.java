@@ -99,7 +99,7 @@ public class GenTestDataCfgDig extends AbsCfgDig {
 
     private void initPanel() {
         panel = new HPanel();
-        panel.setTitle("数据生成配置");
+        panel.setTitle(getLang("dataGenerateConfig"));
         HGridPanel lineOne = new HGridPanel(new HGridLayout(GridSplitEnum.C3));
         lineOne.setComp(1, new LabelInput(getLang("warehouses")));
         lineOne.setComp(2, whNum);

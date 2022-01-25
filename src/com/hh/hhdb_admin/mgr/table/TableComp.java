@@ -1,16 +1,5 @@
 package com.hh.hhdb_admin.mgr.table;
 
-import java.awt.Container;
-import java.io.IOException;
-import java.sql.BatchUpdateException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.db.SqlExeUtil;
@@ -19,8 +8,8 @@ import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.container.HDialog;
 import com.hh.frame.swingui.view.container.HFrame;
 import com.hh.frame.swingui.view.container.HPanel;
-import com.hh.frame.swingui.view.container.HTabPane;
 import com.hh.frame.swingui.view.container.LastPanel;
+import com.hh.frame.swingui.view.container.tab_panel.HTabPanel;
 import com.hh.frame.swingui.view.layout.GridSplitEnum;
 import com.hh.frame.swingui.view.layout.HDivLayout;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
@@ -29,12 +18,17 @@ import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.table.common.CreateTableSqlSyntax;
 import com.hh.hhdb_admin.mgr.table.common.TableCreatePanel;
 import com.hh.hhdb_admin.mgr.table.common.TableUtil;
-import com.hh.hhdb_admin.mgr.table.comp.ColumnPanel;
-import com.hh.hhdb_admin.mgr.table.comp.ForeignKeyPanel;
-import com.hh.hhdb_admin.mgr.table.comp.PartitionPanel;
-import com.hh.hhdb_admin.mgr.table.comp.SqlViewDialog;
-import com.hh.hhdb_admin.mgr.table.comp.TableNamePanel;
-import com.hh.hhdb_admin.mgr.table.comp.UniquePanel;
+import com.hh.hhdb_admin.mgr.table.comp.*;
+import org.apache.commons.lang3.StringUtils;
+
+import java.awt.*;
+import java.io.IOException;
+import java.sql.BatchUpdateException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author oyx
@@ -47,10 +41,10 @@ public class TableComp implements CreateTableSqlSyntax {
 
 	static {
 		try {
-            LangMgr2.loadMerge(TableComp.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+			LangMgr2.loadMerge(TableComp.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private static final String TAB_COL_PANEL = "col_mgr_panel";
@@ -76,7 +70,7 @@ public class TableComp implements CreateTableSqlSyntax {
 	public static CreateTableTool createTabTool;
 	public static JdbcBean jdbcBean;
 	private static DBTypeEnum dbTypeEnum;
-	public static HDialog dialog = new HDialog(StartUtil.parentFrame, HFrame.LARGE_WIDTH, HFrame.LARGE_WIDTH / 4 * 3);;
+	public static HDialog dialog = new HDialog(StartUtil.parentFrame, HFrame.LARGE_WIDTH, HFrame.LARGE_WIDTH / 4 * 3);
 	public String title;
 
 	public TableComp(Connection conn, DBTypeEnum dbTypeEnum) {
@@ -138,14 +132,14 @@ public class TableComp implements CreateTableSqlSyntax {
 		foreignKeyPanel = new ForeignKeyPanel(columnPanel, conn);
 		partitionPanel = new PartitionPanel(divLayout);
 
-		HTabPane tabPane = new HTabPane();
-		tabPane.setCloseBtn(false);
-		tabPane.addPanel(TAB_COL_PANEL, getLang("column"), this.columnPanel);
-		tabPane.addPanel(COL_UNIQUE_PANEL, getLang("uniqueKey"), this.uniquePanel);
-		tabPane.addPanel(COL_FOREIGN_KEY_PANEL, getLang("foreignKey"), this.foreignKeyPanel);
+		HTabPanel tabPane = new HTabPanel();
 		if (TableUtil.showPartition(getDbType())) {
-			tabPane.addPanel(COL_P_PANEL, getLang("partitionType"), partitionPanel);
+			tabPane.addPanel(COL_P_PANEL, partitionPanel, TableUtil.newHeaderConfig(getLang("partitionType")).setFixTab(true));
 		}
+		tabPane.addPanel(COL_FOREIGN_KEY_PANEL, this.foreignKeyPanel, TableUtil.newHeaderConfig(getLang("foreignKey")));
+		tabPane.addPanel(COL_UNIQUE_PANEL, this.uniquePanel, TableUtil.newHeaderConfig(getLang("uniqueKey")));
+		tabPane.addPanel(TAB_COL_PANEL, this.columnPanel, TableUtil.newHeaderConfig(getLang("column")));
+		tabPane.selectPanel(TAB_COL_PANEL);
 		createPanels = new TableCreatePanel[]{columnPanel, uniquePanel, foreignKeyPanel};
 
 		lastPanel.setHead(tableNamePanel.getLastPanel().getComp());

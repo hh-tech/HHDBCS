@@ -100,7 +100,7 @@ public class GenTabDataCfgDig extends AbsCfgDig {
             throw new Exception(getLang("row_not_null"));
         }
         if (StringUtils.isBlank(template)) {
-            template = geneTemplate(schemaName, tableName);
+            throw new Exception(getLang("template_not_null"));
         }
         int dataRow = Integer.parseInt(dataRowStr);
         Map<String, String> config = new HashMap<>();
@@ -114,7 +114,7 @@ public class GenTabDataCfgDig extends AbsCfgDig {
     private String geneTemplate(String schemaName, String tableName) {
         String res = "";
         if (StringUtils.isAnyBlank(schemaName, tableName)) {
-            PopPaneUtil.error(dialog.getWindow(), "请先填写模式名和表名!");
+            PopPaneUtil.error(dialog.getWindow(), getLang("fillParam"));
             return res;
         }
         Connection conn = null;
@@ -135,7 +135,7 @@ public class GenTabDataCfgDig extends AbsCfgDig {
 
     private void initPanel() {
         panel = new HPanel();
-        panel.setTitle("数据生成配置");
+        panel.setTitle(getLang("dataGenerateConfig"));
         WithLabelInput schemaLine = new WithLabelInput(new HPanel(new HDivLayout(GridSplitEnum.C3)), getLang("schema_name"), schemaInput);
         WithLabelInput tableLine = new WithLabelInput(new HPanel(new HDivLayout(GridSplitEnum.C3)), getLang("table_name"), tableInput);
         WithLabelInput dataRowLine = new WithLabelInput(new HPanel(new HDivLayout(GridSplitEnum.C3)), getLang("data_row"), dataRowInput);
@@ -148,7 +148,7 @@ public class GenTabDataCfgDig extends AbsCfgDig {
                     return;
                 }
                 
-                new TempEdit(templateInput.getValue(),template,"注：可以使用表达式改变__N的值,如从100开始计数set( ${__N} = ${__N}+ 100 )",dialog){
+                new TempEdit(templateInput.getValue(),template,getLang("note") + "set( ${__N} = ${__N}+ 100 )",dialog){
                     public void save(String sql) {
                         templateInput.setValue(sql);
                     }

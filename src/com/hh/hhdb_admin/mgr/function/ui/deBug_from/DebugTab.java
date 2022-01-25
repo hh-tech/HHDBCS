@@ -3,7 +3,6 @@ package com.hh.hhdb_admin.mgr.function.ui.deBug_from;
 import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.common.base.DBTypeEnum;
 import com.hh.frame.swingui.view.container.HBarPanel;
-import com.hh.frame.swingui.view.container.HTabPane;
 import com.hh.frame.swingui.view.container.LastPanel;
 import com.hh.frame.swingui.view.ctrl.HButton;
 import com.hh.frame.swingui.view.input.TextAreaInput;
@@ -11,6 +10,7 @@ import com.hh.frame.swingui.view.layout.bar.HBarLayout;
 import com.hh.frame.swingui.view.tab.HTable;
 import com.hh.frame.swingui.view.tab.col.DataCol;
 import com.hh.frame.swingui.view.util.PopPaneUtil;
+import com.hh.hhdb_admin.common.csTabPanel.CSTablePanel;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import com.hh.hhdb_admin.mgr.function.FunctionMgr;
 import org.apache.commons.lang3.StringUtils;
@@ -25,10 +25,8 @@ import java.util.*;
  *
  * @author HeXu
  */
-public class DebugTab extends HTabPane {
+public class DebugTab extends CSTablePanel {
     private DebugBaseForm debugBaseForm;
-    
-    private LastPanel lastPanel = new LastPanel(true);
     private HTable parameter, localVariable, stack ,result;
     private TextAreaInput messageText;
     
@@ -36,38 +34,30 @@ public class DebugTab extends HTabPane {
     public DebugTab(DebugBaseForm debugBaseForm) {
         try {
             this.debugBaseForm = debugBaseForm;
-            setCloseBtn(false);
             //添加参数
-            if (null != debugBaseForm.funMr) addPanel("parameter", FunctionMgr.getLang("parameter"), getParamPanel().getComp(), true);
+            if (null != debugBaseForm.funMr) addPanel("parameter",FunctionMgr.getLang("parameter"), getParamPanel().getComp());
             //添加变量
-            addPanel("localVariable", FunctionMgr.getLang("localVariable"), getVarPanel().getComp(), true);
+            addPanel("localVariable",FunctionMgr.getLang("localVariable"), getVarPanel().getComp());
             
             if (debugBaseForm.dbType == DBTypeEnum.hhdb || debugBaseForm.dbType == DBTypeEnum.pgsql) {
                 //添加消息
                 messageText = new TextAreaInput("messageText");
                 messageText.setLineWrap(true);
                 messageText.setEnabled(false);
-                LastPanel lasp = new LastPanel(false);
-                lasp.set(messageText.getComp());
-                addPanel("information", FunctionMgr.getLang("information"), lasp.getComp(), true);
+                addPanel("information",FunctionMgr.getLang("information"), messageText.getComp());
                 //添加结果
-                addPanel("result", FunctionMgr.getLang("result"), getResultPanel().getComp(), true);
+                addPanel("result",FunctionMgr.getLang("result"), getResultPanel().getComp());
             }else {
                 //添加结果
-                if (null != debugBaseForm.funMr) addPanel("result", FunctionMgr.getLang("result"), getResultPanel().getComp(), true);
+                if (null != debugBaseForm.funMr) addPanel("result",FunctionMgr.getLang("result"), getResultPanel().getComp());
             }
             //添加堆栈
-            addPanel("stack", FunctionMgr.getLang("stack"), getStackPanel().getComp(), true);
+            addPanel("stack",FunctionMgr.getLang("stack"), getStackPanel().getComp());
             
-            lastPanel.set(getComp());
         } catch (Exception e) {
             e.printStackTrace();
             PopPaneUtil.error(StartUtil.parentFrame.getWindow(),e.getMessage());
         }
-    }
-    
-    public LastPanel getLastPanel(){
-        return lastPanel;
     }
     
     /**
@@ -85,6 +75,10 @@ public class DebugTab extends HTabPane {
         if (parameter.getComp().isEditing()) parameter.getComp().getCellEditor().stopCellEditing();
         parameter.setCellEditable(bool);
         parameter.reload();
+    }
+    
+    public HTable getParameter() {
+        return parameter;
     }
     
     /**
@@ -192,6 +186,7 @@ public class DebugTab extends HTabPane {
         HButton parameterBut = new HButton(FunctionMgr.getLang("addparameter")) {
             @Override
             public void onClick() {
+                if (localVariable.getComp().isEditing()) localVariable.getComp().getCellEditor().stopCellEditing();
                 Map<String, String> line = new HashMap<>();
                 line.put("name", "");
                 line.put("value", "");
@@ -203,6 +198,7 @@ public class DebugTab extends HTabPane {
         HButton deleteBut = new HButton(FunctionMgr.getLang("deleteparameter")) {
             @Override
             public void onClick() {
+                if (localVariable.getComp().isEditing()) localVariable.getComp().getCellEditor().stopCellEditing();
                 localVariable.deleteSelectRow();
             }
         };
@@ -224,14 +220,11 @@ public class DebugTab extends HTabPane {
         stack.setRowHeight(25);
         stack.hideSeqCol();
         stack.addCols(new DataCol("row", FunctionMgr.getLang("row")));
-        if (debugBaseForm.dbType == DBTypeEnum.hhdb || debugBaseForm.dbType == DBTypeEnum.pgsql) {
-            stack.addCols(new DataCol("name", FunctionMgr.getLang("name")));
-        }
+        stack.addCols(new DataCol("name", FunctionMgr.getLang("name")));
         stack.addCols(new DataCol("value", FunctionMgr.getLang("value")));
     
         LastPanel lastPanel = new LastPanel(false);
         lastPanel.setWithScroll(stack.getComp());
-        localVariable.load(new ArrayList<>(), 1);
         return lastPanel;
     }
     
@@ -286,7 +279,6 @@ public class DebugTab extends HTabPane {
         
         LastPanel lastPanel = new LastPanel(false);
         lastPanel.setWithScroll(result.getComp());
-        localVariable.load(new ArrayList<>(), 1);
         return lastPanel;
     }
 }

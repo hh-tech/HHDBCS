@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.SwingWorker;
 
+import com.hh.frame.swingui.view.tab.HTabRowBean;
 import org.apache.commons.lang3.StringUtils;
 
 import com.hh.frame.common.base.DBTypeEnum;
@@ -61,7 +62,7 @@ public class ObjQueryComp {
     private static final String DOMAIN_NAME = ObjQueryComp.class.getName();
 
     static {
-    	try {
+        try {
             LangMgr2.loadMerge(ObjQueryComp.class);
         } catch (IOException e) {
             e.printStackTrace();
@@ -139,30 +140,44 @@ public class ObjQueryComp {
     private LastPanel initResTable() {
         resTable = new HTable();
         resTable.setRowHeight(25);
-        resTable.addCols(new DataCol("name", getLang("name")), new DataCol("type", getLang("type")));
+        DataCol dataCol = new DataCol("object_name", "object_name");
+        dataCol.setShow(false);
+        resTable.addCols(dataCol, new DataCol("name", getLang("name")), new DataCol("type", getLang("type")));
         resTable.load(new ArrayList<>(), 0);
-        ObjRightMenuActionHandler actionHandler = new ObjRightMenuActionHandler();
+        ObjRightMenuActionHandler actionHandler = new ObjRightMenuActionHandler(dialog, resTable);
         actionHandler.setQueryComp(this);
         resTable.setRowPopMenu(new ObjTabPopMenu(loginBean.getJdbc()) {
             @Override
             public void onItemClick(EventType value, Map<String, String> oldRow) {
+                try {
+                    if (loginBean.getConn().isClosed()) {
+                        loginBean.setConn(StartUtil.getLoginBean().getConn());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 String schemaName = schemaSelectBox.getValue();
-                String nodeName = oldRow.get("name");
-                String type = oldRow.get("type");
-
                 //todo 完善右键点击逻辑
                 HTreeNode schemaNode = new HTreeNode();
                 schemaNode.setName(schemaName);
                 schemaNode.setType(TreeMrType.SCHEMA.name());
-
-                HTreeNode treeNode = new HTreeNode();
-                treeNode.setType(type);
-                treeNode.setName(nodeName);
-                treeNode.setParentHTreeNode(schemaNode);
+                List<HTabRowBean> rowBeans = resTable.getSelectedRowBeans();
+                HTreeNode[] treeNodes = new HTreeNode[rowBeans.size()];
+                int i = 0;
+                for (HTabRowBean rowBean : rowBeans) {
+                    String nodeName = rowBean.getOldRow().get("name");
+                    String type = rowBean.getOldRow().get("type");
+                    HTreeNode treeNode = new HTreeNode();
+                    treeNode.setType(type);
+                    treeNode.setName(nodeName);
+                    treeNode.setId(oldRow.get("object_name"));
+                    treeNode.setParentHTreeNode(schemaNode);
+                    treeNodes[i] = treeNode;
+                    i++;
+                }
                 actionHandler.setSchemaName(schemaName);
-                actionHandler.setTableName(nodeName);
-                actionHandler.resolve(value.name().toLowerCase(Locale.ROOT), loginBean, null, treeNode);
-
+                actionHandler.setTableName(oldRow.get("object_name"));
+                actionHandler.resolve(value.name().toLowerCase(Locale.ROOT), loginBean, null, treeNodes);
             }
         });
         schemaSelectBox.addListener(e -> {
@@ -212,7 +227,7 @@ public class ObjQueryComp {
      * @return 筛选面板
      */
     private HPanel initFilterPanel() {
-        HPanel filterPanel = new HPanel(new HDivLayout(GridSplitEnum.C8));
+        HPanel filterPanel = new HPanel();
         filterPanel.setTitle(getLang("screen"));
         AbsTreeMr.genTreeMr(loginBean.getJdbc()).ifPresent(item -> {
             TreeMrType type;
@@ -220,6 +235,8 @@ public class ObjQueryComp {
                 type = TreeMrType.ROOT_USER_GROUP;
             } else if (dbTypeEnum == DBTypeEnum.mysql) {
                 type = TreeMrType.ROOT_DATABASE_GROUP;
+            } else if (dbTypeEnum == DBTypeEnum.hhdb || dbTypeEnum == DBTypeEnum.pgsql) {
+                type = TreeMrType.DATA_ALL_SCHEMA;
             } else {
                 type = TreeMrType.DATA_MODEL_SCHEMA_GROUP;
             }
@@ -237,12 +254,9 @@ public class ObjQueryComp {
             }
             schemaSelectBox.setValue(loginBean.getJdbc().getSchema());
         });
-        filterPanel.add(getWithLabelInput(getLang("schemaName"), schemaSelectBox));
-        if (dbTypeEnum != DBTypeEnum.sqlserver) {
-            filterPanel.add(ignoreCaseBox);
-        } else {
-            filterPanel.add(new LabelInput());
-        }
+
+        filterPanel.add(getWithLabelInput(getLang("schemaName"), schemaSelectBox,
+                dbTypeEnum != DBTypeEnum.sqlserver ? ignoreCaseBox : new LabelInput()));
         return filterPanel;
     }
 
@@ -280,7 +294,6 @@ public class ObjQueryComp {
         typePanel.add(rangeOptionPanel, rangePanel);
         return typePanel;
     }
-
 
     /**
      * 查询
@@ -384,21 +397,22 @@ public class ObjQueryComp {
         stopBtn.setEnabled(false);
     }
 
-    private String getLang(String key) {
+    public static String getLang(String key) {
         LangMgr2.setDefaultLang(StartUtil.default_language);
         return LangMgr2.getValue(DOMAIN_NAME, key);
     }
 
-    private ImageIcon getIcon(String name) {
+    public static ImageIcon getIcon(String name) {
         return IconFileUtil.getIcon(new IconBean(CsMgrEnum.OBJ_QUERY.name(), name, IconSizeEnum.SIZE_16));
     }
 
-    private HGridPanel getWithLabelInput(String label, AbsInput input) {
-        HGridLayout gridLayout = new HGridLayout(GridSplitEnum.C3);
+    private HGridPanel getWithLabelInput(String label, AbsInput input, AbsInput input2) {
+        HGridLayout gridLayout = new HGridLayout(GridSplitEnum.C2, GridSplitEnum.C4);
         HGridPanel gridPanel = new HGridPanel(gridLayout);
         LabelInput labelInput = new LabelInput(label);
         gridPanel.setComp(1, labelInput);
         gridPanel.setComp(2, input);
+        gridPanel.setComp(3, input2);
         return gridPanel;
     }
 

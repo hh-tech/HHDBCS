@@ -33,7 +33,12 @@ public class RunHandler extends AbsHandler {
             case PACKAGE_FUNCTION:
             case PACKAGE_PROCEDURE:
                 nodeName = treeNode.getName();
-                packageName = treeNode.getParentHTreeNode().getParentHTreeNode().getParentHTreeNode().getName();
+                if (nodeName.contains(".")) {
+                    packageName = treeNode.getName().split("\\.")[0];
+                    nodeName = treeNode.getName().split("\\.")[1];
+                } else {
+                    packageName = treeNode.getParentHTreeNode().getParentHTreeNode().getParentHTreeNode().getName();
+                }
                 sendMsg(CsMgrEnum.FUNCTION, GuiJsonUtil.toJsonCmd(FunctionMgr.RUN_FUNCTION)
                         .add(FunctionMgr.PARAM_FUNC_NAME, nodeName)
                         .add(FunctionMgr.PARAM_FUNC_ID, StringUtils.isBlank(treeNode.getId()) ? "" : treeNode.getId())

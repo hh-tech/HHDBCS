@@ -2,6 +2,7 @@ package com.hh.hhdb_admin.common.util.textEditor.tooltip;
 
 
 import com.hh.frame.common.base.JdbcBean;
+import com.hh.frame.common.util.db.ConnUtil;
 import com.hh.frame.json.JsonArray;
 import com.hh.hhdb_admin.common.util.textEditor.QueryEditUtil;
 import com.hh.hhdb_admin.common.util.textEditor.base.FindingReplacing;
@@ -17,26 +18,29 @@ import javax.swing.event.PopupMenuListener;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.sql.Connection;
 import java.util.List;
+import java.util.*;
 
 /**
  * 自定义提示工具
  */
 public class Tooltip extends JPopupMenu implements DocumentListener, KeyListener {
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+    public static final int tipMax = 500;         //最大显示提示词个数
+	
+    private Connection conn;
 	private JdbcBean jdbc;
     private JTextArea textArea;
     private JList<Object> list;
     private FindingReplacing find;		//查找替换面板
     private TipsPopup tips;             //详情弹出框
     
-    private String prefix = "";           //输入的字符串
-    private int pos = 0;
+    private String prefix = "";         //输入的字符串
+    private int pos = 0;                //光标位置
+    private String keyStr = "";  		//用户当前按快捷键对应提示词类型的标识
+    private boolean automatic = true;	//自动开启提示
+    private boolean disable = false;    //禁用提示功能
     
     private String keyword = "";                //关键词快捷键
     private String table_keyword = "";        //表快捷键
@@ -44,11 +48,9 @@ public class Tooltip extends JPopupMenu implements DocumentListener, KeyListener
     private String fun_keyword = "";        //函数快捷键
     private String synonym_keyword = "";    //同义词快捷键
     private String package_keyword = "";     //包名称
+    private Map<String,List<Keyword>> schemaSubMap = new LinkedHashMap<>();   //保存模式下对象集合, key:模式名
     private List<Keyword> kList = new ArrayList<>();        //提示对象集合
     private List<Keyword> subList = new LinkedList<>();     //子对象提示集合
-    
-    private boolean automatic = true;		//自动开启提示
-    private String keyStr = "";  			//用户当前按快捷键对应提示词类型的标识
     
     private String type;                    //编辑器类型：q(查询器编辑器),v(模板编辑器)
     private boolean inputMode = true;        //输入方式：正常输入与输入法输入
@@ -140,7 +142,7 @@ public class Tooltip extends JPopupMenu implements DocumentListener, KeyListener
             @Override
             public void inputMethodTextChanged(InputMethodEvent event) {
                 if (null != event.getText()) inputMode = false;
-                if (event.getCommittedCharacterCount() > 0) inputMode = true;
+                if (event.getCommittedCharacterCount() > 0 || !textArea.getInputContext().isCompositionEnabled()) inputMode = true;
             }
             @Override
             public void caretPositionChanged(InputMethodEvent event) {}
@@ -152,8 +154,8 @@ public class Tooltip extends JPopupMenu implements DocumentListener, KeyListener
         if (!b) tips.hid();
     }
     
-    public void setJdbc(JdbcBean jdbc){
-        this.jdbc = jdbc;
+    public void close() {
+        ConnUtil.close(conn);
     }
     
     /**
@@ -217,7 +219,7 @@ public class Tooltip extends JPopupMenu implements DocumentListener, KeyListener
             } else if (e.getKeyCode() == KeyEvent.VK_UP) { // 上
                 textArea.setCaretColor(textArea.getBackground());
                 setSelectedIndex(list.isSelectionEmpty() ? 0 : (list.getSelectedIndex() - 1));
-            } else if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+            } else if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT) {
                 setVisible(false);
             } else if (e.getKeyCode() == KeyEvent.VK_SPACE) { // 空格
                 setVisible(false);
@@ -251,7 +253,7 @@ public class Tooltip extends JPopupMenu implements DocumentListener, KeyListener
             if (!isVisible() && !automatic) return;
             
             Rectangle r = textArea.modelToView(textArea.getCaretPosition() - prefix.length());
-            if (inputMode && null != r) {   //防止初始化启动的时候获取不到出现异常
+            if (inputMode && null != r && !disable) {   //防止初始化启动的时候获取不到出现异常
                 pos = e.getOffset();
                 String content = pos > 101 ? textArea.getText(pos - 100, 101) : textArea.getText(0, pos + 1);
                 prefix = TipUtil.isCharacter(content);      //获取需要查找的字符
@@ -266,7 +268,7 @@ public class Tooltip extends JPopupMenu implements DocumentListener, KeyListener
     public void removeUpdate(DocumentEvent e) {
         try {
             if (e.getLength() != 1) return;
-            if (inputMode && isVisible()) {
+            if (inputMode && isVisible() && !disable) {
                 int posremove = e.getOffset();
                 String content = posremove > 101 ? textArea.getText(posremove - 100, 100) : textArea.getText(0, posremove);
                 pos = posremove - 1;
@@ -282,7 +284,7 @@ public class Tooltip extends JPopupMenu implements DocumentListener, KeyListener
     public void changedUpdate(DocumentEvent e) {
     }
     
-    /**
+	/**
      * 选取提示词之后显示到编辑器
      */
     private void toTextArea() {
@@ -336,37 +338,42 @@ public class Tooltip extends JPopupMenu implements DocumentListener, KeyListener
                         ee.printStackTrace();
                     }
                 }
+                list.setFocusable(false);   //取消提示框的焦点
                 textArea.requestFocus();
             }
             //设置显示数据
-            if (TipUtil.isListChange(list,array)) {
-                DefaultListModel<Object> model = new DefaultListModel<Object>();
-                array.forEach(model::addElement);
-                list.setModel(model);
-                list.repaint();
-                setSelectedIndex(0);
-            }
+            DefaultListModel<Object> model = new DefaultListModel<Object>();
+            array.forEach(model::addElement);
+            list.setModel(model);
+            list.repaint();
+            setSelectedIndex(0);
         }
     }
     
     /**
      * 查询与输入内容匹配的提示集合
-     *
      * @param text 输入字符
      * @return
      */
     private List<Keyword> getKeyWord() {
         List<Keyword> list = new LinkedList<>();
-        
+        if (automatic && prefix.isEmpty()) return new ArrayList<>();
+    
         if (prefix.endsWith(".")) {        //输入“.”后获取子元素集合
             if (type.equals("q") && null != jdbc) {
-                subList = list = TipUtil.getSubList(pos,textArea.getText(),jdbc,prefix);
+                String[] val = prefix.split("\\.");
+                if (val.length > 1) return new ArrayList<>();
+                if (schemaSubMap.containsKey(val[0])) {  //判断是否为查询模式下子对象
+                    List<Keyword> st = schemaSubMap.get(val[0]);
+                    subList = list = st.size() <= Tooltip.tipMax ? st : st.subList(0,Tooltip.tipMax);
+                } else {
+                    subList = list = TipUtil.getSubList(conn,jdbc.getSchema(),textArea.getText(),pos,prefix,schemaSubMap);
+                }
             }
         } else {
             if (subList.isEmpty()) {
                 for (Keyword sqlkey : kList) {
                     if (automatic) {
-                        if (prefix.isEmpty()) return new ArrayList<>();
                         //自动弹出模式下，初始状态默认查询所有类型数据，当用户按了对应类型快捷键则只显示对应数据，当弹框关闭后则初始化。
                         if (StringUtils.isNotBlank(keyStr)) {
                             if (sqlkey.getType().equals(keyStr) && sqlkey.getName().toLowerCase().startsWith(prefix.toLowerCase()))
@@ -390,12 +397,19 @@ public class Tooltip extends JPopupMenu implements DocumentListener, KeyListener
                             }
                         }
                     }
+                    if (list.size() == tipMax) break;  //默认只显示500条数据
                 }
             } else {	//.后再输入了字符筛选子集合内容
-                for (Keyword sqlkey : subList) {
-                    String str = prefix.split("\\.")[prefix.split("\\.").length-1];
-                    if(str.isEmpty()) return new ArrayList<>();
+                String[] val = prefix.split("\\.");
+                String str = val[val.length-1];
+                if(str.isEmpty()) return new ArrayList<>();
+    
+                String ss = TipUtil.analysisStr(textArea.getText(),pos,val[0]+".");
+                //判断是否为查询模式下子对象
+                List<Keyword> keyList = schemaSubMap.containsKey(ss) ? schemaSubMap.get(ss) : subList;
+                for (Keyword sqlkey : keyList) {
                     if (sqlkey.getName().toLowerCase().startsWith(str.toLowerCase())) list.add(sqlkey);
+                    if (list.size()>= Tooltip.tipMax) break;
                 }
             }
         }
@@ -446,6 +460,7 @@ public class Tooltip extends JPopupMenu implements DocumentListener, KeyListener
      * 按快捷键之后显示提示框之前的逻辑
      */
     private void showReminder() {
+        if (!inputMode) return;
         int posinsert = textArea.getCaretPosition();
         String content = null;
         try {
@@ -469,5 +484,24 @@ public class Tooltip extends JPopupMenu implements DocumentListener, KeyListener
         list.setSelectedIndex(index);
         
         tips.show(getLocationOnScreen(),getWidth(), ((Keyword) list.getSelectedValue()));
+    }
+    
+    
+    public void setAutomatic(boolean automatic) {
+        this.automatic = automatic;
+    }
+    
+    public void setDisable(boolean disable) {
+        this.disable = disable;
+    }
+    
+    public void setJdbc(JdbcBean jdbc){
+        try {
+            this.jdbc = jdbc;
+            ConnUtil.close(this.conn);
+            this.conn = ConnUtil.getConn(jdbc);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

@@ -13,6 +13,8 @@ import com.hh.frame.swingui.view.tab.HTable;
 import com.hh.frame.swingui.view.tab.col.DataCol;
 import com.hh.frame.swingui.view.textEditor.HTextArea;
 import com.hh.frame.swingui.view.textEditor.base.ConstantsEnum;
+import com.hh.frame.swingui.view.textEditor.base.ThemesEnum;
+import com.hh.frame.swingui.view.ui.HHSwingUi;
 import com.hh.hhdb_admin.common.icon.IconFileUtil;
 import com.hh.hhdb_admin.common.util.StartUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -53,7 +55,9 @@ public class AttributeComp {
         String createSql = attributeMr.getCreateSql(attrMrNode, conn);
         textArea.setText(createSql);
         textArea.setConstants(ConstantsEnum.SYNTAX_STYLE_SQL);
-
+        if(HHSwingUi.isDarkSkin()) {
+            textArea.setTheme(ThemesEnum.monokai);
+        }
         HSplitPanel splitPanel = new HSplitPanel(false);
         splitPanel.setSplitWeight(0.6);
         LastPanel panelOne = new LastPanel(false);

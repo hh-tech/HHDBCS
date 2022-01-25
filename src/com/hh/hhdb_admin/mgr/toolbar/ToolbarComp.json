@@ -81,13 +81,6 @@
         "zh": "调试",
         "en": "DEBUG"
       }
-    },
-    {
-      "key": "sql_conversion",
-      "value": {
-        "zh": "SQL转换",
-        "en": "SQL Conversion"
-      }
     }
   ]
 }

@@ -46,6 +46,7 @@ public class LoginMgr extends AbsGuiMgr {
                     StartUtil.eng.doPush(CsMgrEnum.MAIN_FRAME, GuiJsonUtil.toJsonCmd(MainFrameMgr.CMD_SHOW));
                 }
             };
+
             String cmd = GuiJsonUtil.toStrCmd(msg);
             switch (cmd) {
                 case CMD_SHOW_LOGIN:
@@ -63,8 +64,11 @@ public class LoginMgr extends AbsGuiMgr {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            PopPaneUtil.error(StartUtil.parentFrame.getWindow(), e);
+            //启动失败时强制关闭工作空间占用线程，不写null会导致错误弹出框不出现
+            PopPaneUtil.error(null, e);
+            System.exit(0);
         }
+
     }
 
     @Override

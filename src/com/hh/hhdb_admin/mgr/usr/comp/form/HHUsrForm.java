@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.sql.Connection;
@@ -72,22 +73,36 @@ public class HHUsrForm extends UsrBaseForm {
         initDateTimeInput();
         HPanel checkPanel = new HPanel(new HDivLayout(GridSplitEnum.C6));
 
-        loginRole = new CheckBoxInput(UsrItem.login_role.name(), getLang(LK_LOGIN_ROLE));
-        superRole = new CheckBoxInput(UsrItem.super_role.name(), getLang(LK_SUPER_ROLE));
+        loginRole = new CheckBoxInput(UsrItem.login_role.name(), getLang(LK_LOGIN_ROLE));       
         dbRole = new CheckBoxInput(UsrItem.db_role.name(), getLang(LK_DB_ROLE));
         authRole = new CheckBoxInput(UsrItem.auth_role.name(), getLang(LK_AUTH_ROLE));
+        superRole = new CheckBoxInput(UsrItem.super_role.name(), getLang(LK_SUPER_ROLE)) {
 
-        superRole.addListen(e -> {
-            JCheckBox checkBox = (JCheckBox) e.getSource();
-            if (checkBox.getText().equals(getLang(LK_SUPER_ROLE))) {
-                if (checkBox.isSelected()) {
-                    dbRole.setValue("false");
-                    authRole.setValue("false");
-                }
-                dbRole.setEnabled(!checkBox.isSelected());
-                authRole.setEnabled(!checkBox.isSelected());
-            }
-        });
+			@Override
+			protected void onClick(ActionEvent e) {
+				JCheckBox checkBox = (JCheckBox) e.getSource();
+	            if (checkBox.getText().equals(getLang(LK_SUPER_ROLE))) {
+	                if (checkBox.isSelected()) {
+	                    dbRole.setValue("false");
+	                    authRole.setValue("false");
+	                }
+	                dbRole.setEnabled(!checkBox.isSelected());
+	                authRole.setEnabled(!checkBox.isSelected());
+	            }
+			}
+        	
+        };
+//        superRole.addListen(e -> {
+//            JCheckBox checkBox = (JCheckBox) e.getSource();
+//            if (checkBox.getText().equals(getLang(LK_SUPER_ROLE))) {
+//                if (checkBox.isSelected()) {
+//                    dbRole.setValue("false");
+//                    authRole.setValue("false");
+//                }
+//                dbRole.setEnabled(!checkBox.isSelected());
+//                authRole.setEnabled(!checkBox.isSelected());
+//            }
+//        });
         checkPanel.add(loginRole);
         checkPanel.add(superRole);
         checkPanel.add(dbRole);

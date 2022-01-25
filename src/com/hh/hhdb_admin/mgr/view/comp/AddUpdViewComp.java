@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.hh.frame.common.base.AlignEnum;
 import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.DriverUtil;
+import com.hh.frame.common.util.db.SqlStrUtil;
 import com.hh.frame.create_dbobj.viewMr.mr.AbsViewMr;
 import com.hh.frame.lang.LangMgr2;
 import com.hh.frame.swingui.view.container.HBarPanel;
@@ -228,6 +229,7 @@ public class AddUpdViewComp {
             if (StringUtils.isBlank(sql)) {
                 throw new Exception("视图不存在:" + viewName);
             }
+            
             setTextEditorValue(sql);
         }
     }
@@ -279,9 +281,9 @@ public class AddUpdViewComp {
             if (!sql.toLowerCase().trim().startsWith("select")) {
                 throw new Exception(LangMgr2.getValue(domainName, LK_PLEASE_ENTER_SELECT_SQL));
             }
-            mcomp.loadReadOnlyTable(sql);
+            mcomp.loadReadOnlyTable(SqlStrUtil.removeSemi(sql));
             int maxLocation = splitPanel.getComp().getMaximumDividerLocation();
-            if (splitPanel.getDividerLocation() >= maxLocation - 10) {
+            if (splitPanel.getDividerLocation() >= maxLocation - 20) {
                 splitPanel.getComp().setDividerLocation(0.5);
             }
             bottomPanel.getComp().validate();

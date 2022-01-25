@@ -20,6 +20,41 @@
         "zh": "是否退出程序?",
         "en": "Exit The Program?"
       }
+    },
+    {
+      "key": "yes",
+      "value": {
+        "zh": "是",
+        "en": "YES"
+      }
+    },
+    {
+      "key": "no",
+      "value": {
+        "zh": "否",
+        "en": "NO"
+      }
+    },
+    {
+      "key": "cancel",
+      "value": {
+        "zh": "取消",
+        "en": "cancel"
+      }
+    },
+    {
+      "key": "saveSQL",
+      "value": {
+        "zh": "是否保存sql?",
+        "en": "Do you want to save SQL?"
+      }
+    },
+    {
+      "key": "hint",
+      "value": {
+        "zh": "提示",
+        "en": "hint"
+      }
     }
   ]
 }

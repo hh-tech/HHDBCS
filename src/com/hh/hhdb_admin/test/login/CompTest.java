@@ -10,7 +10,7 @@ import java.io.File;
 public class CompTest {
 
     public static void main(String[] args) throws Exception {
-        HHSwingUi.init();
+        HHSwingUi.newSkin();
         IconFileUtil.setIconBaseDir(new File("etc/icon/"));
         LoginComp comp = new LoginComp() {
             @Override

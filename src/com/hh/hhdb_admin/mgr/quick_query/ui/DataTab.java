@@ -4,13 +4,15 @@ import com.hh.frame.common.base.JdbcBean;
 import com.hh.frame.common.util.db.ConnUtil;
 import com.hh.frame.dbobj2.QuickCmdTool;
 import com.hh.frame.dbobj2.qcmd.core.CmdRs;
-import com.hh.frame.swingui.view.container.HTabPane;
 import com.hh.frame.swingui.view.container.LastPanel;
+import com.hh.frame.swingui.view.container.tab_panel.HeaderConfig;
+import com.hh.frame.swingui.view.container.tab_panel.HTabPanel;
 import com.hh.frame.swingui.view.input.SelectBox;
 import com.hh.frame.swingui.view.input.TextAreaInput;
 import com.hh.frame.swingui.view.tab.HTable;
 import com.hh.frame.swingui.view.tab.SearchToolBar;
 import com.hh.frame.swingui.view.tab.col.DataCol;
+import com.hh.hhdb_admin.common.csTabPanel.CSTablePanel;
 import com.hh.hhdb_admin.mgr.quick_query.QuickQueryMgr;
 import org.apache.commons.lang3.StringUtils;
 
@@ -28,7 +30,7 @@ import java.util.Map;
  */
 public class DataTab extends LastPanel {
     private final JdbcBean jdbc;
-    private final HTabPane hTabPane = new HTabPane();
+    private final CSTablePanel hTabPane = new CSTablePanel();
 
     public DataTab(JdbcBean jdbc) {
         super(false);
@@ -47,17 +49,19 @@ public class DataTab extends LastPanel {
             for (int i = 0; i < lists.size(); i++) {
                 CmdRs cmdRs = lists.get(i);
                 if (cmdRs.getData() != null && cmdRs.getData().size() > 0) {
-                    HTabPane tabPane = new HTabPane();
+                    HTabPanel tabPane = new HTabPanel();
                     lastPanel = getLastPanel(cmdRs.getData());
                     if (StringUtils.isNotBlank(cmdRs.getDes())) {
-                        tabPane.addPanel("0", "DATA:", lastPanel.getComp(), false);
+                        tabPane.addPanel("0",lastPanel, new HeaderConfig("DATA:").setFixTab(true));
                         TextAreaInput textArea = new TextAreaInput();
                         textArea.setEnabled(false);
                         textArea.setValue(cmdRs.getDes());
-                        tabPane.addPanel("1", "MESSAGE:", textArea.getComp(), false);
-                        hTabPane.addPanel(i + "", cmdRs.getTitle(), tabPane.getComp(), false);
+                        LastPanel lastp = new LastPanel();
+                        lastp.set(textArea.getComp());
+                        tabPane.addPanel("1", lastp, new HeaderConfig("MESSAGE:").setFixTab(true));
+                        hTabPane.addPanel(i + "", cmdRs.getTitle(), tabPane.getComp());
                     } else {
-                        hTabPane.addPanel(i + "", cmdRs.getTitle(), lastPanel.getComp(), false);
+                        hTabPane.addPanel(i + "", cmdRs.getTitle(), lastPanel.getComp());
                     }
                 } else {
                     TextAreaInput textArea = new TextAreaInput();
@@ -69,7 +73,7 @@ public class DataTab extends LastPanel {
                     } else {
                         textArea.setValue(String.format(QuickQueryMgr.getLang("notSupport"), sql));
                     }
-                    hTabPane.addPanel(i + "", title, textArea.getComp(), false);
+                    hTabPane.addPanel(i + "", title, textArea.getComp());
                 }
             }
             set(hTabPane.getComp());
