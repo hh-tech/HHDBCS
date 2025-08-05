@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "pg_stat_statements",
+    "comment": "Pg_Stat_Statements"
+  },
+  {
+    "id": 3,
+    "name": "dblink",
+    "comment": "Dblink"
+  },
+  {
+    "id": 4,
+    "name": "postgres_fdw",
+    "comment": "postgres_fdw"
+  },
+  {
+    "id": 5,
+    "name": "plpgsql",
+    "comment": "Plpgsql"
+  },
+  {
+    "id": 6,
+    "name": "plpgsql_check",
+    "comment": "Plpgsql_Check"
+  },
+  {
+    "id": 7,
+    "name": "pldbgapi",
+    "comment": "pldbgapi"
+  }
+]

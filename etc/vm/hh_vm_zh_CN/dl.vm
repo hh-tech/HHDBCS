@@ -1,0 +1,7 @@
+## \dl                   
+## List Large objects
+#set($common1 = "SELECT oid as " + '"ID"' +",
+	  hh_catalog.hh_get_userbyid(lomowner) as " + '"拥有者"' +",
+	  hh_catalog.obj_description(oid, 'hh_largeobject') as " + '"描述"' +"
+	  FROM hh_catalog.hh_largeobject_metadata   ORDER BY oid")
+$common1

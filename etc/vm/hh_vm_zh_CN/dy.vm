@@ -1,0 +1,19 @@
+## \dy[+]     [PATTERN]      
+## List of event triggers
+#set($common1 = "SELECT evtname as "+'"名称"'+", evtevent as "+'"事件"'+", hh_catalog.hh_get_userbyid(e.evtowner) as "+'"拥有者"'+",
+	 case evtenabled when 'O' then 'enabled'  when 'R' then 'replica'  when 'A' then 'always'  when 'D' then 'disabled' end as "+'"启用"'+",
+	 e.evtfoid::hh_catalog.regproc as "+'"过程"'+", hh_catalog.array_to_string(array(select x from hh_catalog.unnest(evttags) as t(x)), ', ') as "+'"标签"'+"
+	")
+#set($common3 = "FROM hh_catalog.hh_event_trigger e")
+#set($common2 = "ORDER BY 1;")
+#set($patt= "WHERE evtname ~ '^($arg)$'")
+#set($plus= ",hh_catalog.obj_description(e.oid, 'hh_event_trigger') as 描述")
+$common1
+#if($cmdSql.indexOf('+')>0)
+$plus
+#end
+$common3
+#if($arg)
+$patt
+#end
+$common2

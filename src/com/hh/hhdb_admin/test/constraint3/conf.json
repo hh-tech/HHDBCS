@@ -1,0 +1,19 @@
+{
+	"mgrs": [
+	    {
+	      "class": "com.hh.hhdb_admin.mgr.constraint3.ConstraintMgr",
+	      "type": "CONSTRAINT"
+	    },
+		{
+			"class": "com.hh.hhdb_admin.mgr.main_frame.MainFrameMgr",
+			"type": "MAIN_FRAME",
+			"config":{
+				"showMenu": false,
+				"showToolbar": false,
+				"showStatus": false,
+				"showTree": false,
+				"showTabbedPane": false
+			}
+    	}
+	]
+}

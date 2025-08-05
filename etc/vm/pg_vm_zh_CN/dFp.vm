@@ -1,0 +1,16 @@
+## \dFp[+] [Schema]     
+## List of text search parsers 
+#set($common1 = "SELECT 
+	  n.nspname as " +'"架构模式"' +",
+	  p.prsname as " +'"名称"' +",
+	  pg_catalog.obj_description(p.oid, 'pg_ts_parser') as " +'"描述"' +"
+	FROM pg_catalog.pg_ts_parser p 
+	LEFT JOIN pg_catalog.pg_namespace n ON n.oid = p.prsnamespace
+	WHERE pg_catalog.pg_ts_parser_is_visible(p.oid)")
+#set($common2 = "ORDER BY 1, 2;")
+#set($patt= "AND p.prsname ~ '^($arg)$'")
+$common1
+#if($arg)
+$patt
+#end
+$common2

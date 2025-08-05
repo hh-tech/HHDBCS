@@ -1,0 +1,13 @@
+## \sv[+] FUNCNAME
+## Display view definition
+#set($common1 = "SELECT hh_catalog.hh_get_viewdef (
+            c.oid ,
+            TRUE
+        ) as "+'"view definition"'+"
+    FROM
+        hh_catalog.hh_class c LEFT JOIN hh_catalog.hh_namespace n
+            ON c.relnamespace = n.oid
+    WHERE
+        c.oid = (SELECT '$arg'::hh_catalog.regclass::hh_catalog.oid)")
+$common1
+

@@ -1,0 +1,68 @@
+{
+  "skin_type": "LUOYAN",
+  "lang_type": "zh",
+  "null_value": "",
+  "font_size_type": "NORMAL",
+  "is_sys_window": true,
+  "default_db_type": "hhdb",
+  "sql_format_width": 50,
+  "cmd_panel_conf": {
+    "rows_per_page": 10,
+    "font_size": 13,
+    "auto_pop": true,
+    "tarea_theme": "auto",
+    "error_break": true
+  },
+  "sql_panel_conf": {
+    "rows_per_page": 30,
+    "font_size": 13,
+    "auto_pop": true,
+    "tarea_theme": "auto"
+  },
+  "log_conf": {
+    "writer": "com.hh.frame.lg.PkgFileLogWriter",
+    "log_level": "3",
+    "slow_call_warn_mill_sec": 3000,
+    "num_logs_write_sum": 500,
+    "no_log_package_arr": [
+      
+    ],
+    "all_log_package_arr": [
+      
+    ],
+    "log_dir": "E:\\hhproject2\\dbcs\\logs",
+    "max_log_num_per_thread": 1000,
+    "max_log_file_num": 5,
+    "max_log_gz_num": 25,
+    "log_file_prefix": "1754383194369_"
+  },
+  "auto_save_conf": true,
+  "support_db_type": [
+    "oracle",
+    "mysql",
+    "mariadb",
+    "db2",
+    "sqlserver",
+    "pgsql",
+    "dm",
+    "kingbase",
+    "gbase",
+    "gbase8a",
+    "tdsql4mysql",
+    "tdsql4pg",
+    "hive",
+    "redis",
+    "gaussdb",
+    "cache",
+    "derby",
+    "sqlite",
+    "hana",
+    "oceanbase",
+    "mongodb",
+    "clickhouse",
+    "informix",
+    "sybase",
+    "greenplum",
+    "databricks"
+  ]
+}

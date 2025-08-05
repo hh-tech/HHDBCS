@@ -1,0 +1,15 @@
+{
+  "keys": [
+    {
+      "k": "__PRODUCT",
+      "v": {
+        "zh": "通用数据库管理桌面软件",
+        "en": "DBCS"
+      }
+    }
+  ],
+  "website": {
+    "k": "https://dbcs.deskui.com/",
+    "v": "deskui"
+  }
+}

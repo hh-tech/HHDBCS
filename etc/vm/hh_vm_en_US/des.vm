@@ -1,0 +1,28 @@
+## \des[+] [Schema]    
+## List of foreign servers
+#set($common1 = "SELECT s.srvname AS " + '"Name"' +",
+	  hh_catalog.hh_get_userbyid(s.srvowner) AS " + '"Owner"' +",
+	  f.fdwname AS " + '"Foreign-data wrapper"')
+#set($common2 = "FROM hh_catalog.hh_foreign_server s
+	     JOIN hh_catalog.hh_foreign_data_wrapper f ON f.oid=s.srvfdw")
+#set($common3 = "ORDER BY 1;")
+#set($plus1 = ",hh_catalog.array_to_string(s.srvacl, E'\n') AS " + '"Access privileges"' +",
+	  s.srvtype AS " + '"Type"' +",
+	  s.srvversion AS " + '"Version"' +",
+	  CASE WHEN srvoptions IS NULL THEN '' ELSE   '(' || hh_catalog.array_to_string(ARRAY(SELECT   hh_catalog.quote_ident(option_name) ||  ' ' ||   hh_catalog.quote_literal(option_value)  FROM   hh_catalog.hh_options_to_table(srvoptions)),  ', ') || ')'   END AS " + '"FDW Options"' +",
+	  d.description AS " + '"Description"')
+#set($plus2 = "LEFT JOIN hh_description d
+	       ON d.classoid = s.tableoid AND d.objoid = s.oid AND d.objsubid = 0")
+#set($patt= "WHERE s.srvname  OPERATOR(hh_catalog.~) '^($arg)$'")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus1
+#end
+$common2
+#if($cmdSql.indexOf('+') > 0)
+$plus2
+#end
+#if($arg)
+$patt
+#end
+$common3

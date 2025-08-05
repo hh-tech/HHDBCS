@@ -1,0 +1,57 @@
+## \df[S+] [Schema] 
+## List[collect aggregate/normal/trigger/window]function
+#set($common1 = "SELECT n.nspname as " + '"Schema"' +",
+	  p.proname as " + '"Name"' +",
+	  hh_catalog.hh_get_function_result(p.oid) as " + '"Result data type"' +",
+	  hh_catalog.hh_get_function_arguments(p.oid) as " + '"Argument data types"' +",
+	 CASE
+	  WHEN p.proisagg THEN 'agg'
+	  WHEN p.proiswindow THEN 'window'
+	  WHEN p.prorettype = 'hh_catalog.trigger'::hh_catalog.regtype THEN 'trigger'
+	  ELSE 'normal'
+	 END as " + '"Type"')
+#set($common2 = "FROM hh_catalog.hh_proc p
+	     LEFT JOIN hh_catalog.hh_namespace n ON n.oid = p.pronamespace")
+#set($common3 = "WHERE hh_catalog.hh_function_is_visible(p.oid)")
+#set($common4 = "ORDER BY 1, 2, 4;")
+#set($plus1 = ",CASE WHEN prosecdef THEN 'definer' ELSE 'invoker' END AS " + '"Security"' +",
+	 CASE
+	  WHEN p.provolatile = 'i' THEN 'immutable'
+	  WHEN p.provolatile = 's' THEN 'stable'
+	  WHEN p.provolatile = 'v' THEN 'volatile'
+	 END as " + '"Volatility"' +",
+	  CASE
+	  WHEN p.proparallel = 'r' THEN 'restricted'
+	  WHEN p.proparallel = 's' THEN 'safe'
+	  WHEN p.proparallel = 'u' THEN 'unsafe'
+	 END as Parallel,
+	  hh_catalog.hh_get_userbyid(p.proowner) as " + '"Owner"' +",
+	 hh_catalog.array_to_string(p.proacl, E'\n') AS "+'"Access privileges"'+",
+	  l.lanname as " + '"Language"' +",
+	  p.prosrc as " + '"Source code"' +",
+	  hh_catalog.obj_description(p.oid, 'hh_proc') as " + '"Description"')
+#set($plus2 = "LEFT JOIN hh_catalog.hh_language l ON l.oid = p.prolang")
+#set($noS = "AND n.nspname <> 'hh_catalog'
+	      AND n.nspname <> 'information_schema'")
+#set($patt = "AND p.proname ~ '^($arg)$'")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus1
+#end
+$common2
+#if($cmdSql.indexOf('+') > 0)
+$plus2
+#end
+$common3
+#if($cmdSql.indexOf('S') < 0)
+#if($arg)
+$patt
+#else
+$noS
+#end
+#else
+#if($arg)
+$patt
+#end
+#end
+$common4

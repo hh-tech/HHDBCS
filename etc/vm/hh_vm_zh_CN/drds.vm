@@ -1,0 +1,14 @@
+## \drds [Schema1 [Schema2]] 
+## List the role Settings for each database
+#set($common1 = "SELECT rolname AS " + '"角色"' +", datname AS " + '"数据库"' +",
+	hh_catalog.array_to_string(setconfig, E'\n') AS " + '"集合"' +"
+	FROM hh_db_role_setting AS s
+	LEFT JOIN hh_database ON hh_database.oid = setdatabase
+	LEFT JOIN hh_roles ON hh_roles.oid = setrole")
+#set($common2 = "ORDER BY 1, 2;");
+#set($patt = "WHERE hh_roles.rolname ~ '^($arg)$'")
+$common1
+#if($arg)
+$patt
+#end
+$common2

@@ -1,0 +1,45 @@
+## \dRp[+] [PATTERN] 
+## list replication publications
+
+#set($common1="SELECT pubname AS 名称,
+	  hh_catalog.hh_get_userbyid(pubowner) AS 拥有者,
+	  puballtables AS "+'"所有表"'+",
+	  pubinsert AS 插入,
+	  pubupdate AS 更新,
+	  pubdelete AS 删除
+	  FROM hh_catalog.hh_publication ")
+#set($common2="SELECT oid,
+	  pubname AS 名称,
+	  hh_catalog.hh_get_userbyid(pubowner) AS 拥有者,
+	  puballtables AS "+'"所有表"'+",
+	  pubinsert AS 插入,
+	  pubupdate AS 更新,
+	  pubdelete AS 删除
+	  FROM hh_catalog.hh_publication ")
+#set($patt=" WHERE pubname OPERATOR(hh_catalog.~) '^($arg)$'")
+#set($patt1=" ORDER BY 1;")
+#set($patt2=" ORDER BY 2;")
+#if($cmdSql.indexOf('+') > 0)
+$common2
+#else
+$common1
+#end
+#if($arg)
+$patt
+#end
+#if($cmdSql.indexOf('+') > 0)
+$patt2
+#else
+$patt1
+#end
+
+
+
+
+
+
+
+
+
+
+

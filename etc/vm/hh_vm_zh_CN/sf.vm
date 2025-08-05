@@ -1,0 +1,12 @@
+## \sf[+] FUNCNAME
+## Display function definition
+#set($common1 = "SELECT hh_catalog.hh_get_functiondef((SELECT '$arg'::hh_catalog.regproc::hh_catalog.oid));")
+#set($common2 = ", r.rolreplication
+	FROM hh_catalog.hh_roles r
+	ORDER BY 1;")
+#set($plus = ",hh_catalog.shobj_description(r.oid, 'hh_authid') AS 描述")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus
+#end
+##$common2

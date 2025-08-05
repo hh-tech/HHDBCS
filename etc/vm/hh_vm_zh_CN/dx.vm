@@ -1,0 +1,25 @@
+## \dx[+]  [PATTERN]      
+## List of installed extensions
+#set($common1 = "SELECT e.extname AS "+'"名称"'+", e.extversion AS "+'"版本"'+", n.nspname AS "+'"架构模式"'+", c.description AS "+'"描述"'+"
+	FROM hh_catalog.hh_extension e LEFT JOIN hh_catalog.hh_namespace n ON n.oid = e.extnamespace LEFT JOIN hh_catalog.hh_description c ON c.objoid = e.oid AND c.classoid = 'hh_catalog.hh_extension'::hh_catalog.regclass")
+#set($common2 = "ORDER BY 1;")
+#set($patt = "WHERE e.extname ~ '^($arg)$'")
+#set($plus1 = "SELECT s.extname as 扩展名称,hh_catalog.hh_describe_object(classid, objid, 0) AS "+'"对象描述"'+"
+	FROM hh_catalog.hh_depend m
+	JOIN hh_catalog.hh_extension s ON (m.refobjid = s.oid)
+	WHERE refclassid = 'hh_catalog.hh_extension'::hh_catalog.regclass AND refobjid in (SELECT e.oid FROM hh_catalog.hh_extension e")
+#set($plus2 = ") AND deptype = 'e'")
+#if($cmdSql.indexOf('+') > 0)
+$plus1
+#if($arg)
+$patt
+#end
+$plus2
+$common2
+#else
+$common1
+#if($arg)
+$patt
+#end
+$common2
+#end

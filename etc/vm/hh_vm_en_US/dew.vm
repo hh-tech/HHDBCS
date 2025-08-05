@@ -1,0 +1,26 @@
+## \dew[+] [Schema]       
+## List of foreign-data wrappers
+#set($common1 = "SELECT fdw.fdwname AS " + '"Name"' +",
+	  hh_catalog.hh_get_userbyid(fdw.fdwowner) AS " + '"Owner"' +",
+	  fdw.fdwhandler::hh_catalog.regproc AS " + '"Handler"' +",
+	  fdw.fdwvalidator::hh_catalog.regproc AS " + '"Validator"')
+#set($common2 = "FROM hh_catalog.hh_foreign_data_wrapper fdw")
+#set($common3 = "ORDER BY 1;")
+#set($plus1 = ",hh_catalog.array_to_string(fdwacl, E'\n') AS " + '"Access privileges"' +",
+	 CASE WHEN fdwoptions IS NULL THEN '' ELSE   '(' || hh_catalog.array_to_string(ARRAY(SELECT   hh_catalog.quote_ident(option_name) ||  ' ' ||   hh_catalog.quote_literal(option_value)  FROM   hh_catalog.hh_options_to_table(fdwoptions)),  ', ') || ')'   END AS " + '"FDW Options"' +",
+	  d.description AS " + '"Description"')
+#set($plus2 = "LEFT JOIN hh_catalog.hh_description d
+	       ON d.classoid = fdw.tableoid AND d.objoid = fdw.oid AND d.objsubid = 0")
+#set($patt= "WHERE fdwname ~ '^($arg)$'")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus1
+#end
+$common2
+#if($cmdSql.indexOf('+') > 0)
+$plus2
+#end
+#if($arg)
+$patt
+#end
+$common3

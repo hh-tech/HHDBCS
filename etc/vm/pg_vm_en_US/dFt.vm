@@ -1,0 +1,22 @@
+## \dFt[+] [Schema]   
+## List of text search templates
+#set($common1 = "SELECT 
+	  n.nspname as " + '"Schema"' +",
+	  t.tmplname as " + '"Name"')
+#set($common2 = ",pg_catalog.obj_description(t.oid, 'pg_ts_template') as " + '"Description"' +"
+	FROM pg_catalog.pg_ts_template t
+	LEFT JOIN pg_catalog.pg_namespace n ON n.oid = t.tmplnamespace
+	WHERE pg_catalog.pg_ts_template_is_visible(t.oid)")
+#set($common3 = "ORDER BY 1, 2;")
+#set($plus = ",t.tmplinit::pg_catalog.regproc AS " + '"Init"' +", 
+	  t.tmpllexize::pg_catalog.regproc AS " + '"Lexize"')
+#set($patt = "AND t.tmplname OPERATOR(pg_catalog.~) '^($arg)$'")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus
+#end
+$common2
+#if($arg)
+$patt
+#end
+$common3

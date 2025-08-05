@@ -1,0 +1,2398 @@
+{
+  "keys": [
+    {
+      "k": "CONFIRM_GIVE_UP_MODIFY",
+      "v": {
+        "zh": "当前连接变动内容未保存，确认放弃？",
+        "en": "The current connection changes have not been saved. Confirm to give up?"
+      }
+    },
+    {
+      "k": "PORT_INCORRECT",
+      "v": {
+        "zh": "端口不正确！",
+        "en": "Port incorrect!"
+      }
+    },
+    {
+      "k": "TESTING_CONNECTION",
+      "v": {
+        "zh": "正在测试连接",
+        "en": "Testing connection"
+      }
+    },
+    {
+      "k": "CONNECTING",
+      "v": {
+        "zh": "正在连接...",
+        "en": "Connecting..."
+      }
+    },
+    {
+      "k": "NOT_DBA",
+      "v": {
+        "zh": "用户没有dba权限",
+        "en": "The user does not have DBA rights"
+      }
+    },
+    {
+      "k": "SYS_DBA",
+      "v": {
+        "zh": "超级管理员",
+        "en": "SYSDBA"
+      }
+    },
+    {
+      "k": "ENABLED_SSH",
+      "v": {
+        "zh": "是否启用 SSH 通道",
+        "en": "Use SSH tunnel"
+      }
+    },
+    {
+      "k": "SIZETIP",
+      "v": {
+        "zh": "请上传尺寸为(16px*16px)的图标",
+        "en": "Please upload the icon with the size of (16px * 16px)。"
+      }
+    },
+    {
+      "k": "ADD_JAR",
+      "v": {
+        "zh": "添加驱动包",
+        "en": "Add Drivers"
+      }
+    },
+    {
+      "k": "REMOVE_JAR",
+      "v": {
+        "zh": "删除驱动包",
+        "en": "Remove Drivers"
+      }
+    },
+    {
+      "k": "REMOVE_JAR_TIP",
+      "v": {
+        "zh": "请选择要移除的驱动！",
+        "en": "Please select the database driver!"
+      }
+    },
+    {
+      "k": "ADD_STATUS",
+      "v": {
+        "zh": "当前为新建状态",
+        "en": "Create New Type"
+      }
+    },
+    {
+      "k": "UPDATE_STATUS",
+      "v": {
+        "zh": "当前为修改状态",
+        "en": "Modifying."
+      }
+    },
+    {
+      "k": "SWITCH_TO_ADD",
+      "v": {
+        "zh": "去新建",
+        "en": "To Create New"
+      }
+    },
+    {
+      "k": "SWITCH_TIP",
+      "v": {
+        "zh": "切换到新建状态",
+        "en": "To switch to the 'Create New Type' status。"
+      }
+    },
+    {
+      "k": "CLASS_EMPTY_TIP",
+      "v": {
+        "zh": "Class不能为空",
+        "en": "The class cannot be empty!"
+      }
+    },
+    {
+      "k": "NAME_EMPTY_TIP",
+      "v": {
+        "zh": "类型名称不能为空",
+        "en": "The name cannot be empty!"
+      }
+    },
+    {
+      "k": "URL_EMPTY_TIP",
+      "v": {
+        "zh": "连接不能为空！",
+        "en": "The connection url cannot be empty!"
+      }
+    },
+    {
+      "k": "UPLOAD_TIP",
+      "v": {
+        "zh": "请上传数据库驱动！",
+        "en": "Please upload the database driver!"
+      }
+    },
+    {
+      "k": "EXTENDED_DATABASE_TYPE",
+      "v": {
+        "zh": "扩展数据库类型",
+        "en": "Extended Database Type"
+      }
+    },
+    {
+      "k": "EXIT_THE_PROGRAM",
+      "v": {
+        "zh": "是否退出程序?",
+        "en": "Exit The Program?"
+      }
+    },
+    {
+      "k": "SWITCH_SCHEMA_SUCCESS",
+      "v": {
+        "zh": "模式切换成功",
+        "en": "Switch Schema Success"
+      }
+    },
+    {
+      "k": "SAVE_SQL",
+      "v": {
+        "zh": "是否保存sql?",
+        "en": "Do you want to save SQL?"
+      }
+    },
+    {
+      "k": "CREATION_FAILED",
+      "v": {
+        "zh": "创建工作空间失败，请检查是否有权限创建目录！",
+        "en": "Failed to create workspace, please check whether you have permission to create directory!"
+      }
+    },
+    {
+      "k": "WORKSPACE_OCCUPIED",
+      "v": {
+        "zh": "工作空间已占用，请更改！",
+        "en": "Workspace occupied, Please change!"
+      }
+    },
+    {
+      "k": "CHINESE_MOUNTAINS",
+      "v": {
+        "zh": "中国山河",
+        "en": "Chinese mountains and rivers"
+      }
+    },
+    {
+      "k": "THE_GREAT_WALL",
+      "v": {
+        "zh": "长城",
+        "en": "The Great Wall"
+      }
+    },
+    {
+      "k": "YANGTZE_RIVER",
+      "v": {
+        "zh": "长江",
+        "en": "Yangtze River"
+      }
+    },
+    {
+      "k": "MOUNT_TAI",
+      "v": {
+        "zh": "泰山",
+        "en": "Mount Tai"
+      }
+    },
+    {
+      "k": "YELLOW_RIVER",
+      "v": {
+        "zh": "黄河",
+        "en": "Yellow River"
+      }
+    },
+    {
+      "k": "CLOSE_WINDOW",
+      "v": {
+        "zh": "是否关闭窗口",
+        "en": "Close Window"
+      }
+    },
+    {
+      "k": "POSITIVE_NTEGER",
+      "v": {
+        "zh": "请输入正整数",
+        "en": "Please enter a positive integer"
+      }
+    },
+    {
+      "k": "SQL_CONVERSION",
+      "v": {
+        "zh": "SQL转换",
+        "en": "SQL Conversion"
+      }
+    },
+    {
+      "k": "SQL_FORMAT",
+      "v": {
+        "zh": "SQL格式化",
+        "en": "SQL Format"
+      }
+    },
+    {
+      "k": "FORMATTED_WIDTH",
+      "v": {
+        "zh": "格式化宽度",
+        "en": "Formatted Width"
+      }
+    },
+    {
+      "k": "TO_SQL",
+      "v": {
+        "zh": "转为插入语句",
+        "en": "To Insert Sql"
+      }
+    },
+    {
+      "k": "NAME_EQUAL_ERROR",
+      "v": {
+        "zh": "与原列名相同！",
+        "en": "The new column name is the same as the original user name!"
+      }
+    },
+    {
+      "k": "INPUT_NEW_NAME",
+      "v": {
+        "zh": "请输入新的列名!",
+        "en": "Please input a new column name!"
+      }
+    },
+    {
+      "k": "INPUT_NAME",
+      "v": {
+        "zh": "请填写列名！",
+        "en": "Please input the column name！"
+      }
+    },
+    {
+      "k": "EMPTY_STR",
+      "v": {
+        "zh": "空字符串",
+        "en": "Empty String"
+      }
+    },
+    {
+      "k": "NULL_OBJ",
+      "v": {
+        "zh": "空<NULL>",
+        "en": "Null"
+      }
+    },
+    {
+      "k": "SET_VALUE",
+      "v": {
+        "zh": "设置值",
+        "en": "Set Value"
+      }
+    },
+    {
+      "k": "TIP_SCALE",
+      "v": {
+        "zh": "Scale小数长度(0与整数)",
+        "en": "Scale(0 Or Integer)"
+      }
+    },
+    {
+      "k": "TIP_PRECISION",
+      "v": {
+        "zh": "Precision精度(正整数)",
+        "en": "Precision(Positive Integer)"
+      }
+    },
+    {
+      "k": "TIP_LENGTH",
+      "v": {
+        "zh": "长度(正整数)",
+        "en": "Length(Positive Integer)"
+      }
+    },
+    {
+      "k": "TIP_VALUE",
+      "v": {
+        "zh": "可选值",
+        "en": "Values"
+      }
+    },
+    {
+      "k": "ZERO_FILL",
+      "v": {
+        "zh": "0填充",
+        "en": "Zero Fill"
+      }
+    },
+    {
+      "k": "SURE_DELETE",
+      "v": {
+        "zh": "确定删除所选行?",
+        "en": "Are you sure to delete the selected row?"
+      }
+    },
+    {
+      "k": "PK_NAME",
+      "v": {
+        "zh": "主键名称",
+        "en": "Primary Key Name"
+      }
+    },
+    {
+      "k": "SELECT_COLUMN",
+      "v": {
+        "zh": "请选择列",
+        "en": "Select Column"
+      }
+    },
+    {
+      "k": "UK_NAME",
+      "v": {
+        "zh": "唯一键名称",
+        "en": "Unique Key Name"
+      }
+    },
+    {
+      "k": "CK_NAME",
+      "v": {
+        "zh": "检查约束名称",
+        "en": "Check Name"
+      }
+    },
+    {
+      "k": "CK_TEXT",
+      "v": {
+        "zh": "检查约束内容",
+        "en": "CheckText"
+      }
+    },
+    {
+      "k": "FK_TABLE_NAME",
+      "v": {
+        "zh": "外键表名称",
+        "en": "Foreign Key Table Name"
+      }
+    },
+    {
+      "k": "FK_TABLE_COLUMN",
+      "v": {
+        "zh": "外键表列",
+        "en": "Foreign Key Table Column"
+      }
+    },
+    {
+      "k": "ON_UPDATING",
+      "v": {
+        "zh": "更新时",
+        "en": "On Updating"
+      }
+    },
+    {
+      "k": "ON_DELETION",
+      "v": {
+        "zh": "删除时",
+        "en": "On Deletion"
+      }
+    },
+    {
+      "k": "ENTER_DB_NAME",
+      "v": {
+        "zh": "请输入数据库名！",
+        "en": "Please Enter DB Name!"
+      }
+    },
+    {
+      "k": "PLEENT_PATH",
+      "v": {
+        "zh": "请填写自动存储路径！",
+        "en": "Please Enter Auto Storage Path!"
+      }
+    },
+    {
+      "k": "INIT_SIZE",
+      "v": {
+        "zh": "初始大小(MB)",
+        "en": "Init_size(MB)"
+      }
+    },
+    {
+      "k": "AUTO_INCR_SETTING",
+      "v": {
+        "zh": "更改自动增长设置",
+        "en": "Auto_incr_setting"
+      }
+    },
+    {
+      "k": "UNLIMITED_GROWTH",
+      "v": {
+        "zh": "增量为 50 MB，不限制增长",
+        "en": "50 MB increment, unlimited growth"
+      }
+    },
+    {
+      "k": "UNLIMITED_GROWTH2",
+      "v": {
+        "zh": "增量为 10%，不限制增长",
+        "en": "10% increment, unlimited growth"
+      }
+    },
+    {
+      "k": "DATABASE_FILE",
+      "v": {
+        "zh": "数据库文件",
+        "en": "Database File"
+      }
+    },
+    {
+      "k": "AUTO_STORAGE_PATH",
+      "v": {
+        "zh": "自动储存路径",
+        "en": "Auto Storage Path"
+      }
+    },
+    {
+      "k": "DB_PATH",
+      "v": {
+        "zh": "数据库路径",
+        "en": "Db Path"
+      }
+    },
+    {
+      "k": "UNLIMITED_FILE_GROWTH",
+      "v": {
+        "zh": "不限制文件增长",
+        "en": "Unlimited File Growth"
+      }
+    },
+    {
+      "k": "MAXIMUM_GROWTH_LIMIT",
+      "v": {
+        "zh": "，增长的最大值限制为 ",
+        "en": ", The maximum growth limit is "
+      }
+    },
+    {
+      "k": "INCREMENTS",
+      "v": {
+        "zh": "增量为 ",
+        "en": "In increments of "
+      }
+    },
+    {
+      "k": "FILE_GROWTH",
+      "v": {
+        "zh": "文件增长",
+        "en": "File Growth"
+      }
+    },
+    {
+      "k": "MAXIMUM_FILE_SIZE",
+      "v": {
+        "zh": "最大文件大小",
+        "en": "Maximum File Size"
+      }
+    },
+    {
+      "k": "ENABLE_AUTO_GROWTH",
+      "v": {
+        "zh": "启用自动增长",
+        "en": "Enable Auto Growth"
+      }
+    },
+    {
+      "k": "LIMIT_FILE_GROWTH",
+      "v": {
+        "zh": "限制文件增长(MB)",
+        "en": "Limit File Growth(MB)"
+      }
+    },
+    {
+      "k": "BY_MB",
+      "v": {
+        "zh": "按 MB(MB)",
+        "en": "by MB(MB)"
+      }
+    },
+    {
+      "k": "BY_PERCENTAGE",
+      "v": {
+        "zh": "按百分比(%)",
+        "en": "By Percentage"
+      }
+    },
+    {
+      "k": "CHOOSE_TASK_TYPE",
+      "v": {
+        "zh": "选择任务类型",
+        "en": "Choose Task Type"
+      }
+    },
+    {
+      "k": "REMOVE_TASK",
+      "v": {
+        "zh": "是否移除任务",
+        "en": "Whether Remove Task"
+      }
+    },
+    {
+      "k": "TASK_NAME_NOT_NULL",
+      "v": {
+        "zh": "任务名字不能为空",
+        "en": "Task name not null"
+      }
+    },
+    {
+      "k": "TEST_DATA_GENERATE",
+      "v": {
+        "zh": "生成测试数据",
+        "en": "Test data generate"
+      }
+    },
+    {
+      "k": "QUERY_DATA_EXPORT",
+      "v": {
+        "zh": "导出查询数据",
+        "en": "Query data export"
+      }
+    },
+    {
+      "k": "TABLE_DATA_GENERATE",
+      "v": {
+        "zh": "生成表格数据",
+        "en": "Table data generate"
+      }
+    },
+    {
+      "k": "DB_SCHEMA_BACKUP",
+      "v": {
+        "zh": "备份数据库/模式",
+        "en": "Database / schema backup"
+      }
+    },
+    {
+      "k": "DB_SCHEMA_RESTORE",
+      "v": {
+        "zh": "恢复数据库/模式",
+        "en": "Database / schema restore"
+      }
+    },
+    {
+      "k": "DB_SCHEMA_CLEAR",
+      "v": {
+        "zh": "清除数据库/模式",
+        "en": "Database / schema clean"
+      }
+    },
+    {
+      "k": "ADD_SQL_FILE",
+      "v": {
+        "zh": "添加SQL文件",
+        "en": "Add SQL file"
+      }
+    },
+    {
+      "k": "DATABASE_CONFIG",
+      "v": {
+        "zh": "数据库配置",
+        "en": "Database configuration"
+      }
+    },
+    {
+      "k": "CANNOT_BE_EMPTY",
+      "v": {
+        "zh": "不能为空",
+        "en": "cannot be empty"
+      }
+    },
+    {
+      "k": "IS_CONTINUE",
+      "v": {
+        "zh": "是否续导",
+        "en": "Continue"
+      }
+    },
+    {
+      "k": "URL_NOT_NULL",
+      "v": {
+        "zh": "路径不能为空",
+        "en": "URL Can`t Be Null"
+      }
+    },
+    {
+      "k": "DB_BACKUP",
+      "v": {
+        "zh": "数据库备份",
+        "en": "Database Backup"
+      }
+    },
+    {
+      "k": "SCHEMA_BACKUP",
+      "v": {
+        "zh": "模式备份",
+        "en": "Schema Backup"
+      }
+    },
+    {
+      "k": "DB_RESTORE",
+      "v": {
+        "zh": "数据库恢复",
+        "en": "Database Restore"
+      }
+    },
+    {
+      "k": "SCHEMA_RESTORE",
+      "v": {
+        "zh": "模式恢复",
+        "en": "Schema Restore"
+      }
+    },
+    {
+      "k": "DIR_PATH",
+      "v": {
+        "zh": "文件夹路径",
+        "en": "Directory Path"
+      }
+    },
+    {
+      "k": "WORK_THREAD",
+      "v": {
+        "zh": "工作线程数",
+        "en": "Work Thread Num"
+      }
+    },
+    {
+      "k": "CLEAN_SCHEMA",
+      "v": {
+        "zh": "清空模式",
+        "en": "Clean Schema"
+      }
+    },
+    {
+      "k": "CLEAN_DB",
+      "v": {
+        "zh": "清空数据库",
+        "en": "Clean Database"
+      }
+    },
+    {
+      "k": "DATA_ROW",
+      "v": {
+        "zh": "生成行数",
+        "en": "Number of rows"
+      }
+    },
+    {
+      "k": "SCHEMA_NOT_NULL",
+      "v": {
+        "zh": "模式名不能为空",
+        "en": "Schema Name Can`t Be Null"
+      }
+    },
+    {
+      "k": "SQL_NOT_NULL",
+      "v": {
+        "zh": "sql不能为空",
+        "en": "SQL Can`t Be Null"
+      }
+    },
+    {
+      "k": "ROW_NOT_NULL",
+      "v": {
+        "zh": "行数不能为空",
+        "en": "Data row Can`t Be Null"
+      }
+    },
+    {
+      "k": "TEMPLATE_NOT_NULL",
+      "v": {
+        "zh": "模板不能为空",
+        "en": "Template Can`t Be Null"
+      }
+    },
+    {
+      "k": "FILE_ROW",
+      "v": {
+        "zh": "单文件行数",
+        "en": "Number of lines per file"
+      }
+    },
+    {
+      "k": "MODIFY_PARAM",
+      "v": {
+        "zh": "*请根据选择的表修改值参数",
+        "en": "*Please modify the value parameter according to the selected table"
+      }
+    },
+    {
+      "k": "TABLE_NOT_NULL",
+      "v": {
+        "zh": "表名不能为空",
+        "en": "Table Name Can`t Be Null"
+      }
+    },
+    {
+      "k": "SCHEMA_TABLE_FILLPARAM",
+      "v": {
+        "zh": "请先填写模式名和表名！",
+        "en": "Fill in the schema name and table name first!"
+      }
+    },
+    {
+      "k": "DATA_GENERATE_CONFIG",
+      "v": {
+        "zh": "数据生成配置",
+        "en": "Data generation configuration"
+      }
+    },
+    {
+      "k": "NOTE",
+      "v": {
+        "zh": "注：可以使用表达式改变__N的值,如从100开始计数",
+        "en": "Note: you can use expressions to change__ The value of N, such as counting from 100"
+      }
+    },
+    {
+      "k": "DATA_NOT_NULL",
+      "v": {
+        "zh": "请将数据填写完整！",
+        "en": "Please fill in the data completely!"
+      }
+    },
+    {
+      "k": "WAREHOUSES",
+      "v": {
+        "zh": "仓库数",
+        "en": "Number of warehouses"
+      }
+    },
+    {
+      "k": "MAX_LINE_PER_FILE",
+      "v": {
+        "zh": "文件最大行数",
+        "en": "Max Lines Per File"
+      }
+    },
+    {
+      "k": "SQL_FILE_CONFIG",
+      "v": {
+        "zh": "SQL文件配置",
+        "en": "SQL file configuration"
+      }
+    },
+    {
+      "k": "FILE_NOT_EMPTY",
+      "v": {
+        "zh": "文件不能为空！",
+        "en": "file cannot be empty!"
+      }
+    },
+    {
+      "k": "DB_LINK",
+      "v": {
+        "zh": "数据库链接",
+        "en": "Database link"
+      }
+    },
+    {
+      "k": "TO_BE_RUN",
+      "v": {
+        "zh": "待运行",
+        "en": "To be run"
+      }
+    },
+    {
+      "k": "TO_BE_RUN",
+      "v": {
+        "zh": "待运行",
+        "en": "To be run"
+      }
+    },
+    {
+      "k": "DB_NOT_SUPPORTED",
+      "v": {
+        "zh": "暂不支持该数据库",
+        "en": "This database is not supported yet"
+      }
+    },
+    {
+      "k": "LOGIN_USER_DELETED",
+      "v": {
+        "zh": "无法删除当前登录用户",
+        "en": "The current login user cannot be deleted"
+      }
+    },
+    {
+      "k": "NOT_DEBUG",
+      "v": {
+        "zh": "该函数不可调试",
+        "en": "This function is not debuggable"
+      }
+    },
+    {
+      "k": "TYPE_MUST_LENGTH",
+      "v": {
+        "zh": "该类型必须填写长度",
+        "en": "This type must be a length"
+      }
+    },
+    {
+      "k": "NUMBER_FORMATTING_ERROR",
+      "v": {
+        "zh": "数字格式错误",
+        "en": "Number formatting error"
+      }
+    },
+    {
+      "k": "NEXT_BREAK_POINT",
+      "v": {
+        "zh": "下一断点",
+        "en": "Next break point"
+      }
+    },
+    {
+      "k": "ERROR_BREAKPOINT",
+      "v": {
+        "zh": "设置断点错误！",
+        "en": "Error setting breakpoint"
+      }
+    },
+    {
+      "k": "CORRECT_STATEMENT",
+      "v": {
+        "zh": "请输入正确语句!",
+        "en": "Please enter the correct statement!"
+      }
+    },
+    {
+      "k": "IMP_SHP",
+      "v": {
+        "zh": "导入shp文件",
+        "en": "Import the SHP file"
+      }
+    },
+    {
+      "k": "NO_GIS",
+      "v": {
+        "zh": "此数据库没有安装GIS扩展",
+        "en": "GIS extensions are not installed for this database"
+      }
+    },
+    {
+      "k": "EXP_SHP",
+      "v": {
+        "zh": "导出shp文件",
+        "en": "Export the SHP file"
+      }
+    },
+    {
+      "k": "ADD_LAYER",
+      "v": {
+        "zh": "添加图层",
+        "en": "Add layer"
+      }
+    },
+    {
+      "k": "DATABASE_ADD",
+      "v": {
+        "zh": "从数据库添加",
+        "en": "Add from database"
+      }
+    },
+    {
+      "k": "ADD_LOCAL",
+      "v": {
+        "zh": "从本地添加",
+        "en": "Add from local"
+      }
+    },
+    {
+      "k": "SELECT_PATH",
+      "v": {
+        "zh": "请选择添加路径",
+        "en": "Select the add path"
+      }
+    },
+    {
+      "k": "CURRENT_DB_CANNOT_ADDED",
+      "v": {
+        "zh": "当前数据库不支持添加",
+        "en": "The current database cannot be added"
+      }
+    },
+    {
+      "k": "PATH_ERROR",
+      "v": {
+        "zh": "路径错误，请重试！",
+        "en": "Path error, please try again!"
+      }
+    },
+    {
+      "k": "RELOAD_LAYER",
+      "v": {
+        "zh": "重新载入图层",
+        "en": "Reload Layer"
+      }
+    },
+    {
+      "k": "SQL_QUERY",
+      "v": {
+        "zh": "SQL查询",
+        "en": "SQL Query"
+      }
+    },
+    {
+      "k": "COMPILE_SQL",
+      "v": {
+        "zh": "编译SQL以查看特定区域",
+        "en": "Compile the SQL to view a specific region"
+      }
+    },
+    {
+      "k": "RELOAD_HINT",
+      "v": {
+        "zh": "* 图层加载不出来时可使用图层上方'重新载入'按钮重新加载",
+        "en": "* If the layer does not load, you can use the 'Reload' button above the layer to reload it"
+      }
+    },
+    {
+      "k": "NOT_FOUND",
+      "v": {
+        "zh": "没有找到此图层",
+        "en": "This layer was not found"
+      }
+    },
+    {
+      "k": "NO_ACTIONABLE",
+      "v": {
+        "zh": "数据库没有可操作的对象",
+        "en": "The database has no actionable objects"
+      }
+    },
+    {
+      "k": "NO_SELECT_TABLE",
+      "v": {
+        "zh": "没有选择表格！",
+        "en": "No selected form!"
+      }
+    },
+    {
+      "k": "WANT_TO_CONTINUE",
+      "v": {
+        "zh": "选择文件过多，继续执行吗？",
+        "en": "oo many files to select. Do you want to continue?"
+      }
+    },
+    {
+      "k": "PLEASE_SELECT_TABLE",
+      "v": {
+        "zh": "请选择表",
+        "en": "Please select table"
+      }
+    },
+    {
+      "k": "GRAYSCALE_DISPLAY",
+      "v": {
+        "zh": "灰度显示波段",
+        "en": "Grayscale display band"
+      }
+    },
+    {
+      "k": "NO_RASTER",
+      "v": {
+        "zh": "图层内没有栅格文件",
+        "en": "There are no raster files in the layer"
+      }
+    },
+    {
+      "k": "EXEC_SQL",
+      "v": {
+        "zh": "执行SQL语句",
+        "en": "Exec SQL"
+      }
+    },
+    {
+      "k": "SELECT_COL",
+      "v": {
+        "zh": "请选择索引列",
+        "en": "Please select a column！"
+      }
+    },
+    {
+      "k": "PLEASE_INPUT_NAME",
+      "v": {
+        "zh": "请填写索引名称！",
+        "en": "Please input the column name！"
+      }
+    },
+    {
+      "k": "IS_EXIT",
+      "v": {
+        "zh": "是否退出程序？",
+        "en": "Exit The Program?"
+      }
+    },
+    {
+      "k": "PLE_UPT_LICENSE",
+      "v": {
+        "zh": "请先更新许可！",
+        "en": "Please update the license first!"
+      }
+    },
+    {
+      "k": "PLE_UPTL_ICENSE_EXPIRE",
+      "v": {
+        "zh": "许可过期，请更新许可！",
+        "en": "License expire,Please update the license!"
+      }
+    },
+    {
+      "k": "NO_LICENSE",
+      "v": {
+        "zh": "License不存在，请更新许可信息",
+        "en": "License does not exist, please update the license information!"
+      }
+    },
+    {
+      "k": "LICENSE_ERROR",
+      "v": {
+        "zh": "License错误，请更新许可信息",
+        "en": "license Error, please update the license information!"
+      }
+    },
+    {
+      "k": "LICENSE_FILE_NOT_NULL",
+      "v": {
+        "zh": "请选择许可文件！",
+        "en": "Please Choose License File!"
+      }
+    },
+    {
+      "k": "OBTAIN_INSTRUCTIONS",
+      "v": {
+        "zh": "产品许可个人免费，个人用户可以从“获取地址”网站，免费下载。",
+        "en": "Product license individual free, individual users can from the \"get address\" website, free download."
+      }
+    },
+    {
+      "k": "HIDE_TOOLBAR",
+      "v": {
+        "zh": "隐藏导航栏",
+        "en": "Hide Toolbar"
+      }
+    },
+    {
+      "k": "VIEW_TOOLBAR",
+      "v": {
+        "zh": "显示导航栏",
+        "en": "Show Toolbar"
+      }
+    },
+    {
+      "k": "VERSION_ERROR",
+      "v": {
+        "zh": "读取版本信息错误！",
+        "en": "Version Error!"
+      }
+    },
+    {
+      "k": "VERSION_NOT_EXIT",
+      "v": {
+        "zh": "版本信息不存在！",
+        "en": "Version info Not Exit!"
+      }
+    },
+    {
+      "k": "COPY_INFO",
+      "v": {
+        "zh": "复制产品信息",
+        "en": "Copy product information"
+      }
+    },
+    {
+      "k": "COMMIT_VERSION",
+      "v": {
+        "zh": "提交版本号",
+        "en": "Latest Commit Version"
+      }
+    },
+    {
+      "k": "CONN_CLOSED",
+      "v": {
+        "zh": "连接已断开！",
+        "en": "This connection has been closed!"
+      }
+    },
+    {
+      "k": "DB_SESSION",
+      "v": {
+        "zh": "数据库会话",
+        "en": "DB Session"
+      }
+    },
+    {
+      "k": "MODULAR_IO",
+      "v": {
+        "zh": "块 IO",
+        "en": "Modular IO"
+      }
+    },
+    {
+      "k": "DATA_ERROR",
+      "v": {
+        "zh": "数据错误表格无法显示!",
+        "en": "Data error table cannot be displayed!"
+      }
+    },
+    {
+      "k": "PLEASE_SELECT_DATA",
+      "v": {
+        "zh": "请选择数据！",
+        "en": "Please select data！"
+      }
+    },
+    {
+      "k": "IS_KILL",
+      "v": {
+        "zh": "确定要kill掉此连接？",
+        "en": "Make sure to kill this connection?"
+      }
+    },
+    {
+      "k": "DEFINITIVE_DELETION",
+      "v": {
+        "zh": "确定删除？",
+        "en": "Definitive Deletion?"
+      }
+    },
+    {
+      "k": "MAXIMUM_LOAD_QUANTITY",
+      "v": {
+        "zh": "最大加载数量",
+        "en": "Maximum load quantity"
+      }
+    },
+    {
+      "k": "DATABASE_INFORMATION",
+      "v": {
+        "zh": "数据库信息",
+        "en": "database information"
+      }
+    },
+    {
+      "k": "ENTER_KEY_WORD",
+      "v": {
+        "zh": "请输入关键字进行查询！",
+        "en": "Please enter keywords to query!"
+      }
+    },
+    {
+      "k": "IN_QUERY",
+      "v": {
+        "zh": "查询中",
+        "en": "In query"
+      }
+    },
+    {
+      "k": "MAXIMUM_NUMBER",
+      "v": {
+        "zh": "最多条数",
+        "en": "Maximum number of lines"
+      }
+    },
+    {
+      "k": "NUMBER_MATCHING_BARS",
+      "v": {
+        "zh": "匹配条数",
+        "en": "Number of matching bars"
+      }
+    },
+    {
+      "k": "IGNORE_CASE",
+      "v": {
+        "zh": "忽略大小写",
+        "en": "Ignore case"
+      }
+    },
+    {
+      "k": "ENTER_KEYWORD",
+      "v": {
+        "zh": "请输入关键字进行查询！",
+        "en": "Please enter keywords to query!"
+      }
+    },
+    {
+      "k": "SELECT_SCHEMA",
+      "v": {
+        "zh": "请输入要查询的模式！",
+        "en": "Please select the schema to query!"
+      }
+    },
+    {
+      "k": "SELECT_TYPE",
+      "v": {
+        "zh": "请选择要查询的对象类型！",
+        "en": "Please select the object type to query!"
+      }
+    },
+    {
+      "k": "OBJ_QUERY",
+      "v": {
+        "zh": "数据库对象搜索",
+        "en": "Database object query"
+      }
+    },
+    {
+      "k": "PACKAGE_NAME",
+      "v": {
+        "zh": "请输入包名",
+        "en": "Please enter the package name"
+      }
+    },
+    {
+      "k": "SAVE_COMPILED_SUCCESS",
+      "v": {
+        "zh": "保存成功，编译成功!",
+        "en": "Successfully saved and compiled!"
+      }
+    },
+    {
+      "k": "COMPILE_FAILED",
+      "v": {
+        "zh": "保存成功，编译失败!",
+        "en": "Save succeeded, compilation failed!"
+      }
+    },
+    {
+      "k": "SAVE_COMPILED_FAILED",
+      "v": {
+        "zh": "保存失败，编译失败!",
+        "en": "Save failed, compilation failed!"
+      }
+    },
+    {
+      "k": "MANUAL_SPRING_FRAME",
+      "v": {
+        "zh": "手动弹框",
+        "en": "Manual spring frame"
+      }
+    },
+    {
+      "k": "MAXIMUM_ROW",
+      "v": {
+        "zh": "最大行",
+        "en": "Maximum Row"
+      }
+    },
+    {
+      "k": "HELP_EXAMPLE",
+      "v": {
+        "zh": "示例 \\xx [PATTERN] obj\n\n\\d  [PATTERN] 对象\n\\dn [PATTERN] 模式\n\\db [PATTERN] 表空间\n\\l  [PATTERN] 数据库\n\\du [PATTERN] 用户\n\\dt [PATTERN] 表\n\\di [PATTERN] 索引\n\\ds [PATTERN] 序列\n\\df [PATTERN] 函数\n\\dv [PATTERN] 视图\n如果表达式[PATTERN]为空，就显示当前库当前模式下的所有；\n如果表达式为*，则显示所有库模式下的所有；\n其他的都是根据表达式匹配对应的名称。\n最大数量：最多查询结果集\n最大行：单个结果集查询数据行数",
+        "en": "example \\xx [PATTERN] obj\n\n\\d  [PATTERN] Object\n\\dn [PATTERN] Schema\n\\db [PATTERN] Table Space\n\\l  [PATTERN] Database\n\\du [PATTERN] User\n\\dt [PATTERN] Table\n\\di [PATTERN] Index\n\\ds [PATTERN] Sequence\n\\df [PATTERN] Function\n\\dv [PATTERN] View\nIf the expression [pattern] is empty, all data in the current schema of the current library will be displayed;\nIf the expression is *, all data in all library schemas will be displayed;\nThe others match the corresponding name according to the expression.\nMaxSet: the maximum number of query result sets\nMaxRow: the maximum number of rows of query data in a single result set"
+      }
+    },
+    {
+      "k": "NOT_SUPPORT",
+      "v": {
+        "zh": "此数据库不支持%s命令！",
+        "en": "This database does not support %s command!"
+      }
+    },
+    {
+      "k": "AN_UNLAWFUL_ORDER",
+      "v": {
+        "zh": "是不合法的命令，请输入\\?查看帮助",
+        "en": "is an illegal command. Please enter \\? to view help"
+      }
+    },
+    {
+      "k": "CORRECT_FIGURE",
+      "v": {
+        "zh": "请输入正确的数字类型!",
+        "en": "Please enter the correct number type!"
+      }
+    },
+    {
+      "k": "PLEASE_ENTER_NAME",
+      "v": {
+        "zh": "请输入名称",
+        "en": "Please enter name"
+      }
+    },
+    {
+      "k": "OVERWRITE_OR_NOT",
+      "v": {
+        "zh": "键名已存在是否覆盖?",
+        "en": "Whether the key already exists is overwritten"
+      }
+    },
+    {
+      "k": "SELECT_APP_OPEN",
+      "v": {
+        "zh": "选择系统应用打开",
+        "en": "Select app open"
+      }
+    },
+    {
+      "k": "TEXT_INPUT_FIELD",
+      "v": {
+        "zh": "文本输入框",
+        "en": "Text input field"
+      }
+    },
+    {
+      "k": "DEL_SCHEMA",
+      "v": {
+        "zh": "删除Schema前请先删除Schema内所有对象",
+        "en": "Please drop all objects in schema before drop it"
+      }
+    },
+    {
+      "k": "INPUT_SEQ",
+      "v": {
+        "zh": "输入序列名",
+        "en": "Please enter a sequence name"
+      }
+    },
+    {
+      "k": "NEW_SEQ_NAME",
+      "v": {
+        "zh": "请输入新的序列名",
+        "en": "Please enter a new sequence name"
+      }
+    },
+    {
+      "k": "THE_LIST_OWNER",
+      "v": {
+        "zh": "表列拥有着",
+        "en": "The list owner"
+      }
+    },
+    {
+      "k": "OPEN_TASK",
+      "v": {
+        "zh": "作为导入文件打开任务窗口",
+        "en": "New Sql File Import Task"
+      }
+    },
+    {
+      "k": "TEMPLATE_EDITOR",
+      "v": {
+        "zh": "模版编辑器",
+        "en": "Template editor"
+      }
+    },
+    {
+      "k": "TYPE_ONLY_ORACLE",
+      "v": {
+        "zh": "Type设计仅支持oracle数据库",
+        "en": "Package design only supports Oracle databases"
+      }
+    },
+    {
+      "k": "TYPE_DESIGN",
+      "v": {
+        "zh": "类型或类型体设计",
+        "en": "Type or type body design"
+      }
+    },
+    {
+      "k": "ONLY_ORACLE_DM",
+      "v": {
+        "zh": "Package设计仅支持oracle、dm数据库",
+        "en": "Package design only supports Oracle and DM databases"
+      }
+    },
+    {
+      "k": "PACKAGE_DESIGN",
+      "v": {
+        "zh": "Package设计",
+        "en": "Package design"
+      }
+    },
+    {
+      "k": "SIZE_TIP",
+      "v": {
+        "zh": "文件过大，请选择不超过%sM的文件",
+        "en": "The file size is too large. Please select a file no more than %s M"
+      }
+    },
+    {
+      "k": "OBJECT_OWNER",
+      "v": {
+        "zh": "对象所有者",
+        "en": "Object owner"
+      }
+    },
+    {
+      "k": "INPUT_NEW_TABLE_NAME",
+      "v": {
+        "zh": "请输入表名",
+        "en": "Please enter a table name"
+      }
+    },
+    {
+      "k": "TABLE_NAME_EQUAL_ERROR",
+      "v": {
+        "zh": "与原表名相同！",
+        "en": "The new table name is the same as the original table name!"
+      }
+    },
+    {
+      "k": "ADD_UK",
+      "v": {
+        "zh": "添加唯一键",
+        "en": "Add unique key"
+      }
+    },
+    {
+      "k": "DELETE_UK",
+      "v": {
+        "zh": "删除唯一键",
+        "en": "Delete unique key"
+      }
+    },
+    {
+      "k": "TO_QUERY",
+      "v": {
+        "zh": "复制到查询器",
+        "en": "To Query"
+      }
+    },
+    {
+      "k": "ADD_FK",
+      "v": {
+        "zh": "添加外键",
+        "en": "Add foreign key"
+      }
+    },
+    {
+      "k": "DELETE_FK",
+      "v": {
+        "zh": "删除外键",
+        "en": "Delete foreign key"
+      }
+    },
+    {
+      "k": "ADD_COLUMN",
+      "v": {
+        "zh": "添加列",
+        "en": "Add column"
+      }
+    },
+    {
+      "k": "DELETE_COLUMN",
+      "v": {
+        "zh": "删除列",
+        "en": "Delete column"
+      }
+    },
+    {
+      "k": "SELECT_DATA_TYPE",
+      "v": {
+        "zh": "请选择数据类型！",
+        "en": "Please select a data type!"
+      }
+    },
+    {
+      "k": "ADD_COLUMN_FIRST",
+      "v": {
+        "zh": "请先添加列！",
+        "en": "Please add a column first!"
+      }
+    },
+    {
+      "k": "FAILED_GET_CONNECTION",
+      "v": {
+        "zh": "获取连接失败！",
+        "en": "Failed to get connection"
+      }
+    },
+    {
+      "k": "SELECT_FK_TABLE",
+      "v": {
+        "zh": "请选外键表",
+        "en": "Please select a foreign key table"
+      }
+    },
+    {
+      "k": "SELECT_FKTABLE_COLUMN",
+      "v": {
+        "zh": "选择外键表:%s 的列",
+        "en": "Select columns for foreign key table: %s"
+      }
+    },
+    {
+      "k": "CANNOT_GET_FKTABLE",
+      "v": {
+        "zh": "获取不到外键表！",
+        "en": "Cannot get foreign key table!"
+      }
+    },
+    {
+      "k": "DISPLAY_INNER_BORDER",
+      "v": {
+        "zh": "显示内边框",
+        "en": "Display inner border"
+      }
+    },
+    {
+      "k": "ROW_HEIGHT_SETTING",
+      "v": {
+        "zh": "行高设置",
+        "en": "Row height setting"
+      }
+    },
+    {
+      "k": "NULL_SETTING",
+      "v": {
+        "zh": "空值显示设置",
+        "en": "Null value display setting"
+      }
+    },
+    {
+      "k": "GET_HEAD_OFFICE",
+      "v": {
+        "zh": "点击获取总行数",
+        "en": "Click to get the total number of rows"
+      }
+    },
+    {
+      "k": "DISPLAY_LARGE_FIELD_DATA",
+      "v": {
+        "zh": "显示大字段数据",
+        "en": "Display large field data"
+      }
+    },
+    {
+      "k": "BINARY_DISPLAY",
+      "v": {
+        "zh": "二进制显示",
+        "en": "Binary display"
+      }
+    },
+    {
+      "k": "FETCH_DATA_ERROR",
+      "v": {
+        "zh": "获取数据错误",
+        "en": "Fetch data error"
+      }
+    },
+    {
+      "k": "FILTER_RESULT",
+      "v": {
+        "zh": "输入SQL语句筛选结果(Enter)",
+        "en": "Enter SQL statement filter result (Enter)"
+      }
+    },
+    {
+      "k": "DO_NOT_SAVE",
+      "v": {
+        "zh": "不保存",
+        "en": "do not save"
+      }
+    },
+    {
+      "k": "SAVE_OR_NOT",
+      "v": {
+        "zh": "是否保存修改的内容?",
+        "en": "Do you want to save the modified content?"
+      }
+    },
+    {
+      "k": "ENTER_PAGE_SIZE",
+      "v": {
+        "zh": "请输入分页大小",
+        "en": "Please enter the paging size"
+      }
+    },
+    {
+      "k": "CONFIRM_SUBMISSION",
+      "v": {
+        "zh": "确定要提交修改吗?",
+        "en": "Are you sure you want to submit the modification?"
+      }
+    },
+    {
+      "k": "CONFIRM_DELETION",
+      "v": {
+        "zh": "确定要删除 %s 条记录吗?",
+        "en": "Are you sure you want to delete% s records?"
+      }
+    },
+    {
+      "k": "SELECT_DELETION_RECORD",
+      "v": {
+        "zh": "请选择要删除的记录",
+        "en": "Please select the record to delete"
+      }
+    },
+    {
+      "k": "PLEASE_ENTER_LOCATION",
+      "v": {
+        "zh": "请输入存储位置！",
+        "en": "Please Enter Location!"
+      }
+    },
+    {
+      "k": "PLEASE_ENTER_THE_SIZE",
+      "v": {
+        "zh": "请输入大小",
+        "en": "Please enter the size"
+      }
+    },
+    {
+      "k": "ADD_DATA_FILE",
+      "v": {
+        "zh": "添加数据文件",
+        "en": "Add data file"
+      }
+    },
+    {
+      "k": "DELETE_DATA_FILE",
+      "v": {
+        "zh": "删除数据文件",
+        "en": "Delete data file"
+      }
+    },
+    {
+      "k": "NEXT_SIZE",
+      "v": {
+        "zh": "下一个大小",
+        "en": "Next Size"
+      }
+    },
+    {
+      "k": "MANUAL_FRAGMENT_MANAGEMENT",
+      "v": {
+        "zh": "手动片段管理",
+        "en": "Manual fragment management"
+      }
+    },
+    {
+      "k": "INCREASE",
+      "v": {
+        "zh": "增加（%）",
+        "en": "Increase(%)"
+      }
+    },
+    {
+      "k": "SURE_CHANGE",
+      "v": {
+        "zh": "是否切换模式",
+        "en": "Sure Change Schema?"
+      }
+    },
+    {
+      "k": "MAIN_TABLE_NAME",
+      "v": {
+        "zh": "主表名称",
+        "en": "Main table name"
+      }
+    },
+    {
+      "k": "TOTAL_NUMBER_PARTITIONS",
+      "v": {
+        "zh": "分区总数",
+        "en": "Total number of partitions"
+      }
+    },
+    {
+      "k": "PARTITION_KEY",
+      "v": {
+        "zh": "分区键",
+        "en": "Partition key"
+      }
+    },
+    {
+      "k": "FILTER_KEYWORDS",
+      "v": {
+        "zh": "筛选关键字",
+        "en": "Filter Keywords"
+      }
+    },
+    {
+      "k": "MOVE_DATABASE",
+      "v": {
+        "zh": "请输入需要移动到的数据库",
+        "en": "Please enter the database you want to move to"
+      }
+    },
+    {
+      "k": "MOVE_FAILED",
+      "v": {
+        "zh": "移动失败!未找到目标或名称重复。",
+        "en": "Move failed! No target found or name duplicate."
+      }
+    },
+    {
+      "k": "OBJECTS_MAXIMUM_LOAD_QUANTITY",
+      "v": {
+        "zh": "请输入最大对象加载数量",
+        "en": "Please enter the maximum number of objects to load"
+      }
+    },
+    {
+      "k": "EDIT_TRIGGER",
+      "v": {
+        "zh": "触发器设计",
+        "en": "Edit Trigger"
+      }
+    },
+    {
+      "k": "SCHEMA_IS_NULL",
+      "v": {
+        "zh": "传入架构/模式名 为空！",
+        "en": "The incoming schema / schema name is empty!"
+      }
+    },
+    {
+      "k": "CREATE_TRIGGER",
+      "v": {
+        "zh": "创建触发器",
+        "en": "Create Trigger"
+      }
+    },
+    {
+      "k": "TRIGGER_NAME_ISNULL",
+      "v": {
+        "zh": "传入触发器名称 为空！",
+        "en": "The incoming trigger name is empty!"
+      }
+    },
+    {
+      "k": "NOT_SUPPORT_EDIT",
+      "v": {
+        "zh": "该触发器不支持修改，请删除后重新创建！",
+        "en": "The trigger does not support modification. Please delete and re create it!"
+      }
+    },
+    {
+      "k": "RUN_CREATE_UPDATE",
+      "v": {
+        "zh": "运行/创建/修改",
+        "en": "Run/Create/Update"
+      }
+    },
+    {
+      "k": "ONLY_SELECT_ONE",
+      "v": {
+        "zh": "只能选择一条数据！",
+        "en": "Only one piece of data can be selected!"
+      }
+    },
+    {
+      "k": "FOR_EACH",
+      "v": {
+        "zh": "给每个",
+        "en": "For each"
+      }
+    },
+    {
+      "k": "TRIGGER",
+      "v": {
+        "zh": "触发",
+        "en": "Trigger"
+      }
+    },
+    {
+      "k": "ADD_LOGIN_TITLE",
+      "v": {
+        "zh": "创建登录名",
+        "en": "Create Login Name"
+      }
+    },
+    {
+      "k": "CONN_ERROR",
+      "v": {
+        "zh": "未连接到数据库或连接出错",
+        "en": "Connection Error"
+      }
+    },
+    {
+      "k": "SUPER_ERROR",
+      "v": {
+        "zh": "更新超级用户权限将不会生效！",
+        "en": "Updating superuser permissions will not take effect！"
+      }
+    },
+    {
+      "k": "NEW_NAME_THE_SAME",
+      "v": {
+        "zh": "与原用户名相同！",
+        "en": "The new user name is the same as the original user name!"
+      }
+    },
+    {
+      "k": "CONN_NUM",
+      "v": {
+        "zh": "最大连接数",
+        "en": "Max Connections"
+      }
+    },
+    {
+      "k": "PLEASE_ENTER_USER_NAME",
+      "v": {
+        "zh": "请填写用户名！",
+        "en": "Please enter user name!"
+      }
+    },
+    {
+      "k": "PLEASE_ENTER_PASSWORD",
+      "v": {
+        "zh": "请填写密码！",
+        "en": "Please enter password!"
+      }
+    },
+    {
+      "k": "PLEASE_ENTER_RE_PASSWORD",
+      "v": {
+        "zh": "请填写确认密码！",
+        "en": "Please enter confirm password!"
+      }
+    },
+    {
+      "k": "PASSWORD_NOT_EQUAL",
+      "v": {
+        "zh": "密码与确认密码不一致!",
+        "en": "The password does not match the confirmation password!"
+      }
+    },
+    {
+      "k": "MAX_CONN_NOT_CORRECT",
+      "v": {
+        "zh": "最大连接数请填写正整数！",
+        "en": "Maximum connections input must be positive integer!"
+      }
+    },
+    {
+      "k": "DB_CLICK_SELECT",
+      "v": {
+        "zh": "请双击选择...",
+        "en": "Please double click here to select..."
+      }
+    },
+    {
+      "k": "MAX_CONN",
+      "v": {
+        "zh": "每小时最大连接数",
+        "en": "Max. Connections"
+      }
+    },
+    {
+      "k": "MAX_QUERY",
+      "v": {
+        "zh": "每小时最大查询数",
+        "en": "Max. Queries"
+      }
+    },
+    {
+      "k": "CON_CONS",
+      "v": {
+        "zh": "最多用户连接数",
+        "en": "Concurrent Connections"
+      }
+    },
+    {
+      "k": "MAX_UPD",
+      "v": {
+        "zh": "每小时最多更新数",
+        "en": "Max. Updates"
+      }
+    },
+    {
+      "k": "PLEASE_ENTER_ROLE_NAME",
+      "v": {
+        "zh": "请填写角色名！",
+        "en": "Please enter role name!"
+      }
+    },
+    {
+      "k": "DEFAULT_TS",
+      "v": {
+        "zh": "默认表空间",
+        "en": "Default Table Space"
+      }
+    },
+    {
+      "k": "TMP_TS",
+      "v": {
+        "zh": "临时表空间",
+        "en": "Tmp Table Space"
+      }
+    },
+    {
+      "k": "PROFILE",
+      "v": {
+        "zh": "概要文件",
+        "en": "Profile"
+      }
+    },
+    {
+      "k": "SQLSERVER_AUTH",
+      "v": {
+        "zh": "SQL SERVER身份认证",
+        "en": "SQLServer Authentication"
+      }
+    },
+    {
+      "k": "WINDOWS_AUTH",
+      "v": {
+        "zh": "Windows 身份认证",
+        "en": "Windows Authentication"
+      }
+    },
+    {
+      "k": "LOGIN_NAME",
+      "v": {
+        "zh": "登录名",
+        "en": "Login Name"
+      }
+    },
+    {
+      "k": "DEFAULT_DB",
+      "v": {
+        "zh": "默认数据库",
+        "en": "Default Database"
+      }
+    },
+    {
+      "k": "LOGIN_NAME_INFO",
+      "v": {
+        "zh": "登录名信息",
+        "en": "Login Name Information"
+      }
+    },
+    {
+      "k": "AUTH_SERVER_ROLE",
+      "v": {
+        "zh": "授权系统角色",
+        "en": "Authorised System Role"
+      }
+    },
+    {
+      "k": "OWN_ROLE",
+      "v": {
+        "zh": "拥有角色",
+        "en": "Own Role"
+      }
+    },
+    {
+      "k": "LOGIN_NAME_NOT_EXIST",
+      "v": {
+        "zh": "登录名不存在",
+        "en": "Login name not exist!"
+      }
+    },
+    {
+      "k": "ADD_MVIEW_TITLE",
+      "v": {
+        "zh": "创建物化视图",
+        "en": "Create Materialized View"
+      }
+    },
+    {
+      "k": "PLEASE_ENTER_DEFINE",
+      "v": {
+        "zh": "--请输入视图定义，列如:",
+        "en": "--Please enter view define,for example："
+      }
+    },
+    {
+      "k": "UPDATE_MVIEW_TITLE",
+      "v": {
+        "zh": "修改物化视图",
+        "en": "Design Materialized View"
+      }
+    },
+    {
+      "k": "SQL_STATEMENT_ERROR",
+      "v": {
+        "zh": "sql语句错误!",
+        "en": "sql statement error!"
+      }
+    },
+    {
+      "k": "EXECUTE_TO_WINDOW",
+      "v": {
+        "zh": "执行到本窗口",
+        "en": "Execute to window"
+      }
+    },
+    {
+      "k": "EXECUTE_TO_QUERY",
+      "v": {
+        "zh": "执行到查询器",
+        "en": "Execute to querier"
+      }
+    },
+    {
+      "k": "EXECUTE_TO_FILE",
+      "v": {
+        "zh": "执行到文件",
+        "en": "Execute to file"
+      }
+    },
+    {
+      "k": "VM_USE_HELP",
+      "v": {
+        "zh": "##按Ctrl+h可以弹出模版选择提示框",
+        "en": "##Press Ctrl+h to pop up the template selection prompt box"
+      }
+    },
+    {
+      "k": "TOO_MUCH_CONTENT",
+      "v": {
+        "zh": "内容过多！",
+        "en": "Too much content!"
+      }
+    },
+    {
+      "k": "PICTURE_PARSING_FAILED",
+      "v": {
+        "zh": "解析图片失败!",
+        "en": "Failed to parse the picture!"
+      }
+    },
+    {
+      "k": "NO_NEXT_PAGE",
+      "v": {
+        "zh": "没有下一页数据了",
+        "en": "There is no next page data"
+      }
+    },
+    {
+      "k": "RESULT_TOTAL_NUMBER",
+      "v": {
+        "zh": "结果集总条数",
+        "en": "Total number of result sets"
+      }
+    },
+    {
+      "k": "RUNNING_ERROR",
+      "v": {
+        "zh": "运行出错不能继续交易，点击确认回滚交易",
+        "en": "Run error cannot continue the transaction, click OK to roll back the transaction"
+      }
+    },
+    {
+      "k": "INTERRUPT_SQL_EXECUTION",
+      "v": {
+        "zh": "强制中断sql执行",
+        "en": "Forced interrupt SQL execution"
+      }
+    },
+    {
+      "k": "SYNTAX_CHECK_FAILURE",
+      "v": {
+        "zh": "语法检验失败，请选择单句查询或者单句执行模式",
+        "en": "Syntax check failed. Please select single - sentence query or single - sentence execution mode"
+      }
+    },
+    {
+      "k": "SQL_ANALYSIS_FAILURE",
+      "v": {
+        "zh": "SQL语法分析失败",
+        "en": "SQL syntax parsing failed. Procedure"
+      }
+    },
+    {
+      "k": "SQL_ANALYSIS_SUCCESS",
+      "v": {
+        "zh": "SQL语法分析成功,未发现语法错误",
+        "en": "SQL syntax analysis succeeded, and no syntax error was found"
+      }
+    },
+    {
+      "k": "TEXT_FIELD_SELECT_TEXT_NULL",
+      "v": {
+        "zh": "文本域或者选取文本为空",
+        "en": "Text field or select text as null"
+      }
+    },
+    {
+      "k": "THE_TEXT_FIELD_EMPTY",
+      "v": {
+        "zh": "文本域为空",
+        "en": "The text field is empty"
+      }
+    },
+    {
+      "k": "FIND_REPLACE_PANEL",
+      "v": {
+        "zh": "查找/替换面板",
+        "en": "Find/replace the panel"
+      }
+    },
+    {
+      "k": "POSITIONING_PANEL",
+      "v": {
+        "zh": "定位面板",
+        "en": "Positioning panel"
+      }
+    },
+    {
+      "k": "MOUSE_WHEEL",
+      "v": {
+        "zh": "CTRL+鼠标滚轮或小键盘-+",
+        "en": "CTRL+ Mouse wheel or keyboard -+"
+      }
+    },
+    {
+      "k": "BODY_SIZE_ADJUSTMENT",
+      "v": {
+        "zh": "可以对编辑器字体大小进行调整",
+        "en": "Editor font size can be adjusted"
+      }
+    },
+    {
+      "k": "COMMENT_CODE",
+      "v": {
+        "zh": "注解代码，或者取消注解",
+        "en": "Comment the code, or uncomment it"
+      }
+    },
+    {
+      "k": "RUN_SQL",
+      "v": {
+        "zh": "运行sql语句",
+        "en": "Run Sql"
+      }
+    },
+    {
+      "k": "SELECTED_TEXT_FORWARD",
+      "v": {
+        "zh": "选中文本正向推移",
+        "en": "Selected text forward"
+      }
+    },
+    {
+      "k": "SELECT_TEXT_TO_MOVE_BACKWARDS",
+      "v": {
+        "zh": "选中文本反向推移",
+        "en": "Select text to move backwards"
+      }
+    },
+    {
+      "k": "RESCIND",
+      "v": {
+        "zh": "取消撤销",
+        "en": "Rescind"
+      }
+    },
+    {
+      "k": "CONFIGURATION_STATEMENT_WINDOW",
+      "v": {
+        "zh": "配置语句窗口",
+        "en": "Configuration statement window"
+      }
+    },
+    {
+      "k": "CONFIGURATION_COMMAND_WINDOW",
+      "v": {
+        "zh": "配置命令窗口",
+        "en": "Configuration command window"
+      }
+    },
+    {
+      "k": "CLOSE_THE_CLIENT",
+      "v": {
+        "zh": "确定关闭当前客户端进行升级?",
+        "en": "Are you sure to close the current client for upgrade?"
+      }
+    },
+    {
+      "k": "IMPORT_LOB_DATA",
+      "v": {
+        "zh": "导入LOB数据",
+        "en": "Import lob data"
+      }
+    },
+    {
+      "k": "EXCEL_FILE_CONFIG",
+      "v": {
+        "zh": "Excel文件配置",
+        "en": "Excel file configuration"
+      }
+    },
+    {
+      "k": "OBJECT_EXPORT",
+      "v": {
+        "zh": "对象导出",
+        "en": "Object export"
+      }
+    },
+    {
+      "k": "EXPORT_CONFIGURATION",
+      "v": {
+        "zh": "导出配置",
+        "en": "Export configuration"
+      }
+    },
+    {
+      "k": "RESULT_IS_NULL",
+      "v": {
+        "zh": "结果不能为空",
+        "en": "The result cannot be empty"
+      }
+    },
+    {
+      "k": "SELECT_EXPORT_OBJ",
+      "v": {
+        "zh": "请选择要导出对象",
+        "en": "Select the object you want to export"
+      }
+    },
+    {
+      "k": "LOB_COLUMN_NAME",
+      "v": {
+        "zh": "大字段列名",
+        "en": "Large field column name"
+      }
+    },
+    {
+      "k": "FILE_COLUMN_NAME",
+      "v": {
+        "zh": "文件名字段列名",
+        "en": "File field column name"
+      }
+    },
+    {
+      "k": "LOB_COLUMN_NAME_NOT_NULL",
+      "v": {
+        "zh": "大字段列名不能为空",
+        "en": "Large field column names cannot be empty"
+      }
+    },
+    {
+      "k": "FILE_COLUMN_NAME_NOT_NULL",
+      "v": {
+        "zh": "文件名字段列名不能为空",
+        "en": "File field column names cannot be empty"
+      }
+    },
+    {
+      "k": "EXPORT_LOB_DATA",
+      "v": {
+        "zh": "导出LOB数据",
+        "en": "Export LOB data"
+      }
+    },
+    {
+      "k": "COLLECTION_NAME_NOT_NULL",
+      "v": {
+        "zh": "集合名称不能为空",
+        "en": "The collection name cannot be empty"
+      }
+    },
+    {
+      "k": "SAME_NAME",
+      "v": {
+        "zh": "名称相同！",
+        "en": "Same name!"
+      }
+    },
+    {
+      "k": "ASSOCIATE_TABLE_NOT_NULL",
+      "v": {
+        "zh": "关联表不能为空",
+        "en": "Associate table cannot be null"
+      }
+    },
+    {
+      "k": "SQL_AREA",
+      "v": {
+        "zh": "SQL生成域",
+        "en": "SQL Generation Area"
+      }
+    },
+    {
+      "k": "FILL_VIEW_NAME",
+      "v": {
+        "zh": "请填写视图名称!",
+        "en": "Please fill in the view name!"
+      }
+    },
+    {
+      "k": "FILL_TABLE_NAME",
+      "v": {
+        "zh": "请填写名称!",
+        "en": "Please fill in the table name!"
+      }
+    },
+    {
+      "k": "COLUMN_SELECTION",
+      "v": {
+        "zh": "选列",
+        "en": "Column selection"
+      }
+    },
+    {
+      "k": "WRITE_TABLE_NAME",
+      "v": {
+        "zh": "请填写表名!",
+        "en": "Please fill in the form name"
+      }
+    },
+    {
+      "k": "BASIC_SETTING",
+      "v": {
+        "zh": "基础设置",
+        "en": "basic setting"
+      }
+    },
+    {
+      "k": "UNLIMITED_FILE_SIZE",
+      "v": {
+        "zh": "不限制文件大小",
+        "en": "No limit on file size"
+      }
+    },
+    {
+      "k": "MAXIMUM_SIZE",
+      "v": {
+        "zh": "最大大小",
+        "en": "Maximum size"
+      }
+    },
+    {
+      "k": "NO_FORM_FOUND",
+      "v": {
+        "zh": "未找到表格！",
+        "en": "No form found"
+      }
+    },
+    {
+      "k": "PLEASE_FILL_NAME",
+      "v": {
+        "zh": "请填写名称",
+        "en": "Please fill in the name"
+      }
+    },
+    {
+      "k": "MAXIMUM_QUANTITY",
+      "v": {
+        "zh": "最大数量",
+        "en": "maximum quantity"
+      }
+    },
+    {
+      "k": "DB_SUPPORT_LOGIN",
+      "v": {
+        "zh": "数据库类型限制，License不支持登录该类型数据库",
+        "en": "Database type restriction. The license does not support logging into this type of database."
+      }
+    },
+    {
+      "k": "TIMING_ERROR",
+      "v": {
+        "zh": "请输入正确时间",
+        "en": "Please enter the correct time"
+      }
+    }
+  ]
+}

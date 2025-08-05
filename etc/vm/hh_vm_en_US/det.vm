@@ -1,0 +1,27 @@
+## \det[+] [PATTERN]      
+## List of foreign tables
+#set($common1 = "SELECT n.nspname AS " + '"Schema"' +",
+	  c.relname AS " + '"Table"' +",
+	  s.srvname AS " + '"Server"')
+#set($common2 = "FROM hh_catalog.hh_foreign_table ft
+	  INNER JOIN hh_catalog.hh_class c ON c.oid = ft.ftrelid
+	  INNER JOIN hh_catalog.hh_namespace n ON n.oid = c.relnamespace
+	  INNER JOIN hh_catalog.hh_foreign_server s ON s.oid = ft.ftserver")
+#set($common3 = "ORDER BY 1, 2;")
+#set($plus1 = ",CASE WHEN ftoptions IS NULL THEN '' ELSE   '(' || array_to_string(ARRAY(SELECT   hh_catalog.quote_ident(option_name) ||  ' ' ||   hh_catalog.quote_literal(option_value)  FROM   hh_catalog.hh_options_to_table(ftoptions)),  ', ') || ')'   END AS "+'"FDW Options"'+",
+	  d.description AS " + '"Description"')
+#set($plus2 = "LEFT JOIN hh_catalog.hh_description d
+	          ON d.classoid = c.tableoid AND d.objoid = c.oid AND d.objsubid = 0")
+#set($patt= "WHERE c.relname OPERATOR(hh_catalog.~) '^($arg)$' AND hh_catalog.hh_table_is_visible(c.oid)")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus1
+#end
+$common2
+#if($cmdSql.indexOf('+') > 0)
+$plus2
+#end
+#if($arg)
+$patt
+#end
+$common3

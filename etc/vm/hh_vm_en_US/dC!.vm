@@ -1,0 +1,49 @@
+## \dC[+]  [PATTERN]      
+## List of casts 
+#set($common1 = "SELECT hh_catalog.format_type(castsource, NULL) AS " + '"Source type "' +",
+	       hh_catalog.format_type(casttarget, NULL) AS " + '"Target type"' +",
+	       CASE WHEN castfunc = 0 THEN '(binary coercible)'
+	            ELSE p.proname
+	       END as " + '"Function"' +",
+	       CASE WHEN c.castcontext = 'e' THEN 'no'
+	            WHEN c.castcontext = 'a' THEN 'in assignment'
+	            ELSE 'yes'
+	       END as " + '"Implicit?"')
+#set($common2 = "FROM hh_catalog.hh_cast c LEFT JOIN hh_catalog.hh_proc p
+	     ON c.castfunc = p.oid
+	     LEFT JOIN hh_catalog.hh_type ts
+	     ON c.castsource = ts.oid
+	     LEFT JOIN hh_catalog.hh_namespace ns
+	     ON ns.oid = ts.typnamespace
+	     LEFT JOIN hh_catalog.hh_type tt
+	     ON c.casttarget = tt.oid
+	     LEFT JOIN hh_catalog.hh_namespace nt
+	     ON nt.oid = tt.typnamespace")
+#set($common3 = "WHERE ( (true  AND hh_catalog.hh_type_is_visible(ts.oid)
+	) OR (true  AND hh_catalog.hh_type_is_visible(tt.oid)
+	) )
+	ORDER BY 1, 2;")
+#set($plus1 = ",d.description AS " + '"Description"')
+#set($plus2 = "LEFT JOIN hh_catalog.hh_description d
+	     ON d.classoid = c.tableoid AND d.objoid = c.oid AND d.objsubid = 0")
+#set($patt = "WHERE ( (true  AND (ts.typname OPERATOR(hh_catalog.~) '^($arg)$'
+	        OR hh_catalog.format_type(ts.oid, NULL) OPERATOR(hh_catalog.~) '^($arg)$')
+	  AND hh_catalog.hh_type_is_visible(ts.oid)
+	) OR (true  AND (tt.typname OPERATOR(hh_catalog.~) '^($arg)$'
+	        OR hh_catalog.format_type(tt.oid, NULL) OPERATOR(hh_catalog.~) '^($arg)$')
+	  AND hh_catalog.hh_type_is_visible(tt.oid)
+	) )
+	ORDER BY 1, 2;")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus1
+#end
+$common2
+#if($cmdSql.indexOf('+') > 0)
+$plus2
+#end
+#if($arg)
+$patt
+#else
+$common3
+#end

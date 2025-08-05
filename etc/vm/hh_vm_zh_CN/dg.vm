@@ -1,0 +1,27 @@
+## \dg[+]  [PATTERN]      
+## List of roles
+#set($common1 = "SELECT r.rolname as"+ '"角色名称"'+", r.rolsuper as 超级用户, r.rolinherit as 继承,
+	  r.rolcreaterole as"+ '"建立角色"'+", r.rolcreatedb as"+ '"创建数据库"'+", r.rolcanlogin as 复制,
+	  r.rolconnlimit as 绕过, r.rolvaliduntil as RLS,
+	  ARRAY(SELECT b.rolname
+	        FROM hh_catalog.hh_auth_members m
+	        JOIN hh_catalog.hh_roles b ON (m.roleid = b.oid)
+	        WHERE m.member = r.oid) as"+ '"属于"')
+#set($common2 = ", r.rolreplication as 复制
+	FROM hh_catalog.hh_roles r")
+#set($common3 = "ORDER BY 1;")
+#set($plus = ",hh_catalog.shobj_description(r.oid, 'hh_authid') AS 描述")
+#set($patt= "WHERE r.rolname OPERATOR(hh_catalog.~) '^($arg)$'")
+#set($patt1= "WHERE r.rolname !~ '^hh_'")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus
+#end
+$common2
+#if($arg)
+$patt
+#elseif($cmdSql.indexOf('S')>0)
+#else
+$patt1
+#end
+$common3

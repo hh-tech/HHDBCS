@@ -1,0 +1,24 @@
+{
+	"mgrs": [
+		{
+			"class": "com.hh.hhdb_admin.mgr.login.LoginMgr",
+			"type": "LOGIN"
+				
+		},
+		{
+			"class": "com.hh.hhdb_admin.mgr.main_frame.MainFrameMgr",
+			"type": "MAIN_FRAME",
+			"config":{
+				"showMenu": false,
+				"showToolbar": true,
+				"showStatus": false,
+				"showTree": false,
+				"showTabbedPane": true
+			}
+    	},
+    	{
+			"class": "com.hh.hhdb_admin.mgr.toolbar.ToolbarMgr",
+			"type": "TOOLBAR"
+    	}
+	]
+}

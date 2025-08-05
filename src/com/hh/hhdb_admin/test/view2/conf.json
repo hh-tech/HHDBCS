@@ -1,0 +1,27 @@
+{
+	"mgrs": [
+		{
+			"class": "com.hh.hhdb_admin.mgr.view2.ViewMgr",
+			"type": "VIEW"
+		},
+		{
+			"class": "com.hh.hhdb_admin.mgr.main_frame.MainFrameMgr",
+			"type": "MAIN_FRAME",
+			"config": {
+				"showMenu": false,
+				"showToolbar": false,
+				"showStatus": false,
+				"showTree": true,
+				"showTabbedPane": true
+			}
+		},
+		{
+			"class": "com.hh.hhdb_admin.mgr.toolbar.ToolbarMgr",
+			"type": "TOOLBAR"
+		},
+		{
+			"class": "com.hh.hhdb_admin.mgr.tree.TreeMgr",
+			"type": "TREE"
+		}
+	]
+}

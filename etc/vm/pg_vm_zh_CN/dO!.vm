@@ -1,0 +1,36 @@
+## \dO[S+] [PATTERN]      
+## List of collations
+#set($common1 = "SELECT n.nspname AS " + '"架构模式"' +",
+	       c.collname AS " + '"名称"' +",
+	       c.collcollate AS " + '"校对规则"' +",
+	       c.collctype AS " + '"Ctype"')
+#set($common2 = "FROM pg_catalog.pg_collation c, pg_catalog.pg_namespace n
+	WHERE n.oid = c.collnamespace")
+#set($common3 = "AND c.collencoding IN (-1, pg_catalog.pg_char_to_encoding(pg_catalog.getdatabaseencoding()))
+	  AND pg_catalog.pg_collation_is_visible(c.oid)
+	ORDER BY 1, 2;")
+#set($plus = ",pg_catalog.obj_description(c.oid, 'pg_collation') AS " + '"描述"')
+#set($noS = "AND n.nspname <> 'pg_catalog'
+	      AND n.nspname <> 'information_schema'")
+#set($patt= "AND c.collname ~ '^($arg)$'")
+#set($patt1= ",CASE c.collprovider WHEN 'd' THEN 'default' WHEN 'c' THEN 'libc' WHEN 'i' THEN 'icu' END AS " + '"供应商"')
+$common1
+#if($ver >= 10)
+$patt1
+#end
+#if($cmdSql.indexOf('+') > 0)
+$plus
+#end
+$common2
+#if($cmdSql.indexOf('S') < 0)
+#if($arg)
+$patt
+#else
+$noS
+#end
+#else
+#if($arg)
+$patt
+#end
+#end
+$common3

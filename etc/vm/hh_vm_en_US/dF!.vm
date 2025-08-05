@@ -1,0 +1,64 @@
+## \dF[+]  [Schema]   
+## List of text search configurations       
+#set($common1 = "SELECT 
+	   c.oid,
+	   n.nspname as Schema,
+	   c.cfgname as Name,
+	   hh_catalog.obj_description(c.oid, 'hh_ts_config') as Description
+	FROM hh_catalog.hh_ts_config c
+	LEFT JOIN hh_catalog.hh_namespace n ON n.oid = c.cfgnamespace
+	WHERE hh_catalog.hh_ts_config_is_visible(c.oid)")
+#set($common2 = "ORDER BY 1, 2;")
+#set($patt= "AND c.cfgname ~ '^($arg)$'")
+#set($common3= "SELECT (SELECT t.alias FROM
+	    hh_catalog.ts_token_type(c.cfgparser) AS t
+	    WHERE t.tokid = m.maptokentype ) AS Token,
+	  hh_catalog.btrim(
+	    ARRAY( SELECT mm.mapdict::hh_catalog.regdictionary
+	           FROM hh_catalog.hh_ts_config_map AS mm
+	           WHERE mm.mapcfg = m.mapcfg AND mm.maptokentype = m.maptokentype
+	    ):: hh_catalog.text,
+	  '{}') AS Dictionaries
+	FROM hh_catalog.hh_ts_config AS c, hh_catalog.hh_ts_config_map AS m
+	WHERE c.oid in (select oid from (SELECT 
+	   c.oid as oid,
+	   n.nspname as schema,
+	   c.cfgname as name,
+	   hh_catalog.obj_description(c.oid, 'hh_ts_config') as Description
+	FROM hh_catalog.hh_ts_config c
+	LEFT JOIN hh_catalog.hh_namespace n ON n.oid = c.cfgnamespace
+	WHERE hh_catalog.hh_ts_config_is_visible(c.oid)) as p where p.name ~ '^($arg)$' ) AND m.mapcfg = c.oid
+	ORDER BY 2;")
+#set($common4= "SELECT (SELECT t.alias FROM
+	    hh_catalog.ts_token_type(c.cfgparser) AS t
+	    WHERE t.tokid = m.maptokentype ) AS Token,
+	  hh_catalog.btrim(
+	    ARRAY( SELECT mm.mapdict::hh_catalog.regdictionary
+	           FROM hh_catalog.hh_ts_config_map AS mm
+	           WHERE mm.mapcfg = m.mapcfg AND mm.maptokentype = m.maptokentype
+	    )::hh_catalog.text,
+	  '{}') AS Dictionaries
+	FROM hh_catalog.hh_ts_config AS c, hh_catalog.hh_ts_config_map AS m
+	WHERE c.oid in (select oid from (SELECT 
+	   c.oid as oid,
+	   n.nspname as schema,
+	   c.cfgname as name,
+	   hh_catalog.obj_description(c.oid, 'hh_ts_config') as Description
+	FROM hh_catalog.hh_ts_config c
+	LEFT JOIN hh_catalog.hh_namespace n ON n.oid = c.cfgnamespace
+	WHERE hh_catalog.hh_ts_config_is_visible(c.oid)
+) as p) AND m.mapcfg = c.oid ORDER BY 2;")
+#if($cmdSql.indexOf('+')>0)
+#if($arg)
+$common3
+#else
+$common4
+#end
+#end
+#if($cmdSql.indexOf('+')<0)
+$common1
+#if($arg)
+$patt
+#end
+$common2
+#end

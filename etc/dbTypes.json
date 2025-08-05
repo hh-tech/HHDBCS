@@ -1,0 +1,29 @@
+[
+  {
+    "url": "jdbc:hive2://192.168.2.167:10000/test?mode=simple",
+    "name": "hhh",
+    "class": "org.apache.hive.jdbc.HiveDriver",
+    "logo": "",
+    "driver": [
+      "hive-jdbc-uber-2.6.5.0-292.jar"
+    ]
+  },
+  {
+    "url": "jdbc:oracle:thin:@192.168.2.253:1521/orcl",
+    "name": "jkl",
+    "class": "oracle.jdbc.driver.OracleDriver",
+    "logo": "redis_16.png",
+    "driver": [
+      "ojdbc8.jar"
+    ]
+  },
+  {
+    "url": "jdbc:opengauss://192.168.2.2.157:5432/postgres",
+    "name": "gs",
+    "class": "org.opengauss.Driver",
+    "logo": "hive_16.png",
+    "driver": [
+      "opengauss-jdbc-3.0.0.jar"
+    ]
+  }
+]

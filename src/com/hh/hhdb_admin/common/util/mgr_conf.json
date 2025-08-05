@@ -1,0 +1,174 @@
+{
+  "mgrs": [
+    {
+      "class": "com.hh.hhdb_admin.mgr.login.LoginMgr",
+      "type": "LOGIN"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.main_frame.MainFrameMgr",
+      "type": "MAIN_FRAME"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.toolbar.ToolbarMgr",
+      "type": "TOOLBAR"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.menubar.MenubarMgr",
+      "type": "MENUBAR"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.tree.CsTreeMgr",
+      "type": "TREE"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.tool.ToolMgr",
+      "type": "TOOL"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.attribute.AttributeMgr",
+      "type": "ATTRIBUTE"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.query2.QueryMgr",
+      "type": "QUERY"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.cmd2.CmdMgr",
+      "type": "CMD"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.column.ColumnMgr",
+      "type": "COLUMN"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.constraint3.ConstraintMgr",
+      "type": "CONSTRAINT"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.database2.DatabaseMgr",
+      "type": "DATABASE"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.db_task2.TaskMgr",
+      "type": "DB_TASK"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.dblink2.Dblink2Mgr",
+      "type": "DBLINK"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.delete.DeleteMgr",
+      "type": "DELETE"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.function2.FunctionMgr",
+      "type": "FUNCTION"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.gis.GisMgr",
+      "type": "GIS"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.index2.IndexMgr",
+      "type": "INDEX"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.monitor.MonitorMgr",
+      "type": "MONITOR"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.multi_view.MultiViewMgr",
+      "type": "MULTI_VIEW"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.multi_window.MultiWindowMgr",
+      "type": "MULTI_WINDOW"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.obj_query.ObjQueryMgr",
+      "type": "OBJ_QUERY"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.pack.PackageMgr",
+      "type": "PACKAGE"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.quick_query.QuickQueryMgr",
+      "type": "QUICK_CMD"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.redis_obj.RedisObjMgr",
+      "type": "REDIS_OBJ"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.redisPubSub.RedisPubSubMgr",
+      "type": "REDISPUBSUB"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.rule.RuleMgr",
+      "type": "RULE"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.schema2.SchemaMgr",
+      "type": "SCHEMA"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.sequence2.SequenceMgr",
+      "type": "SEQUENCE"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.sql_book.SqlBookMgr",
+      "type": "SQL_BOOK"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.synonym2.SynonymMgr",
+      "type": "SYNONYM"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.table_open3.TableOpenMgr",
+      "type": "TABLE_OPEN",
+      "config": {
+      }
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.table_space2.TableSpaceMgr",
+      "type": "TABLE_SPACE"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.trigger2.TriggerMgr",
+      "type": "TRIGGER"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.type.TypeMgr",
+      "type": "TYPE"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.usr2.UsrMgr",
+      "type": "USR"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.view2.ViewMgr",
+      "type": "VIEW"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.vm_editor.VmMgr",
+      "type": "VM"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.table2.TableMgr",
+      "type": "TABLE"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.page_filter.PageFilterMgr",
+      "type": "PAGE_FILTER"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.partition.PartitionMgr",
+      "type": "PARTITION"
+    },
+    {
+      "class": "com.hh.hhdb_admin.mgr.mongo.MongoMgr",
+      "type": "MONGO_MGR"
+    }
+  ]
+}

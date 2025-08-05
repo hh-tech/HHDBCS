@@ -1,0 +1,12 @@
+## \sf[+] FUNCNAME
+## Display function definition
+#set($common1 = "SELECT pg_catalog.pg_get_functiondef((SELECT '$arg'::pg_catalog.regproc::pg_catalog.oid));")
+#set($common2 = ", r.rolreplication
+	FROM pg_catalog.pg_roles r
+	ORDER BY 1;")
+#set($plus = ",pg_catalog.shobj_description(r.oid, 'pg_authid') AS description")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus
+#end
+##$common2

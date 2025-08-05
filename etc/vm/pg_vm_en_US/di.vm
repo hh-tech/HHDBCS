@@ -1,0 +1,38 @@
+## \di[S+] [PATTERN]  
+## List of relations
+#set($common1 = "SELECT n.nspname as " + '"Schema"' +",
+	  c.relname as " + '"Name"' +",
+	  CASE c.relkind WHEN 'r' THEN 'table' WHEN 'v' THEN 'view' WHEN 'm' THEN 'materialized view' WHEN 'i' THEN 'index' WHEN 'S' THEN 'sequence' WHEN 's' THEN 'special' WHEN 'f' THEN 'foreign table' WHEN 'p' THEN 'table' END as " + '"Type"' +",
+	  pg_catalog.pg_get_userbyid(c.relowner) as " + '"Owner"' +",
+	 c2.relname as " + '"Table"')
+#set($common2 = "	FROM pg_catalog.pg_class c
+	     LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+	     LEFT JOIN pg_catalog.pg_index i ON i.indexrelid = c.oid
+	     LEFT JOIN pg_catalog.pg_class c2 ON i.indrelid = c2.oid
+	WHERE c.relkind IN ('i',''")
+#set($common3 = "AND n.nspname !~ '^pg_toast'
+	  AND pg_catalog.pg_table_is_visible(c.oid)
+	ORDER BY 1,2;")
+#set($plus = ",pg_catalog.pg_size_pretty(pg_catalog.pg_table_size(c.oid)) as " + '"Size"' +",
+	  pg_catalog.obj_description(c.oid, 'pg_class') as " + '"Description"')
+#set($noS = "AND n.nspname <> 'pg_catalog'
+	      AND n.nspname <> 'information_schema'")
+#set($patt= "and c.relname ~ '^($arg)$'")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus
+#end
+$common2
+#if($cmdSql.indexOf('S') < 0)
+#if($arg)
+,'s') $patt
+#else
+) $noS
+#end
+#else
+,'s') 
+#if($arg)
+$patt
+#end
+#end
+$common3

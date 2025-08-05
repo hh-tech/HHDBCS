@@ -1,0 +1,35 @@
+## \do[S]  [Schema]   
+## List of operators
+#set($common1 = "SELECT n.nspname as " + '"架构模式"' +",
+	  o.oprname AS " + '"名称"' +",
+	  CASE WHEN o.oprkind='l' THEN NULL ELSE pg_catalog.format_type(o.oprleft, NULL) END AS " + '"左参数类型"' +",
+	  CASE WHEN o.oprkind='r' THEN NULL ELSE pg_catalog.format_type(o.oprright, NULL) END AS " + '"右参数类型"' +",
+	  pg_catalog.format_type(o.oprresult, NULL) AS " + '"结果类型"' +", ")
+#set($plus = "o.oprcode AS "+ '"函数"' +,")
+#set($common3 = "coalesce(pg_catalog.obj_description(o.oid, 'pg_operator'),
+	           pg_catalog.obj_description(o.oprcode, 'pg_proc')) AS " + '"描述"' +"
+	FROM pg_catalog.pg_operator o
+	     LEFT JOIN pg_catalog.pg_namespace n ON n.oid = o.oprnamespace
+	WHERE ")
+#set($common2 = "pg_catalog.pg_operator_is_visible(o.oid)
+	ORDER BY 1, 2, 3, 4;")
+#set($noS = "n.nspname <> 'pg_catalog'
+	      AND n.nspname <> 'information_schema' AND ")
+#set($patt = "o.oprname ~ '^($arg)$' and ")
+$common1
+#if($cmdSql.indexOf('+') > 0)
+$plus
+#end
+$common3
+#if($cmdSql.indexOf('S') < 0)
+#if($arg)
+$patt
+#else
+$noS
+#end
+#else
+#if($arg)
+$patt
+#end
+#end
+$common2

@@ -1,0 +1,31 @@
+{
+	"mgrs": [
+		{
+	      "class": "com.hh.hhdb_admin.mgr.table_open.TableOpenMgr",
+	      "type": "TABLE_OPEN"
+	    },
+		{
+			"class": "com.hh.hhdb_admin.mgr.main_frame.MainFrameMgr",
+			"type": "MAIN_FRAME",
+			"config":{
+				"showMenu": true,
+				"showToolbar": true,
+				"showStatus": false,
+				"showTree": false,
+				"showTabbedPane": true
+			}
+    	},
+    	{
+	      "class": "com.hh.hhdb_admin.mgr.obj_query.ObjQueryMgr",
+	      "type": "OBJ_QUERY"
+	    },
+    	{
+	      "class": "com.hh.hhdb_admin.mgr.menubar.MenubarMgr",
+	      "type": "MENUBAR"
+	    },
+    	{
+			"class": "com.hh.hhdb_admin.mgr.toolbar.ToolbarMgr",
+			"type": "TOOLBAR"
+    	}
+	]
+}

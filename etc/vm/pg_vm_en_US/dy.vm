@@ -1,0 +1,19 @@
+## \dy[+]     [PATTERN]      
+## List of event triggers
+#set($common1 = "SELECT evtname as "+'"Name"'+", evtevent as "+'"Event"'+", pg_catalog.pg_get_userbyid(e.evtowner) as "+'"Owner"'+",
+	 case evtenabled when 'O' then 'enabled'  when 'R' then 'replica'  when 'A' then 'always'  when 'D' then 'disabled' end as "+'"Enabled"'+",
+	 e.evtfoid::pg_catalog.regproc as "+'"Procedure"'+", pg_catalog.array_to_string(array(select x from pg_catalog.unnest(evttags) as t(x)), ', ') as "+'"Tags"'+"
+	")
+#set($common3 = "FROM pg_catalog.pg_event_trigger e")
+#set($common2 = "ORDER BY 1;")
+#set($patt= "WHERE evtname ~ '^($arg)$'")
+#set($plus= ",pg_catalog.obj_description(e.oid, 'pg_event_trigger') as Description")
+$common1
+#if($cmdSql.indexOf('+')>0)
+$plus
+#end
+$common3
+#if($arg)
+$patt
+#end
+$common2

@@ -1,0 +1,57 @@
+{
+  "skin_type": "FAST",
+  "lang_type": "zh",
+  "null_value": "",
+  "font_size_type": "NORMAL",
+  "is_sys_window": true,
+  "default_db_type": "oracle",
+  "sql_format_width": 50,
+  "cmd_panel_conf": {
+    "rows_per_page": 10,
+    "font_size": 13,
+    "auto_pop": true,
+    "tarea_theme": "auto",
+    "error_break": true
+  },
+  "sql_panel_conf": {
+    "rows_per_page": 30,
+    "font_size": 13,
+    "auto_pop": true,
+    "tarea_theme": "auto"
+  },
+  "log_conf": {
+    "writer": "com.hh.frame.lg.PkgBaseLogWriter",
+	"log_level": "5",
+	"slow_call_warn_mill_sec": 3000,
+	"num_logs_write_sum": 500,
+	"all_log_package_arr": [ 
+	]
+  },
+  "auto_save_conf": true,
+  "support_db_type": [
+    "oracle",
+    "mysql",
+    "mysql5x",
+    "mariadb",
+    "db2",
+    "sqlserver",
+    "pgsql",
+    "dm",
+    "kingbase",
+    "gbase",
+    "tdsql4mysql",
+    "tdsql4pg",
+    "hive",
+    "redis",
+    "gaussdb",
+    "cache",
+    "derby",
+    "sqlite",
+    "hana",
+    "oceanbase",
+    "oceanbase4ora",
+    "mongodb"
+  ],
+  "show_tool_bar": true,
+  "show_status_bar": true
+}

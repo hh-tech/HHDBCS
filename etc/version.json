@@ -1,0 +1,14 @@
+{
+  "name": "通用数据库管理桌面软件",
+  "version": "7.8.X",
+  "commit_tag": "861b89e798f43aa50924b51ca9ff9270eb6d6c31",
+  "commit_date": "2024-06-24 18:58:37 +0800",
+  "depends": [
+    {
+      "name": "基础框架",
+      "version": "1.0",
+      "commit_tag": "f4bfe24dbd6e33b9b31b9d88dc843d26a98cd007",
+      "commit_date": "2024-06-25 14:30:00 +0800"
+    }
+  ]
+}
